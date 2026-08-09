@@ -207,11 +207,7 @@ const Loader = () => {
         document.body.style.overflow = 'auto';
         window.removeEventListener('resize', resize);
         
-        // CRITICAL PERFORMANCE TWEAK: Force the browser to instantly dump the heavy cloud shader 
-        // from VRAM so the GPU has 100% maximum power for your interactive 3D portfolio!
-        const loseContextExt = gl.getExtension('WEBGL_lose_context');
-        if (loseContextExt) loseContextExt.loseContext();
-
+        // Hide the container to stop rendering and remove it from view
         if (containerRef.current) containerRef.current.style.display = 'none';
       }
     });
