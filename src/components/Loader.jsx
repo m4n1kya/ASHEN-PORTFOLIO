@@ -201,6 +201,7 @@ const Loader = () => {
 
     // GSAP Cinematic Sequence
     const tl = gsap.timeline({
+      delay: 1.2, // Let the storm rage longer to give heavy 3D assets time to load in the background
       onComplete: () => {
         cancelAnimationFrame(animationFrameId);
         document.body.style.overflow = 'auto';
@@ -210,12 +211,14 @@ const Loader = () => {
     });
 
     // Animate the cloud wave sweeping from left to right, tearing away in huge uneven chunks!
-    tl.to(uniforms, {
-      reveal: 3.5, // Pushes past the right edge + the massive noise distortion
-      duration: 2.0, // Faster sweep
-      ease: "power2.inOut",
-      delay: 0.3 // Less waiting at the start
-    });
+    
+    // Instantly remove the solid black safety background right before the canvas starts turning transparent
+    tl.set(containerRef.current, { backgroundColor: "transparent" })
+      .to(uniforms, {
+        reveal: 3.5, // Pushes past the right edge + the massive noise distortion
+        duration: 2.0, // Faster sweep
+        ease: "power2.inOut",
+      }, "<");
 
     return () => {
       cancelAnimationFrame(animationFrameId);
@@ -224,10 +227,10 @@ const Loader = () => {
   }, []);
 
   return (
-    // Note: Removed the solid background color so the WebGL transparency actually works!
+    // Added 'bg-black' to prevent the 1-frame flash while WebGL compiles the shaders
     <div 
       ref={containerRef}
-      className="fixed inset-0 z-[99999] pointer-events-none"
+      className="fixed inset-0 z-[99999] pointer-events-none bg-black"
     >
       <canvas 
         ref={canvasRef} 
