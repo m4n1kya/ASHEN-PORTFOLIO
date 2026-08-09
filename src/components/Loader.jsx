@@ -217,10 +217,12 @@ const Loader = () => {
       ease: "power1.out"
     });
 
-    // Instantly remove the solid black safety background right before the canvas starts turning transparent.
-    // We target the native HTML #pre-loader-blocker to guarantee zero flashes on Vercel deployments!
-    tl.to("#pre-loader-blocker", { opacity: 0, duration: 0.01 })
-      .to(containerRef.current, { backgroundColor: "transparent", duration: 0.01 }, "<")
+    // CRITICAL FIX: Instantly fade out the HTML pre-loader blocker so you can actually see the storm raging!
+    // We give it a tiny 0.1s delay to guarantee WebGL has drawn its first frame, preventing any flashing.
+    gsap.to("#pre-loader-blocker", { opacity: 0, duration: 0.2, delay: 0.1 });
+
+    // Strip the React container's background color right before the canvas starts turning transparent.
+    tl.to(containerRef.current, { backgroundColor: "transparent", duration: 0.01 })
       .to(uniforms, {
         reveal: 3.5, // Pushes past the right edge + the massive noise distortion
         duration: 3.0, // Slowed down the sweep for a much more dramatic, lingering reveal
