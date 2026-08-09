@@ -206,6 +206,12 @@ const Loader = () => {
         cancelAnimationFrame(animationFrameId);
         document.body.style.overflow = 'auto';
         window.removeEventListener('resize', resize);
+        
+        // CRITICAL PERFORMANCE TWEAK: Force the browser to instantly dump the heavy cloud shader 
+        // from VRAM so the GPU has 100% maximum power for your interactive 3D portfolio!
+        const loseContextExt = gl.getExtension('WEBGL_lose_context');
+        if (loseContextExt) loseContextExt.loseContext();
+
         if (containerRef.current) containerRef.current.style.display = 'none';
       }
     });
@@ -214,7 +220,7 @@ const Loader = () => {
     gsap.to(canvasRef.current, {
       scale: 1.2,
       duration: 5.0,
-      ease: "power1.out"
+      ease: "power2.out" // Smoother deceleration
     });
 
     // CRITICAL FIX: Instantly fade out the HTML pre-loader blocker so you can actually see the storm raging!
