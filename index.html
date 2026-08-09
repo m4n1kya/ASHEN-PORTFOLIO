@@ -6,8 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Manikya N. - Software Engineer & Full-Stack Developer specializing in scalable systems, AI integration, and robust web applications." />
     <title>Manikya N. | Software Engineer</title>
+    <style>
+      body { background-color: #000000; margin: 0; overflow: hidden; }
+      #pre-loader-blocker {
+        position: fixed;
+        inset: 0;
+        background-color: #000000;
+        z-index: 9999999;
+        pointer-events: none;
+      }
+    </style>
   </head>
   <body>
+    <!-- Guarantees pitch black screen before React even downloads on Vercel -->
+    <div id="pre-loader-blocker"></div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

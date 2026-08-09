@@ -211,8 +211,9 @@ const Loader = () => {
     });
 
     // Instantly remove the solid black safety background right before the canvas starts turning transparent.
-    // Using .to() with a tiny duration instead of .set() prevents GSAP from stripping the color instantly on mount!
-    tl.to(containerRef.current, { backgroundColor: "transparent", duration: 0.01 })
+    // We target the native HTML #pre-loader-blocker to guarantee zero flashes on Vercel deployments!
+    tl.to("#pre-loader-blocker", { opacity: 0, duration: 0.01 })
+      .to(containerRef.current, { backgroundColor: "transparent", duration: 0.01 }, "<")
       .to(uniforms, {
         reveal: 3.5, // Pushes past the right edge + the massive noise distortion
         duration: 2.0, // Faster sweep
