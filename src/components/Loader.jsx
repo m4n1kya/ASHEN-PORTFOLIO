@@ -201,7 +201,7 @@ const Loader = () => {
 
     // GSAP Cinematic Sequence
     const tl = gsap.timeline({
-      delay: 1.2, // Let the storm rage longer to give heavy 3D assets time to load in the background
+      delay: 1.8, // Increased delay to let the storm rage significantly longer
       onComplete: () => {
         cancelAnimationFrame(animationFrameId);
         document.body.style.overflow = 'auto';
@@ -210,13 +210,20 @@ const Loader = () => {
       }
     });
 
+    // Add a cinematic camera dolly push (slowly zooming into the clouds while the storm rages)
+    gsap.to(canvasRef.current, {
+      scale: 1.2,
+      duration: 5.0,
+      ease: "power1.out"
+    });
+
     // Instantly remove the solid black safety background right before the canvas starts turning transparent.
     // We target the native HTML #pre-loader-blocker to guarantee zero flashes on Vercel deployments!
     tl.to("#pre-loader-blocker", { opacity: 0, duration: 0.01 })
       .to(containerRef.current, { backgroundColor: "transparent", duration: 0.01 }, "<")
       .to(uniforms, {
         reveal: 3.5, // Pushes past the right edge + the massive noise distortion
-        duration: 2.0, // Faster sweep
+        duration: 3.0, // Slowed down the sweep for a much more dramatic, lingering reveal
         ease: "power2.inOut",
       }, "<");
 
