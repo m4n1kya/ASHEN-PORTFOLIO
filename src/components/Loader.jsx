@@ -201,7 +201,7 @@ const Loader = () => {
 
     // GSAP Cinematic Sequence
     const tl = gsap.timeline({
-      delay: 1.8, // Increased delay to let the storm rage significantly longer
+      delay: 1.4, // Slightly reduced delay to speed things up
       onComplete: () => {
         cancelAnimationFrame(animationFrameId);
         document.body.style.overflow = 'auto';
@@ -225,7 +225,7 @@ const Loader = () => {
     tl.to(containerRef.current, { backgroundColor: "transparent", duration: 0.01 })
       .to(uniforms, {
         reveal: 3.5, // Pushes past the right edge + the massive noise distortion
-        duration: 3.0, // Slowed down the sweep for a much more dramatic, lingering reveal
+        duration: 2.5, // Slightly shorter sweep
         ease: "power2.inOut",
       }, "<");
 
