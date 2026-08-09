@@ -210,10 +210,9 @@ const Loader = () => {
       }
     });
 
-    // Animate the cloud wave sweeping from left to right, tearing away in huge uneven chunks!
-    
-    // Instantly remove the solid black safety background right before the canvas starts turning transparent
-    tl.set(containerRef.current, { backgroundColor: "transparent" })
+    // Instantly remove the solid black safety background right before the canvas starts turning transparent.
+    // Using .to() with a tiny duration instead of .set() prevents GSAP from stripping the color instantly on mount!
+    tl.to(containerRef.current, { backgroundColor: "transparent", duration: 0.01 })
       .to(uniforms, {
         reveal: 3.5, // Pushes past the right edge + the massive noise distortion
         duration: 2.0, // Faster sweep
