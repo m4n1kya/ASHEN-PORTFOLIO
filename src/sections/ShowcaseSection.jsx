@@ -10,7 +10,6 @@ const AppShowcase = () => {
   const featuredRef = useRef(null);
   const project1Ref = useRef(null);
   const project2Ref = useRef(null);
-  const project3Ref = useRef(null);
 
   useGSAP(() => {
     // Animation for the main section
@@ -21,7 +20,7 @@ const AppShowcase = () => {
     );
 
     // Animations for each app showcase
-    const cards = [featuredRef.current, project1Ref.current, project2Ref.current, project3Ref.current];
+    const cards = [featuredRef.current, project1Ref.current, project2Ref.current];
 
     cards.forEach((card, index) => {
       gsap.fromTo(
@@ -50,7 +49,7 @@ const AppShowcase = () => {
         <div className="showcaselayout">
           <div ref={featuredRef} className="first-project-wrapper">
             <div className="image-wrapper group overflow-hidden">
-              <img src="/images/project1.png" alt="ASHENRITUAL" className="group-hover:scale-105 transition-transform duration-500" />
+              <img src="/images/ashenritual.png" alt="ASHENRITUAL" className="group-hover:scale-105 transition-transform duration-500" />
             </div>
             <div className="text-content mt-8">
               <h2 className="text-white text-3xl md:text-5xl font-bold leading-tight">
@@ -69,10 +68,10 @@ const AppShowcase = () => {
               </div>
 
               <div className="flex gap-4 mt-8">
-                <a href="https://github.com/m4n1kya" target="_blank" rel="noreferrer" className="px-6 py-3 rounded-lg bg-white text-black font-semibold hover:bg-white-50 transition-colors">
+                <a href="https://github.com/m4n1kya/ASHENRITUAL" target="_blank" rel="noreferrer" className="px-6 py-3 rounded-lg bg-white text-black font-semibold hover:bg-white-50 transition-colors">
                   GitHub
                 </a>
-                <a href="#" className="px-6 py-3 rounded-lg border border-white-50 text-white hover:bg-white-50 hover:text-black transition-colors font-semibold">
+                <a href="https://ashenritual-e2ql.vercel.app/" target="_blank" rel="noreferrer" className="px-6 py-3 rounded-lg border border-white-50 text-white hover:bg-white-50 hover:text-black transition-colors font-semibold">
                   Live Demo
                 </a>
               </div>
@@ -83,16 +82,15 @@ const AppShowcase = () => {
             <div className="project flex flex-col gap-3" ref={project1Ref}>
               <div className="image-wrapper bg-[#2d2d38] group overflow-hidden">
                 <img
-                  src="/images/project2.png"
+                  src="/images/uniease.png"
                   alt="UNI-EASE"
-                  className="group-hover:scale-105 transition-transform duration-500 object-cover"
+                  className="group-hover:scale-105 transition-transform duration-500 object-contain"
                 />
               </div>
               <div className="flex justify-between items-center mt-2">
                 <h2 className="text-xl font-bold m-0">UNI-EASE</h2>
                 <div className="flex gap-4">
-                  <a href="https://github.com/m4n1kya" target="_blank" rel="noreferrer" className="text-sm font-semibold text-blue-50 hover:text-white underline">GitHub</a>
-                  <a href="#" className="text-sm font-semibold text-blue-50 hover:text-white underline">Live</a>
+                  <a href="https://github.com/m4n1kya/Epics-UniEase" target="_blank" rel="noreferrer" className="text-sm font-semibold text-blue-50 hover:text-white underline">GitHub</a>
                 </div>
               </div>
               <p className="text-sm text-white-50">Campus Resource Optimization Ecosystem with AI/NLP interface, MERN stack, and AWS/Firebase architecture.</p>
@@ -100,28 +98,15 @@ const AppShowcase = () => {
 
             <div className="project flex flex-col gap-3" ref={project2Ref}>
               <div className="image-wrapper bg-[#1c1c21] group overflow-hidden">
-                <img src="/images/project3.png" alt="Decentralized Application" className="group-hover:scale-105 transition-transform duration-500 object-cover" />
+                <img src="/images/ecoloop.png" alt="ECO-LOOP" className="group-hover:scale-105 transition-transform duration-500 object-contain" />
               </div>
               <div className="flex justify-between items-center mt-2">
-                <h2 className="text-xl font-bold m-0">Web3 DApp</h2>
+                <h2 className="text-xl font-bold m-0">ECO-LOOP</h2>
                 <div className="flex gap-4">
-                  <a href="https://github.com/m4n1kya" target="_blank" rel="noreferrer" className="text-sm font-semibold text-blue-50 hover:text-white underline">GitHub</a>
+                  <a href="https://github.com/m4n1kya/eco-loop" target="_blank" rel="noreferrer" className="text-sm font-semibold text-blue-50 hover:text-white underline">GitHub</a>
                 </div>
               </div>
-              <p className="text-sm text-white-50">Smart contract architecture using Solidity, Ethereum, Hardhat, and Ganache.</p>
-            </div>
-            
-            <div className="project flex flex-col gap-3" ref={project3Ref}>
-              <div className="image-wrapper bg-[#282732] group overflow-hidden">
-                <img src="/images/project1.png" alt="Predictive Breast Cancer" className="group-hover:scale-105 transition-transform duration-500 object-cover opacity-70" />
-              </div>
-              <div className="flex justify-between items-center mt-2">
-                <h2 className="text-xl font-bold m-0">Predictive ML System</h2>
-                <div className="flex gap-4">
-                  <a href="https://github.com/m4n1kya" target="_blank" rel="noreferrer" className="text-sm font-semibold text-blue-50 hover:text-white underline">GitHub</a>
-                </div>
-              </div>
-              <p className="text-sm text-white-50">Machine learning pipeline for predictive breast cancer detection.</p>
+              <p className="text-sm text-white-50">A sustainable platform designed for environmental tracking and resource optimization.</p>
             </div>
           </div>
         </div>

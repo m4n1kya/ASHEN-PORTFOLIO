@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import emailjs from "@emailjs/browser";
 
 import TitleHeader from "../components/TitleHeader";
 
@@ -19,22 +18,33 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Show loading state
+    setLoading(true);
 
     try {
-      await emailjs.sendForm(
-        import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
-        formRef.current,
-        import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
-      );
+      const response = await fetch("https://formsubmit.co/ajax/m4n1kya2005@gmail.com", {
+        method: "POST",
+        headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            name: form.name,
+            email: form.email,
+            message: form.message
+        })
+      });
 
-      // Reset form and stop loading
-      setForm({ name: "", email: "", message: "" });
+      if (response.ok) {
+        alert("Message sent successfully! I'll get back to you soon.");
+        setForm({ name: "", email: "", message: "" });
+      } else {
+        alert("Failed to send message. Please try again later.");
+      }
     } catch (error) {
-      console.error("EmailJS Error:", error); // Optional: show toast
+      console.error("FormSubmit Error:", error);
+      alert("Something went wrong! Please try again.");
     } finally {
-      setLoading(false); // Always stop loading, even on error
+      setLoading(false);
     }
   };
 
