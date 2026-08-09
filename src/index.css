@@ -124,7 +124,7 @@ section {
     }
 
     .logo {
-      @apply text-white-50 text-xl md:text-2xl font-semibold transition-transform duration-300 hover:scale-105;
+      @apply text-white-50 text-base md:text-lg font-semibold transition-transform duration-300 hover:scale-105;
     }
 
     nav.desktop {
