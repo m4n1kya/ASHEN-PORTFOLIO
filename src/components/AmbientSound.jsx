@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 const AmbientSound = () => {
   const audioRef = useRef(null);
   const isAttemptingRef = useRef(false);
+  const isManuallyMutedRef = useRef(false);
   const [isPlaying, setIsPlaying] = useState(false); // UI state
 
   useEffect(() => {
@@ -13,7 +14,7 @@ const AmbientSound = () => {
     audioRef.current = audio;
 
     const handleInteraction = () => {
-      if (isAttemptingRef.current) return;
+      if (isAttemptingRef.current || isManuallyMutedRef.current) return;
       
       isAttemptingRef.current = true;
       
@@ -34,12 +35,24 @@ const AmbientSound = () => {
       });
     };
 
+    const handleVisibilityChange = () => {
+      if (!audioRef.current) return;
+      if (document.hidden) {
+        audioRef.current.pause();
+      } else {
+        if (!isManuallyMutedRef.current && isAttemptingRef.current) {
+          audioRef.current.play().catch(() => {});
+        }
+      }
+    };
+
     // Listen to every possible interaction, including cursor movement!
     window.addEventListener('click', handleInteraction);
     window.addEventListener('keydown', handleInteraction);
     window.addEventListener('scroll', handleInteraction);
     window.addEventListener('mousemove', handleInteraction);
     window.addEventListener('touchstart', handleInteraction);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       window.removeEventListener('click', handleInteraction);
@@ -47,6 +60,7 @@ const AmbientSound = () => {
       window.removeEventListener('scroll', handleInteraction);
       window.removeEventListener('mousemove', handleInteraction);
       window.removeEventListener('touchstart', handleInteraction);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       if (audioRef.current) {
         audioRef.current.pause();
       }
@@ -57,8 +71,11 @@ const AmbientSound = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
+        isManuallyMutedRef.current = true;
       } else {
         audioRef.current.play();
+        isManuallyMutedRef.current = false;
+        isAttemptingRef.current = true;
       }
       setIsPlaying(!isPlaying);
     }
