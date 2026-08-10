@@ -48,17 +48,20 @@ const CustomCursor = () => {
 
   return (
     <div 
-      className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference"
+      className="fixed top-0 left-0 pointer-events-none z-[9999]"
       style={{ 
         transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
         opacity: isVisible ? 1 : 0
       }}
     >
-      <div 
-        className="bg-white rounded-full -translate-x-1/2 -translate-y-1/2 transition-all duration-200 ease-out"
+      <img 
+        src="/images/cursor.png"
+        alt="cursor"
+        className="-translate-x-1/2 -translate-y-1/2 transition-all duration-200 ease-out"
         style={{
-          width: isHovering ? '36px' : '12px',
-          height: isHovering ? '36px' : '12px',
+          width: isHovering ? '48px' : '32px',
+          height: isHovering ? '48px' : '32px',
+          objectFit: 'contain'
         }}
       />
     </div>
