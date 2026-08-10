@@ -9,7 +9,7 @@ const AmbientSound = () => {
     // Initialize audio
     const audio = new Audio('/audio/ambience.mp3');
     audio.loop = true;
-    audio.volume = 0.40; // Increased volume for the new thunderstorm track
+    audio.volume = 1.0; // Maximized volume (100%) for maximum thunder impact
     audioRef.current = audio;
 
     const handleInteraction = () => {
