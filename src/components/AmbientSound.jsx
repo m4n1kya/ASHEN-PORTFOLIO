@@ -12,25 +12,42 @@ const AmbientSound = () => {
     audio.volume = 1.0; // Maximized volume (100%) for maximum thunder impact
     audioRef.current = audio;
 
+    let isAttempting = false;
+
     const handleInteraction = () => {
-      if (!hasInteracted) {
-        setHasInteracted(true);
-        // Start playing after the user interacts with the page (fixes browser autoplay block)
+      if (!hasInteracted && !isAttempting) {
+        isAttempting = true;
+        // Attempt to play audio
         audio.play().then(() => {
+          setHasInteracted(true);
           setIsPlaying(true);
-        }).catch(err => console.log("Audio play blocked by browser:", err));
+          // Once successful, remove all listeners to save memory
+          window.removeEventListener('click', handleInteraction);
+          window.removeEventListener('keydown', handleInteraction);
+          window.removeEventListener('scroll', handleInteraction);
+          window.removeEventListener('mousemove', handleInteraction);
+          window.removeEventListener('touchstart', handleInteraction);
+        }).catch(err => {
+          // Playback failed (browser strict autoplay policy blocked mousemove/scroll).
+          // We silently catch this and throttle the next attempt to prevent crashing the browser.
+          setTimeout(() => { isAttempting = false; }, 500);
+        });
       }
     };
 
-    // Listen for the first click, keypress, or scroll to unlock ambient playback
-    window.addEventListener('click', handleInteraction, { once: true });
-    window.addEventListener('keydown', handleInteraction, { once: true });
-    window.addEventListener('scroll', handleInteraction, { once: true });
+    // Listen to every possible interaction, including cursor movement!
+    window.addEventListener('click', handleInteraction);
+    window.addEventListener('keydown', handleInteraction);
+    window.addEventListener('scroll', handleInteraction);
+    window.addEventListener('mousemove', handleInteraction);
+    window.addEventListener('touchstart', handleInteraction);
 
     return () => {
       window.removeEventListener('click', handleInteraction);
       window.removeEventListener('keydown', handleInteraction);
       window.removeEventListener('scroll', handleInteraction);
+      window.removeEventListener('mousemove', handleInteraction);
+      window.removeEventListener('touchstart', handleInteraction);
       audio.pause();
       audio.currentTime = 0;
     };
