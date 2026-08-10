@@ -1,38 +1,34 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 const AmbientSound = () => {
   const audioRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
+  const isAttemptingRef = useRef(false);
 
   useEffect(() => {
-    // Initialize audio
+    // Initialize audio only once
     const audio = new Audio('/audio/ambience.mp3');
     audio.loop = true;
     audio.volume = 1.0; // Maximized volume (100%) for maximum thunder impact
     audioRef.current = audio;
 
-    let isAttempting = false;
-
     const handleInteraction = () => {
-      if (!hasInteracted && !isAttempting) {
-        isAttempting = true;
-        // Attempt to play audio
-        audio.play().then(() => {
-          setHasInteracted(true);
-          setIsPlaying(true);
-          // Once successful, remove all listeners to save memory
-          window.removeEventListener('click', handleInteraction);
-          window.removeEventListener('keydown', handleInteraction);
-          window.removeEventListener('scroll', handleInteraction);
-          window.removeEventListener('mousemove', handleInteraction);
-          window.removeEventListener('touchstart', handleInteraction);
-        }).catch(err => {
-          // Playback failed (browser strict autoplay policy blocked mousemove/scroll).
-          // We silently catch this and throttle the next attempt to prevent crashing the browser.
-          setTimeout(() => { isAttempting = false; }, 500);
-        });
-      }
+      if (isAttemptingRef.current) return;
+      
+      isAttemptingRef.current = true;
+      
+      // Attempt to play audio
+      audio.play().then(() => {
+        // Once successful, remove all listeners immediately to save memory
+        window.removeEventListener('click', handleInteraction);
+        window.removeEventListener('keydown', handleInteraction);
+        window.removeEventListener('scroll', handleInteraction);
+        window.removeEventListener('mousemove', handleInteraction);
+        window.removeEventListener('touchstart', handleInteraction);
+      }).catch(err => {
+        // Playback failed (browser strict autoplay policy blocked mousemove/scroll).
+        // Throttle the next attempt to prevent crashing the browser.
+        setTimeout(() => { isAttemptingRef.current = false; }, 500);
+      });
     };
 
     // Listen to every possible interaction, including cursor movement!
@@ -48,10 +44,11 @@ const AmbientSound = () => {
       window.removeEventListener('scroll', handleInteraction);
       window.removeEventListener('mousemove', handleInteraction);
       window.removeEventListener('touchstart', handleInteraction);
-      audio.pause();
-      audio.currentTime = 0;
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
     };
-  }, [hasInteracted]);
+  }, []); // Empty dependency array guarantees this only runs ONCE!
 
   return null;
 };
