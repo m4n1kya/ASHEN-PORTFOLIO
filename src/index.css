@@ -19,12 +19,6 @@ body {
   color: white;
   scroll-behavior: smooth;
   font-family: "Mona Sans", sans-serif;
-  cursor: none;
-}
-
-/* Ensure links and buttons don't show the default hand cursor */
-a, button, [role="button"], input, textarea, select {
-  cursor: none !important;
 }
 
 section {
