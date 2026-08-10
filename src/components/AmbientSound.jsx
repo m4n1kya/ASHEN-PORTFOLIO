@@ -9,7 +9,7 @@ const AmbientSound = () => {
     // Initialize audio
     const audio = new Audio('/audio/ambience.mp3');
     audio.loop = true;
-    audio.volume = 0.10; // Extremely low volume (10%) for pure atmospheric background
+    audio.volume = 0.40; // Increased volume for the new thunderstorm track
     audioRef.current = audio;
 
     const handleInteraction = () => {
