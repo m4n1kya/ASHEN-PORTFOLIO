@@ -25,14 +25,14 @@ const ParticleCursor = () => {
     window.addEventListener('resize', resize);
     resize();
 
-    class Particle {
+      class Particle {
       constructor(x, y) {
         this.x = x;
         this.y = y;
         this.size = Math.random() * 2 + 1; // Small white dots
-        // Drift slowly in random directions
-        this.vx = (Math.random() - 0.5) * 0.5; 
-        this.vy = (Math.random() - 0.5) * 0.5; 
+        // Drift slowly downwards/backwards to emphasize a trail being left behind
+        this.vx = (Math.random() - 0.5) * 0.4; 
+        this.vy = (Math.random() * 0.5) + 0.2; 
         this.life = 1.0; 
         this.decay = Math.random() * 0.02 + 0.02; // Fast decay so they don't linger
       }
@@ -62,11 +62,12 @@ const ParticleCursor = () => {
     }
 
     const handleMouseMove = (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
+      // Offset spawn coordinates so the trail comes from down/behind the actual cursor tip
+      mouse.x = e.clientX + 15;
+      mouse.y = e.clientY + 22;
       
-      // "Very less though": Extremely sparse spawning (only ~10% chance to spawn a particle per mouse movement tick)
-      if (Math.random() > 0.90) {
+      // Sparse spawning to keep it minimalistic
+      if (Math.random() > 0.80) {
         particles.push(new Particle(mouse.x, mouse.y));
       }
     };
