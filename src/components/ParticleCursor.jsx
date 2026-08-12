@@ -60,8 +60,8 @@ const ParticleCursor = () => {
     }
 
     const handleMouseMove = (e) => {
-      // Adjust offset slightly upwards as requested
-      mouse.x = e.clientX + 20;
+      // Adjust offset slightly to the left as requested
+      mouse.x = e.clientX + 16;
       mouse.y = e.clientY + 8;
       
       // Sparse spawning
