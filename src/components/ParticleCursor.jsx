@@ -60,10 +60,9 @@ const ParticleCursor = () => {
     }
 
     const handleMouseMove = (e) => {
-      // Drastically push the offset down so it ALWAYS spawns below the cursor
-      // even when taking browser hardware-cursor event lag into account
-      mouse.x = e.clientX + 8;
-      mouse.y = e.clientY + 35;
+      // Adjust offset slightly upwards and to the right as requested
+      mouse.x = e.clientX + 16;
+      mouse.y = e.clientY + 22;
       
       // Sparse spawning
       if (Math.random() > 0.80) {
