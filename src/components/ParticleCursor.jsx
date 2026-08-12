@@ -62,9 +62,10 @@ const ParticleCursor = () => {
     }
 
     const handleMouseMove = (e) => {
-      // Offset spawn coordinates so the trail comes from down/behind the actual cursor tip
-      mouse.x = e.clientX + 15;
-      mouse.y = e.clientY + 22;
+      // Offset spawn coordinates strictly to the bottom-back base of the CSS arrow cursor
+      // The tip is at (e.clientX, e.clientY). We push it down and slightly right.
+      mouse.x = e.clientX + 6;
+      mouse.y = e.clientY + 20;
       
       // Sparse spawning to keep it minimalistic
       if (Math.random() > 0.80) {
