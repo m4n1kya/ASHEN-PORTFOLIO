@@ -25,16 +25,16 @@ const ParticleCursor = () => {
     window.addEventListener('resize', resize);
     resize();
 
-      class Particle {
+        class Particle {
       constructor(x, y) {
         this.x = x;
         this.y = y;
         this.size = Math.random() * 2 + 1; // Small white dots
-        // Drift slowly downwards/backwards to emphasize a trail being left behind
-        this.vx = (Math.random() - 0.5) * 0.4; 
-        this.vy = (Math.random() * 0.5) + 0.2; 
+        // Lock horizontal drift and force them to fall strictly downwards
+        this.vx = (Math.random() - 0.5) * 0.1; 
+        this.vy = (Math.random() * 0.8) + 0.4; 
         this.life = 1.0; 
-        this.decay = Math.random() * 0.02 + 0.02; // Fast decay so they don't linger
+        this.decay = Math.random() * 0.02 + 0.02; // Fast decay
       }
       
       update() {
@@ -48,7 +48,6 @@ const ParticleCursor = () => {
         
         ctx.fillStyle = `rgba(255, 255, 255, ${this.life})`;
         
-        // Optional: Add a subtle glow
         ctx.shadowBlur = 5;
         ctx.shadowColor = `rgba(255, 255, 255, ${this.life})`;
         
@@ -56,18 +55,17 @@ const ParticleCursor = () => {
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
         
-        // Reset shadow to prevent it applying to other things
         ctx.shadowBlur = 0;
       }
     }
 
     const handleMouseMove = (e) => {
-      // Offset spawn coordinates strictly to the bottom-back base of the CSS arrow cursor
-      // The tip is at (e.clientX, e.clientY). We push it down and slightly right.
-      mouse.x = e.clientX + 6;
-      mouse.y = e.clientY + 20;
+      // Drastically push the offset down so it ALWAYS spawns below the cursor
+      // even when taking browser hardware-cursor event lag into account
+      mouse.x = e.clientX + 8;
+      mouse.y = e.clientY + 35;
       
-      // Sparse spawning to keep it minimalistic
+      // Sparse spawning
       if (Math.random() > 0.80) {
         particles.push(new Particle(mouse.x, mouse.y));
       }
