@@ -40,13 +40,23 @@ const SmokeCursor = () => {
       update() {
         this.x += this.vx;
         this.y += this.vy;
-        this.size += 0.3; // Plume expands as it rises
+        this.size += 0.6; // Plume expands rapidly as it dissipates
         this.life -= this.decay;
       }
       
       draw() {
-        // Soft, ethereal grey-blue smoke
-        ctx.fillStyle = `rgba(180, 200, 220, ${this.life * 0.15})`;
+        if (this.size <= 0) return;
+        
+        // Use a radial gradient to make the smoke look like a soft cloud instead of a hard circle
+        const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
+        
+        // Darker, less visible smoke
+        const baseOpacity = this.life * 0.08; 
+        gradient.addColorStop(0, `rgba(80, 80, 85, ${baseOpacity})`);
+        gradient.addColorStop(0.6, `rgba(40, 40, 45, ${baseOpacity * 0.4})`);
+        gradient.addColorStop(1, `rgba(0, 0, 0, 0)`);
+
+        ctx.fillStyle = gradient;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
@@ -95,7 +105,6 @@ const SmokeCursor = () => {
     <canvas
       ref={canvasRef}
       className="fixed top-0 left-0 w-full h-full pointer-events-none z-[9998]"
-      style={{ mixBlendMode: 'screen' }}
     />
   );
 };
