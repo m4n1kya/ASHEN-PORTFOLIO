@@ -25,14 +25,16 @@ const ParticleCursor = () => {
     window.addEventListener('resize', resize);
     resize();
 
-        class Particle {
+          class Particle {
       constructor(x, y) {
         this.x = x;
         this.y = y;
         this.size = Math.random() * 2 + 1; // Small white dots
-        // Lock horizontal drift and force them to fall strictly downwards
-        this.vx = (Math.random() - 0.5) * 0.1; 
-        this.vy = (Math.random() * 0.8) + 0.4; 
+        
+        // Particles remain completely still and just fade out (no falling/snow effect)
+        this.vx = 0; 
+        this.vy = 0; 
+        
         this.life = 1.0; 
         this.decay = Math.random() * 0.02 + 0.02; // Fast decay
       }
