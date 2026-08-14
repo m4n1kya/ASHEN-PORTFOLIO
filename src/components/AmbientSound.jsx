@@ -2,36 +2,43 @@ import { useState, useEffect, useRef } from 'react';
 
 const AmbientSound = () => {
   const audioRef = useRef(null);
-  const isAttemptingRef = useRef(false);
+  const isPlayingRef = useRef(false);
   const isManuallyMutedRef = useRef(false);
+  const lastAttemptRef = useRef(0);
   const [isPlaying, setIsPlaying] = useState(false); // UI state
 
   useEffect(() => {
     // Initialize audio only once
     const audio = new Audio('/audio/ambience.mp3');
     audio.loop = true;
-    audio.volume = 1.0; // Maximized volume (100%) for maximum thunder impact
+    audio.volume = 1.0; 
     audioRef.current = audio;
 
-    const handleInteraction = () => {
-      if (isAttemptingRef.current || isManuallyMutedRef.current) return;
+    const handleInteraction = (e) => {
+      if (isPlayingRef.current || isManuallyMutedRef.current) return;
       
-      isAttemptingRef.current = true;
+      const now = Date.now();
+      // Browsers require a strict user gesture (click/touch/key) to allow audio.
+      // If the event is a passive movement (scroll/mousemove), we throttle it to 1 attempt per second 
+      // so we don't crash the browser. If it's a direct click, we try IMMEDIATELY.
+      const isExplicitGesture = e.type === 'click' || e.type === 'touchstart' || e.type === 'keydown';
       
-      // Attempt to play audio
+      if (!isExplicitGesture && now - lastAttemptRef.current < 1000) return;
+      
+      lastAttemptRef.current = now;
+      
       audio.play().then(() => {
-        setIsPlaying(true); // Update UI to show 'playing' icon
+        isPlayingRef.current = true;
+        setIsPlaying(true); 
         
-        // Once successful, remove all listeners immediately to save memory
         window.removeEventListener('click', handleInteraction);
         window.removeEventListener('keydown', handleInteraction);
         window.removeEventListener('scroll', handleInteraction);
         window.removeEventListener('mousemove', handleInteraction);
         window.removeEventListener('touchstart', handleInteraction);
-      }).catch(err => {
-        // Playback failed (browser strict autoplay policy blocked mousemove/scroll).
-        // Throttle the next attempt to prevent crashing the browser.
-        setTimeout(() => { isAttemptingRef.current = false; }, 500);
+      }).catch(() => {
+        // Playback blocked by browser autoplay policy. 
+        // We silently catch this. The user MUST click the page to unlock audio.
       });
     };
 
@@ -40,7 +47,7 @@ const AmbientSound = () => {
       if (document.hidden) {
         audioRef.current.pause();
       } else {
-        if (!isManuallyMutedRef.current && isAttemptingRef.current) {
+        if (!isManuallyMutedRef.current && isPlayingRef.current) {
           audioRef.current.play().catch(() => {});
         }
       }
@@ -75,7 +82,7 @@ const AmbientSound = () => {
       } else {
         audioRef.current.play();
         isManuallyMutedRef.current = false;
-        isAttemptingRef.current = true;
+        isPlayingRef.current = true;
       }
       setIsPlaying(!isPlaying);
     }
