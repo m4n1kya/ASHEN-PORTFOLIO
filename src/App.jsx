@@ -10,11 +10,9 @@ import Navbar from "./components/NavBar";
 import Loader from "./components/Loader";
 import AmbientSound from "./components/AmbientSound";
 import ParticleCursor from "./components/ParticleCursor";
-import SplashScreen from "./components/SplashScreen";
 
 const App = () => (
   <>
-    <SplashScreen />
     <ParticleCursor />
     <AmbientSound />
     <Loader />
