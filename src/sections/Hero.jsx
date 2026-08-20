@@ -211,14 +211,14 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
             <HeroImageParticles />
             
             {/* Added a subtle glow behind the lantern to indicate it is clickable */}
-            <div className="absolute inset-0 bg-white/5 rounded-full blur-3xl opacity-0 group-hover:opacity-15 transition-opacity duration-500 pointer-events-none" />
+            <div className="absolute inset-0 bg-white/5 rounded-full blur-3xl opacity-0 group-hover:opacity-25 transition-opacity duration-500 pointer-events-none" />
             
             <img 
               ref={lanternImgRef}
               src="/images/hero-lantern.png" 
               alt="Enter Gallery" 
               title="Click to enter the screenshot gallery"
-              className="h-[300px] md:h-[450px] lg:h-[550px] object-contain animate-floatHover relative z-10 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.15)] transition-all duration-300"
+              className="h-[300px] md:h-[450px] lg:h-[550px] object-contain animate-floatHover relative z-10 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all duration-300"
             />
           </div>
         </figure>
