@@ -11,26 +11,31 @@ const Gallery = ({ onBack }) => {
 
     const overlay = document.getElementById('transition-overlay');
     if (overlay) {
-      // Fade overlay out and simultaneously reveal the gallery
-      gsap.to(overlay, {
-        opacity: 0,
-        duration: 1.2,
-        ease: 'power2.out',
-        onComplete: () => overlay.remove()
-      });
-      // Fade container in in sync with overlay
-      gsap.to('.gallery-container', {
-        opacity: 1,
-        duration: 1.2,
-        ease: 'power2.out',
-      });
-      // Content slides up right as the overlay clears
-      gsap.to('.gallery-content', {
-        opacity: 1,
-        y: 0,
-        duration: 0.9,
-        ease: 'power3.out',
-        delay: 0.4,
+      // Double rAF to ensure React finishes painting the Gallery before revealing it
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          // Fade overlay out and simultaneously reveal the gallery
+          gsap.to(overlay, {
+            opacity: 0,
+            duration: 1.2,
+            ease: 'power2.out',
+            onComplete: () => overlay.remove()
+          });
+          // Fade container in in sync with overlay
+          gsap.to('.gallery-container', {
+            opacity: 1,
+            duration: 1.2,
+            ease: 'power2.out',
+          });
+          // Content slides up right as the overlay clears
+          gsap.to('.gallery-content', {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            ease: 'power3.out',
+            delay: 0.4,
+          });
+        });
       });
     } else {
       gsap.set('.gallery-container', { opacity: 1 });
@@ -39,15 +44,15 @@ const Gallery = ({ onBack }) => {
   }, []);
 
   const handleBack = () => {
-    // Slowly turn dark again before going back
+    // Dark overlay — ON TOP of particles so mount stutter is hidden
     const overlay = document.createElement('div');
-    overlay.style.cssText = 'position:fixed;inset:0;background-color:black;opacity:0;z-index:999998;pointer-events:none;';
+    overlay.style.cssText = 'position:fixed;inset:0;background-color:black;opacity:0;z-index:999999;pointer-events:none;';
     overlay.id = 'transition-overlay';
     document.body.appendChild(overlay);
 
-    // Create fixed wrapper for the downward particle swipe
+    // Create fixed wrapper for the downward particle swipe — BELOW overlay
     const particleWrapper = document.createElement('div');
-    particleWrapper.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999999;contain:layout size;';
+    particleWrapper.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999997;contain:layout size;';
     document.body.appendChild(particleWrapper);
 
     const colors = ['#ffffff', '#e0e0e0', '#a0a0a0', '#737373'];
@@ -100,19 +105,13 @@ const Gallery = ({ onBack }) => {
       if (document.body.contains(particleWrapper)) particleWrapper.remove();
     }, (longestAnimation + 0.3) * 1000);
 
-    let navigated = false;
-
     gsap.to(overlay, {
       opacity: 1,
-      duration: 1.2,
-      ease: "power2.inOut",
-      onUpdate: function () {
-        // Navigate at 70% through the fade so the home page mounts and
-        // immediately starts fading the overlay OUT — zero black-frame gap.
-        if (!navigated && this.progress() >= 0.7) {
-          navigated = true;
-          onBack();
-        }
+      duration: 1.0,
+      ease: "power2.in",
+      onComplete: () => {
+        // Navigate when fully black to hide heavy React mount
+        onBack();
       }
     });
   };
