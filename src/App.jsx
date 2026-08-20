@@ -16,9 +16,13 @@ import Gallery from "./components/Gallery";
 
 const App = () => {
   const [view, setView] = useState('home');
+  const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
 
   // Entrance animation when returning to home from gallery
   useEffect(() => {
+    if (view === 'gallery') {
+      setHasLoadedOnce(true);
+    }
     if (view === 'home') {
       gsap.fromTo(
         ".home-container",
@@ -37,7 +41,7 @@ const App = () => {
         <div className="home-container relative bg-transparent">
           <Loader />
           <Navbar />
-          <Hero onNavigateToGallery={() => setView('gallery')} />
+          <Hero onNavigateToGallery={() => setView('gallery')} hasLoadedOnce={hasLoadedOnce} />
           <FeatureCards />
           <Experience />
           <ShowcaseSection />

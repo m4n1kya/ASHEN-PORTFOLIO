@@ -8,15 +8,21 @@ import { words } from "../constants";
 import HeroParticles from "../components/HeroParticles";
 import HeroImageParticles from "../components/HeroImageParticles";
 
-const Hero = ({ onNavigateToGallery }) => {
+const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
   const lanternRef = useRef(null);
 
   useGSAP(() => {
-    gsap.fromTo(
-      ".hero-text h1",
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, stagger: 0.2, duration: 1, ease: "power2.inOut" }
-    );
+    if (!hasLoadedOnce) {
+      gsap.fromTo(
+        ".hero-text h1",
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, stagger: 0.2, duration: 1, ease: "power2.inOut" }
+      );
+    } else {
+      // If we've already loaded once, just ensure they are visible
+      gsap.set(".hero-text h1", { y: 0, opacity: 1 });
+    }
+
     gsap.to(".scroll-indicator", {
       opacity: 0,
       scrollTrigger: {
@@ -40,29 +46,50 @@ const Hero = ({ onNavigateToGallery }) => {
     // Stop the CSS float animation so GSAP can take over smoothly
     lanternRef.current.classList.remove("animate-floatHover");
     
+    // Calculate precise absolute center of viewport offset
+    const rect = lanternRef.current.getBoundingClientRect();
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    const imgCenterX = rect.left + rect.width / 2;
+    const imgCenterY = rect.top + rect.height / 2;
+    const deltaX = centerX - imgCenterX;
+    const deltaY = centerY - imgCenterY;
+    
     const tl = gsap.timeline({
       onComplete: () => {
         if (onNavigateToGallery) onNavigateToGallery();
       }
     });
 
-    // Phase 1: Charge up (suck inwards slightly)
+    // Make lantern render above absolutely everything
+    gsap.set(lanternRef.current, { zIndex: 99999, position: "relative" });
+
+    // Phase 1: Pull to absolute center while charging up
+    tl.to(lanternRef.current, {
+      x: deltaX,
+      y: deltaY,
+      scale: 1.2,
+      filter: "brightness(1.5) drop-shadow(0 0 30px rgba(255,255,255,0.8))",
+      duration: 0.8,
+      ease: "power2.out"
+    });
+
+    // Phase 2: Suck inwards slightly for anticipation
     tl.to(lanternRef.current, {
       scale: 0.8,
-      filter: "brightness(1.5) drop-shadow(0 0 20px rgba(255,255,255,0.8))",
-      duration: 0.4,
+      duration: 0.3,
       ease: "back.in(1.5)"
     });
 
-    // Phase 2: Burst & Zoom past camera
+    // Phase 3: Burst & Zoom past camera
     tl.to(lanternRef.current, {
-      scale: 30, // Massive zoom
+      scale: 40, // Massive zoom
       opacity: 0,
       duration: 0.8,
       ease: "power4.in"
     });
 
-    // Phase 3: Crossfade the entire home container to black simultaneously
+    // Crossfade the entire home container to black simultaneously
     tl.to(".home-container", {
       opacity: 0,
       duration: 0.8,
