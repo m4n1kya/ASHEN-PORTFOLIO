@@ -86,66 +86,62 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
 
     // Create a temporary fixed wrapper for the massive particle swipe
     const particleWrapper = document.createElement('div');
-    particleWrapper.style.position = 'fixed';
-    particleWrapper.style.top = '0';
-    particleWrapper.style.left = '0';
-    particleWrapper.style.width = '100vw';
-    particleWrapper.style.height = '100vh';
-    particleWrapper.style.pointerEvents = 'none';
-    particleWrapper.style.zIndex = '999999';
+    particleWrapper.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999999;contain:strict;';
     document.body.appendChild(particleWrapper);
 
-    // Spawn 200 glowing particles for a balanced magical swipe
-    const colors = ['#ffffff', '#e0e0e0', '#a0a0a0', '#737373']; 
+    // Pre-compute all particle data to avoid layout thrashing in the loop
+    const colors = ['#ffffff', '#e0e0e0', '#a0a0a0', '#737373'];
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+    const count = 200;
     let longestAnimation = 0;
 
-    for (let i = 0; i < 200; i++) {
-      const p = document.createElement('div');
-      const size = Math.random() * 5 + 1.5; // Balanced size variance
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      
-      p.style.position = 'absolute';
-      p.style.width = `${size}px`;
-      p.style.height = `${size}px`;
-      p.style.backgroundColor = color;
-      p.style.borderRadius = '50%';
-      // Balanced single-layer shine
-      p.style.boxShadow = `0 0 ${size * 3}px ${size * 1}px ${color}`;
-      
-      // Spawn below the screen
-      const startX = Math.random() * window.innerWidth;
-      const startY = window.innerHeight + Math.random() * 300; 
-      
-      gsap.set(p, { x: startX, y: startY, opacity: 0, scale: 0.5 });
-      particleWrapper.appendChild(p);
-      
-      // Animate aggressively towards the top
-      const delay = Math.random() * 0.8; 
-      const duration = Math.random() * 1.5 + 1.2; 
-      const endY = -200 - Math.random() * 500; // Fly well past the top of the screen
-      const endX = startX + (Math.random() - 0.5) * 200; // Slight horizontal drift
-      
-      if (delay + duration > longestAnimation) {
-        longestAnimation = delay + duration;
-      }
+    // Use a DocumentFragment so all 200 particles are appended in ONE DOM operation
+    const fragment = document.createDocumentFragment();
+    const particleData = [];
 
-      gsap.to(p, {
-        y: endY,
-        x: endX,
-        opacity: Math.random() * 0.5 + 0.3,
-        scale: Math.random() * 1.2 + 0.8, // Subtle twinkle effect
-        duration: duration,
-        delay: delay,
-        ease: "power3.in", // Accelerate massively upwards
-        onComplete: () => p.remove()
-      });
+    for (let i = 0; i < count; i++) {
+      const size = Math.random() * 5 + 1.5;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const startX = Math.random() * W;
+      const startY = H + Math.random() * 300;
+      const delay = Math.random() * 0.8;
+      const duration = Math.random() * 1.5 + 1.2;
+      const endY = -200 - Math.random() * 500;
+      const endX = startX + (Math.random() - 0.5) * 200;
+      const opacity = Math.random() * 0.5 + 0.3;
+      const scale = Math.random() * 1.2 + 0.8;
+
+      const p = document.createElement('div');
+      // Set all styles at once via cssText — far faster than individual assignments
+      p.style.cssText = `position:absolute;width:${size}px;height:${size}px;border-radius:50%;background-color:${color};box-shadow:0 0 ${size * 3}px ${size}px ${color};will-change:transform,opacity;transform:translate(${startX}px,${startY}px) scale(0.5);opacity:0;`;
+
+      if (delay + duration > longestAnimation) longestAnimation = delay + duration;
+
+      fragment.appendChild(p);
+      particleData.push({ p, startX, startY, endX, endY, opacity, scale, delay, duration });
     }
 
-    // Cleanup the wrapper once the absolute longest particle finishes flying
+    // Single DOM append — one reflow/repaint for all 200 particles
+    particleWrapper.appendChild(fragment);
+
+    // Kick off all GSAP animations after the single DOM append
+    particleData.forEach(({ p, startX, startY, endX, endY, opacity, scale, delay, duration }) => {
+      gsap.fromTo(p,
+        { x: startX, y: startY, opacity: 0, scale: 0.5 },
+        {
+          x: endX, y: endY, opacity, scale,
+          duration, delay,
+          ease: 'power2.out',
+          force3D: true, // Force GPU layer
+          onComplete: () => p.remove()
+        }
+      );
+    });
+
+    // Cleanup wrapper
     setTimeout(() => {
-      if (document.body.contains(particleWrapper)) {
-        document.body.removeChild(particleWrapper);
-      }
+      if (document.body.contains(particleWrapper)) particleWrapper.remove();
     }, longestAnimation * 1000 + 500);
   };
 

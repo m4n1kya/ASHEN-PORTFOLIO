@@ -27,75 +27,66 @@ const Gallery = ({ onBack }) => {
   const handleBack = () => {
     // Slowly turn dark again before going back
     const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background-color:black;opacity:0;z-index:999998;pointer-events:none;';
     overlay.id = 'transition-overlay';
-    overlay.style.position = 'fixed';
-    overlay.style.inset = '0';
-    overlay.style.backgroundColor = 'black';
-    overlay.style.opacity = '0';
-    overlay.style.zIndex = '999998';
-    overlay.style.pointerEvents = 'none';
     document.body.appendChild(overlay);
 
-    // Create a temporary fixed wrapper for the massive particle swipe (top to bottom)
+    // Create fixed wrapper for the downward particle swipe
     const particleWrapper = document.createElement('div');
-    particleWrapper.style.position = 'fixed';
-    particleWrapper.style.top = '0';
-    particleWrapper.style.left = '0';
-    particleWrapper.style.width = '100vw';
-    particleWrapper.style.height = '100vh';
-    particleWrapper.style.pointerEvents = 'none';
-    particleWrapper.style.zIndex = '999999';
+    particleWrapper.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999999;contain:strict;';
     document.body.appendChild(particleWrapper);
 
-    const colors = ['#ffffff', '#e0e0e0', '#a0a0a0', '#737373']; 
+    // Pre-compute all data before touching the DOM
+    const colors = ['#ffffff', '#e0e0e0', '#a0a0a0', '#737373'];
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+    const count = 200;
     let longestAnimation = 0;
 
-    for (let i = 0; i < 200; i++) {
-      const p = document.createElement('div');
-      const size = Math.random() * 5 + 1.5; 
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      
-      p.style.position = 'absolute';
-      p.style.width = `${size}px`;
-      p.style.height = `${size}px`;
-      p.style.backgroundColor = color;
-      p.style.borderRadius = '50%';
-      p.style.boxShadow = `0 0 ${size * 3}px ${size * 1}px ${color}`;
-      
-      // Spawn ABOVE the screen
-      const startX = Math.random() * window.innerWidth;
-      const startY = -Math.random() * 300 - 50; 
-      
-      gsap.set(p, { x: startX, y: startY, opacity: 0, scale: 0.5 });
-      particleWrapper.appendChild(p);
-      
-      // Animate aggressively towards the bottom
-      const delay = Math.random() * 0.8; 
-      const duration = Math.random() * 1.5 + 1.2; 
-      const endY = window.innerHeight + 200 + Math.random() * 500; // Fly well past the bottom
-      const endX = startX + (Math.random() - 0.5) * 200; // Slight horizontal drift
-      
-      if (delay + duration > longestAnimation) {
-        longestAnimation = delay + duration;
-      }
+    // Build all particles into a fragment — single DOM write
+    const fragment = document.createDocumentFragment();
+    const particleData = [];
 
-      gsap.to(p, {
-        y: endY,
-        x: endX,
-        opacity: Math.random() * 0.5 + 0.3,
-        scale: Math.random() * 1.2 + 0.8, 
-        duration: duration,
-        delay: delay,
-        ease: "power3.in", // Accelerate massively downwards
-        onComplete: () => p.remove()
-      });
+    for (let i = 0; i < count; i++) {
+      const size = Math.random() * 5 + 1.5;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const startX = Math.random() * W;
+      const startY = -Math.random() * 300 - 50; // Spawn above the screen
+      const delay = Math.random() * 0.8;
+      const duration = Math.random() * 1.5 + 1.2;
+      const endY = H + 200 + Math.random() * 500; // Fly past the bottom
+      const endX = startX + (Math.random() - 0.5) * 200;
+      const opacity = Math.random() * 0.5 + 0.3;
+      const scale = Math.random() * 1.2 + 0.8;
+
+      const p = document.createElement('div');
+      p.style.cssText = `position:absolute;width:${size}px;height:${size}px;border-radius:50%;background-color:${color};box-shadow:0 0 ${size * 3}px ${size}px ${color};will-change:transform,opacity;transform:translate(${startX}px,${startY}px) scale(0.5);opacity:0;`;
+
+      if (delay + duration > longestAnimation) longestAnimation = delay + duration;
+
+      fragment.appendChild(p);
+      particleData.push({ p, startX, startY, endX, endY, opacity, scale, delay, duration });
     }
 
-    // Cleanup the wrapper once the absolute longest particle finishes flying
+    // Single DOM append
+    particleWrapper.appendChild(fragment);
+
+    // Start all animations after the single DOM append
+    particleData.forEach(({ p, startX, startY, endX, endY, opacity, scale, delay, duration }) => {
+      gsap.fromTo(p,
+        { x: startX, y: startY, opacity: 0, scale: 0.5 },
+        {
+          x: endX, y: endY, opacity, scale,
+          duration, delay,
+          ease: 'power2.out',
+          force3D: true,
+          onComplete: () => p.remove()
+        }
+      );
+    });
+
     setTimeout(() => {
-      if (document.body.contains(particleWrapper)) {
-        document.body.removeChild(particleWrapper);
-      }
+      if (document.body.contains(particleWrapper)) particleWrapper.remove();
     }, longestAnimation * 1000 + 500);
 
     gsap.to(overlay, {
@@ -103,7 +94,6 @@ const Gallery = ({ onBack }) => {
       duration: 1.2,
       ease: "power2.inOut",
       onComplete: () => {
-        // Fade out gallery content
         gsap.to(".gallery-container", {
           opacity: 0,
           duration: 0.5,
