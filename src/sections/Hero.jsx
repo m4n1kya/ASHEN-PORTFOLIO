@@ -59,97 +59,83 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
     const deltaX = centerX - containerCenterX;
     const deltaY = centerY - containerCenterY;
     
-    // Overlay ON TOP of canvas so any React mount stutter is invisible
+    // Create a pitch black overlay that covers everything except the particles
     const darkOverlay = document.createElement('div');
     darkOverlay.id = 'transition-overlay';
-    darkOverlay.style.cssText = 'position:fixed;inset:0;background-color:black;opacity:0;z-index:999999;pointer-events:none;';
+    darkOverlay.style.cssText = 'position:fixed;inset:0;background-color:black;opacity:0;z-index:999998;pointer-events:none;';
     document.body.appendChild(darkOverlay);
 
-    // Fade to black, navigate only when fully opaque
+    let navigated = false;
+
+    // Fade to black. Navigate at 70% opacity so the new page mounts and
+    // immediately starts fading the overlay OUT — zero black-frame gap.
     gsap.to(darkOverlay, {
       opacity: 1,
-      duration: 1.2,
-      ease: 'power2.in',
-      onComplete: () => {
-        if (onNavigateToGallery) onNavigateToGallery();
+      duration: 1.5,
+      ease: 'power2.inOut',
+      onUpdate: function () {
+        if (!navigated && this.progress() >= 0.7) {
+          navigated = true;
+          if (onNavigateToGallery) onNavigateToGallery();
+        }
       }
     });
-    // Canvas BELOW the overlay — visible while fading, hidden once fully black
-    const canvas = document.createElement('canvas');
+
+    // Create a temporary fixed wrapper for the massive particle swipe
+    const particleWrapper = document.createElement('div');
+    particleWrapper.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999999;contain:layout size;';
+    document.body.appendChild(particleWrapper);
+
+    const colors = ['#ffffff', '#e0e0e0', '#a0a0a0', '#737373'];
     const W = window.innerWidth;
     const H = window.innerHeight;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
-    canvas.style.cssText = `position:fixed;top:0;left:0;width:${W}px;height:${H}px;pointer-events:none;z-index:999997;`;
-    document.body.appendChild(canvas);
-    const ctx = canvas.getContext('2d');
-    ctx.scale(dpr, dpr);
+    const count = 150;
+    let longestAnimation = 0;
 
-    // Pre-generate all particle data
-    const colors = ['#ffffff', '#e0e0e0', '#a0a0a0', '#737373'];
-    const count = 120;
-    const particles = [];
+    const fragment = document.createDocumentFragment();
+    const particleData = [];
+
     for (let i = 0; i < count; i++) {
-      const size = Math.random() * 2.5 + 1;
-      particles.push({
-        x: Math.random() * W,
-        y: H + Math.random() * 300 + 30, // Start below screen
-        size,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        speedY: Math.random() * 400 + 300, // pixels per second (upward)
-        speedX: (Math.random() - 0.5) * 80,
-        opacity: 0,
-        targetOpacity: Math.random() * 0.7 + 0.3,
-        delay: Math.random() * 0.5,
-      });
+      const size = Math.random() * 4 + 1.5;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const startX = Math.random() * W;
+      const startY = H + Math.random() * 300;
+      const delay = Math.random() * 0.6;
+      const duration = Math.random() * 1.2 + 1.0;
+      const endY = -200 - Math.random() * 400;
+      const endX = startX + (Math.random() - 0.5) * 150;
+      const targetOpacity = Math.random() * 0.6 + 0.3;
+      const glowSize = size * 3;
+
+      const p = document.createElement('div');
+      // Radial gradient glow instead of box-shadow — zero blur compositing cost
+      p.style.cssText = `position:absolute;width:${glowSize}px;height:${glowSize}px;border-radius:50%;background:radial-gradient(circle,${color} 30%,transparent 70%);will-change:transform,opacity;backface-visibility:hidden;transform:translate3d(${startX}px,${startY}px,0) scale(0.5);opacity:0;`;
+
+      if (delay + duration > longestAnimation) longestAnimation = delay + duration;
+
+      fragment.appendChild(p);
+      particleData.push({ p, startX, startY, endX, endY, targetOpacity, delay, duration });
     }
 
-    const startTime = performance.now();
+    particleWrapper.appendChild(fragment);
 
-    const animate = (now) => {
-      const elapsed = (now - startTime) / 1000;
-      ctx.clearRect(0, 0, W, H);
-
-      let allDone = true;
-      for (let i = 0; i < count; i++) {
-        const p = particles[i];
-        if (elapsed < p.delay) { allDone = false; continue; }
-        const t = elapsed - p.delay;
-
-        const progress = Math.min(t / 2.0, 1);
-        const easedProgress = progress * progress;
-
-        p.x += p.speedX * (1 / 60) * 0.3;
-        const currentY = p.y - p.speedY * easedProgress * 2.0; // Upward
-
-        // Fade in then out
-        if (progress < 0.3) {
-          p.opacity = p.targetOpacity * (progress / 0.3);
-        } else if (progress > 0.7) {
-          p.opacity = p.targetOpacity * (1 - (progress - 0.7) / 0.3);
-        } else {
-          p.opacity = p.targetOpacity;
+    // Animate all particles — no per-particle onComplete (avoids 150 individual DOM removals)
+    particleData.forEach(({ p, startX, startY, endX, endY, targetOpacity, delay, duration }) => {
+      gsap.fromTo(p,
+        { x: startX, y: startY, opacity: 0, scale: 0.5 },
+        {
+          x: endX, y: endY, opacity: targetOpacity, scale: 1,
+          duration, delay,
+          ease: 'power2.out',
+          force3D: true,
         }
+      );
+    });
 
-        if (currentY > -100) {
-          allDone = false;
-          ctx.globalAlpha = p.opacity;
-          ctx.fillStyle = p.color;
-          ctx.beginPath();
-          ctx.arc(p.x, currentY, p.size, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-
-      if (!allDone && elapsed < 3) {
-        requestAnimationFrame(animate);
-      } else {
-        canvas.remove();
-      }
-    };
-
-    requestAnimationFrame(animate);
+    // Single bulk cleanup — one DOM operation instead of 150
+    setTimeout(() => {
+      if (document.body.contains(particleWrapper)) particleWrapper.remove();
+    }, (longestAnimation + 0.3) * 1000);
   };
 
   return (
