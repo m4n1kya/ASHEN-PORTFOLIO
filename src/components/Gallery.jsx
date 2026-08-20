@@ -3,25 +3,39 @@ import gsap from 'gsap';
 
 const Gallery = ({ onBack }) => {
   useEffect(() => {
-    // Entrance animation for the gallery content
     window.scrollTo(0, 0);
-    
-    // Slowly make the background visible again after the transition
+
+    // Start fully invisible to prevent any flicker before animation
+    gsap.set('.gallery-container', { opacity: 0 });
+    gsap.set('.gallery-content', { opacity: 0, y: 30 });
+
     const overlay = document.getElementById('transition-overlay');
     if (overlay) {
+      // Fade overlay out and simultaneously reveal the gallery
       gsap.to(overlay, {
         opacity: 0,
-        duration: 1.5,
-        ease: "power2.inOut",
+        duration: 1.2,
+        ease: 'power2.out',
         onComplete: () => overlay.remove()
       });
+      // Fade container in in sync with overlay
+      gsap.to('.gallery-container', {
+        opacity: 1,
+        duration: 1.2,
+        ease: 'power2.out',
+      });
+      // Content slides up right as the overlay clears
+      gsap.to('.gallery-content', {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+        delay: 0.4,
+      });
+    } else {
+      gsap.set('.gallery-container', { opacity: 1 });
+      gsap.to('.gallery-content', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' });
     }
-
-    gsap.fromTo(
-      ".gallery-content",
-      { opacity: 0, y: 50 },
-      { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.5 } // delay slightly for overlay fade
-    );
   }, []);
 
   const handleBack = () => {

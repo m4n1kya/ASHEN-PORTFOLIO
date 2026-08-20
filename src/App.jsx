@@ -34,24 +34,17 @@ const App = () => {
       sessionStorage.setItem('ashen_has_loaded', 'true');
     }
     if (view === 'home') {
-      // Slowly make the background visible again by fading out the black overlay
+      // Ensure home content is fully visible — the overlay fading out does the reveal
+      gsap.set('.home-container', { opacity: 1 });
+
       const overlay = document.getElementById('transition-overlay');
       if (overlay) {
         gsap.to(overlay, {
           opacity: 0,
-          duration: 1.5,
-          ease: "power2.inOut",
+          duration: 1.2,
+          ease: 'power2.out',
           onComplete: () => overlay.remove()
         });
-
-        gsap.fromTo(
-          ".home-container",
-          { opacity: 0 },
-          { opacity: 1, duration: 1.5, ease: "power2.inOut" }
-        );
-      } else {
-        // Initial load: Do not fade from 0, keep it solid so the Loader doesn't glitch
-        gsap.set(".home-container", { opacity: 1 });
       }
     }
   }, [view]);
