@@ -60,36 +60,79 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
     
     const tl = gsap.timeline({
       onComplete: () => {
+        // Only navigate after the background is fully black
         if (onNavigateToGallery) onNavigateToGallery();
       }
     });
 
-    // Make container render above absolutely everything
-    gsap.set(lanternContainerRef.current, { zIndex: 99999, position: "relative" });
-
-    // Blink (teleport) to the exact center of screen instantly
-    tl.set(lanternContainerRef.current, {
-      x: deltaX,
-      y: deltaY,
-    });
-
-    // Tiny invisible pause so the eye registers it blinking to center before moving
-    tl.to({}, { duration: 0.2 });
-
-    // Zoom past camera slow and smooth
-    tl.to(lanternContainerRef.current, {
-      scale: 40, // Massive zoom
-      opacity: 0,
-      duration: 1.8, // Slow and smooth
-      ease: "power2.inOut"
-    });
-
-    // Crossfade the entire home container to black simultaneously
+    // Fade the entire home container out to black immediately
     tl.to(".home-container", {
       opacity: 0,
-      duration: 1.8,
+      duration: 1.5,
       ease: "power2.inOut"
-    }, "<"); 
+    });
+
+    // Create a temporary fixed wrapper for the massive particle swipe
+    const particleWrapper = document.createElement('div');
+    particleWrapper.style.position = 'fixed';
+    particleWrapper.style.top = '0';
+    particleWrapper.style.left = '0';
+    particleWrapper.style.width = '100vw';
+    particleWrapper.style.height = '100vh';
+    particleWrapper.style.pointerEvents = 'none';
+    particleWrapper.style.zIndex = '999999';
+    document.body.appendChild(particleWrapper);
+
+    // Spawn 150 glowing particles matching the lantern's aesthetic
+    const colors = ['#ffffff', '#e0e0e0', '#a0a0a0', '#737373']; 
+    let longestAnimation = 0;
+
+    for (let i = 0; i < 200; i++) {
+      const p = document.createElement('div');
+      const size = Math.random() * 4 + 2;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      
+      p.style.position = 'absolute';
+      p.style.width = `${size}px`;
+      p.style.height = `${size}px`;
+      p.style.backgroundColor = color;
+      p.style.borderRadius = '50%';
+      p.style.boxShadow = `0 0 ${size * 3}px ${size}px ${color}`;
+      
+      // Spawn below the screen
+      const startX = Math.random() * window.innerWidth;
+      const startY = window.innerHeight + Math.random() * 300; 
+      
+      gsap.set(p, { x: startX, y: startY, opacity: 0 });
+      particleWrapper.appendChild(p);
+      
+      // Animate aggressively towards the top
+      const delay = Math.random() * 0.8; 
+      const duration = Math.random() * 1.5 + 1.2; 
+      const endY = -200 - Math.random() * 500; // Fly well past the top of the screen
+      const endX = startX + (Math.random() - 0.5) * 200; // Slight horizontal drift
+      
+      if (delay + duration > longestAnimation) {
+        longestAnimation = delay + duration;
+      }
+
+      gsap.to(p, {
+        y: endY,
+        x: endX,
+        opacity: Math.random() * 0.5 + 0.5,
+        duration: duration,
+        delay: delay,
+        ease: "power3.in", // Accelerate massively upwards
+        onComplete: () => p.remove()
+      });
+    }
+
+    // Cleanup the wrapper once the absolute longest particle finishes flying
+    setTimeout(() => {
+      if (document.body.contains(particleWrapper)) {
+        document.body.removeChild(particleWrapper);
+      }
+    }, longestAnimation * 1000 + 500);
   };
 
   return (
