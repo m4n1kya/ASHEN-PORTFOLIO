@@ -7,8 +7,8 @@ const HeroImageParticles = ({ isHovered }) => {
     // Helper to generate a center-weighted random number (0 to 1)
     const randomGaussian = () => (Math.random() + Math.random() + Math.random()) / 3;
 
-    // Generate 175 particles (75 ambient, 100 hover-only)
-    const newParticles = Array.from({ length: 175 }).map((_, i) => {
+    // Generate 155 particles (75 ambient, 80 hover-only)
+    const newParticles = Array.from({ length: 155 }).map((_, i) => {
       const colors = ['#ffffff', '#e0e0e0', '#a0a0a0', '#737373']; 
       const color = colors[Math.floor(Math.random() * colors.length)];
       const isAmbient = i < 75;
