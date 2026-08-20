@@ -89,16 +89,19 @@ const Gallery = ({ onBack }) => {
       if (document.body.contains(particleWrapper)) particleWrapper.remove();
     }, longestAnimation * 1000 + 500);
 
+    let navigated = false;
+
     gsap.to(overlay, {
       opacity: 1,
       duration: 1.2,
       ease: "power2.inOut",
-      onComplete: () => {
-        gsap.to(".gallery-container", {
-          opacity: 0,
-          duration: 0.5,
-          onComplete: onBack
-        });
+      onUpdate: function () {
+        // Navigate at 70% through the fade so the home page mounts and
+        // immediately starts fading the overlay OUT — zero black-frame gap.
+        if (!navigated && this.progress() >= 0.7) {
+          navigated = true;
+          onBack();
+        }
       }
     });
   };

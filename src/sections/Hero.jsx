@@ -59,30 +59,27 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
     const deltaX = centerX - containerCenterX;
     const deltaY = centerY - containerCenterY;
     
-    const tl = gsap.timeline({
-      onComplete: () => {
-        // Only navigate after the background is fully black
-        if (onNavigateToGallery) onNavigateToGallery();
-      }
-    });
-
     // Create a pitch black overlay that covers everything except the particles
     const darkOverlay = document.createElement('div');
     darkOverlay.id = 'transition-overlay';
-    darkOverlay.style.position = 'fixed';
-    darkOverlay.style.inset = '0';
-    darkOverlay.style.backgroundColor = 'black';
-    darkOverlay.style.opacity = '0';
-    darkOverlay.style.zIndex = '999998'; // Just below the particles
-    darkOverlay.style.pointerEvents = 'none';
+    darkOverlay.style.cssText = 'position:fixed;inset:0;background-color:black;opacity:0;z-index:999998;pointer-events:none;';
     document.body.appendChild(darkOverlay);
 
-    // Slowly fade the screen to dark black during the animation
-    tl.to(darkOverlay, {
+    let navigated = false;
+
+    // Fade to black. Navigate at 70% opacity so the new page mounts and
+    // immediately starts fading the overlay OUT — zero black-frame gap.
+    gsap.to(darkOverlay, {
       opacity: 1,
       duration: 1.5,
-      ease: "power2.inOut"
-    }, 0); // Start immediately
+      ease: 'power2.inOut',
+      onUpdate: function () {
+        if (!navigated && this.progress() >= 0.7) {
+          navigated = true;
+          if (onNavigateToGallery) onNavigateToGallery();
+        }
+      }
+    });
 
     // Create a temporary fixed wrapper for the massive particle swipe
     const particleWrapper = document.createElement('div');
