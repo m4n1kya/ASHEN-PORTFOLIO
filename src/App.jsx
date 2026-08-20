@@ -16,12 +16,22 @@ import Gallery from "./components/Gallery";
 
 const App = () => {
   const [view, setView] = useState('home');
-  const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
+  const [hasLoadedOnce, setHasLoadedOnce] = useState(() => {
+    return sessionStorage.getItem('ashen_has_loaded') === 'true';
+  });
+
+  useEffect(() => {
+    // Mark as loaded so refreshes don't trigger the intro again
+    if (!hasLoadedOnce) {
+      sessionStorage.setItem('ashen_has_loaded', 'true');
+    }
+  }, [hasLoadedOnce]);
 
   // Entrance animation when returning to home from gallery
   useEffect(() => {
     if (view === 'gallery') {
       setHasLoadedOnce(true);
+      sessionStorage.setItem('ashen_has_loaded', 'true');
     }
     if (view === 'home') {
       gsap.fromTo(

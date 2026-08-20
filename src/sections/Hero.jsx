@@ -83,13 +83,13 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
     particleWrapper.style.zIndex = '999999';
     document.body.appendChild(particleWrapper);
 
-    // Spawn 120 glowing particles matching the lantern's aesthetic
+    // Spawn 200 glowing particles for a balanced magical swipe
     const colors = ['#ffffff', '#e0e0e0', '#a0a0a0', '#737373']; 
     let longestAnimation = 0;
 
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 200; i++) {
       const p = document.createElement('div');
-      const size = Math.random() * 4 + 1; // Subtle size variance
+      const size = Math.random() * 5 + 1.5; // Balanced size variance
       const color = colors[Math.floor(Math.random() * colors.length)];
       
       p.style.position = 'absolute';
@@ -97,8 +97,8 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
       p.style.height = `${size}px`;
       p.style.backgroundColor = color;
       p.style.borderRadius = '50%';
-      // Subtle single-layer shine
-      p.style.boxShadow = `0 0 ${size * 2}px ${size * 0.5}px ${color}`;
+      // Balanced single-layer shine
+      p.style.boxShadow = `0 0 ${size * 3}px ${size * 1}px ${color}`;
       
       // Spawn below the screen
       const startX = Math.random() * window.innerWidth;
