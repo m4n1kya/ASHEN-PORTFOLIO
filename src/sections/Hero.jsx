@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
@@ -7,7 +8,9 @@ import { words } from "../constants";
 import HeroParticles from "../components/HeroParticles";
 import HeroImageParticles from "../components/HeroImageParticles";
 
-const Hero = () => {
+const Hero = ({ onNavigateToGallery }) => {
+  const lanternRef = useRef(null);
+
   useGSAP(() => {
     gsap.fromTo(
       ".hero-text h1",
@@ -19,7 +22,7 @@ const Hero = () => {
       scrollTrigger: {
         trigger: "#hero",
         start: "top top",
-        end: "+=300", // Fades out over the first 300px of scrolling
+        end: "+=300", 
         scrub: true,
       },
     });
@@ -31,13 +34,48 @@ const Hero = () => {
     );
   });
 
+  const handleLanternClick = () => {
+    if (!lanternRef.current) return;
+    
+    // Stop the CSS float animation so GSAP can take over smoothly
+    lanternRef.current.classList.remove("animate-floatHover");
+    
+    const tl = gsap.timeline({
+      onComplete: () => {
+        if (onNavigateToGallery) onNavigateToGallery();
+      }
+    });
+
+    // Phase 1: Charge up (suck inwards slightly)
+    tl.to(lanternRef.current, {
+      scale: 0.8,
+      filter: "brightness(1.5) drop-shadow(0 0 20px rgba(255,255,255,0.8))",
+      duration: 0.4,
+      ease: "back.in(1.5)"
+    });
+
+    // Phase 2: Burst & Zoom past camera
+    tl.to(lanternRef.current, {
+      scale: 30, // Massive zoom
+      opacity: 0,
+      duration: 0.8,
+      ease: "power4.in"
+    });
+
+    // Phase 3: Crossfade the entire home container to black simultaneously
+    tl.to(".home-container", {
+      opacity: 0,
+      duration: 0.8,
+      ease: "power2.inOut"
+    }, "<"); // Sync with the zoom burst
+  };
+
   return (
     <section id="hero" className="relative overflow-hidden">
-      
-      {/* Background Particles over the whole screen */}
       <HeroParticles />
 
       <div className="relative z-10 w-full min-h-[80vh] md:min-h-screen flex flex-col lg:flex-row items-center justify-between px-5 md:px-20 pt-32 lg:pt-20 pb-20 lg:pb-32 gap-10 lg:gap-0">
+        
         {/* LEFT: Hero Content */}
         <header className="flex flex-col justify-center lg:w-1/2 w-full">
           <div className="flex flex-col gap-6">
@@ -90,19 +128,24 @@ const Hero = () => {
         </header>
 
         {/* RIGHT: Visual */}
-        <figure className="lg:w-1/2 w-full flex justify-center items-center relative pointer-events-none pb-20 lg:pb-0">
-          <div className="relative w-full flex justify-center items-center">
+        <figure className="lg:w-1/2 w-full flex justify-center items-center relative pb-20 lg:pb-0 z-50">
+          <div className="relative w-full flex justify-center items-center group cursor-pointer" onClick={handleLanternClick}>
             <HeroImageParticles />
+            
+            {/* Added a subtle glow behind the lantern to indicate it is clickable */}
+            <div className="absolute inset-0 bg-white/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            
             <img 
+              ref={lanternRef}
               src="/images/hero-lantern.png" 
-              alt="Hero Visual" 
-              className="h-[300px] md:h-[450px] lg:h-[550px] object-contain animate-floatHover relative z-10"
+              alt="Enter Gallery" 
+              title="Click to enter the screenshot gallery"
+              className="h-[300px] md:h-[450px] lg:h-[550px] object-contain animate-floatHover relative z-10 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] group-hover:drop-shadow-[0_0_25px_rgba(255,255,255,0.3)] transition-all duration-300"
             />
           </div>
         </figure>
       </div>
 
-      {/* Aesthetic Animated Scroll Indicator (No Text) */}
       <div className="absolute bottom-20 left-1/2 -translate-x-1/2 scroll-indicator z-[50] pointer-events-none opacity-50 mix-blend-screen">
         <div className="w-[16px] h-[28px] rounded-full border-[1.5px] border-white flex justify-center p-1 shadow-[0_0_10px_rgba(255,255,255,0.2)]">
           <div className="w-1 h-1 bg-white rounded-full scroll-mouse-dot shadow-[0_0_4px_rgba(255,255,255,1)]"></div>
