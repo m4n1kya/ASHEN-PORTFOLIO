@@ -39,20 +39,21 @@ const Gallery = ({ onBack }) => {
   }, []);
 
   const handleBack = () => {
-    // Dark overlay
+    // Dark overlay — ON TOP of everything so React mount stutter is invisible
     const overlay = document.createElement('div');
-    overlay.style.cssText = 'position:fixed;inset:0;background-color:black;opacity:0;z-index:999998;pointer-events:none;';
+    overlay.style.cssText = 'position:fixed;inset:0;background-color:black;opacity:0;z-index:999999;pointer-events:none;';
     overlay.id = 'transition-overlay';
     document.body.appendChild(overlay);
 
-    // Single canvas — 1 DOM node, 1 GPU layer, zero GSAP tween overhead
+    // Canvas BELOW the overlay — visible while overlay is semi-transparent,
+    // then fully hidden once overlay hits black. Any end-of-animation lag is invisible.
     const canvas = document.createElement('canvas');
     const W = window.innerWidth;
     const H = window.innerHeight;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = W * dpr;
     canvas.height = H * dpr;
-    canvas.style.cssText = `position:fixed;top:0;left:0;width:${W}px;height:${H}px;pointer-events:none;z-index:999999;`;
+    canvas.style.cssText = `position:fixed;top:0;left:0;width:${W}px;height:${H}px;pointer-events:none;z-index:999997;`;
     document.body.appendChild(canvas);
     const ctx = canvas.getContext('2d');
     ctx.scale(dpr, dpr);

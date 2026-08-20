@@ -59,35 +59,29 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
     const deltaX = centerX - containerCenterX;
     const deltaY = centerY - containerCenterY;
     
-    // Create a pitch black overlay that covers everything except the particles
+    // Overlay ON TOP of canvas so any React mount stutter is invisible
     const darkOverlay = document.createElement('div');
     darkOverlay.id = 'transition-overlay';
-    darkOverlay.style.cssText = 'position:fixed;inset:0;background-color:black;opacity:0;z-index:999998;pointer-events:none;';
+    darkOverlay.style.cssText = 'position:fixed;inset:0;background-color:black;opacity:0;z-index:999999;pointer-events:none;';
     document.body.appendChild(darkOverlay);
 
-    let navigated = false;
-
-    // Fade to black. Navigate at 70% opacity so the new page mounts and
-    // immediately starts fading the overlay OUT — zero black-frame gap.
+    // Fade to black, navigate only when fully opaque
     gsap.to(darkOverlay, {
       opacity: 1,
-      duration: 1.5,
-      ease: 'power2.inOut',
-      onUpdate: function () {
-        if (!navigated && this.progress() >= 0.7) {
-          navigated = true;
-          if (onNavigateToGallery) onNavigateToGallery();
-        }
+      duration: 1.2,
+      ease: 'power2.in',
+      onComplete: () => {
+        if (onNavigateToGallery) onNavigateToGallery();
       }
     });
-    // Single canvas — 1 DOM node, 1 GPU layer, zero GSAP tween overhead
+    // Canvas BELOW the overlay — visible while fading, hidden once fully black
     const canvas = document.createElement('canvas');
     const W = window.innerWidth;
     const H = window.innerHeight;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = W * dpr;
     canvas.height = H * dpr;
-    canvas.style.cssText = `position:fixed;top:0;left:0;width:${W}px;height:${H}px;pointer-events:none;z-index:999999;`;
+    canvas.style.cssText = `position:fixed;top:0;left:0;width:${W}px;height:${H}px;pointer-events:none;z-index:999997;`;
     document.body.appendChild(canvas);
     const ctx = canvas.getContext('2d');
     ctx.scale(dpr, dpr);
