@@ -9,7 +9,8 @@ import HeroParticles from "../components/HeroParticles";
 import HeroImageParticles from "../components/HeroImageParticles";
 
 const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
-  const lanternRef = useRef(null);
+  const lanternContainerRef = useRef(null);
+  const lanternImgRef = useRef(null);
 
   useGSAP(() => {
     if (!hasLoadedOnce) {
@@ -41,19 +42,21 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
   });
 
   const handleLanternClick = () => {
-    if (!lanternRef.current) return;
+    if (!lanternContainerRef.current) return;
     
     // Stop the CSS float animation so GSAP can take over smoothly
-    lanternRef.current.classList.remove("animate-floatHover");
+    if (lanternImgRef.current) {
+      lanternImgRef.current.classList.remove("animate-floatHover");
+    }
     
-    // Calculate precise absolute center of viewport offset
-    const rect = lanternRef.current.getBoundingClientRect();
+    // Calculate absolute center for the ENTIRE container (image + particles)
+    const rect = lanternContainerRef.current.getBoundingClientRect();
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
-    const imgCenterX = rect.left + rect.width / 2;
-    const imgCenterY = rect.top + rect.height / 2;
-    const deltaX = centerX - imgCenterX;
-    const deltaY = centerY - imgCenterY;
+    const containerCenterX = rect.left + rect.width / 2;
+    const containerCenterY = rect.top + rect.height / 2;
+    const deltaX = centerX - containerCenterX;
+    const deltaY = centerY - containerCenterY;
     
     const tl = gsap.timeline({
       onComplete: () => {
@@ -61,40 +64,39 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
       }
     });
 
-    // Make lantern render above absolutely everything
-    gsap.set(lanternRef.current, { zIndex: 99999, position: "relative" });
+    // Make container render above absolutely everything
+    gsap.set(lanternContainerRef.current, { zIndex: 99999, position: "relative" });
 
-    // Phase 1: Pull to absolute center while charging up
-    tl.to(lanternRef.current, {
+    // Phase 1: Bring image WITH particles to the exact center of screen
+    tl.to(lanternContainerRef.current, {
       x: deltaX,
       y: deltaY,
-      scale: 1.2,
-      filter: "brightness(1.5) drop-shadow(0 0 30px rgba(255,255,255,0.8))",
-      duration: 0.8,
-      ease: "power2.out"
+      duration: 1, // Smooth smooth travel
+      ease: "power3.inOut"
     });
 
-    // Phase 2: Suck inwards slightly for anticipation
-    tl.to(lanternRef.current, {
-      scale: 0.8,
-      duration: 0.3,
-      ease: "back.in(1.5)"
-    });
+    // Phase 2: A little delay (we add a subtle glow/charge up during the delay)
+    tl.to(lanternContainerRef.current, {
+      scale: 1.15,
+      filter: "brightness(1.5)",
+      duration: 0.4,
+      ease: "power1.inOut"
+    }, "+=0.3"); // 0.3s delay before it charges up
 
-    // Phase 3: Burst & Zoom past camera
-    tl.to(lanternRef.current, {
+    // Phase 3: Zoom past camera
+    tl.to(lanternContainerRef.current, {
       scale: 40, // Massive zoom
       opacity: 0,
       duration: 0.8,
       ease: "power4.in"
     });
 
-    // Crossfade the entire home container to black simultaneously
+    // Crossfade the entire home container to black simultaneously with the zoom
     tl.to(".home-container", {
       opacity: 0,
       duration: 0.8,
       ease: "power2.inOut"
-    }, "<"); // Sync with the zoom burst
+    }, "<"); 
   };
 
   return (
@@ -156,14 +158,14 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
 
         {/* RIGHT: Visual */}
         <figure className="lg:w-1/2 w-full flex justify-center items-center relative pb-20 lg:pb-0 z-50">
-          <div className="relative w-full flex justify-center items-center group cursor-pointer" onClick={handleLanternClick}>
+          <div ref={lanternContainerRef} className="relative w-full flex justify-center items-center group cursor-pointer" onClick={handleLanternClick}>
             <HeroImageParticles />
             
             {/* Added a subtle glow behind the lantern to indicate it is clickable */}
             <div className="absolute inset-0 bg-white/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
             
             <img 
-              ref={lanternRef}
+              ref={lanternImgRef}
               src="/images/hero-lantern.png" 
               alt="Enter Gallery" 
               title="Click to enter the screenshot gallery"
