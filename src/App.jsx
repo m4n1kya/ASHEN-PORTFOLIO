@@ -39,7 +39,7 @@ const App = () => {
       
       {view === 'home' && (
         <div className="home-container relative bg-transparent">
-          <Loader />
+          <Loader hasLoadedOnce={hasLoadedOnce} />
           <Navbar />
           <Hero onNavigateToGallery={() => setView('gallery')} hasLoadedOnce={hasLoadedOnce} />
           <FeatureCards />

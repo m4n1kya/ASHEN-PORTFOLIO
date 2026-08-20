@@ -67,34 +67,27 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
     // Make container render above absolutely everything
     gsap.set(lanternContainerRef.current, { zIndex: 99999, position: "relative" });
 
-    // Phase 1: Bring image WITH particles to the exact center of screen
-    tl.to(lanternContainerRef.current, {
+    // Blink (teleport) to the exact center of screen instantly
+    tl.set(lanternContainerRef.current, {
       x: deltaX,
       y: deltaY,
-      duration: 1, // Smooth smooth travel
-      ease: "power3.inOut"
     });
 
-    // Phase 2: A little delay (we add a subtle glow/charge up during the delay)
-    tl.to(lanternContainerRef.current, {
-      scale: 1.15,
-      filter: "brightness(1.5)",
-      duration: 0.4,
-      ease: "power1.inOut"
-    }, "+=0.3"); // 0.3s delay before it charges up
+    // Tiny invisible pause so the eye registers it blinking to center before moving
+    tl.to({}, { duration: 0.2 });
 
-    // Phase 3: Zoom past camera
+    // Zoom past camera slow and smooth
     tl.to(lanternContainerRef.current, {
       scale: 40, // Massive zoom
       opacity: 0,
-      duration: 0.8,
-      ease: "power4.in"
+      duration: 1.8, // Slow and smooth
+      ease: "power2.inOut"
     });
 
-    // Crossfade the entire home container to black simultaneously with the zoom
+    // Crossfade the entire home container to black simultaneously
     tl.to(".home-container", {
       opacity: 0,
-      duration: 0.8,
+      duration: 1.8,
       ease: "power2.inOut"
     }, "<"); 
   };

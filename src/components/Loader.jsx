@@ -90,9 +90,11 @@ const fragmentShaderSource = `
   }
 `;
 
-const Loader = () => {
+const Loader = ({ hasLoadedOnce }) => {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
+
+  if (hasLoadedOnce) return null;
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
