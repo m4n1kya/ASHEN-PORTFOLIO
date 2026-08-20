@@ -19,6 +19,7 @@ body {
   color: white;
   scroll-behavior: smooth;
   font-family: "Mona Sans", sans-serif;
+  font-size: 14px; /* Globally scale down all rem-based Tailwind sizes */
   cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 3 L18 8 L9 12 Z' fill='white' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 4 3, auto;
 }
 
