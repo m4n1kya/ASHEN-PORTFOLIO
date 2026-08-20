@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
@@ -11,6 +11,7 @@ import HeroImageParticles from "../components/HeroImageParticles";
 const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
   const lanternContainerRef = useRef(null);
   const lanternImgRef = useRef(null);
+  const [isLanternHovered, setIsLanternHovered] = useState(false);
 
   useGSAP(() => {
     if (!hasLoadedOnce) {
@@ -207,8 +208,17 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
 
         {/* RIGHT: Visual */}
         <figure className="lg:w-1/2 w-full flex justify-center items-center relative pb-20 lg:pb-0 z-50">
-          <div ref={lanternContainerRef} className="relative w-full flex justify-center items-center group cursor-pointer" onClick={handleLanternClick}>
-            <HeroImageParticles />
+          <div 
+            ref={lanternContainerRef} 
+            className="relative w-full flex justify-center items-center group cursor-pointer" 
+            onClick={handleLanternClick}
+            onMouseEnter={() => setIsLanternHovered(true)}
+            onMouseLeave={() => setIsLanternHovered(false)}
+            onTouchStart={() => setIsLanternHovered(true)}
+            onTouchEnd={() => setIsLanternHovered(false)}
+            onTouchCancel={() => setIsLanternHovered(false)}
+          >
+            <HeroImageParticles isHovered={isLanternHovered} />
             
             {/* Added a subtle glow behind the lantern to indicate it is clickable */}
             <div className="absolute inset-0 bg-white/5 rounded-full blur-3xl opacity-0 group-hover:opacity-25 transition-opacity duration-500 pointer-events-none" />
