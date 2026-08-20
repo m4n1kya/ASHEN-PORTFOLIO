@@ -83,63 +83,59 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
 
     // Create a temporary fixed wrapper for the massive particle swipe
     const particleWrapper = document.createElement('div');
-    particleWrapper.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999999;contain:strict;';
+    particleWrapper.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999999;contain:layout size;';
     document.body.appendChild(particleWrapper);
 
-    // Pre-compute all particle data to avoid layout thrashing in the loop
     const colors = ['#ffffff', '#e0e0e0', '#a0a0a0', '#737373'];
     const W = window.innerWidth;
     const H = window.innerHeight;
-    const count = 200;
+    const count = 150;
     let longestAnimation = 0;
 
-    // Use a DocumentFragment so all 200 particles are appended in ONE DOM operation
     const fragment = document.createDocumentFragment();
     const particleData = [];
 
     for (let i = 0; i < count; i++) {
-      const size = Math.random() * 5 + 1.5;
+      const size = Math.random() * 4 + 1.5;
       const color = colors[Math.floor(Math.random() * colors.length)];
       const startX = Math.random() * W;
       const startY = H + Math.random() * 300;
-      const delay = Math.random() * 0.8;
-      const duration = Math.random() * 1.5 + 1.2;
-      const endY = -200 - Math.random() * 500;
-      const endX = startX + (Math.random() - 0.5) * 200;
-      const opacity = Math.random() * 0.5 + 0.3;
-      const scale = Math.random() * 1.2 + 0.8;
+      const delay = Math.random() * 0.6;
+      const duration = Math.random() * 1.2 + 1.0;
+      const endY = -200 - Math.random() * 400;
+      const endX = startX + (Math.random() - 0.5) * 150;
+      const targetOpacity = Math.random() * 0.6 + 0.3;
+      const glowSize = size * 3;
 
       const p = document.createElement('div');
-      // Set all styles at once via cssText — far faster than individual assignments
-      p.style.cssText = `position:absolute;width:${size}px;height:${size}px;border-radius:50%;background-color:${color};box-shadow:0 0 ${size * 3}px ${size}px ${color};will-change:transform,opacity;transform:translate(${startX}px,${startY}px) scale(0.5);opacity:0;`;
+      // Radial gradient glow instead of box-shadow — zero blur compositing cost
+      p.style.cssText = `position:absolute;width:${glowSize}px;height:${glowSize}px;border-radius:50%;background:radial-gradient(circle,${color} 30%,transparent 70%);will-change:transform,opacity;backface-visibility:hidden;transform:translate3d(${startX}px,${startY}px,0) scale(0.5);opacity:0;`;
 
       if (delay + duration > longestAnimation) longestAnimation = delay + duration;
 
       fragment.appendChild(p);
-      particleData.push({ p, startX, startY, endX, endY, opacity, scale, delay, duration });
+      particleData.push({ p, startX, startY, endX, endY, targetOpacity, delay, duration });
     }
 
-    // Single DOM append — one reflow/repaint for all 200 particles
     particleWrapper.appendChild(fragment);
 
-    // Kick off all GSAP animations after the single DOM append
-    particleData.forEach(({ p, startX, startY, endX, endY, opacity, scale, delay, duration }) => {
+    // Animate all particles — no per-particle onComplete (avoids 150 individual DOM removals)
+    particleData.forEach(({ p, startX, startY, endX, endY, targetOpacity, delay, duration }) => {
       gsap.fromTo(p,
         { x: startX, y: startY, opacity: 0, scale: 0.5 },
         {
-          x: endX, y: endY, opacity, scale,
+          x: endX, y: endY, opacity: targetOpacity, scale: 1,
           duration, delay,
           ease: 'power2.out',
-          force3D: true, // Force GPU layer
-          onComplete: () => p.remove()
+          force3D: true,
         }
       );
     });
 
-    // Cleanup wrapper
+    // Single bulk cleanup — one DOM operation instead of 150
     setTimeout(() => {
       if (document.body.contains(particleWrapper)) particleWrapper.remove();
-    }, longestAnimation * 1000 + 500);
+    }, (longestAnimation + 0.3) * 1000);
   };
 
   return (
