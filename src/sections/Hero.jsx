@@ -220,6 +220,10 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
               title="Click to enter the screenshot gallery"
               className="h-[300px] md:h-[450px] lg:h-[550px] object-contain animate-floatHover relative z-10 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all duration-300"
             />
+
+            <span className="absolute bottom-[-10px] md:bottom-[-20px] left-1/2 -translate-x-1/2 text-white/90 font-semibold tracking-[0.4em] text-xs md:text-sm uppercase opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] translate-y-2 group-hover:translate-y-0 z-20 whitespace-nowrap">
+              Enter Void
+            </span>
           </div>
         </figure>
       </div>
