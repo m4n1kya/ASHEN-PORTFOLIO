@@ -83,13 +83,13 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
     particleWrapper.style.zIndex = '999999';
     document.body.appendChild(particleWrapper);
 
-    // Spawn 150 glowing particles matching the lantern's aesthetic
+    // Spawn 350 glowing particles matching the lantern's aesthetic
     const colors = ['#ffffff', '#e0e0e0', '#a0a0a0', '#737373']; 
     let longestAnimation = 0;
 
-    for (let i = 0; i < 200; i++) {
+    for (let i = 0; i < 350; i++) {
       const p = document.createElement('div');
-      const size = Math.random() * 4 + 2;
+      const size = Math.random() * 8 + 1; // Huge variance (some tiny, some massive)
       const color = colors[Math.floor(Math.random() * colors.length)];
       
       p.style.position = 'absolute';
@@ -97,20 +97,21 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
       p.style.height = `${size}px`;
       p.style.backgroundColor = color;
       p.style.borderRadius = '50%';
-      p.style.boxShadow = `0 0 ${size * 3}px ${size}px ${color}`;
+      // Intense magical shine
+      p.style.boxShadow = `0 0 ${size * 4}px ${size * 1.5}px ${color}, 0 0 ${size * 8}px ${size * 3}px rgba(255,255,255,0.4)`;
       
       // Spawn below the screen
       const startX = Math.random() * window.innerWidth;
       const startY = window.innerHeight + Math.random() * 300; 
       
-      gsap.set(p, { x: startX, y: startY, opacity: 0 });
+      gsap.set(p, { x: startX, y: startY, opacity: 0, scale: 0.5 });
       particleWrapper.appendChild(p);
       
       // Animate aggressively towards the top
       const delay = Math.random() * 0.8; 
       const duration = Math.random() * 1.5 + 1.2; 
       const endY = -200 - Math.random() * 500; // Fly well past the top of the screen
-      const endX = startX + (Math.random() - 0.5) * 200; // Slight horizontal drift
+      const endX = startX + (Math.random() - 0.5) * 250; // Horizontal drift
       
       if (delay + duration > longestAnimation) {
         longestAnimation = delay + duration;
@@ -119,7 +120,8 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
       gsap.to(p, {
         y: endY,
         x: endX,
-        opacity: Math.random() * 0.5 + 0.5,
+        opacity: Math.random() * 0.6 + 0.4,
+        scale: Math.random() * 1.5 + 0.5, // Twinkle/stretch effect
         duration: duration,
         delay: delay,
         ease: "power3.in", // Accelerate massively upwards
