@@ -43,13 +43,16 @@ const App = () => {
           ease: "power2.inOut",
           onComplete: () => overlay.remove()
         });
-      }
 
-      gsap.fromTo(
-        ".home-container",
-        { opacity: 0 },
-        { opacity: 1, duration: 1.5, ease: "power2.inOut" }
-      );
+        gsap.fromTo(
+          ".home-container",
+          { opacity: 0 },
+          { opacity: 1, duration: 1.5, ease: "power2.inOut" }
+        );
+      } else {
+        // Initial load: Do not fade from 0, keep it solid so the Loader doesn't glitch
+        gsap.set(".home-container", { opacity: 1 });
+      }
     }
   }, [view]);
 

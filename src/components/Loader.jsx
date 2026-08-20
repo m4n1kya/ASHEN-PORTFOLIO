@@ -94,7 +94,11 @@ const Loader = ({ hasLoadedOnce }) => {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
 
-  if (hasLoadedOnce) return null;
+  if (hasLoadedOnce) {
+    const blocker = document.getElementById('pre-loader-blocker');
+    if (blocker) blocker.remove();
+    return null;
+  }
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
