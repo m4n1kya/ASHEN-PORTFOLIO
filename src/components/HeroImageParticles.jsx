@@ -7,18 +7,16 @@ const HeroImageParticles = ({ isHovered }) => {
     // Helper to generate a center-weighted random number (0 to 1)
     const randomGaussian = () => (Math.random() + Math.random() + Math.random()) / 3;
 
-    // Generate 250 particles (50 ambient, 200 intense hover particles)
-    const newParticles = Array.from({ length: 250 }).map((_, i) => {
+    // Generate exactly 150 hover-only particles
+    const newParticles = Array.from({ length: 150 }).map((_, i) => {
       const colors = ['#ffffff', '#e0e0e0', '#a0a0a0', '#737373']; 
       const color = colors[Math.floor(Math.random() * colors.length)];
-      const isAmbient = i < 50;
       
       return {
         id: i,
-        isAmbient: isAmbient,
         left: randomGaussian() * 100, 
         top: randomGaussian() * 100, 
-        size: Math.random() * (isAmbient ? 3 : 5) + (isAmbient ? 1 : 2), // Hover particles slightly bigger
+        size: Math.random() * 4 + 1.5, 
         delay: Math.random() * 5, 
         duration: Math.random() * 4 + 2,
         color: color,
@@ -28,9 +26,6 @@ const HeroImageParticles = ({ isHovered }) => {
     });
     setParticles(newParticles);
   }, []);
-
-  const ambientParticles = particles.filter(p => p.isAmbient);
-  const hoverParticles = particles.filter(p => !p.isAmbient);
 
   const renderParticle = (p) => (
     <div
@@ -53,14 +48,9 @@ const HeroImageParticles = ({ isHovered }) => {
 
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] pointer-events-none z-20">
-      {/* Always visible ambient particles */}
-      <div className="w-full h-full absolute inset-0">
-        {ambientParticles.map(renderParticle)}
-      </div>
-
-      {/* Intense hover swarm that fades in smoothly */}
-      <div className={`w-full h-full absolute inset-0 transition-opacity duration-700 ease-in-out ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-        {hoverParticles.map(renderParticle)}
+      {/* Intense hover swarm that fades in smoothly, entirely empty by default */}
+      <div className={`w-full h-full absolute inset-0 transition-opacity duration-1000 ease-in-out ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+        {particles.map(renderParticle)}
       </div>
     </div>
   );
