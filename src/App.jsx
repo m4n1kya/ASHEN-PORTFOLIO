@@ -34,23 +34,30 @@ const App = () => {
       sessionStorage.setItem('ashen_has_loaded', 'true');
     }
     if (view === 'home') {
-      // Ensure home content is fully visible underneath
-      gsap.set('.home-container', { opacity: 1 });
-
       const overlay = document.getElementById('transition-overlay');
       if (overlay) {
-        // Double rAF: wait for React to finish its full paint cycle
-        // before fading the overlay. Eliminates the visible stutter on reveal.
+        // Start home content invisible
+        gsap.set('.home-container', { opacity: 0 });
+
+        // Double rAF: wait for React to finish its full paint cycle first
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
+            // Fade overlay out and home content in simultaneously — smooth crossfade
             gsap.to(overlay, {
               opacity: 0,
-              duration: 1.2,
+              duration: 1.4,
               ease: 'power2.out',
               onComplete: () => overlay.remove()
             });
+            gsap.to('.home-container', {
+              opacity: 1,
+              duration: 1.4,
+              ease: 'power2.out',
+            });
           });
         });
+      } else {
+        gsap.set('.home-container', { opacity: 1 });
       }
     }
   }, [view]);
