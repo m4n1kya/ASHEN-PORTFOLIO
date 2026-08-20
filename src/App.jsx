@@ -34,10 +34,21 @@ const App = () => {
       sessionStorage.setItem('ashen_has_loaded', 'true');
     }
     if (view === 'home') {
+      // Slowly make the background visible again by fading out the black overlay
+      const overlay = document.getElementById('transition-overlay');
+      if (overlay) {
+        gsap.to(overlay, {
+          opacity: 0,
+          duration: 1.5,
+          ease: "power2.inOut",
+          onComplete: () => overlay.remove()
+        });
+      }
+
       gsap.fromTo(
         ".home-container",
         { opacity: 0 },
-        { opacity: 1, duration: 1, ease: "power2.out" }
+        { opacity: 1, duration: 1.5, ease: "power2.inOut" }
       );
     }
   }, [view]);
