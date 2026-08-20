@@ -200,7 +200,7 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
             <HeroImageParticles />
             
             {/* Added a subtle glow behind the lantern to indicate it is clickable */}
-            <div className="absolute inset-0 bg-white/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            <div className="absolute inset-0 bg-white/5 rounded-full blur-3xl opacity-0 group-hover:opacity-40 transition-opacity duration-500 pointer-events-none" />
             
             <img 
               ref={lanternImgRef}
