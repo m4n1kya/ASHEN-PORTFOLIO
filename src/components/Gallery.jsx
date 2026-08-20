@@ -100,19 +100,14 @@ const Gallery = ({ onBack }) => {
       if (document.body.contains(particleWrapper)) particleWrapper.remove();
     }, (longestAnimation + 0.3) * 1000);
 
-    let navigated = false;
-
     gsap.to(overlay, {
       opacity: 1,
-      duration: 1.2,
-      ease: "power2.inOut",
-      onUpdate: function () {
-        // Navigate at 70% through the fade so the home page mounts and
-        // immediately starts fading the overlay OUT — zero black-frame gap.
-        if (!navigated && this.progress() >= 0.7) {
-          navigated = true;
-          onBack();
-        }
+      duration: 1.0,
+      ease: "power2.in",
+      onComplete: () => {
+        // Navigate only after screen is fully black — heavy React mount
+        // happens invisibly, then App.jsx fades the overlay out smoothly.
+        onBack();
       }
     });
   };
