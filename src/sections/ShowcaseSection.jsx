@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import GlowCard from "../components/GlowCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -50,7 +51,7 @@ const AppShowcase = () => {
         {/* ASHENRITUAL Full Width Featured (Top) */}
         <div ref={featuredRef} className="flex flex-col xl:flex-row gap-10 group transition-all duration-500">
           <div className="xl:w-[55%] w-full rounded-xl overflow-hidden relative flex items-center justify-center">
-             <img src="/images/ashenritual.png" alt="ASHENRITUAL" className="group-hover:scale-105 transition-transform duration-700 object-cover w-full h-full rounded-xl" />
+             <img src="/images/ashenritual.png" alt="ASHENRITUAL" className="object-cover w-full h-full rounded-xl" />
           </div>
           <div className="xl:w-[45%] w-full flex flex-col justify-center">
             <h2 className="text-white text-3xl md:text-5xl font-bold leading-tight">
@@ -81,12 +82,12 @@ const AppShowcase = () => {
 
         {/* Secondary Projects Grid */}
         <div className="mt-10 xl:mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            <div className="project flex flex-col gap-3" ref={project1Ref}>
-              <div className="image-wrapper bg-[#2d2d38] group overflow-hidden rounded-xl">
+            <GlowCard ref={project1Ref} className="project flex flex-col gap-3 p-5 bg-black-100 card-border rounded-xl">
+              <div className="image-wrapper bg-[#2d2d38] overflow-hidden rounded-xl">
                 <img
                   src="/images/uniease.png"
                   alt="UNI-EASE"
-                  className="group-hover:scale-105 transition-transform duration-500 object-contain w-full h-auto block"
+                  className="object-contain w-full h-auto block"
                 />
               </div>
               <div className="flex justify-between items-center mt-2">
@@ -96,11 +97,11 @@ const AppShowcase = () => {
                 </div>
               </div>
               <p className="text-sm text-white-50">Campus Resource Optimization Ecosystem with AI/NLP interface, MERN stack, and AWS/Firebase architecture.</p>
-            </div>
+            </GlowCard>
 
-            <div className="project flex flex-col gap-3" ref={project2Ref}>
-              <div className="image-wrapper bg-[#1c1c21] group overflow-hidden rounded-xl">
-                <img src="/images/ecoloop.png" alt="ECO-LOOP" className="group-hover:scale-105 transition-transform duration-500 object-contain w-full h-auto block" />
+            <GlowCard ref={project2Ref} className="project flex flex-col gap-3 p-5 bg-black-100 card-border rounded-xl">
+              <div className="image-wrapper bg-[#1c1c21] overflow-hidden rounded-xl">
+                <img src="/images/ecoloop.png" alt="ECO-LOOP" className="object-contain w-full h-auto block" />
               </div>
               <div className="flex justify-between items-center mt-2">
                 <h2 className="text-xl font-bold m-0">ECO-LOOP</h2>
@@ -109,11 +110,11 @@ const AppShowcase = () => {
                 </div>
               </div>
               <p className="text-sm text-white-50">A sustainable platform designed for environmental tracking and resource optimization.</p>
-            </div>
+            </GlowCard>
 
-            <div className="project flex flex-col gap-3" ref={project3Ref}>
-              <div className="image-wrapper bg-[#1a1a24] group overflow-hidden rounded-xl">
-                <img src="/images/ashen-vector.png" alt="ASHEN-VECTOR" className="group-hover:scale-105 transition-transform duration-500 object-cover w-full h-full block min-h-[200px]" />
+            <GlowCard ref={project3Ref} className="project flex flex-col gap-3 p-5 bg-black-100 card-border rounded-xl">
+              <div className="image-wrapper bg-[#1a1a24] overflow-hidden rounded-xl">
+                <img src="/images/ashen-vector.png" alt="ASHEN-VECTOR" className="object-cover w-full h-full block min-h-[200px]" />
               </div>
               <div className="flex justify-between items-center mt-2">
                 <h2 className="text-xl font-bold m-0">ASHEN-VECTOR</h2>
@@ -122,7 +123,7 @@ const AppShowcase = () => {
                 </div>
               </div>
               <p className="text-sm text-white-50">An advanced AI-powered vector search interface and autonomous agent integration ecosystem.</p>
-            </div>
+            </GlowCard>
         </div>
       </div>
     </div>

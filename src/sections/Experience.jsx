@@ -104,7 +104,7 @@ const Experience = () => {
             {expCards.map((card) => (
               <div key={card.title} className="exp-card-wrapper">
                 <div className="xl:w-2/6">
-                  <GlowCard card={card}>
+                  <GlowCard className="card-border timeline-card rounded-xl p-10 mb-5 break-inside-avoid-column">
                     <div className="p-8 flex flex-col gap-4">
                       <h3 className="text-white text-xl md:text-2xl font-bold tracking-wider uppercase">{card.leftTitle}</h3>
                       <ul className="flex flex-col gap-3 mt-4">
