@@ -82,14 +82,14 @@ const AppShowcase = () => {
 
         {/* Secondary Projects Grid */}
         <div className="mt-10 xl:mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            <GlowCard ref={project1Ref} className="project flex flex-col gap-3 p-5 bg-black-100 card-border rounded-xl">
-              <div className="image-wrapper bg-[#2d2d38] overflow-hidden rounded-xl">
+            <div className="project flex flex-col gap-3" ref={project1Ref}>
+              <GlowCard className="image-wrapper bg-[#2d2d38] card-border rounded-xl relative flex items-center justify-center p-1">
                 <img
                   src="/images/uniease.png"
                   alt="UNI-EASE"
-                  className="object-contain w-full h-auto block"
+                  className="object-contain w-full h-auto block rounded-lg"
                 />
-              </div>
+              </GlowCard>
               <div className="flex justify-between items-center mt-2">
                 <h2 className="text-xl font-bold m-0">UNI-EASE</h2>
                 <div className="flex gap-4">
@@ -97,12 +97,12 @@ const AppShowcase = () => {
                 </div>
               </div>
               <p className="text-sm text-white-50">Campus Resource Optimization Ecosystem with AI/NLP interface, MERN stack, and AWS/Firebase architecture.</p>
-            </GlowCard>
+            </div>
 
-            <GlowCard ref={project2Ref} className="project flex flex-col gap-3 p-5 bg-black-100 card-border rounded-xl">
-              <div className="image-wrapper bg-[#1c1c21] overflow-hidden rounded-xl">
-                <img src="/images/ecoloop.png" alt="ECO-LOOP" className="object-contain w-full h-auto block" />
-              </div>
+            <div className="project flex flex-col gap-3" ref={project2Ref}>
+              <GlowCard className="image-wrapper bg-[#1c1c21] card-border rounded-xl relative flex items-center justify-center p-1">
+                <img src="/images/ecoloop.png" alt="ECO-LOOP" className="object-contain w-full h-auto block rounded-lg" />
+              </GlowCard>
               <div className="flex justify-between items-center mt-2">
                 <h2 className="text-xl font-bold m-0">ECO-LOOP</h2>
                 <div className="flex gap-4">
@@ -110,12 +110,12 @@ const AppShowcase = () => {
                 </div>
               </div>
               <p className="text-sm text-white-50">A sustainable platform designed for environmental tracking and resource optimization.</p>
-            </GlowCard>
+            </div>
 
-            <GlowCard ref={project3Ref} className="project flex flex-col gap-3 p-5 bg-black-100 card-border rounded-xl">
-              <div className="image-wrapper bg-[#1a1a24] overflow-hidden rounded-xl">
-                <img src="/images/ashen-vector.png" alt="ASHEN-VECTOR" className="object-cover w-full h-full block min-h-[200px]" />
-              </div>
+            <div className="project flex flex-col gap-3" ref={project3Ref}>
+              <GlowCard className="image-wrapper bg-[#1a1a24] card-border rounded-xl relative flex items-center justify-center p-1">
+                <img src="/images/ashen-vector.png" alt="ASHEN-VECTOR" className="object-cover w-full h-full block min-h-[200px] rounded-lg" />
+              </GlowCard>
               <div className="flex justify-between items-center mt-2">
                 <h2 className="text-xl font-bold m-0">ASHEN-VECTOR</h2>
                 <div className="flex gap-4">
@@ -123,7 +123,7 @@ const AppShowcase = () => {
                 </div>
               </div>
               <p className="text-sm text-white-50">An advanced AI-powered vector search interface and autonomous agent integration ecosystem.</p>
-            </GlowCard>
+            </div>
         </div>
       </div>
     </div>
