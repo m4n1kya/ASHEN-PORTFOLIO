@@ -48,7 +48,7 @@ const AppShowcase = () => {
     <div id="projects" ref={sectionRef} className="app-showcase">
       <div className="w-full">
         {/* ASHENRITUAL Full Width Featured (Top) */}
-        <div ref={featuredRef} className="flex flex-col xl:flex-row gap-10 bg-[#1a1a24]/80 p-5 md:p-10 rounded-2xl border border-white-50/10 group overflow-hidden hover:border-white-50/30 transition-all duration-500">
+        <div ref={featuredRef} className="flex flex-col xl:flex-row gap-10 group transition-all duration-500">
           <div className="xl:w-[55%] w-full rounded-xl overflow-hidden relative flex items-center justify-center">
              <img src="/images/ashenritual.png" alt="ASHENRITUAL" className="group-hover:scale-105 transition-transform duration-700 object-cover w-full h-full rounded-xl" />
           </div>
