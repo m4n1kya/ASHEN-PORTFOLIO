@@ -10,6 +10,7 @@ const AppShowcase = () => {
   const featuredRef = useRef(null);
   const project1Ref = useRef(null);
   const project2Ref = useRef(null);
+  const project3Ref = useRef(null);
 
   useGSAP(() => {
     // Animation for the main section
@@ -20,7 +21,7 @@ const AppShowcase = () => {
     );
 
     // Animations for each app showcase
-    const cards = [featuredRef.current, project1Ref.current, project2Ref.current];
+    const cards = [featuredRef.current, project1Ref.current, project2Ref.current, project3Ref.current];
 
     cards.forEach((card, index) => {
       gsap.fromTo(
@@ -107,6 +108,19 @@ const AppShowcase = () => {
                 </div>
               </div>
               <p className="text-sm text-white-50">A sustainable platform designed for environmental tracking and resource optimization.</p>
+            </div>
+
+            <div className="project flex flex-col gap-3" ref={project3Ref}>
+              <div className="image-wrapper bg-[#1a1a24] group overflow-hidden">
+                <img src="/images/ashen-vector.png" alt="ASHEN-VECTOR" className="group-hover:scale-105 transition-transform duration-500 object-contain w-full" />
+              </div>
+              <div className="flex justify-between items-center mt-2">
+                <h2 className="text-xl font-bold m-0">ASHEN-VECTOR</h2>
+                <div className="flex gap-4">
+                  <a href="#" className="text-sm font-semibold text-blue-50 hover:text-white underline">GitHub</a>
+                </div>
+              </div>
+              <p className="text-sm text-white-50">An advanced AI-powered vector search interface and autonomous agent integration ecosystem.</p>
             </div>
           </div>
         </div>
