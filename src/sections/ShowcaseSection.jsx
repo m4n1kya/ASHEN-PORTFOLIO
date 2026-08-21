@@ -109,19 +109,34 @@ const AppShowcase = () => {
               </div>
               <p className="text-sm text-white-50">A sustainable platform designed for environmental tracking and resource optimization.</p>
             </div>
+          </div>
+        </div>
 
-            <div className="project flex flex-col gap-3" ref={project3Ref}>
-              <div className="image-wrapper bg-[#1a1a24] group overflow-hidden">
-                <img src="/images/ashen-vector.png" alt="ASHEN-VECTOR" className="group-hover:scale-105 transition-transform duration-500 object-contain w-full" />
-              </div>
-              <div className="flex justify-between items-center mt-2">
-                <h2 className="text-xl font-bold m-0">ASHEN-VECTOR</h2>
-                <div className="flex gap-4">
-                  <a href="#" className="text-sm font-semibold text-blue-50 hover:text-white underline">GitHub</a>
-                </div>
-              </div>
-              <p className="text-sm text-white-50">An advanced AI-powered vector search interface and autonomous agent integration ecosystem.</p>
+        {/* ASHEN-VECTOR Full Width Featured */}
+        <div ref={project3Ref} className="mt-10 xl:mt-20 flex flex-col xl:flex-row gap-10 bg-[#1a1a24]/80 p-5 md:p-10 rounded-2xl border border-white-50/10 group overflow-hidden hover:border-white-50/30 transition-all duration-500">
+          <div className="xl:w-[45%] w-full order-2 xl:order-1 flex flex-col justify-center">
+            <h2 className="text-white text-3xl md:text-4xl font-bold leading-tight">
+              ASHEN-VECTOR
+            </h2>
+            <p className="text-blue-50 font-semibold md:text-lg mt-2">Autonomous AI & Vector Search Ecosystem</p>
+            <p className="text-white-50 md:text-lg mt-4 max-w-xl leading-relaxed">
+              An advanced AI-powered vector search interface integrated with autonomous agents. Engineered to handle complex multi-step reasoning, semantic document retrieval, and contextual data analysis.
+            </p>
+            
+            <div className="flex flex-wrap gap-2 mt-6">
+              <span className="px-3 py-1 bg-black text-sm rounded-full text-white-50 border border-white-50/10">Vector DB</span>
+              <span className="px-3 py-1 bg-black text-sm rounded-full text-white-50 border border-white-50/10">AI Agents</span>
+              <span className="px-3 py-1 bg-black text-sm rounded-full text-white-50 border border-white-50/10">Semantic Search</span>
             </div>
+
+            <div className="flex gap-4 mt-8">
+              <a href="#" className="px-6 py-3 rounded-lg border border-white-50 text-white hover:bg-white-50 hover:text-black transition-colors font-semibold">
+                GitHub
+              </a>
+            </div>
+          </div>
+          <div className="xl:w-[55%] w-full order-1 xl:order-2 rounded-xl overflow-hidden relative flex items-center justify-center">
+             <img src="/images/ashen-vector.png" alt="ASHEN-VECTOR" className="group-hover:scale-105 transition-transform duration-700 object-cover w-full h-full rounded-xl" />
           </div>
         </div>
       </div>
