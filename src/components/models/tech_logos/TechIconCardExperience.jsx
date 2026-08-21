@@ -15,6 +15,7 @@ const TechIconCardExperience = ({ model }) => {
           }
         }
       });
+    }
   }, [scene]);
 
   return (
