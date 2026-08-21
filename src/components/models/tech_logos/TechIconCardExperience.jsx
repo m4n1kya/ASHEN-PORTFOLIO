@@ -17,30 +17,25 @@ const TechIconCardExperience = ({ model }) => {
       });
     }
 
-    // Color the Java model: blue cup, red flames
+    // Color the Java model: blue cup, red flames (by mesh name)
     if (model.name === "Java") {
       scene.scene.traverse((child) => {
-        if (child.isMesh && child.material) {
-          const color = child.material.color;
-          if (color) {
-            const hsl = {};
-            color.getHSL(hsl);
-            // Pinkish/reddish parts (flames/steam) → deep red
-            if (hsl.h > 0.9 || hsl.h < 0.1) {
-              child.material = new THREE.MeshStandardMaterial({
-                color: "#E32636",
-                metalness: 0.2,
-                roughness: 0.5,
-              });
-            }
-            // White/grey parts (cup, saucer, base) → Java blue
-            else if (hsl.s < 0.15 && hsl.l > 0.6) {
-              child.material = new THREE.MeshStandardMaterial({
-                color: "#5382A1",
-                metalness: 0.3,
-                roughness: 0.4,
-              });
-            }
+        if (child.isMesh) {
+          // Plane.001_0 is the flames/steam
+          if (child.name === "Plane.001_0" || child.name === "Plane001_0") {
+            child.material = new THREE.MeshStandardMaterial({
+              color: "#E32636",
+              metalness: 0.2,
+              roughness: 0.5,
+            });
+          }
+          // Everything else is the cup, saucer, base
+          else {
+            child.material = new THREE.MeshStandardMaterial({
+              color: "#5382A1",
+              metalness: 0.3,
+              roughness: 0.4,
+            });
           }
         }
       });
