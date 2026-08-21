@@ -75,12 +75,12 @@ const abilities = [
 ];
 
 const techStackImgs = [
-  { category: "Languages", skills: ["Java", "Python", "JavaScript", "TypeScript", "SQL", "Solidity"] },
-  { category: "Frontend", skills: ["React", "Next.js", "HTML", "CSS", "Tailwind CSS", "Shadcn/UI"] },
-  { category: "Backend", skills: ["Node.js", "Express", "REST APIs", "PostgreSQL", "MongoDB"] },
-  { category: "Engineering", skills: ["DSA", "OOP", "DBMS", "OS", "Computer Networks"] },
-  { category: "AI / ML", skills: ["Machine Learning", "NLP", "RAG", "LLM Integration"] },
-  { category: "Cloud / Tools", skills: ["AWS", "Git", "GitHub", "Docker"] },
+  { category: "Languages", skills: ["Java", "Python", "JavaScript", "TypeScript", "C++", "SQL"] },
+  { category: "Frontend", skills: ["React.js", "Next.js", "HTML5", "CSS3", "Tailwind CSS", "Redux", "Framer Motion", "Radix UI"] },
+  { category: "Backend & Databases", skills: ["Node.js", "Express.js", "NestJS", "REST APIs", "JWT", "PostgreSQL", "MySQL", "MongoDB", "Prisma"] },
+  { category: "CS Fundamentals", skills: ["Data Structures & Algorithms", "OOP", "DBMS", "Operating Systems", "Computer Networks"] },
+  { category: "AI / ML", skills: ["Google Gemini API", "Qwen2.5", "Ollama", "Vector Databases", "LangChain", "RAG", "Agentic AI"] },
+  { category: "Cloud & Tools", skills: ["AWS", "Docker", "Kubernetes", "CI/CD", "Git", "GitHub", "Postman", "Swagger/OpenAPI"] },
 ];
 
 const techStackIcons = [
