@@ -50,9 +50,9 @@ const AppShowcase = () => {
       <div className="w-full">
         {/* ASHENRITUAL Full Width Featured (Top) */}
         <div ref={featuredRef} className="flex flex-col xl:flex-row gap-10 group transition-all duration-500">
-          <div className="xl:w-[55%] w-full rounded-xl overflow-hidden relative flex items-center justify-center">
-             <img src="/images/ashenritual.png" alt="ASHENRITUAL" className="object-cover w-full h-full rounded-xl" />
-          </div>
+          <GlowCard className="xl:w-[55%] w-full rounded-xl relative flex items-center justify-center card-border bg-black-100 p-1">
+             <img src="/images/ashenritual.png" alt="ASHENRITUAL" className="object-cover w-full h-full rounded-lg" />
+          </GlowCard>
           <div className="xl:w-[45%] w-full flex flex-col justify-center">
             <h2 className="text-white text-3xl md:text-5xl font-bold leading-tight">
               ASHENRITUAL
