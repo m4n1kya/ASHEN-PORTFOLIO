@@ -103,9 +103,9 @@ const techStackIcons = [
     rotation: [0, -Math.PI / 2, 0],
   },
   {
-    name: "Three.js",
-    modelPath: "/models/three.js-transformed.glb",
-    scale: 0.05,
+    name: "Java",
+    modelPath: "/models/java-transformed.glb",
+    scale: 0.8,
     rotation: [0, 0, 0],
   },
   {
