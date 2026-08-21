@@ -15,21 +15,7 @@ const TechIconCardExperience = ({ model }) => {
           }
         }
       });
-    }
-    
-    // Color the Java model with classic Java logo colors
-    if (model.name === "Java") {
-      scene.scene.traverse((child) => {
-        if (child.isMesh) {
-          child.material = new THREE.MeshStandardMaterial({
-            color: "#5382A1",
-            metalness: 0.3,
-            roughness: 0.4,
-          });
-        }
-      });
-    }
-  }, [scene, model.name]);
+  }, [scene]);
 
   return (
     <Canvas>
