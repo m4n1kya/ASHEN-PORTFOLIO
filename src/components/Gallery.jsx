@@ -14,18 +14,15 @@ const Gallery = ({ onBack }) => {
       // Double rAF to ensure React finishes painting the Gallery before revealing it
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          // Fade overlay out and simultaneously reveal the gallery
+          // Ensure gallery is visible but hidden behind the opaque black overlay
+          gsap.set('.gallery-container', { opacity: 1 });
+
+          // Fade ONLY the overlay out.
           gsap.to(overlay, {
             opacity: 0,
             duration: 1.2,
             ease: 'power2.out',
             onComplete: () => overlay.remove()
-          });
-          // Fade container in in sync with overlay
-          gsap.to('.gallery-container', {
-            opacity: 1,
-            duration: 1.2,
-            ease: 'power2.out',
           });
           // Content slides up right as the overlay clears
           gsap.to('.gallery-content', {

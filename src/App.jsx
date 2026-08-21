@@ -36,23 +36,19 @@ const App = () => {
     if (view === 'home') {
       const overlay = document.getElementById('transition-overlay');
       if (overlay) {
-        // Start home content invisible
-        gsap.set('.home-container', { opacity: 0 });
+        // Ensure home content is visible, but hidden behind the opaque black overlay
+        gsap.set('.home-container', { opacity: 1 });
 
         // Double rAF: wait for React to finish its full paint cycle first
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
-            // Fade overlay out and home content in simultaneously — smooth crossfade
+            // Fade ONLY the overlay out. Fading a massive page container causes GPU lag.
+            // Fading a single black div is buttery smooth and creates the exact same visual reveal.
             gsap.to(overlay, {
               opacity: 0,
               duration: 1.4,
               ease: 'power2.out',
               onComplete: () => overlay.remove()
-            });
-            gsap.to('.home-container', {
-              opacity: 1,
-              duration: 1.4,
-              ease: 'power2.out',
             });
           });
         });
