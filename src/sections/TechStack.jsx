@@ -3,6 +3,7 @@ import gsap from "gsap";
 
 import TitleHeader from "../components/TitleHeader";
 import TechIconCardExperience from "../components/models/tech_logos/TechIconCardExperience";
+import GlowCard from "../components/GlowCard";
 import { techStackIcons, techStackImgs } from "../constants";
 
 const TechStack = () => {
@@ -56,7 +57,7 @@ const TechStack = () => {
         {/* 2D Tech Stack Categories */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
           {techStackImgs.map((categoryObj, index) => (
-            <div key={index} className="bg-black-200 border border-black-50 rounded-xl p-6">
+            <GlowCard key={index} className="bg-black-200 border border-black-50 rounded-xl p-6 relative">
               <h3 className="text-white text-xl font-bold mb-4 uppercase tracking-wider text-blue-50">
                 {categoryObj.category}
               </h3>
@@ -67,7 +68,7 @@ const TechStack = () => {
                   </span>
                 ))}
               </div>
-            </div>
+            </GlowCard>
           ))}
         </div>
       </div>
