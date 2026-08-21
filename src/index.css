@@ -526,3 +526,28 @@ section {
 .animate-scrollDown {
   animation: scrollDown 2s infinite;
 }
+
+/* Custom Dark Aesthetic Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1c1c21; /* Matches black-50 */
+  border-radius: 10px;
+  border: 2px solid #000000; /* Adds padding feel */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #282732; /* Matches black-200 */
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #1c1c21 #000000;
+}
