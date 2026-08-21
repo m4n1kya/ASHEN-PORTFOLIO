@@ -85,9 +85,11 @@ const Gallery = ({ onBack }) => {
 
     particleWrapper.appendChild(fragment);
 
-    // No per-particle onComplete — single bulk cleanup below
+    // Store all tweens so we can kill them before navigating
+    const particleTweens = [];
+
     particleData.forEach(({ p, startX, startY, endX, endY, targetOpacity, delay, duration }) => {
-      gsap.fromTo(p,
+      const tween = gsap.fromTo(p,
         { x: startX, y: startY, opacity: 0, scale: 0.5 },
         {
           x: endX, y: endY, opacity: targetOpacity, scale: 1,
@@ -96,9 +98,10 @@ const Gallery = ({ onBack }) => {
           force3D: true,
         }
       );
+      particleTweens.push(tween);
     });
 
-    setTimeout(() => {
+    const cleanupTimer = setTimeout(() => {
       if (document.body.contains(particleWrapper)) particleWrapper.remove();
     }, (longestAnimation + 0.3) * 1000);
 
@@ -107,7 +110,12 @@ const Gallery = ({ onBack }) => {
       duration: 1.0,
       ease: "power2.in",
       onComplete: () => {
-        // Navigate when fully black to hide heavy React mount
+        // CRITICAL: Kill ALL 150 particle tweens BEFORE mounting the home page.
+        // Without this, 150 GSAP tweens compete with 145 hero particles for GPU time.
+        clearTimeout(cleanupTimer);
+        particleTweens.forEach(t => t.kill());
+        particleWrapper.remove();
+
         onBack();
       }
     });

@@ -65,16 +65,6 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
     darkOverlay.style.cssText = 'position:fixed;inset:0;background-color:black;opacity:0;z-index:999999;pointer-events:none;';
     document.body.appendChild(darkOverlay);
 
-    // Fade to black, navigate only when fully opaque
-    gsap.to(darkOverlay, {
-      opacity: 1,
-      duration: 1.0,
-      ease: 'power2.in',
-      onComplete: () => {
-        if (onNavigateToGallery) onNavigateToGallery();
-      }
-    });
-
     // Create fixed wrapper for particles — BELOW overlay
     const particleWrapper = document.createElement('div');
     particleWrapper.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999997;contain:layout size;';
@@ -84,7 +74,6 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
     const W = window.innerWidth;
     const H = window.innerHeight;
     const count = 150;
-    let longestAnimation = 0;
 
     const fragment = document.createDocumentFragment();
     const particleData = [];
@@ -102,10 +91,7 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
       const glowSize = size * 3;
 
       const p = document.createElement('div');
-      // Radial gradient glow instead of box-shadow — zero blur compositing cost
       p.style.cssText = `position:absolute;width:${glowSize}px;height:${glowSize}px;border-radius:50%;background:radial-gradient(circle,${color} 30%,transparent 70%);will-change:transform,opacity;backface-visibility:hidden;transform:translate3d(${startX}px,${startY}px,0) scale(0.5);opacity:0;`;
-
-      if (delay + duration > longestAnimation) longestAnimation = delay + duration;
 
       fragment.appendChild(p);
       particleData.push({ p, startX, startY, endX, endY, targetOpacity, delay, duration });
@@ -113,9 +99,10 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
 
     particleWrapper.appendChild(fragment);
 
-    // Animate all particles — no per-particle onComplete (avoids 150 individual DOM removals)
+    // Store all tweens so we can kill them before navigating
+    const particleTweens = [];
     particleData.forEach(({ p, startX, startY, endX, endY, targetOpacity, delay, duration }) => {
-      gsap.fromTo(p,
+      const tween = gsap.fromTo(p,
         { x: startX, y: startY, opacity: 0, scale: 0.5 },
         {
           x: endX, y: endY, opacity: targetOpacity, scale: 1,
@@ -124,12 +111,23 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
           force3D: true,
         }
       );
+      particleTweens.push(tween);
     });
 
-    // Single bulk cleanup — one DOM operation instead of 150
-    setTimeout(() => {
-      if (document.body.contains(particleWrapper)) particleWrapper.remove();
-    }, (longestAnimation + 0.3) * 1000);
+    // Fade to black, then clean up ALL particles before navigating
+    gsap.to(darkOverlay, {
+      opacity: 1,
+      duration: 1.0,
+      ease: 'power2.in',
+      onComplete: () => {
+        // CRITICAL: Kill all 150 particle tweens so they don't compete
+        // with the Gallery mount and overlay fade-out
+        particleTweens.forEach(t => t.kill());
+        particleWrapper.remove();
+
+        if (onNavigateToGallery) onNavigateToGallery();
+      }
+    });
   };
 
   return (
