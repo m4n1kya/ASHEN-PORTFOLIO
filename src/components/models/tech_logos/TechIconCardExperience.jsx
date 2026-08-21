@@ -32,7 +32,7 @@ const TechIconCardExperience = ({ model }) => {
           // Everything else is the cup, saucer, base
           else {
             child.material = new THREE.MeshStandardMaterial({
-              color: "#5382A1",
+              color: "#007396",
               metalness: 0.3,
               roughness: 0.4,
             });
