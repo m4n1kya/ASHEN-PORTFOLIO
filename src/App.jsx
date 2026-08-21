@@ -16,42 +16,43 @@ import Gallery from "./components/Gallery";
 
 const App = () => {
   const [view, setView] = useState('home');
+  const [galleryMounted, setGalleryMounted] = useState(false);
   const [hasLoadedOnce, setHasLoadedOnce] = useState(() => {
     return sessionStorage.getItem('ashen_has_loaded') === 'true';
   });
 
   useEffect(() => {
-    // Mark as loaded so refreshes don't trigger the intro again
     if (!hasLoadedOnce) {
       sessionStorage.setItem('ashen_has_loaded', 'true');
     }
   }, [hasLoadedOnce]);
 
-  // Entrance animation when returning to home from gallery
+  // Handle view transitions
   useEffect(() => {
     if (view === 'gallery') {
       setHasLoadedOnce(true);
+      setGalleryMounted(true);
       sessionStorage.setItem('ashen_has_loaded', 'true');
     }
     if (view === 'home') {
+      // Scroll home to top while it's hidden behind the overlay
+      window.scrollTo(0, 0);
+
       const overlay = document.getElementById('transition-overlay');
       if (overlay) {
-        // Ensure home content is visible, but hidden behind the opaque black overlay
         gsap.set('.home-container', { opacity: 1 });
 
-        // Double rAF: wait for React to finish its full paint cycle first
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            // Fade ONLY the overlay out. Fading a massive page container causes GPU lag.
-            // Fading a single black div is buttery smooth and creates the exact same visual reveal.
-            gsap.to(overlay, {
-              opacity: 0,
-              duration: 1.4,
-              ease: 'power2.out',
-              onComplete: () => overlay.remove()
-            });
+        // 150ms timeout gives the browser time to re-layout the home page
+        // after switching from display:none to display:block.
+        // This is more reliable than double rAF for heavy pages.
+        setTimeout(() => {
+          gsap.to(overlay, {
+            opacity: 0,
+            duration: 1.4,
+            ease: 'power2.out',
+            onComplete: () => overlay.remove()
           });
-        });
+        }, 150);
       } else {
         gsap.set('.home-container', { opacity: 1 });
       }
@@ -63,22 +64,25 @@ const App = () => {
       <ParticleCursor />
       <AmbientSound />
       
-      {view === 'home' && (
-        <div className="home-container relative bg-transparent">
-          <Loader hasLoadedOnce={hasLoadedOnce} />
-          <Navbar />
-          <Hero onNavigateToGallery={() => setView('gallery')} hasLoadedOnce={hasLoadedOnce} />
-          <FeatureCards />
-          <Experience />
-          <ShowcaseSection />
-          <LogoShowcase />
-          <TechStack />
-          <Contact />
-          <Footer />
-        </div>
-      )}
+      {/* Home page is ALWAYS mounted — never destroyed/recreated.
+          Hidden with display:none when viewing gallery. */}
+      <div 
+        className="home-container relative bg-transparent"
+        style={{ display: view === 'home' ? 'block' : 'none' }}
+      >
+        <Loader hasLoadedOnce={hasLoadedOnce} />
+        <Navbar />
+        <Hero onNavigateToGallery={() => setView('gallery')} hasLoadedOnce={hasLoadedOnce} />
+        <FeatureCards />
+        <Experience />
+        <ShowcaseSection />
+        <LogoShowcase />
+        <TechStack />
+        <Contact />
+        <Footer />
+      </div>
 
-      {view === 'gallery' && (
+      {galleryMounted && view === 'gallery' && (
         <Gallery onBack={() => setView('home')} />
       )}
     </>
