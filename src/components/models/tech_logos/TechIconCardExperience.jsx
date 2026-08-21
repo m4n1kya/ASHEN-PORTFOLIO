@@ -27,6 +27,7 @@ const TechIconCardExperience = ({ model }) => {
               color: "#E32636",
               metalness: 0.2,
               roughness: 0.5,
+              side: THREE.DoubleSide,
             });
           }
           // Everything else is the cup, saucer, base
