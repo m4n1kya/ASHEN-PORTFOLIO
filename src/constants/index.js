@@ -87,7 +87,7 @@ const techStackIcons = [
   {
     name: "Java",
     modelPath: "/models/java-transformed.glb",
-    scale: 1.5,
+    scale: 1.4,
     rotation: [0, 0, 0],
   },
   {
