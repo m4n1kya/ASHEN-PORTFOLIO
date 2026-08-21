@@ -106,7 +106,7 @@ const AppShowcase = () => {
               <div className="flex justify-between items-center mt-2">
                 <h2 className="text-xl font-bold m-0">ASHEN-VECTOR</h2>
                 <div className="flex gap-4">
-                  <a href="#" className="text-sm font-semibold text-blue-50 hover:text-white underline">GitHub</a>
+                  <a href="https://github.com/m4n1kya/ASHEN-VECTOR" target="_blank" rel="noreferrer" className="text-sm font-semibold text-blue-50 hover:text-white underline">GitHub</a>
                 </div>
               </div>
               <p className="text-sm text-white-50">An advanced AI-powered vector search interface and autonomous agent integration ecosystem.</p>
