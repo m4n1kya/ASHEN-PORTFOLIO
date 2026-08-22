@@ -49,6 +49,10 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
     if (lanternImgRef.current) {
       lanternImgRef.current.classList.remove("animate-floatHover");
     }
+
+    // CLEANUP: Prevent rapid clicks from stacking multiple overlays (which causes a blank screen)
+    document.querySelectorAll('#transition-overlay').forEach(el => el.remove());
+    document.querySelectorAll('#particle-wrapper').forEach(el => el.remove());
     
     // Calculate absolute center for the ENTIRE container (image + particles)
     const rect = lanternContainerRef.current.getBoundingClientRect();
@@ -67,6 +71,7 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
 
     // Create fixed wrapper for particles — BELOW overlay
     const particleWrapper = document.createElement('div');
+    particleWrapper.id = 'particle-wrapper';
     particleWrapper.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999997;contain:layout size;';
     document.body.appendChild(particleWrapper);
 

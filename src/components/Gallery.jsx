@@ -41,6 +41,10 @@ const Gallery = ({ onBack }) => {
   }, []);
 
   const handleBack = () => {
+    // CLEANUP: Prevent rapid clicks from stacking multiple overlays
+    document.querySelectorAll('#transition-overlay').forEach(el => el.remove());
+    document.querySelectorAll('#particle-wrapper').forEach(el => el.remove());
+
     // Dark overlay — ON TOP of particles so mount stutter is hidden
     const overlay = document.createElement('div');
     overlay.style.cssText = 'position:fixed;inset:0;background-color:black;opacity:0;z-index:999999;pointer-events:none;';
@@ -49,6 +53,7 @@ const Gallery = ({ onBack }) => {
 
     // Create fixed wrapper for the downward particle swipe — BELOW overlay
     const particleWrapper = document.createElement('div');
+    particleWrapper.id = 'particle-wrapper';
     particleWrapper.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999997;contain:layout size;';
     document.body.appendChild(particleWrapper);
 

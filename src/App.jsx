@@ -37,25 +37,25 @@ const App = () => {
     if (view === 'home') {
       // Scroll home to top while it's hidden behind the overlay
       window.scrollTo(0, 0);
+      gsap.set('.home-container', { opacity: 1 });
 
-      const overlay = document.getElementById('transition-overlay');
-      if (overlay) {
-        gsap.set('.home-container', { opacity: 1 });
-
-        // 150ms timeout gives the browser time to re-layout the home page
-        // after switching from display:none to display:block.
-        // This is more reliable than double rAF for heavy pages.
+      const overlays = document.querySelectorAll('#transition-overlay');
+      if (overlays.length > 0) {
         setTimeout(() => {
-          gsap.to(overlay, {
-            opacity: 0,
-            duration: 1.4,
-            ease: 'power2.out',
-            onComplete: () => overlay.remove()
+          overlays.forEach(overlay => {
+            gsap.to(overlay, {
+              opacity: 0,
+              duration: 1.4,
+              ease: 'power2.out',
+              onComplete: () => overlay.remove()
+            });
           });
         }, 150);
-      } else {
-        gsap.set('.home-container', { opacity: 1 });
       }
+      
+      // Cleanup any orphaned particle wrappers just in case
+      const wrappers = document.querySelectorAll('#particle-wrapper');
+      wrappers.forEach(w => w.remove());
     }
   }, [view]);
 
