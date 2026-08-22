@@ -45,14 +45,13 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
   const handleLanternClick = () => {
     if (!lanternContainerRef.current) return;
     
+    // Prevent rapid clicks from stacking multiple overlays (which causes a blank screen)
+    if (document.getElementById('transition-overlay')) return;
+    
     // Stop the CSS float animation so GSAP can take over smoothly
     if (lanternImgRef.current) {
       lanternImgRef.current.classList.remove("animate-floatHover");
     }
-
-    // CLEANUP: Prevent rapid clicks from stacking multiple overlays (which causes a blank screen)
-    document.querySelectorAll('#transition-overlay').forEach(el => el.remove());
-    document.querySelectorAll('#particle-wrapper').forEach(el => el.remove());
     
     // Calculate absolute center for the ENTIRE container (image + particles)
     const rect = lanternContainerRef.current.getBoundingClientRect();

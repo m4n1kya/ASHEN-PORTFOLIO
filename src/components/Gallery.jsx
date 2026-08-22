@@ -9,31 +9,31 @@ const Gallery = ({ onBack }) => {
     gsap.set('.gallery-container', { opacity: 0 });
     gsap.set('.gallery-content', { opacity: 0, y: 30 });
 
-    const overlay = document.getElementById('transition-overlay');
-    if (overlay) {
-      // Double rAF to ensure React finishes painting the Gallery before revealing it
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          // Ensure gallery is visible but hidden behind the opaque black overlay
-          gsap.set('.gallery-container', { opacity: 1 });
+    const overlays = document.querySelectorAll('#transition-overlay');
+    if (overlays.length > 0) {
+      // 100ms timeout is much more reliable than double rAF when navigating away
+      // from a heavy 3D canvas context, ensuring the fade always fires.
+      setTimeout(() => {
+        gsap.set('.gallery-container', { opacity: 1 });
 
-          // Fade ONLY the overlay out.
+        overlays.forEach(overlay => {
           gsap.to(overlay, {
             opacity: 0,
             duration: 1.2,
             ease: 'power2.out',
             onComplete: () => overlay.remove()
           });
-          // Content slides up right as the overlay clears
-          gsap.to('.gallery-content', {
-            opacity: 1,
-            y: 0,
-            duration: 0.9,
-            ease: 'power3.out',
-            delay: 0.4,
-          });
         });
-      });
+
+        // Content slides up right as the overlay clears
+        gsap.to('.gallery-content', {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+          delay: 0.4,
+        });
+      }, 100);
     } else {
       gsap.set('.gallery-container', { opacity: 1 });
       gsap.to('.gallery-content', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' });
@@ -41,9 +41,8 @@ const Gallery = ({ onBack }) => {
   }, []);
 
   const handleBack = () => {
-    // CLEANUP: Prevent rapid clicks from stacking multiple overlays
-    document.querySelectorAll('#transition-overlay').forEach(el => el.remove());
-    document.querySelectorAll('#particle-wrapper').forEach(el => el.remove());
+    // Prevent rapid clicks from firing multiple transitions
+    if (document.getElementById('transition-overlay')) return;
 
     // Dark overlay — ON TOP of particles so mount stutter is hidden
     const overlay = document.createElement('div');
