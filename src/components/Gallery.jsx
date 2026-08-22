@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
 const Gallery = ({ onBack }) => {
-  useEffect(() => {
+  useGSAP(() => {
     window.scrollTo(0, 0);
 
     // Start fully invisible to prevent any flicker before animation
@@ -10,9 +10,15 @@ const Gallery = ({ onBack }) => {
     gsap.set('.gallery-content', { opacity: 0, y: 30 });
 
     const overlays = document.querySelectorAll('#transition-overlay');
+    
+    // Fail-safe: Forcefully remove overlays after 2s no matter what
+    const failsafe = setTimeout(() => {
+      document.querySelectorAll('#transition-overlay').forEach(el => el.remove());
+      gsap.set('.gallery-container', { opacity: 1 });
+      gsap.set('.gallery-content', { opacity: 1, y: 0 });
+    }, 2000);
+
     if (overlays.length > 0) {
-      // 100ms timeout is much more reliable than double rAF when navigating away
-      // from a heavy 3D canvas context, ensuring the fade always fires.
       setTimeout(() => {
         gsap.set('.gallery-container', { opacity: 1 });
 
@@ -21,7 +27,10 @@ const Gallery = ({ onBack }) => {
             opacity: 0,
             duration: 1.2,
             ease: 'power2.out',
-            onComplete: () => overlay.remove()
+            onComplete: () => {
+              overlay.remove();
+              clearTimeout(failsafe);
+            }
           });
         });
 
@@ -35,9 +44,12 @@ const Gallery = ({ onBack }) => {
         });
       }, 100);
     } else {
+      clearTimeout(failsafe);
       gsap.set('.gallery-container', { opacity: 1 });
       gsap.to('.gallery-content', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' });
     }
+    
+    return () => clearTimeout(failsafe);
   }, []);
 
   const handleBack = () => {

@@ -40,6 +40,13 @@ const App = () => {
       gsap.set('.home-container', { opacity: 1 });
 
       const overlays = document.querySelectorAll('#transition-overlay');
+      
+      // Fail-safe: Forcefully remove overlays after 2s no matter what
+      const failsafe = setTimeout(() => {
+        document.querySelectorAll('#transition-overlay').forEach(el => el.remove());
+        gsap.set('.home-container', { opacity: 1 });
+      }, 2000);
+
       if (overlays.length > 0) {
         setTimeout(() => {
           overlays.forEach(overlay => {
@@ -47,10 +54,15 @@ const App = () => {
               opacity: 0,
               duration: 1.4,
               ease: 'power2.out',
-              onComplete: () => overlay.remove()
+              onComplete: () => {
+                overlay.remove();
+                clearTimeout(failsafe);
+              }
             });
           });
         }, 150);
+      } else {
+        clearTimeout(failsafe);
       }
       
       // Cleanup any orphaned particle wrappers just in case
