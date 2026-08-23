@@ -67,13 +67,16 @@ const XRayCursor = () => {
       cursor.style.width = `${size}px`;
       cursor.style.height = `${size}px`;
 
-      // Animate SVG turbulence — this is what makes it ALIVE
-      // The baseFrequency shifts constantly so the distortion never repeats
-      time += 0.015;
-      const freqX = 0.02 + Math.sin(time * 1.3) * 0.012 + Math.sin(time * 0.7) * 0.008;
-      const freqY = 0.025 + Math.cos(time * 1.1) * 0.01 + Math.cos(time * 0.5) * 0.01;
-      turb.setAttribute("baseFrequency", `${freqX.toFixed(4)} ${freqY.toFixed(4)}`);
-      turb.setAttribute("seed", Math.floor(time * 3) % 100);
+      // Animate SVG turbulence only when moving!
+      // This causes the cursor to freeze into an undefined, organic splat when stationary.
+      if (speed > 0.1) {
+        time += speed * 0.0008;
+      }
+      
+      const freqX = 0.02 + Math.sin(time) * 0.015;
+      const freqY = 0.025 + Math.cos(time * 0.8) * 0.015;
+      // Use absolute values to prevent SVG errors with negative frequencies
+      turb.setAttribute("baseFrequency", `${Math.abs(freqX).toFixed(4)} ${Math.abs(freqY).toFixed(4)}`);
 
       animationFrameId = requestAnimationFrame(animate);
     };
