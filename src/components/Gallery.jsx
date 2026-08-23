@@ -34,12 +34,12 @@ const Gallery = ({ onBack }) => {
     for (let i = 0; i < count; i++) {
       const size = Math.random() * 4 + 1.5;
       const color = colors[Math.floor(Math.random() * colors.length)];
-      const startX = Math.random() * W;
-      const startY = -Math.random() * 300 - 50;
+      const startX = W + Math.random() * 200 + 50; // starts off-screen right
+      const startY = Math.random() * H;
       const delay = Math.random() * 0.6;
       const duration = Math.random() * 1.2 + 1.0;
-      const endY = H + 200 + Math.random() * 400;
-      const endX = startX + (Math.random() - 0.5) * 150;
+      const endX = -200 - Math.random() * 400; // ends off-screen left
+      const endY = startY + (Math.random() - 0.5) * 150;
       const targetOpacity = Math.random() * 0.6 + 0.3;
       const glowSize = size * 3;
 

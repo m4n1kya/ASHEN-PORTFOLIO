@@ -90,7 +90,6 @@ const App = () => {
       ease: 'power2.in',
       onComplete: () => {
         document.querySelectorAll('#particle-wrapper').forEach(el => el.remove());
-
         flushSync(() => {
           setView('home');
         });

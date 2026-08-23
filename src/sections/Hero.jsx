@@ -68,12 +68,12 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
     for (let i = 0; i < count; i++) {
       const size = Math.random() * 4 + 1.5;
       const color = colors[Math.floor(Math.random() * colors.length)];
-      const startX = Math.random() * W;
-      const startY = H + Math.random() * 300;
+      const startX = -Math.random() * 200 - 50; // starts off-screen left
+      const startY = Math.random() * H;
       const delay = Math.random() * 0.6;
       const duration = Math.random() * 1.2 + 1.0;
-      const endY = -200 - Math.random() * 400;
-      const endX = startX + (Math.random() - 0.5) * 150;
+      const endX = W + 200 + Math.random() * 400; // ends off-screen right
+      const endY = startY + (Math.random() - 0.5) * 150;
       const targetOpacity = Math.random() * 0.6 + 0.3;
       const glowSize = size * 3;
 
