@@ -64,7 +64,13 @@ const ReelGallery = ({
         const parallaxSpeed = 1 + (i % 3) * 0.2; 
         
         const x = offsetRef.current * dir * parallaxSpeed;
-        const cycleWidth = track.scrollWidth / 6;
+        
+        // Mathematically perfect cycle width: (itemWidth + gap) * baseItems
+        // We know we repeated 6 times, so track.children.length / 6 is the base item count
+        const baseItemCount = track.children.length / 6;
+        const itemWidth = track.children[0].offsetWidth;
+        const cycleWidth = baseItemCount * (itemWidth + gap);
+        
         const wrappedX = gsap.utils.wrap(0, -cycleWidth, -x);
         
         gsap.set(track, { x: wrappedX });
