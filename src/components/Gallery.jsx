@@ -2,6 +2,9 @@ import { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import ShinyText from './reactbits/ShinyText';
+import BlurText from './reactbits/BlurText';
+import Magnet from './reactbits/Magnet';
+import DriftWall from './reactbits/DriftWall';
 
 const Gallery = ({ onBack }) => {
   const containerRef = useRef(null);
