@@ -70,6 +70,11 @@ const Gallery = ({ onBack }) => {
     onBack();
   };
 
+  const galleryItems = Array.from({ length: 14 }, (_, i) => ({
+    image: `/images/gallery/screen-${i + 1}.png`,
+    title: `Screenshot ${i + 1}`,
+  }));
+
   return (
     <div ref={containerRef} className="gallery-container h-screen w-full bg-black relative z-[200] flex flex-col pt-10 px-5 md:px-20 overflow-hidden">
       
@@ -101,8 +106,11 @@ const Gallery = ({ onBack }) => {
         {/* DriftWall Gallery */}
         <div className="absolute inset-0 z-10 pt-32 pb-10">
           <DriftWall 
+            items={galleryItems}
             columns={5} 
-            gap={24}
+            tileWidth={480}
+            tileHeight={316}
+            gap={32}
             speed={30}
             variance={0.5}
             perspective={1000}
