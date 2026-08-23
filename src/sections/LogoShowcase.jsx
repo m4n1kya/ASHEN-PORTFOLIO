@@ -1,15 +1,17 @@
 import { logoIconsList } from "../constants";
-import Magnet from "../components/reactbits/Magnet";
 import ShinyText from "../components/reactbits/ShinyText";
 
 const LogoIcon = ({ icon }) => {
   return (
-    <div className="flex-none flex-center marquee-item">
-      <Magnet padding={20} magnetStrength={3}>
-        <div className="size-16 md:size-20 flex items-center justify-center p-3 rounded-2xl bg-black-100/50 border border-white/5 hover:border-white/20 transition-all duration-300 hover:scale-110 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-          <img src={icon.imgPath} alt={icon.name} className="max-h-full max-w-full object-contain filter grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100" />
-        </div>
-      </Magnet>
+    <div className="flex-none flex items-center justify-center mx-4 md:mx-7">
+      <div className="size-20 md:size-24 flex items-center justify-center p-3.5 md:p-4 rounded-2xl bg-black-100/90 border border-white/10 hover:border-white/30 transition-all duration-300 hover:scale-110 hover:shadow-[0_0_25px_rgba(255,255,255,0.15)] group cursor-pointer">
+        <img
+          src={icon.imgPath}
+          alt={icon.name}
+          title={icon.name}
+          className="w-12 h-12 md:w-14 md:h-14 object-contain transition-transform duration-300 group-hover:scale-110"
+        />
+      </div>
     </div>
   );
 };
@@ -25,8 +27,8 @@ const LogoShowcase = () => (
     <div className="gradient-edge" />
     <div className="gradient-edge" />
 
-    <div className="marquee h-32 md:h-52 flex items-center">
-      <div className="marquee-box md:gap-12 gap-6 flex items-center">
+    <div className="marquee h-36 md:h-52 flex items-center">
+      <div className="marquee-box flex items-center">
         {logoIconsList.map((icon, index) => (
           <LogoIcon key={index} icon={icon} />
         ))}

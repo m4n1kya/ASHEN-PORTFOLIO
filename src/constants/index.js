@@ -47,7 +47,6 @@ const logoIconsList = [
   { imgPath: "/images/logos/react.png", name: "React" },
   { imgPath: "/images/logos/python.svg", name: "Python" },
   { imgPath: "/images/logos/node.png", name: "Node.js" },
-  { imgPath: "/images/logos/three.png", name: "Three.js" },
   { imgPath: "/images/logos/git.svg", name: "Git" },
   { imgPath: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg", name: "Java" },
   { imgPath: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg", name: "Tailwind CSS" },
