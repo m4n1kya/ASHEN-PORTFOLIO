@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from "react";
 
 const styleContent = `
 @keyframes jellyBlob {
-  0% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; }
-  25% { border-radius: 58% 42% 54% 46% / 46% 58% 42% 54%; }
-  50% { border-radius: 42% 58% 46% 54% / 54% 42% 58% 46%; }
-  75% { border-radius: 54% 46% 58% 42% / 42% 54% 46% 58%; }
-  100% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; }
+  0% { border-radius: 41% 59% 43% 57% / 51% 43% 57% 49%; }
+  25% { border-radius: 59% 41% 54% 46% / 43% 59% 41% 57%; }
+  50% { border-radius: 48% 52% 41% 59% / 58% 46% 54% 42%; }
+  75% { border-radius: 43% 57% 61% 39% / 41% 58% 42% 59%; }
+  100% { border-radius: 41% 59% 43% 57% / 51% 43% 57% 49%; }
 }
 `;
 
@@ -66,9 +66,9 @@ const XRayCursor = () => {
       const speed = Math.sqrt(vx * vx + vy * vy);
       const angle = Math.atan2(vy, vx);
       
-      // Stretch along movement axis, squish perpendicular to it
-      const scaleX = 1 + Math.min(speed / 100, 0.4);
-      const scaleY = 1 - Math.min(speed / 100, 0.25);
+      // More extreme stretch and squish for a more watery effect
+      const scaleX = 1 + Math.min(speed / 70, 0.8);
+      const scaleY = 1 - Math.min(speed / 70, 0.4);
 
       const size = isHovering ? 100 : 60;
       
@@ -108,7 +108,7 @@ const XRayCursor = () => {
           zIndex: 9999,
           willChange: "transform, width, height",
           transition: "width 0.3s ease-out, height 0.3s ease-out",
-          animation: "jellyBlob 3s infinite ease-in-out alternate",
+          animation: "jellyBlob 4s infinite linear",
           transformOrigin: "center center",
         }}
       />
