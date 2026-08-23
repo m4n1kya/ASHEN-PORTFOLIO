@@ -3,7 +3,11 @@ import { logoIconsList } from "../constants";
 const LogoIcon = ({ icon }) => {
   return (
     <div className="flex-none flex-center marquee-item">
-      <img src={icon.imgPath} alt={icon.name} />
+      <img
+        src={icon.imgPath}
+        alt={icon.name}
+        className="w-14 h-14 md:w-20 md:h-20 object-contain"
+      />
     </div>
   );
 };
