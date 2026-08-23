@@ -45,50 +45,52 @@ const Gallery = ({ onBack }) => {
       const p = document.createElement('div');
       p.style.cssText = `position:absolute;width:${glowSize}px;height:${glowSize}px;border-radius:50%;background:radial-gradient(circle,${color} 30%,transparent 70%);will-change:transform,opacity;backface-visibility:hidden;transform:translate3d(${startX}px,${startY}px,0) scale(0.5);opacity:0;`;
 
-      fragment.appendChild(p);
-      particleData.push({ p, startX, startY, endX, endY, targetOpacity, delay, duration });
-    }
-
-    particleWrapper.appendChild(fragment);
-
-    particleData.forEach(({ p, startX, startY, endX, endY, targetOpacity, delay, duration }) => {
-      gsap.fromTo(p,
-        { x: startX, y: startY, opacity: 0, scale: 0.5 },
-        {
-          x: endX, y: endY, opacity: targetOpacity, scale: 1,
-          duration, delay,
-          ease: 'power2.out',
-          force3D: true,
-        }
-      );
-    });
-
-    // Tell App.jsx to start the transition (App owns the overlay)
+    // Navigate back to the home page smoothly
     onBack();
   };
 
   return (
-    <div ref={containerRef} className="gallery-container min-h-screen w-full bg-transparent relative z-[200] flex flex-col pt-20 px-5 md:px-20">
+    <div ref={containerRef} className="gallery-container h-screen w-full bg-black relative z-[200] flex flex-col pt-10 px-5 md:px-20 overflow-hidden">
       
-      {/* Sleek Back Button */}
-      <button 
-        onClick={handleBack}
-        className="group relative z-10 w-fit flex items-center gap-3 px-6 py-3 bg-black-100/60 backdrop-blur-md border border-white-50/20 text-white-50 rounded-full hover:border-white hover:text-white transition-all duration-300 shadow-lg cursor-pointer"
-      >
-        <span className="group-hover:-translate-x-1 transition-transform duration-300">←</span>
-        <span className="text-sm uppercase tracking-widest font-semibold">Back to Portfolio</span>
-      </button>
+      {/* Sleek Back Button with Magnetic effect */}
+      <Magnet padding={50} magnetStrength={3} className="z-50 w-fit">
+        <button 
+          onClick={handleBack}
+          className="group relative flex items-center gap-3 px-6 py-3 bg-black-100/60 backdrop-blur-md border border-white-50/20 text-white-50 rounded-full hover:border-white hover:text-white transition-all duration-300 shadow-lg cursor-pointer"
+        >
+          <span className="group-hover:-translate-x-1 transition-transform duration-300">←</span>
+          <span className="text-sm uppercase tracking-widest font-semibold">Back to Portfolio</span>
+        </button>
+      </Magnet>
 
       {/* Main Content Area */}
-      <div className="gallery-content flex-1 flex flex-col justify-center items-center h-full pb-20">
-        <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-widest text-center">
-          SCREENSHOT LIBRARY
-        </h1>
-        <p className="text-blue-50 md:text-lg tracking-widest uppercase opacity-70">
-          <ShinyText text="(Coming Soon)" className="font-semibold" speed={3} />
-        </p>
-      </div>
+      <div className="gallery-content flex-1 w-full h-full relative mt-8 flex flex-col">
+        {/* Astonishing Heading */}
+        <div className="z-50 relative pointer-events-none mb-10 text-center flex flex-col items-center">
+          <BlurText 
+            text="SCREENSHOT LIBRARY" 
+            className="text-4xl md:text-6xl font-bold text-white mb-2 tracking-widest drop-shadow-2xl" 
+            delay={50} 
+          />
+          <p className="text-blue-50 md:text-lg tracking-widest uppercase opacity-70">
+            <ShinyText text="Explore the visuals" className="font-semibold" speed={3} />
+          </p>
+        </div>
 
+        {/* DriftWall Gallery */}
+        <div className="absolute inset-0 z-10 pt-32 pb-10">
+          <DriftWall 
+            columns={5} 
+            gap={24}
+            speed={30}
+            variance={0.5}
+            perspective={1000}
+            depth={150}
+            parallax={0.8}
+            overlayColor="#000000"
+          />
+        </div>
+      </div>
     </div>
   );
 };
