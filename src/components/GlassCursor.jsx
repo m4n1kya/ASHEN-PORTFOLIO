@@ -74,7 +74,7 @@ const LensCursor = memo(function LensCursor() {
       )}
 
       {/* The 3D Glass Lens */}
-      <mesh ref={ref} scale={0.8} rotation-x={Math.PI / 2}>
+      <mesh ref={ref} scale={0.15} rotation-x={Math.PI / 2}>
         <cylinderGeometry args={[1, 1, 0.1, 64]} />
         <MeshTransmissionMaterial
           buffer={buffer.texture}
