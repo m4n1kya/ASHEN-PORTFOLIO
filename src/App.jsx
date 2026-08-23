@@ -24,6 +24,19 @@ const App = () => {
   const overlayRef = useRef(null);
   const isTransitioning = useRef(false);
 
+  // Silently preload all the massive Gallery images in the background
+  // so that they are instantly available from cache when the user opens the Gallery.
+  useEffect(() => {
+    const preloadGalleryImages = () => {
+      for (let i = 1; i <= 13; i++) {
+        const img = new Image();
+        img.src = `/images/gallery/screen-${i}.png`;
+      }
+    };
+    // Wait a couple of seconds so we don't impact initial page load, then fetch
+    setTimeout(preloadGalleryImages, 2000);
+  }, []);
+
   useEffect(() => {
     if (!hasLoadedOnce) {
       sessionStorage.setItem('ashen_has_loaded', 'true');

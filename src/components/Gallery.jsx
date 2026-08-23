@@ -76,15 +76,15 @@ const Gallery = ({ onBack }) => {
   return (
     <div ref={containerRef} className="gallery-container h-screen w-screen bg-black fixed inset-0 z-[200] overflow-hidden">
       
-      {/* Sleek Back Button with Magnetic effect - Positioned absolutely as an overlay */}
+      {/* Minimal Back Button with Magnetic effect - Positioned absolutely as an overlay */}
       <div className="absolute top-10 left-5 md:left-10 z-[300]">
-        <Magnet padding={50} magnetStrength={3} className="w-fit">
+        <Magnet padding={30} magnetStrength={2} className="w-fit">
           <button 
             onClick={handleBack}
-            className="group relative flex items-center gap-3 px-6 py-3 bg-black-100/60 backdrop-blur-md border border-white-50/20 text-white-50 rounded-full hover:border-white hover:text-white transition-all duration-300 shadow-lg cursor-pointer"
+            className="group relative flex items-center gap-2 px-4 py-2 text-white/40 hover:text-white transition-colors duration-300 cursor-pointer"
           >
-            <span className="group-hover:-translate-x-1 transition-transform duration-300">←</span>
-            <span className="text-sm uppercase tracking-widest font-semibold">Back to Portfolio</span>
+            <span className="group-hover:-translate-x-1 transition-transform duration-300 text-lg">←</span>
+            <span className="text-xs uppercase tracking-[0.2em] font-medium">Return</span>
           </button>
         </Magnet>
       </div>

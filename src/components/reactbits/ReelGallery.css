@@ -60,7 +60,7 @@
   height: 100%;
   object-fit: cover;
   pointer-events: none;
-  filter: brightness(0.6) saturate(0.8);
+  filter: brightness(0.95) saturate(1);
   transition: filter 0.4s ease;
 }
 
@@ -68,7 +68,7 @@
   position: absolute;
   inset: 0;
   background: black;
-  opacity: 0.3;
+  opacity: 0.05;
   pointer-events: none;
   transition: opacity 0.4s ease;
 }
