@@ -7,7 +7,6 @@ import Button from "../components/Button";
 import { words } from "../constants";
 import HeroParticles from "../components/HeroParticles";
 import HeroImageParticles from "../components/HeroImageParticles";
-import DecryptedText from "../components/reactbits/DecryptedText";
 import ShinyText from "../components/reactbits/ShinyText";
 
 const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
@@ -114,15 +113,7 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
           <div className="flex flex-col gap-6">
             <div className="hero-text">
               <h1 className="text-white text-[8vw] md:text-5xl lg:text-6xl font-bold tracking-tight leading-none mb-2 md:mb-4">
-                <DecryptedText
-                  text="Manikya"
-                  speed={40}
-                  maxIterations={12}
-                  revealDirection="start"
-                  className="text-white"
-                  encryptedClassName="text-blue-50/40"
-                  animateOn="view"
-                />
+                Manikya
               </h1>
               
               <h1 className="text-blue-50 text-[4vw] md:text-[24px] lg:text-[30px] font-semibold mb-6 tracking-wide mt-2 md:mt-4 flex items-center whitespace-nowrap leading-none">

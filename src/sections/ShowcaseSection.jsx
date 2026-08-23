@@ -53,11 +53,11 @@ const AppShowcase = () => {
         {/* ASHENRITUAL Full Width Featured (Top) */}
         <div ref={featuredRef} className="flex flex-col xl:flex-row gap-10 group transition-all duration-500">
           <div className="xl:w-[55%] w-full">
-            <TiltedCard maxTilt={10} scale={1.02} className="border border-white/10 shadow-2xl bg-black-100">
+            <TiltedCard maxTilt={10} scale={1} className="border border-white/10 shadow-2xl bg-black-100">
               <img 
                 src="/images/ashenritual.png" 
                 alt="ASHENRITUAL" 
-                className="object-cover w-full h-full rounded-xl transition-transform duration-500 group-hover:scale-105" 
+                className="object-cover w-full h-full rounded-xl" 
               />
             </TiltedCard>
           </div>

@@ -1,5 +1,4 @@
 import gsap from 'gsap';
-import DecryptedText from './reactbits/DecryptedText';
 import ShinyText from './reactbits/ShinyText';
 
 const Gallery = ({ onBack }) => {
@@ -70,14 +69,7 @@ const Gallery = ({ onBack }) => {
       {/* Main Content Area */}
       <div className="gallery-content flex-1 flex flex-col justify-center items-center h-full pb-20" style={{ opacity: 0, transform: 'translateY(30px)' }}>
         <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-widest text-center">
-          <DecryptedText
-            text="SCREENSHOT LIBRARY"
-            speed={50}
-            maxIterations={15}
-            className="text-white font-bold"
-            encryptedClassName="text-white/30"
-            animateOn="view"
-          />
+          SCREENSHOT LIBRARY
         </h1>
         <p className="text-blue-50 md:text-lg tracking-widest uppercase opacity-70">
           <ShinyText text="(Coming Soon)" className="font-semibold" speed={3} />
