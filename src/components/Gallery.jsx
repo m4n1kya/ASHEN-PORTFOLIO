@@ -68,7 +68,7 @@ const Gallery = ({ onBack }) => {
     onBack();
   };
 
-  const galleryItems = Array.from({ length: 14 }, (_, i) => ({
+  const galleryItems = Array.from({ length: 13 }, (_, i) => ({
     image: `/images/gallery/screen-${i + 1}.png`,
     title: `Screenshot ${i + 1}`,
   }));
