@@ -43,21 +43,16 @@ const App = () => {
     }
   }, [hasLoadedOnce]);
 
-  // Navigate to gallery — Animate home container sucking into the lantern
-  const navigateToGallery = useCallback((lanternRect) => {
+  // Navigate to gallery — Simple smooth fade out
+  const navigateToGallery = useCallback(() => {
     if (isTransitioning.current) return;
     isTransitioning.current = true;
 
-    const centerX = lanternRect ? lanternRect.left + lanternRect.width / 2 : window.innerWidth / 2;
-    const centerY = lanternRect ? lanternRect.top + lanternRect.height / 2 : window.innerHeight / 2;
-
-    // Suck the window into the lantern
+    // Fade out the home container
     gsap.to('.home-container', {
-      scale: 0.01,
       opacity: 0,
-      duration: 0.7,
-      transformOrigin: `${centerX}px ${centerY}px`,
-      ease: 'power3.in',
+      duration: 0.8,
+      ease: 'power2.inOut',
       onComplete: () => {
         flushSync(() => {
           setHasLoadedOnce(true);
@@ -83,8 +78,8 @@ const App = () => {
 
     // Fade the home container back in gently
     gsap.fromTo('.home-container', 
-      { scale: 0.95, opacity: 0, transformOrigin: 'center center' },
-      { scale: 1, opacity: 1, duration: 1.2, ease: 'power2.out', onComplete: () => {
+      { opacity: 0 },
+      { opacity: 1, duration: 1.0, ease: 'power2.inOut', onComplete: () => {
         isTransitioning.current = false;
       }}
     );

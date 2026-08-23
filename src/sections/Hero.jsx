@@ -51,13 +51,9 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
       lanternImgRef.current.classList.remove("animate-floatHover");
     }
 
-    // Pass the lantern coordinates to App.jsx to center the blip animation
+    // Trigger navigation transition
     if (onNavigateToGallery) {
-      let rect = null;
-      if (lanternImgRef.current) {
-        rect = lanternImgRef.current.getBoundingClientRect();
-      }
-      onNavigateToGallery(rect);
+      onNavigateToGallery();
     }
   };
 
