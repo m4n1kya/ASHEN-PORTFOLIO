@@ -70,7 +70,7 @@ const XRayCursor = () => {
       const scaleX = 1 + Math.min(speed / 70, 0.8);
       const scaleY = 1 - Math.min(speed / 70, 0.4);
 
-      const size = isHovering ? 180 : 100;
+      const size = isHovering ? 100 : 60;
       
       cursor.style.transform = `translate3d(${cursorX - size / 2}px, ${cursorY - size / 2}px, 0) rotate(${angle}rad) scale(${scaleX}, ${scaleY})`;
       cursor.style.width = `${size}px`;
@@ -102,12 +102,13 @@ const XRayCursor = () => {
           left: 0,
           width: "60px",
           height: "60px",
-          background: "radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.4) 40%, rgba(255,255,255,0) 70%)",
+          backgroundColor: "white",
           mixBlendMode: "difference",
           pointerEvents: "none",
           zIndex: 9999,
           willChange: "transform, width, height",
           transition: "width 0.3s ease-out, height 0.3s ease-out",
+          animation: "jellyBlob 4s infinite linear",
           transformOrigin: "center center",
         }}
       />
