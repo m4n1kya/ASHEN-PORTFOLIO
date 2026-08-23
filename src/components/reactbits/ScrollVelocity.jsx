@@ -44,13 +44,13 @@ function ParallaxText({ children, baseVelocity = 100 }) {
   return (
     <div className="overflow-hidden m-0 whitespace-nowrap flex flex-nowrap w-full">
       <motion.div
-        className="flex whitespace-nowrap flex-nowrap"
+        className="flex whitespace-nowrap flex-nowrap flex-none w-max"
         style={{ x }}
       >
-        <div className="flex gap-12 md:gap-24 px-6 md:px-12 items-center">
+        <div className="flex gap-12 md:gap-24 px-6 md:px-12 items-center flex-none w-max">
           {children}
         </div>
-        <div className="flex gap-12 md:gap-24 px-6 md:px-12 items-center">
+        <div className="flex gap-12 md:gap-24 px-6 md:px-12 items-center flex-none w-max">
           {children}
         </div>
       </motion.div>
