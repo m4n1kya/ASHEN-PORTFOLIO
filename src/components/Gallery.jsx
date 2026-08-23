@@ -7,11 +7,14 @@ const Gallery = ({ onBack }) => {
   const containerRef = useRef(null);
 
   useGSAP(() => {
-    // Animate in when mounted
-    gsap.to(containerRef.current, { opacity: 1, duration: 0.1 });
-    gsap.to('.gallery-content', {
-      opacity: 1, y: 0,
-      duration: 0.9, ease: 'power3.out', delay: 0.3,
+    // The App.jsx black overlay handles the fade-in of the entire page.
+    // We only need to animate the content sliding up for a nice entrance effect.
+    gsap.from('.gallery-content', {
+      opacity: 0, 
+      y: 30,
+      duration: 0.9, 
+      ease: 'power3.out', 
+      delay: 0.3,
     });
   }, { scope: containerRef });
 
@@ -68,7 +71,7 @@ const Gallery = ({ onBack }) => {
   };
 
   return (
-    <div ref={containerRef} className="gallery-container min-h-screen w-full bg-transparent relative z-[200] flex flex-col pt-20 px-5 md:px-20" style={{ opacity: 0 }}>
+    <div ref={containerRef} className="gallery-container min-h-screen w-full bg-transparent relative z-[200] flex flex-col pt-20 px-5 md:px-20">
       
       {/* Sleek Back Button */}
       <button 
@@ -80,7 +83,7 @@ const Gallery = ({ onBack }) => {
       </button>
 
       {/* Main Content Area */}
-      <div className="gallery-content flex-1 flex flex-col justify-center items-center h-full pb-20" style={{ opacity: 0, transform: 'translateY(30px)' }}>
+      <div className="gallery-content flex-1 flex flex-col justify-center items-center h-full pb-20">
         <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-widest text-center">
           SCREENSHOT LIBRARY
         </h1>
