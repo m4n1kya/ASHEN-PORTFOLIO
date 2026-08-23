@@ -1,7 +1,20 @@
+import { useRef } from 'react';
 import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import ShinyText from './reactbits/ShinyText';
 
 const Gallery = ({ onBack }) => {
+  const containerRef = useRef(null);
+
+  useGSAP(() => {
+    // Animate in when mounted
+    gsap.to(containerRef.current, { opacity: 1, duration: 0.1 });
+    gsap.to('.gallery-content', {
+      opacity: 1, y: 0,
+      duration: 0.9, ease: 'power3.out', delay: 0.3,
+    });
+  }, { scope: containerRef });
+
   const handleBack = () => {
     // Create decorative falling particles (App.jsx handles the overlay + navigation)
     const particleWrapper = document.createElement('div');
@@ -55,7 +68,7 @@ const Gallery = ({ onBack }) => {
   };
 
   return (
-    <div className="gallery-container min-h-screen w-full bg-transparent relative z-[200] flex flex-col pt-20 px-5 md:px-20" style={{ opacity: 0 }}>
+    <div ref={containerRef} className="gallery-container min-h-screen w-full bg-transparent relative z-[200] flex flex-col pt-20 px-5 md:px-20" style={{ opacity: 0 }}>
       
       {/* Sleek Back Button */}
       <button 

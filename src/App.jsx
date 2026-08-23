@@ -45,20 +45,13 @@ const App = () => {
         document.querySelectorAll('#particle-wrapper').forEach(el => el.remove());
 
         // flushSync forces React to synchronously render the Gallery
-        // into the DOM BEFORE we try to animate it. No race condition possible.
+        // into the DOM. (Gallery now handles its own entrance animation on mount)
         flushSync(() => {
           setHasLoadedOnce(true);
           setGalleryMounted(true);
           setView('gallery');
         });
         sessionStorage.setItem('ashen_has_loaded', 'true');
-
-        // Gallery is NOW guaranteed to be in the DOM
-        gsap.set('.gallery-container', { opacity: 1 });
-        gsap.to('.gallery-content', {
-          opacity: 1, y: 0,
-          duration: 0.9, ease: 'power3.out', delay: 0.3,
-        });
 
         // Reveal by fading overlay to transparent
         gsap.to(overlayRef.current, {
