@@ -1,8 +1,9 @@
 import { logoIconsList } from "../constants";
+import ScrollVelocity from "../components/reactbits/ScrollVelocity";
 
 const LogoIcon = ({ icon }) => {
   return (
-    <div className="flex-none flex-center marquee-item">
+    <div className="flex-none flex-center pointer-events-none">
       <img
         src={icon.imgPath}
         alt={icon.name}
@@ -13,24 +14,20 @@ const LogoIcon = ({ icon }) => {
 };
 
 const LogoShowcase = () => (
-  <div className="md:my-20 my-10 relative">
+  <div className="md:my-20 my-10 relative overflow-hidden">
     <div className="text-center mb-8 relative z-10">
       <p className="text-blue-50 text-sm md:text-base font-bold uppercase tracking-[0.2em]">Technologies I work with</p>
     </div>
     
-    <div className="gradient-edge" />
-    <div className="gradient-edge" />
+    <div className="gradient-edge z-10" />
+    <div className="gradient-edge z-10 right-0" />
 
-    <div className="marquee h-32 md:h-52">
-      <div className="marquee-box md:gap-12 gap-5">
+    <div className="w-full">
+      <ScrollVelocity velocity={30} className="w-full h-auto py-4">
         {logoIconsList.map((icon, index) => (
           <LogoIcon key={index} icon={icon} />
         ))}
-
-        {logoIconsList.map((icon, index) => (
-          <LogoIcon key={index} icon={icon} />
-        ))}
-      </div>
+      </ScrollVelocity>
     </div>
   </div>
 );

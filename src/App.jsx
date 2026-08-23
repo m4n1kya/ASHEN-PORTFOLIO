@@ -13,6 +13,7 @@ import Navbar from "./components/NavBar";
 import Loader from "./components/Loader";
 import AmbientSound from "./components/AmbientSound";
 import ParticleCursor from "./components/ParticleCursor";
+import XRayCursor from "./components/XRayCursor";
 import Gallery from "./components/Gallery";
 
 const App = () => {
@@ -121,6 +122,7 @@ const App = () => {
       />
 
       <ParticleCursor />
+      <XRayCursor />
       <AmbientSound />
       
       {/* Home page is ALWAYS mounted — never destroyed/recreated.
