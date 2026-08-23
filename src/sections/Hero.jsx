@@ -26,7 +26,18 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
       gsap.set(".hero-text h1", { y: 0, opacity: 1 });
     }
 
-    // Removed scrollTrigger opacity animation for .scroll-indicator to guarantee visibility
+    gsap.fromTo(".scroll-indicator",
+      { opacity: 1 },
+      {
+        opacity: 0,
+        scrollTrigger: {
+          trigger: "#hero",
+          start: "top top",
+          end: "+=300", 
+          scrub: true,
+        },
+      }
+    );
 
     gsap.fromTo(
       ".scroll-mouse-dot",
@@ -135,7 +146,7 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
       </div>
 
       {/* Aesthetic Animated Scroll Indicator (No Text) */}
-      <div className="absolute bottom-36 left-1/2 -translate-x-1/2 scroll-indicator z-[999] pointer-events-none opacity-100 mix-blend-screen">
+      <div className="absolute top-[85vh] left-1/2 -translate-x-1/2 scroll-indicator z-[999] pointer-events-none opacity-100 mix-blend-screen">
         <div className="w-[16px] h-[28px] rounded-full border-[1.5px] border-white flex justify-center p-1 shadow-[0_0_10px_rgba(255,255,255,0.2)]">
           <div className="w-1 h-1 bg-white rounded-full scroll-mouse-dot shadow-[0_0_4px_rgba(255,255,255,1)]"></div>
         </div>
