@@ -9,7 +9,6 @@ import HeroParticles from "../components/HeroParticles";
 import HeroImageParticles from "../components/HeroImageParticles";
 import DecryptedText from "../components/reactbits/DecryptedText";
 import ShinyText from "../components/reactbits/ShinyText";
-import Magnet from "../components/reactbits/Magnet";
 
 const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
   const lanternContainerRef = useRef(null);
@@ -153,22 +152,18 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 relative z-10 mt-6 pointer-events-auto">
-              <Magnet padding={40} magnetStrength={3}>
-                <Button
-                  text="View Projects"
-                  className="md:w-72 w-full h-14"
-                  id="projects"
-                />
-              </Magnet>
-              <Magnet padding={40} magnetStrength={3}>
-                <a 
-                  href="/Manikya_N_Resume.pdf" 
-                  download="Manikya_N_Resume.pdf"
-                  className="flex items-center justify-center md:w-72 w-full h-14 rounded-lg border border-white-50 text-white-50 hover:bg-white-50 hover:text-black transition-colors duration-300 font-medium uppercase tracking-wider text-sm md:text-base"
-                >
-                  Download Resume
-                </a>
-              </Magnet>
+              <Button
+                text="View Projects"
+                className="md:w-72 w-full h-14"
+                id="projects"
+              />
+              <a 
+                href="/Manikya_N_Resume.pdf" 
+                download="Manikya_N_Resume.pdf"
+                className="flex items-center justify-center md:w-72 w-full h-14 rounded-lg border border-white-50 text-white-50 hover:bg-white-50 hover:text-black transition-colors duration-300 font-medium uppercase tracking-wider text-sm md:text-base"
+              >
+                Download Resume
+              </a>
             </div>
           </div>
         </header>
