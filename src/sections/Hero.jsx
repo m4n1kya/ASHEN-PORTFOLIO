@@ -41,7 +41,7 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
       { y: 0, opacity: 1 },
       { y: 10, opacity: 0, duration: 1.5, repeat: -1, ease: "power2.inOut" }
     );
-  });
+  }, []);
 
   const handleLanternClick = () => {
     if (!lanternContainerRef.current) return;

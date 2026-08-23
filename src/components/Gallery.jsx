@@ -9,13 +9,10 @@ const Gallery = ({ onBack }) => {
   useGSAP(() => {
     // The App.jsx black overlay handles the fade-in of the entire page.
     // We only need to animate the content sliding up for a nice entrance effect.
-    gsap.from('.gallery-content', {
-      opacity: 0, 
-      y: 30,
-      duration: 0.9, 
-      ease: 'power3.out', 
-      delay: 0.3,
-    });
+    gsap.fromTo('.gallery-content', 
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', delay: 0.3 }
+    );
   }, { scope: containerRef });
 
   const handleBack = () => {
