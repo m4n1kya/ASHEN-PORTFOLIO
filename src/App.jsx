@@ -11,7 +11,6 @@ import LogoShowcase from "./sections/LogoShowcase";
 import FeatureCards from "./sections/FeatureCards";
 import Navbar from "./components/NavBar";
 import Loader from "./components/Loader";
-import AmbientSound from "./components/AmbientSound";
 import ParticleCursor from "./components/ParticleCursor";
 import XRayCursor from "./components/XRayCursor";
 import Gallery from "./components/Gallery";
@@ -123,7 +122,6 @@ const App = () => {
 
       <ParticleCursor />
       <XRayCursor />
-      <AmbientSound />
       
       {/* Home page is ALWAYS mounted — never destroyed/recreated.
           Hidden with display:none when viewing gallery. */}
