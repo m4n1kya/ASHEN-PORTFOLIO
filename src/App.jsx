@@ -48,11 +48,11 @@ const App = () => {
     if (isTransitioning.current) return;
     isTransitioning.current = true;
 
-    // Fade out the home container
+    // Fade out the home container with luxurious smoothness
     gsap.to('.home-container', {
       opacity: 0,
-      duration: 0.8,
-      ease: 'power2.inOut',
+      duration: 1.2,
+      ease: 'power3.inOut',
       onComplete: () => {
         flushSync(() => {
           setHasLoadedOnce(true);
@@ -76,10 +76,10 @@ const App = () => {
 
     window.scrollTo(0, 0);
 
-    // Fade the home container back in gently
+    // Fade the home container back in with extreme smoothness
     gsap.fromTo('.home-container', 
       { opacity: 0 },
-      { opacity: 1, duration: 1.0, ease: 'power2.inOut', onComplete: () => {
+      { opacity: 1, duration: 1.5, ease: 'power3.inOut', onComplete: () => {
         isTransitioning.current = false;
       }}
     );
