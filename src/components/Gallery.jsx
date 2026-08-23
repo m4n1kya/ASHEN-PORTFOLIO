@@ -1,57 +1,6 @@
-import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
 const Gallery = ({ onBack }) => {
-  useGSAP(() => {
-    window.scrollTo(0, 0);
-
-    // Start fully invisible to prevent any flicker before animation
-    gsap.set('.gallery-container', { opacity: 0 });
-    gsap.set('.gallery-content', { opacity: 0, y: 30 });
-
-    const overlays = document.querySelectorAll('#transition-overlay');
-    
-    // Fail-safe: Forcefully remove overlays after 2s no matter what
-    const failsafe = setTimeout(() => {
-      document.querySelectorAll('#transition-overlay').forEach(el => el.remove());
-      gsap.set('.gallery-container', { opacity: 1 });
-      gsap.set('.gallery-content', { opacity: 1, y: 0 });
-    }, 2000);
-
-    if (overlays.length > 0) {
-      setTimeout(() => {
-        gsap.set('.gallery-container', { opacity: 1 });
-
-        overlays.forEach(overlay => {
-          gsap.to(overlay, {
-            opacity: 0,
-            duration: 1.2,
-            ease: 'power2.out',
-            onComplete: () => {
-              overlay.remove();
-              clearTimeout(failsafe);
-            }
-          });
-        });
-
-        // Content slides up right as the overlay clears
-        gsap.to('.gallery-content', {
-          opacity: 1,
-          y: 0,
-          duration: 0.9,
-          ease: 'power3.out',
-          delay: 0.4,
-        });
-      }, 100);
-    } else {
-      clearTimeout(failsafe);
-      gsap.set('.gallery-container', { opacity: 1 });
-      gsap.to('.gallery-content', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' });
-    }
-    
-    return () => clearTimeout(failsafe);
-  }, []);
-
   const handleBack = () => {
     // Prevent rapid clicks from firing multiple transitions
     if (document.getElementById('transition-overlay')) return;
@@ -72,7 +21,6 @@ const Gallery = ({ onBack }) => {
     const W = window.innerWidth;
     const H = window.innerHeight;
     const count = 150;
-    let longestAnimation = 0;
 
     const fragment = document.createDocumentFragment();
     const particleData = [];
@@ -92,8 +40,6 @@ const Gallery = ({ onBack }) => {
       const p = document.createElement('div');
       // Radial gradient glow instead of box-shadow — zero blur compositing cost
       p.style.cssText = `position:absolute;width:${glowSize}px;height:${glowSize}px;border-radius:50%;background:radial-gradient(circle,${color} 30%,transparent 70%);will-change:transform,opacity;backface-visibility:hidden;transform:translate3d(${startX}px,${startY}px,0) scale(0.5);opacity:0;`;
-
-      if (delay + duration > longestAnimation) longestAnimation = delay + duration;
 
       fragment.appendChild(p);
       particleData.push({ p, startX, startY, endX, endY, targetOpacity, delay, duration });
@@ -117,18 +63,12 @@ const Gallery = ({ onBack }) => {
       particleTweens.push(tween);
     });
 
-    const cleanupTimer = setTimeout(() => {
-      if (document.body.contains(particleWrapper)) particleWrapper.remove();
-    }, (longestAnimation + 0.3) * 1000);
-
     gsap.to(overlay, {
       opacity: 1,
       duration: 1.0,
       ease: "power2.in",
       onComplete: () => {
         // CRITICAL: Kill ALL 150 particle tweens BEFORE mounting the home page.
-        // Without this, 150 GSAP tweens compete with 145 hero particles for GPU time.
-        clearTimeout(cleanupTimer);
         particleTweens.forEach(t => t.kill());
         particleWrapper.remove();
 
@@ -138,7 +78,7 @@ const Gallery = ({ onBack }) => {
   };
 
   return (
-    <div className="gallery-container min-h-screen w-full bg-transparent relative z-[200] flex flex-col pt-20 px-5 md:px-20">
+    <div className="gallery-container min-h-screen w-full bg-transparent relative z-[200] flex flex-col pt-20 px-5 md:px-20" style={{ opacity: 0 }}>
       
       {/* Sleek Back Button */}
       <button 
@@ -150,7 +90,7 @@ const Gallery = ({ onBack }) => {
       </button>
 
       {/* Main Content Area */}
-      <div className="gallery-content flex-1 flex flex-col justify-center items-center h-full pb-20">
+      <div className="gallery-content flex-1 flex flex-col justify-center items-center h-full pb-20" style={{ opacity: 0, transform: 'translateY(30px)' }}>
         <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-widest text-center">
           SCREENSHOT LIBRARY
         </h1>

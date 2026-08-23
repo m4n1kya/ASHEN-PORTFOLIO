@@ -27,47 +27,79 @@ const App = () => {
     }
   }, [hasLoadedOnce]);
 
-  // Handle view transitions
+  // Handle view transitions — App.jsx owns ALL overlay cleanup
   useEffect(() => {
     if (view === 'gallery') {
       setHasLoadedOnce(true);
       setGalleryMounted(true);
       sessionStorage.setItem('ashen_has_loaded', 'true');
+
+      // Fade out the overlay that Hero.jsx created.
+      // 200ms delay gives React time to mount Gallery before we reveal it.
+      const revealTimer = setTimeout(() => {
+        const overlays = document.querySelectorAll('#transition-overlay');
+        overlays.forEach(overlay => {
+          gsap.to(overlay, {
+            opacity: 0,
+            duration: 1.2,
+            ease: 'power2.out',
+            onComplete: () => overlay.remove()
+          });
+        });
+        // Ensure gallery is visible
+        gsap.set('.gallery-container', { opacity: 1 });
+        gsap.to('.gallery-content', {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+          delay: 0.3,
+        });
+      }, 200);
+
+      // FAILSAFE: If anything goes wrong, nuke the overlay after 2.5s
+      const failsafe = setTimeout(() => {
+        document.querySelectorAll('#transition-overlay').forEach(el => el.remove());
+        document.querySelectorAll('#particle-wrapper').forEach(el => el.remove());
+        gsap.set('.gallery-container', { opacity: 1 });
+        gsap.set('.gallery-content', { opacity: 1, y: 0 });
+      }, 2500);
+
+      return () => {
+        clearTimeout(revealTimer);
+        clearTimeout(failsafe);
+      };
     }
+
     if (view === 'home') {
       // Scroll home to top while it's hidden behind the overlay
       window.scrollTo(0, 0);
       gsap.set('.home-container', { opacity: 1 });
 
-      const overlays = document.querySelectorAll('#transition-overlay');
-      
-      // Fail-safe: Forcefully remove overlays after 2s no matter what
+      // Fade out the overlay that Gallery's handleBack created
+      const revealTimer = setTimeout(() => {
+        const overlays = document.querySelectorAll('#transition-overlay');
+        overlays.forEach(overlay => {
+          gsap.to(overlay, {
+            opacity: 0,
+            duration: 1.4,
+            ease: 'power2.out',
+            onComplete: () => overlay.remove()
+          });
+        });
+      }, 150);
+
+      // FAILSAFE: Nuke overlay after 2.5s no matter what
       const failsafe = setTimeout(() => {
         document.querySelectorAll('#transition-overlay').forEach(el => el.remove());
+        document.querySelectorAll('#particle-wrapper').forEach(el => el.remove());
         gsap.set('.home-container', { opacity: 1 });
-      }, 2000);
+      }, 2500);
 
-      if (overlays.length > 0) {
-        setTimeout(() => {
-          overlays.forEach(overlay => {
-            gsap.to(overlay, {
-              opacity: 0,
-              duration: 1.4,
-              ease: 'power2.out',
-              onComplete: () => {
-                overlay.remove();
-                clearTimeout(failsafe);
-              }
-            });
-          });
-        }, 150);
-      } else {
+      return () => {
+        clearTimeout(revealTimer);
         clearTimeout(failsafe);
-      }
-      
-      // Cleanup any orphaned particle wrappers just in case
-      const wrappers = document.querySelectorAll('#particle-wrapper');
-      wrappers.forEach(w => w.remove());
+      };
     }
   }, [view]);
 
