@@ -51,55 +51,14 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
       lanternImgRef.current.classList.remove("animate-floatHover");
     }
 
-    // Create decorative rising particles (App.jsx handles the overlay + navigation)
-    const particleWrapper = document.createElement('div');
-    particleWrapper.id = 'particle-wrapper';
-    particleWrapper.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999997;contain:layout size;';
-    document.body.appendChild(particleWrapper);
-
-    const colors = ['#ffffff', '#e0e0e0', '#a0a0a0', '#737373'];
-    const W = window.innerWidth;
-    const H = window.innerHeight;
-    const count = 150;
-
-    const fragment = document.createDocumentFragment();
-    const particleData = [];
-
-    for (let i = 0; i < count; i++) {
-      const size = Math.random() * 4 + 1.5;
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      const startX = -Math.random() * 200 - 50; // starts off-screen left
-      const startY = Math.random() * H;
-      const delay = Math.random() * 0.6;
-      const duration = Math.random() * 1.2 + 1.0;
-      const endX = W + 200 + Math.random() * 400; // ends off-screen right
-      const endY = startY + (Math.random() - 0.5) * 150;
-      const targetOpacity = Math.random() * 0.6 + 0.3;
-      const glowSize = size * 3;
-
-      const p = document.createElement('div');
-      p.style.cssText = `position:absolute;width:${glowSize}px;height:${glowSize}px;border-radius:50%;background:radial-gradient(circle,${color} 30%,transparent 70%);will-change:transform,opacity;backface-visibility:hidden;transform:translate3d(${startX}px,${startY}px,0) scale(0.5);opacity:0;`;
-
-      fragment.appendChild(p);
-      particleData.push({ p, startX, startY, endX, endY, targetOpacity, delay, duration });
+    // Pass the lantern coordinates to App.jsx to center the blip animation
+    if (onNavigateToGallery) {
+      let rect = null;
+      if (lanternImgRef.current) {
+        rect = lanternImgRef.current.getBoundingClientRect();
+      }
+      onNavigateToGallery(rect);
     }
-
-    particleWrapper.appendChild(fragment);
-
-    particleData.forEach(({ p, startX, startY, endX, endY, targetOpacity, delay, duration }) => {
-      gsap.fromTo(p,
-        { x: startX, y: startY, opacity: 0, scale: 0.5 },
-        {
-          x: endX, y: endY, opacity: targetOpacity, scale: 1,
-          duration, delay,
-          ease: 'power2.out',
-          force3D: true,
-        }
-      );
-    });
-
-    // Tell App.jsx to start the transition (App owns the overlay)
-    if (onNavigateToGallery) onNavigateToGallery();
   };
 
   return (

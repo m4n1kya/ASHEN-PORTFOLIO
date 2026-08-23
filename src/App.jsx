@@ -43,70 +43,51 @@ const App = () => {
     }
   }, [hasLoadedOnce]);
 
-  // Navigate to gallery — App owns the overlay, so it ALWAYS works
-  const navigateToGallery = useCallback(() => {
-    if (isTransitioning.current || !overlayRef.current) return;
+  // Navigate to gallery — Animate home container sucking into the lantern
+  const navigateToGallery = useCallback((lanternRect) => {
+    if (isTransitioning.current) return;
     isTransitioning.current = true;
 
-    // Fade overlay to black (particles created by Hero are behind it)
-    gsap.to(overlayRef.current, {
-      opacity: 1,
-      duration: 1.0,
-      ease: 'power2.in',
-      onComplete: () => {
-        // Screen is now fully black — safe to swap content
-        document.querySelectorAll('#particle-wrapper').forEach(el => el.remove());
+    const centerX = lanternRect ? lanternRect.left + lanternRect.width / 2 : window.innerWidth / 2;
+    const centerY = lanternRect ? lanternRect.top + lanternRect.height / 2 : window.innerHeight / 2;
 
-        // flushSync forces React to synchronously render the Gallery
-        // into the DOM. (Gallery now handles its own entrance animation on mount)
+    // Suck the window into the lantern
+    gsap.to('.home-container', {
+      scale: 0.01,
+      opacity: 0,
+      duration: 0.7,
+      transformOrigin: `${centerX}px ${centerY}px`,
+      ease: 'power3.in',
+      onComplete: () => {
         flushSync(() => {
           setHasLoadedOnce(true);
           setGalleryMounted(true);
           setView('gallery');
         });
         sessionStorage.setItem('ashen_has_loaded', 'true');
-
-        // Reveal by fading overlay to transparent
-        gsap.to(overlayRef.current, {
-          opacity: 0,
-          duration: 1.2,
-          ease: 'power2.out',
-          onComplete: () => {
-            isTransitioning.current = false;
-          },
-        });
+        isTransitioning.current = false;
       },
     });
   }, []);
 
   // Navigate back to home
   const navigateToHome = useCallback(() => {
-    if (isTransitioning.current || !overlayRef.current) return;
+    if (isTransitioning.current) return;
     isTransitioning.current = true;
 
-    gsap.to(overlayRef.current, {
-      opacity: 1,
-      duration: 1.0,
-      ease: 'power2.in',
-      onComplete: () => {
-        document.querySelectorAll('#particle-wrapper').forEach(el => el.remove());
-        flushSync(() => {
-          setView('home');
-        });
-
-        window.scrollTo(0, 0);
-        gsap.set('.home-container', { opacity: 1 });
-
-        gsap.to(overlayRef.current, {
-          opacity: 0,
-          duration: 1.4,
-          ease: 'power2.out',
-          onComplete: () => {
-            isTransitioning.current = false;
-          },
-        });
-      },
+    flushSync(() => {
+      setView('home');
     });
+
+    window.scrollTo(0, 0);
+
+    // Fade the home container back in gently
+    gsap.fromTo('.home-container', 
+      { scale: 0.95, opacity: 0, transformOrigin: 'center center' },
+      { scale: 1, opacity: 1, duration: 1.2, ease: 'power2.out', onComplete: () => {
+        isTransitioning.current = false;
+      }}
+    );
   }, []);
 
   return (
