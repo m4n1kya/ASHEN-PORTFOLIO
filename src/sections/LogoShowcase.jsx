@@ -3,11 +3,11 @@ import ScrollVelocity from "../components/reactbits/ScrollVelocity";
 
 const LogoIcon = ({ icon }) => {
   return (
-    <div className="flex-none flex-center pointer-events-none">
+    <div className="flex-none flex-center pointer-events-none drop-shadow-lg">
       <img
         src={icon.imgPath}
         alt={icon.name}
-        className="w-14 h-14 md:w-20 md:h-20 object-contain"
+        className="w-16 h-16 md:w-28 md:h-28 object-contain transition-transform duration-300"
       />
     </div>
   );
@@ -23,7 +23,7 @@ const LogoShowcase = () => (
     <div className="gradient-edge z-10 right-0" />
 
     <div className="w-full">
-      <ScrollVelocity velocity={3} className="w-full h-auto py-4">
+      <ScrollVelocity velocity={3} className="w-full h-auto py-8">
         {logoIconsList.map((icon, index) => (
           <LogoIcon key={index} icon={icon} />
         ))}

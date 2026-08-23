@@ -1,5 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 
+const styleContent = `
+@keyframes jellyBlob {
+  0% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; }
+  25% { border-radius: 58% 42% 54% 46% / 46% 58% 42% 54%; }
+  50% { border-radius: 42% 58% 46% 54% / 54% 42% 58% 46%; }
+  75% { border-radius: 54% 46% 58% 42% / 42% 54% 46% 58%; }
+  100% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; }
+}
+`;
+
 const XRayCursor = () => {
   const cursorRef = useRef(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
@@ -45,13 +55,24 @@ const XRayCursor = () => {
     window.addEventListener("mouseout", handleMouseOut);
 
     const animate = () => {
-      // Lerp for smooth spring-like lag
-      cursorX += (mouseX - cursorX) * 0.15;
-      cursorY += (mouseY - cursorY) * 0.15;
+      // Calculate velocity and apply spring-like lag
+      const vx = mouseX - cursorX;
+      const vy = mouseY - cursorY;
+      
+      cursorX += vx * 0.15;
+      cursorY += vy * 0.15;
+
+      // Calculate speed and angle for the jelly stretch effect
+      const speed = Math.sqrt(vx * vx + vy * vy);
+      const angle = Math.atan2(vy, vx);
+      
+      // Stretch along movement axis, squish perpendicular to it
+      const scaleX = 1 + Math.min(speed / 100, 0.4);
+      const scaleY = 1 - Math.min(speed / 100, 0.25);
 
       const size = isHovering ? 100 : 60;
       
-      cursor.style.transform = `translate3d(${cursorX - size / 2}px, ${cursorY - size / 2}px, 0)`;
+      cursor.style.transform = `translate3d(${cursorX - size / 2}px, ${cursorY - size / 2}px, 0) rotate(${angle}rad) scale(${scaleX}, ${scaleY})`;
       cursor.style.width = `${size}px`;
       cursor.style.height = `${size}px`;
 
@@ -71,23 +92,27 @@ const XRayCursor = () => {
   if (isTouchDevice) return null;
 
   return (
-    <div
-      ref={cursorRef}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "60px",
-        height: "60px",
-        borderRadius: "50%",
-        backgroundColor: "white",
-        mixBlendMode: "difference",
-        pointerEvents: "none",
-        zIndex: 9999,
-        willChange: "transform, width, height",
-        transition: "width 0.3s ease-out, height 0.3s ease-out",
-      }}
-    />
+    <>
+      <style>{styleContent}</style>
+      <div
+        ref={cursorRef}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "60px",
+          height: "60px",
+          backgroundColor: "white",
+          mixBlendMode: "difference",
+          pointerEvents: "none",
+          zIndex: 9999,
+          willChange: "transform, width, height",
+          transition: "width 0.3s ease-out, height 0.3s ease-out",
+          animation: "jellyBlob 3s infinite ease-in-out alternate",
+          transformOrigin: "center center",
+        }}
+      />
+    </>
   );
 };
 
