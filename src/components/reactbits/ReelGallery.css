@@ -31,7 +31,7 @@
 
 .reel-gallery__row {
   position: relative;
-  height: 316px; /* Large tiles height */
+  height: 263px; /* Slightly smaller tiles height */
   transform-style: preserve-3d;
   will-change: transform;
 }
@@ -45,7 +45,7 @@
 
 .reel-gallery__tile {
   position: relative;
-  width: 480px; /* Large tiles width */
+  width: 400px; /* Slightly smaller tiles width */
   height: 100%;
   flex-shrink: 0;
   border-radius: 16px;

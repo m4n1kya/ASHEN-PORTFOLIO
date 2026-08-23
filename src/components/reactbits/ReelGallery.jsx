@@ -19,8 +19,16 @@ const ReelGallery = ({
   
   // Distribute items into rows
   const rowItems = useMemo(() => {
+    // Pad items to ensure each row gets the exact same number of items
+    const paddedItems = [...items];
+    let i = 0;
+    while (paddedItems.length % rows !== 0) {
+      paddedItems.push(items[i % items.length]);
+      i++;
+    }
+
     const rs = Array.from({ length: rows }, () => []);
-    items.forEach((item, i) => rs[i % rows].push(item));
+    paddedItems.forEach((item, index) => rs[index % rows].push(item));
     // Repeat items so they wrap seamlessly horizontally
     return rs.map(r => {
       return [...r, ...r, ...r, ...r, ...r, ...r]; 
