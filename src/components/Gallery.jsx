@@ -1,5 +1,4 @@
 import gsap from 'gsap';
-import Magnet from './reactbits/Magnet';
 import DecryptedText from './reactbits/DecryptedText';
 import ShinyText from './reactbits/ShinyText';
 
@@ -59,16 +58,14 @@ const Gallery = ({ onBack }) => {
   return (
     <div className="gallery-container min-h-screen w-full bg-transparent relative z-[200] flex flex-col pt-20 px-5 md:px-20" style={{ opacity: 0 }}>
       
-      {/* Sleek Back Button with Magnet */}
-      <Magnet padding={25} magnetStrength={3}>
-        <button 
-          onClick={handleBack}
-          className="group relative z-10 w-fit flex items-center gap-3 px-6 py-3 bg-black-100/60 backdrop-blur-md border border-white-50/20 text-white-50 rounded-full hover:border-white hover:text-white transition-all duration-300 shadow-lg"
-        >
-          <span className="group-hover:-translate-x-1 transition-transform duration-300">←</span>
-          <span className="text-sm uppercase tracking-widest font-semibold">Back to Portfolio</span>
-        </button>
-      </Magnet>
+      {/* Sleek Back Button */}
+      <button 
+        onClick={handleBack}
+        className="group relative z-10 w-fit flex items-center gap-3 px-6 py-3 bg-black-100/60 backdrop-blur-md border border-white-50/20 text-white-50 rounded-full hover:border-white hover:text-white transition-all duration-300 shadow-lg cursor-pointer"
+      >
+        <span className="group-hover:-translate-x-1 transition-transform duration-300">←</span>
+        <span className="text-sm uppercase tracking-widest font-semibold">Back to Portfolio</span>
+      </button>
 
       {/* Main Content Area */}
       <div className="gallery-content flex-1 flex flex-col justify-center items-center h-full pb-20" style={{ opacity: 0, transform: 'translateY(30px)' }}>
