@@ -45,6 +45,24 @@ const Gallery = ({ onBack }) => {
       const p = document.createElement('div');
       p.style.cssText = `position:absolute;width:${glowSize}px;height:${glowSize}px;border-radius:50%;background:radial-gradient(circle,${color} 30%,transparent 70%);will-change:transform,opacity;backface-visibility:hidden;transform:translate3d(${startX}px,${startY}px,0) scale(0.5);opacity:0;`;
 
+      fragment.appendChild(p);
+      particleData.push({ p, startX, startY, endX, endY, targetOpacity, delay, duration });
+    }
+
+    particleWrapper.appendChild(fragment);
+
+    particleData.forEach(({ p, startX, startY, endX, endY, targetOpacity, delay, duration }) => {
+      gsap.fromTo(p,
+        { x: startX, y: startY, opacity: 0, scale: 0.5 },
+        {
+          x: endX, y: endY, opacity: targetOpacity, scale: 1,
+          duration, delay,
+          ease: 'power2.out',
+          force3D: true,
+        }
+      );
+    });
+
     // Navigate back to the home page smoothly
     onBack();
   };
