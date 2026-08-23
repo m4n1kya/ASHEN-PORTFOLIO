@@ -45,30 +45,12 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
   const handleLanternClick = () => {
     if (!lanternContainerRef.current) return;
     
-    // Prevent rapid clicks from stacking multiple overlays (which causes a blank screen)
-    if (document.getElementById('transition-overlay')) return;
-    
     // Stop the CSS float animation so GSAP can take over smoothly
     if (lanternImgRef.current) {
       lanternImgRef.current.classList.remove("animate-floatHover");
     }
-    
-    // Calculate absolute center for the ENTIRE container (image + particles)
-    const rect = lanternContainerRef.current.getBoundingClientRect();
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-    const containerCenterX = rect.left + rect.width / 2;
-    const containerCenterY = rect.top + rect.height / 2;
-    const deltaX = centerX - containerCenterX;
-    const deltaY = centerY - containerCenterY;
-    
-    // Overlay ON TOP of particles so mount stutter is hidden
-    const darkOverlay = document.createElement('div');
-    darkOverlay.id = 'transition-overlay';
-    darkOverlay.style.cssText = 'position:fixed;inset:0;background-color:black;opacity:0;z-index:999999;pointer-events:none;';
-    document.body.appendChild(darkOverlay);
 
-    // Create fixed wrapper for particles — BELOW overlay
+    // Create decorative rising particles (App.jsx handles the overlay + navigation)
     const particleWrapper = document.createElement('div');
     particleWrapper.id = 'particle-wrapper';
     particleWrapper.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999997;contain:layout size;';
@@ -103,10 +85,8 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
 
     particleWrapper.appendChild(fragment);
 
-    // Store all tweens so we can kill them before navigating
-    const particleTweens = [];
     particleData.forEach(({ p, startX, startY, endX, endY, targetOpacity, delay, duration }) => {
-      const tween = gsap.fromTo(p,
+      gsap.fromTo(p,
         { x: startX, y: startY, opacity: 0, scale: 0.5 },
         {
           x: endX, y: endY, opacity: targetOpacity, scale: 1,
@@ -115,23 +95,10 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
           force3D: true,
         }
       );
-      particleTweens.push(tween);
     });
 
-    // Fade to black, then clean up ALL particles before navigating
-    gsap.to(darkOverlay, {
-      opacity: 1,
-      duration: 1.0,
-      ease: 'power2.in',
-      onComplete: () => {
-        // CRITICAL: Kill all 150 particle tweens so they don't compete
-        // with the Gallery mount and overlay fade-out
-        particleTweens.forEach(t => t.kill());
-        particleWrapper.remove();
-
-        if (onNavigateToGallery) onNavigateToGallery();
-      }
-    });
+    // Tell App.jsx to start the transition (App owns the overlay)
+    if (onNavigateToGallery) onNavigateToGallery();
   };
 
   return (

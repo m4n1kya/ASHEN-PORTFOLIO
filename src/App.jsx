@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { flushSync } from "react-dom";
 import gsap from "gsap";
 import Footer from "./sections/Footer";
 import Contact from "./sections/Contact";
@@ -20,6 +21,8 @@ const App = () => {
   const [hasLoadedOnce, setHasLoadedOnce] = useState(() => {
     return sessionStorage.getItem('ashen_has_loaded') === 'true';
   });
+  const overlayRef = useRef(null);
+  const isTransitioning = useRef(false);
 
   useEffect(() => {
     if (!hasLoadedOnce) {
@@ -27,84 +30,96 @@ const App = () => {
     }
   }, [hasLoadedOnce]);
 
-  // Handle view transitions — App.jsx owns ALL overlay cleanup
-  useEffect(() => {
-    if (view === 'gallery') {
-      setHasLoadedOnce(true);
-      setGalleryMounted(true);
-      sessionStorage.setItem('ashen_has_loaded', 'true');
+  // Navigate to gallery — App owns the overlay, so it ALWAYS works
+  const navigateToGallery = useCallback(() => {
+    if (isTransitioning.current || !overlayRef.current) return;
+    isTransitioning.current = true;
 
-      // Fade out the overlay that Hero.jsx created.
-      // 200ms delay gives React time to mount Gallery before we reveal it.
-      const revealTimer = setTimeout(() => {
-        const overlays = document.querySelectorAll('#transition-overlay');
-        overlays.forEach(overlay => {
-          gsap.to(overlay, {
-            opacity: 0,
-            duration: 1.2,
-            ease: 'power2.out',
-            onComplete: () => overlay.remove()
-          });
+    // Fade overlay to black (particles created by Hero are behind it)
+    gsap.to(overlayRef.current, {
+      opacity: 1,
+      duration: 1.0,
+      ease: 'power2.in',
+      onComplete: () => {
+        // Screen is now fully black — safe to swap content
+        document.querySelectorAll('#particle-wrapper').forEach(el => el.remove());
+
+        // flushSync forces React to synchronously render the Gallery
+        // into the DOM BEFORE we try to animate it. No race condition possible.
+        flushSync(() => {
+          setHasLoadedOnce(true);
+          setGalleryMounted(true);
+          setView('gallery');
         });
-        // Ensure gallery is visible
+        sessionStorage.setItem('ashen_has_loaded', 'true');
+
+        // Gallery is NOW guaranteed to be in the DOM
         gsap.set('.gallery-container', { opacity: 1 });
         gsap.to('.gallery-content', {
-          opacity: 1,
-          y: 0,
-          duration: 0.9,
-          ease: 'power3.out',
-          delay: 0.3,
+          opacity: 1, y: 0,
+          duration: 0.9, ease: 'power3.out', delay: 0.3,
         });
-      }, 200);
 
-      // FAILSAFE: If anything goes wrong, nuke the overlay after 2.5s
-      const failsafe = setTimeout(() => {
-        document.querySelectorAll('#transition-overlay').forEach(el => el.remove());
-        document.querySelectorAll('#particle-wrapper').forEach(el => el.remove());
-        gsap.set('.gallery-container', { opacity: 1 });
-        gsap.set('.gallery-content', { opacity: 1, y: 0 });
-      }, 2500);
-
-      return () => {
-        clearTimeout(revealTimer);
-        clearTimeout(failsafe);
-      };
-    }
-
-    if (view === 'home') {
-      // Scroll home to top while it's hidden behind the overlay
-      window.scrollTo(0, 0);
-      gsap.set('.home-container', { opacity: 1 });
-
-      // Fade out the overlay that Gallery's handleBack created
-      const revealTimer = setTimeout(() => {
-        const overlays = document.querySelectorAll('#transition-overlay');
-        overlays.forEach(overlay => {
-          gsap.to(overlay, {
-            opacity: 0,
-            duration: 1.4,
-            ease: 'power2.out',
-            onComplete: () => overlay.remove()
-          });
+        // Reveal by fading overlay to transparent
+        gsap.to(overlayRef.current, {
+          opacity: 0,
+          duration: 1.2,
+          ease: 'power2.out',
+          onComplete: () => {
+            isTransitioning.current = false;
+          },
         });
-      }, 150);
+      },
+    });
+  }, []);
 
-      // FAILSAFE: Nuke overlay after 2.5s no matter what
-      const failsafe = setTimeout(() => {
-        document.querySelectorAll('#transition-overlay').forEach(el => el.remove());
+  // Navigate back to home
+  const navigateToHome = useCallback(() => {
+    if (isTransitioning.current || !overlayRef.current) return;
+    isTransitioning.current = true;
+
+    gsap.to(overlayRef.current, {
+      opacity: 1,
+      duration: 1.0,
+      ease: 'power2.in',
+      onComplete: () => {
         document.querySelectorAll('#particle-wrapper').forEach(el => el.remove());
+
+        flushSync(() => {
+          setView('home');
+        });
+
+        window.scrollTo(0, 0);
         gsap.set('.home-container', { opacity: 1 });
-      }, 2500);
 
-      return () => {
-        clearTimeout(revealTimer);
-        clearTimeout(failsafe);
-      };
-    }
-  }, [view]);
+        gsap.to(overlayRef.current, {
+          opacity: 0,
+          duration: 1.4,
+          ease: 'power2.out',
+          onComplete: () => {
+            isTransitioning.current = false;
+          },
+        });
+      },
+    });
+  }, []);
 
   return (
     <>
+      {/* PERMANENT transition overlay — always in the DOM, controlled via ref.
+          This can NEVER be lost, unlike document.createElement overlays. */}
+      <div
+        ref={overlayRef}
+        style={{
+          position: 'fixed',
+          inset: 0,
+          backgroundColor: 'black',
+          opacity: 0,
+          zIndex: 999999,
+          pointerEvents: 'none',
+        }}
+      />
+
       <ParticleCursor />
       <AmbientSound />
       
@@ -116,7 +131,7 @@ const App = () => {
       >
         <Loader hasLoadedOnce={hasLoadedOnce} />
         <Navbar />
-        <Hero onNavigateToGallery={() => setView('gallery')} hasLoadedOnce={hasLoadedOnce} />
+        <Hero onNavigateToGallery={navigateToGallery} hasLoadedOnce={hasLoadedOnce} />
         <FeatureCards />
         <Experience />
         <ShowcaseSection />
@@ -127,7 +142,7 @@ const App = () => {
       </div>
 
       {galleryMounted && view === 'gallery' && (
-        <Gallery onBack={() => setView('home')} />
+        <Gallery onBack={navigateToHome} />
       )}
     </>
   );

@@ -2,16 +2,7 @@ import gsap from 'gsap';
 
 const Gallery = ({ onBack }) => {
   const handleBack = () => {
-    // Prevent rapid clicks from firing multiple transitions
-    if (document.getElementById('transition-overlay')) return;
-
-    // Dark overlay — ON TOP of particles so mount stutter is hidden
-    const overlay = document.createElement('div');
-    overlay.style.cssText = 'position:fixed;inset:0;background-color:black;opacity:0;z-index:999999;pointer-events:none;';
-    overlay.id = 'transition-overlay';
-    document.body.appendChild(overlay);
-
-    // Create fixed wrapper for the downward particle swipe — BELOW overlay
+    // Create decorative falling particles (App.jsx handles the overlay + navigation)
     const particleWrapper = document.createElement('div');
     particleWrapper.id = 'particle-wrapper';
     particleWrapper.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999997;contain:layout size;';
@@ -38,7 +29,6 @@ const Gallery = ({ onBack }) => {
       const glowSize = size * 3;
 
       const p = document.createElement('div');
-      // Radial gradient glow instead of box-shadow — zero blur compositing cost
       p.style.cssText = `position:absolute;width:${glowSize}px;height:${glowSize}px;border-radius:50%;background:radial-gradient(circle,${color} 30%,transparent 70%);will-change:transform,opacity;backface-visibility:hidden;transform:translate3d(${startX}px,${startY}px,0) scale(0.5);opacity:0;`;
 
       fragment.appendChild(p);
@@ -47,11 +37,8 @@ const Gallery = ({ onBack }) => {
 
     particleWrapper.appendChild(fragment);
 
-    // Store all tweens so we can kill them before navigating
-    const particleTweens = [];
-
     particleData.forEach(({ p, startX, startY, endX, endY, targetOpacity, delay, duration }) => {
-      const tween = gsap.fromTo(p,
+      gsap.fromTo(p,
         { x: startX, y: startY, opacity: 0, scale: 0.5 },
         {
           x: endX, y: endY, opacity: targetOpacity, scale: 1,
@@ -60,21 +47,10 @@ const Gallery = ({ onBack }) => {
           force3D: true,
         }
       );
-      particleTweens.push(tween);
     });
 
-    gsap.to(overlay, {
-      opacity: 1,
-      duration: 1.0,
-      ease: "power2.in",
-      onComplete: () => {
-        // CRITICAL: Kill ALL 150 particle tweens BEFORE mounting the home page.
-        particleTweens.forEach(t => t.kill());
-        particleWrapper.remove();
-
-        onBack();
-      }
-    });
+    // Tell App.jsx to start the transition (App owns the overlay)
+    onBack();
   };
 
   return (
