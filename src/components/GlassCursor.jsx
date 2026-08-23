@@ -23,7 +23,7 @@ const LensCursor = memo(function LensCursor() {
   const [scene] = useState(() => new THREE.Scene());
 
   // Load the background image to refract it perfectly
-  const bgTexture = useLoader(THREE.TextureLoader, '/images/ashen-bg.png');
+  const bgTexture = useLoader(THREE.TextureLoader, '/images/bermuda-bg-1.jpg');
   bgTexture.colorSpace = THREE.SRGBColorSpace;
 
   // Calculate background-size: cover equivalent for the 3D plane
