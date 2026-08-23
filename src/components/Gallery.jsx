@@ -4,7 +4,7 @@ import { useGSAP } from '@gsap/react';
 import ShinyText from './reactbits/ShinyText';
 import BlurText from './reactbits/BlurText';
 import Magnet from './reactbits/Magnet';
-import DriftWall from './reactbits/DriftWall';
+import ReelGallery from './reactbits/ReelGallery';
 
 const Gallery = ({ onBack }) => {
   const containerRef = useRef(null);
@@ -103,20 +103,13 @@ const Gallery = ({ onBack }) => {
           </p>
         </div>
 
-        {/* DriftWall Gallery */}
+        {/* Custom ReelGallery */}
         <div className="absolute inset-0 z-10 pt-32 pb-10">
-          <DriftWall 
+          <ReelGallery 
             items={galleryItems}
-            columns={5} 
-            tileWidth={480}
-            tileHeight={316}
+            columns={4} 
             gap={32}
-            speed={30}
-            variance={0.5}
-            perspective={1000}
-            depth={150}
-            parallax={0.8}
-            overlayColor="#000000"
+            speed={2}
           />
         </div>
       </div>

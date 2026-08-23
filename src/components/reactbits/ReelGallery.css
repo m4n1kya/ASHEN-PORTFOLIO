@@ -1,0 +1,102 @@
+.reel-gallery {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+  /* Creates a mask to fade out the top and bottom edges */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  cursor: grab;
+}
+
+.reel-gallery:active {
+  cursor: grabbing;
+}
+
+.reel-gallery__plane {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 140vw; /* Wider than viewport to fill out the perspective */
+  /* Tilt the plane in 3D */
+  transform: translate(-50%, -50%) rotateX(15deg) rotateY(-10deg) rotateZ(-2deg) translateZ(-100px);
+  transform-style: preserve-3d;
+}
+
+.reel-gallery__col {
+  position: relative;
+  width: 480px; /* Large tiles */
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.reel-gallery__track {
+  display: flex;
+  flex-direction: column;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.reel-gallery__tile {
+  position: relative;
+  width: 100%;
+  height: 316px; /* Large tiles */
+  flex-shrink: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transform: translateZ(0);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.reel-gallery__tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  filter: brightness(0.6) saturate(0.8);
+  transition: filter 0.4s ease;
+}
+
+.reel-gallery__tile-overlay {
+  position: absolute;
+  inset: 0;
+  background: black;
+  opacity: 0.3;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+/* Hover effects to make a tile pop out towards the user */
+.reel-gallery__tile:hover {
+  transform: translateZ(50px) scale(1.05);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 0 2px rgba(255, 255, 255, 0.2);
+  z-index: 10;
+}
+
+.reel-gallery__tile:hover img {
+  filter: brightness(1.1) saturate(1.1);
+}
+
+.reel-gallery__tile:hover .reel-gallery__tile-overlay {
+  opacity: 0;
+}
+
+@media (max-width: 768px) {
+  .reel-gallery__plane {
+    width: 250vw;
+    transform: translate(-50%, -50%) rotateX(10deg) rotateY(-5deg) translateZ(-150px);
+  }
+  .reel-gallery__col {
+    width: 280px;
+  }
+  .reel-gallery__tile {
+    height: 180px;
+  }
+}
