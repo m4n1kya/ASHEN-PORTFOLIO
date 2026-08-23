@@ -1,8 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 
+const styleContent = `
+@keyframes jellyBlob {
+  0% { border-radius: 41% 59% 43% 57% / 51% 43% 57% 49%; }
+  25% { border-radius: 59% 41% 54% 46% / 43% 59% 41% 57%; }
+  50% { border-radius: 48% 52% 41% 59% / 58% 46% 54% 42%; }
+  75% { border-radius: 43% 57% 61% 39% / 41% 58% 42% 59%; }
+  100% { border-radius: 41% 59% 43% 57% / 51% 43% 57% 49%; }
+}
+`;
+
 const XRayCursor = () => {
   const cursorRef = useRef(null);
-  const turbRef = useRef(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   useEffect(() => {
@@ -12,8 +21,7 @@ const XRayCursor = () => {
     }
 
     const cursor = cursorRef.current;
-    const turb = turbRef.current;
-    if (!cursor || !turb) return;
+    if (!cursor) return;
 
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
@@ -21,7 +29,6 @@ const XRayCursor = () => {
     let cursorY = mouseY;
     let isHovering = false;
     let animationFrameId;
-    let time = 0;
 
     const handleMouseMove = (e) => {
       mouseX = e.clientX;
@@ -48,35 +55,26 @@ const XRayCursor = () => {
     window.addEventListener("mouseout", handleMouseOut);
 
     const animate = () => {
+      // Calculate velocity and apply spring-like lag
       const vx = mouseX - cursorX;
       const vy = mouseY - cursorY;
+      
+      cursorX += vx * 0.15;
+      cursorY += vy * 0.15;
 
-      cursorX += vx * 0.12;
-      cursorY += vy * 0.12;
-
+      // Calculate speed and angle for the jelly stretch effect
       const speed = Math.sqrt(vx * vx + vy * vy);
       const angle = Math.atan2(vy, vx);
+      
+      // More extreme stretch and squish for a more watery effect
+      const scaleX = 1 + Math.min(speed / 70, 0.8);
+      const scaleY = 1 - Math.min(speed / 70, 0.4);
 
-      // Extreme jelly stretch on movement
-      const scaleX = 1 + Math.min(speed / 60, 0.9);
-      const scaleY = 1 - Math.min(speed / 60, 0.45);
-
-      const size = isHovering ? 110 : 65;
-
+      const size = isHovering ? 100 : 60;
+      
       cursor.style.transform = `translate3d(${cursorX - size / 2}px, ${cursorY - size / 2}px, 0) rotate(${angle}rad) scale(${scaleX}, ${scaleY})`;
       cursor.style.width = `${size}px`;
       cursor.style.height = `${size}px`;
-
-      // Animate SVG turbulence only when moving!
-      // This causes the cursor to freeze into an undefined, organic splat when stationary.
-      if (speed > 0.1) {
-        time += speed * 0.0008;
-      }
-      
-      const freqX = 0.02 + Math.sin(time) * 0.015;
-      const freqY = 0.025 + Math.cos(time * 0.8) * 0.015;
-      // Use absolute values to prevent SVG errors with negative frequencies
-      turb.setAttribute("baseFrequency", `${Math.abs(freqX).toFixed(4)} ${Math.abs(freqY).toFixed(4)}`);
 
       animationFrameId = requestAnimationFrame(animate);
     };
@@ -95,45 +93,22 @@ const XRayCursor = () => {
 
   return (
     <>
-      {/* SVG filter that warps the blob into a living organic shape */}
-      <svg style={{ position: "absolute", width: 0, height: 0 }}>
-        <defs>
-          <filter id="jelly-warp" x="-50%" y="-50%" width="200%" height="200%">
-            <feTurbulence
-              ref={turbRef}
-              type="fractalNoise"
-              baseFrequency="0.025 0.03"
-              numOctaves="3"
-              seed="2"
-              result="noise"
-            />
-            <feDisplacementMap
-              in="SourceGraphic"
-              in2="noise"
-              scale="18"
-              xChannelSelector="R"
-              yChannelSelector="G"
-            />
-          </filter>
-        </defs>
-      </svg>
-
+      <style>{styleContent}</style>
       <div
         ref={cursorRef}
         style={{
           position: "fixed",
           top: 0,
           left: 0,
-          width: "65px",
-          height: "65px",
-          borderRadius: "50%",
+          width: "60px",
+          height: "60px",
           backgroundColor: "white",
           mixBlendMode: "difference",
           pointerEvents: "none",
           zIndex: 9999,
           willChange: "transform, width, height",
           transition: "width 0.3s ease-out, height 0.3s ease-out",
-          filter: "url(#jelly-warp)",
+          animation: "jellyBlob 4s infinite linear",
           transformOrigin: "center center",
         }}
       />
