@@ -10,7 +10,7 @@ const styleContent = `
 }
 `;
 
-const XRayCursor = () => {
+const XRayCursor = ({ isVisible = true }) => {
   const cursorRef = useRef(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
 
@@ -106,8 +106,9 @@ const XRayCursor = () => {
           mixBlendMode: "difference",
           pointerEvents: "none",
           zIndex: 9999,
-          willChange: "transform, width, height",
-          transition: "width 0.3s ease-out, height 0.3s ease-out",
+          willChange: "transform, width, height, opacity",
+          opacity: isVisible ? 1 : 0,
+          transition: "width 0.3s ease-out, height 0.3s ease-out, opacity 0.4s ease-out",
           animation: "jellyBlob 2.5s infinite linear",
           transformOrigin: "center center",
         }}
