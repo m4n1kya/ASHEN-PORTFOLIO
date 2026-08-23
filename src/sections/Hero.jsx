@@ -26,15 +26,18 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
       gsap.set(".hero-text h1", { y: 0, opacity: 1 });
     }
 
-    gsap.to(".scroll-indicator", {
-      opacity: 0,
-      scrollTrigger: {
-        trigger: "#hero",
-        start: "top top",
-        end: "+=300", 
-        scrub: true,
-      },
-    });
+    gsap.fromTo(".scroll-indicator",
+      { opacity: 0.8 },
+      {
+        opacity: 0,
+        scrollTrigger: {
+          trigger: "#hero",
+          start: "top top",
+          end: "+=300", 
+          scrub: true,
+        },
+      }
+    );
 
     gsap.fromTo(
       ".scroll-mouse-dot",
