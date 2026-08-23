@@ -23,7 +23,7 @@ const LogoShowcase = () => (
     <div className="gradient-edge z-10 right-0" />
 
     <div className="w-full">
-      <ScrollVelocity velocity={30} className="w-full h-auto py-4">
+      <ScrollVelocity velocity={3} className="w-full h-auto py-4">
         {logoIconsList.map((icon, index) => (
           <LogoIcon key={index} icon={icon} />
         ))}
