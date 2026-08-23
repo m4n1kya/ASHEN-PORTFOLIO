@@ -66,9 +66,9 @@ const XRayCursor = () => {
       const speed = Math.sqrt(vx * vx + vy * vy);
       const angle = Math.atan2(vy, vx);
       
-      // More extreme stretch and squish for a highly liquid effect
-      const scaleX = 1 + Math.min(speed / 50, 1.5);
-      const scaleY = 1 - Math.min(speed / 50, 0.7);
+      // Moderate stretch and squish so it remains blobby and doesn't turn into a thin line at high speeds
+      const scaleX = 1 + Math.min(speed / 100, 0.4);
+      const scaleY = 1 - Math.min(speed / 100, 0.25);
 
       const size = isHovering ? 100 : 60;
       
