@@ -94,13 +94,10 @@ const Loader = ({ hasLoadedOnce }) => {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
 
-  if (hasLoadedOnce) {
-    const blocker = document.getElementById('pre-loader-blocker');
-    if (blocker) blocker.remove();
-    return null;
-  }
-
   useEffect(() => {
+    // If hasLoadedOnce is true, we don't want to run the WebGL loader logic
+    if (hasLoadedOnce) return;
+
     document.body.style.overflow = 'hidden';
 
     const canvas = canvasRef.current;
@@ -242,6 +239,12 @@ const Loader = ({ hasLoadedOnce }) => {
       window.removeEventListener('resize', resize);
     };
   }, []);
+
+  if (hasLoadedOnce) {
+    const blocker = document.getElementById('pre-loader-blocker');
+    if (blocker) blocker.remove();
+    return null;
+  }
 
   return (
     // Added 'bg-black' to prevent the 1-frame flash while WebGL compiles the shaders
