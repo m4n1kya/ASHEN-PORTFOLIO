@@ -12,7 +12,7 @@ import FeatureCards from "./sections/FeatureCards";
 import Navbar from "./components/NavBar";
 import Loader from "./components/Loader";
 import ParticleCursor from "./components/ParticleCursor";
-import GlassCursor from "./components/GlassCursor";
+import XRayCursor from "./components/XRayCursor";
 import Gallery from "./components/Gallery";
 
 const App = () => {
@@ -114,7 +114,7 @@ const App = () => {
       />
 
       <ParticleCursor />
-      <GlassCursor />
+      <XRayCursor />
       
       {/* Home page is ALWAYS mounted — never destroyed/recreated.
           Hidden with display:none when viewing gallery. */}
