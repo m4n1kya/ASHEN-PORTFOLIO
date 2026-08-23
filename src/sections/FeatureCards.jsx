@@ -1,24 +1,31 @@
 import { abilities } from "../constants";
-import GlowCard from "../components/GlowCard";
+import SpotlightCard from "../components/reactbits/SpotlightCard";
+import ShinyText from "../components/reactbits/ShinyText";
 
 const FeatureCards = () => (
   <div id="about" className="w-full section-padding">
     <div className="w-full text-center mb-12">
-      <h2 className="text-white text-3xl md:text-5xl font-bold">Engineering Roles</h2>
-      <p className="text-blue-50 mt-4 md:text-xl">Building across the stack, from intelligent products to production-ready applications.</p>
+      <h2 className="text-white text-3xl md:text-5xl font-bold">
+        Engineering Roles
+      </h2>
+      <p className="text-blue-50 mt-4 md:text-xl max-w-3xl mx-auto">
+        Building across the stack, from <ShinyText text="intelligent products" className="text-white font-semibold" speed={4} /> to production-ready systems.
+      </p>
     </div>
     <div className="mx-auto grid-4-cols">
       {abilities.map(({ imgPath, title, desc }) => (
-        <GlowCard
+        <SpotlightCard
           key={title}
-          className="card-border rounded-xl p-8 flex flex-col gap-4 relative"
+          className="flex flex-col gap-4 relative transition-all duration-300 hover:border-white/30"
+          spotlightColor="rgba(217, 236, 255, 0.08)"
+          borderColor="rgba(217, 236, 255, 0.3)"
         >
-          <div className="size-14 flex items-center justify-center rounded-full bg-black-200">
+          <div className="size-14 flex items-center justify-center rounded-full bg-black-200 border border-white/10 shadow-inner">
             <img src={imgPath} alt={title} className="w-8 h-8 object-contain" />
           </div>
           <h3 className="text-white text-2xl font-semibold mt-2">{title}</h3>
-          <p className="text-white-50 text-base">{desc}</p>
-        </GlowCard>
+          <p className="text-white-50 text-base leading-relaxed">{desc}</p>
+        </SpotlightCard>
       ))}
     </div>
   </div>

@@ -36,7 +36,12 @@ const words = [
   { text: "Products", imgPath: "/images/code.svg" },
 ];
 
-const counterItems = [];
+const counterItems = [
+  { value: 500, suffix: "+", label: "Problems Solved" },
+  { value: 15, suffix: "+", label: "Projects Completed" },
+  { value: 2, suffix: "", label: "Internships & Roles" },
+  { value: 99, suffix: "%", label: "Reliability & Uptime" },
+];
 
 const logoIconsList = [
   { imgPath: "/images/logos/react.png", name: "React" },
@@ -166,9 +171,10 @@ const expLogos = [
 const testimonials = [];
 
 const socialImgs = [
-  { name: "github", imgPath: "/images/x.png", url: "https://github.com/m4n1kya" }, // using 'x.png' as placeholder for github icon if it doesn't exist
-  { name: "linkedin", imgPath: "/images/linkedin.png", url: "YOUR_LINKEDIN" },
-  { name: "email", imgPath: "/images/chat.png", url: "YOUR_EMAIL" }
+  { name: "github", imgPath: "/images/x.png", url: "https://github.com/m4n1kya/" },
+  { name: "linkedin", imgPath: "/images/linkedin.png", url: "https://www.linkedin.com/in/m4n1kya/" },
+  { name: "x", imgPath: "/images/x.png", url: "https://x.com/m4n1kya" },
+  { name: "email", imgPath: "/images/chat.png", url: "mailto:m4n1kya2005@gmail.com" }
 ];
 
 export {

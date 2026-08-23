@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
 
 import TitleHeader from "../components/TitleHeader";
+import SpotlightCard from "../components/reactbits/SpotlightCard";
+import Magnet from "../components/reactbits/Magnet";
 
 const Contact = () => {
   const formRef = useRef(null);
@@ -57,7 +59,11 @@ const Contact = () => {
         />
         <div className="grid-12-cols mt-16 gap-10">
           <div className="xl:col-span-6">
-            <div className="flex-center bg-black/20 backdrop-blur-2xl border border-white/10 shadow-2xl rounded-xl p-10 h-full">
+            <SpotlightCard 
+              className="bg-black/40 backdrop-blur-2xl border border-white/10 shadow-2xl rounded-2xl p-10 h-full"
+              spotlightColor="rgba(217, 236, 255, 0.07)"
+              borderColor="rgba(217, 236, 255, 0.25)"
+            >
               <form
                 ref={formRef}
                 onSubmit={handleSubmit}
@@ -102,25 +108,29 @@ const Contact = () => {
                   />
                 </div>
 
-                <button type="submit">
-                  <div className="cta-button group">
-                    <div className="bg-circle" />
-                    <p className="text">
-                      {loading ? "Sending..." : "Send Message"}
-                    </p>
-                    <div className="arrow-wrapper">
-                      <img src="/images/arrow-down.svg" alt="arrow" />
-                    </div>
-                  </div>
-                </button>
+                <div className="w-full">
+                  <Magnet padding={30} magnetStrength={3} className="w-full">
+                    <button type="submit" className="w-full">
+                      <div className="cta-button group w-full">
+                        <div className="bg-circle" />
+                        <p className="text">
+                          {loading ? "Sending..." : "Send Message"}
+                        </p>
+                        <div className="arrow-wrapper">
+                          <img src="/images/arrow-down.svg" alt="arrow" />
+                        </div>
+                      </div>
+                    </button>
+                  </Magnet>
+                </div>
               </form>
-            </div>
+            </SpotlightCard>
           </div>
           <div className="xl:col-span-6 min-h-96 w-full h-full flex justify-center items-center">
             <img 
               src="/images/contact-office.jpg" 
               alt="Minimalist Office Setup" 
-              className="w-full h-full object-cover rounded-3xl shadow-xl"
+              className="w-full h-full object-cover rounded-3xl shadow-xl border border-white/10"
             />
           </div>
         </div>

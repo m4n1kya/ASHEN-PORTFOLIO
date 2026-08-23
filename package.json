@@ -17,6 +17,7 @@
     "@react-three/postprocessing": "^3.0.4",
     "@tailwindcss/vite": "^4.0.14",
     "@types/three": "^0.174.0",
+    "framer-motion": "^13.1.1",
     "gsap": "^3.12.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

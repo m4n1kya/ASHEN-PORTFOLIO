@@ -1,3 +1,5 @@
+import Magnet from "../components/reactbits/Magnet";
+
 const socials = [
   {
     name: "github",
@@ -38,9 +40,11 @@ const Footer = () => {
         </div>
         <div className="socials flex gap-4">
           {socials.map((social, index) => (
-            <a key={index} href={social.url} target="_blank" rel="noreferrer" className="icon flex justify-center items-center hover:opacity-80 transition-opacity">
-              {social.svg}
-            </a>
+            <Magnet key={index} padding={15} magnetStrength={2.5}>
+              <a href={social.url} target="_blank" rel="noreferrer" className="icon flex justify-center items-center hover:opacity-80 transition-opacity">
+                {social.svg}
+              </a>
+            </Magnet>
           ))}
         </div>
         <div className="flex flex-col justify-center">

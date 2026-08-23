@@ -4,57 +4,38 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { expCards } from "../constants";
 import TitleHeader from "../components/TitleHeader";
-import GlowCard from "../components/GlowCard";
+import SpotlightCard from "../components/reactbits/SpotlightCard";
+import Magnet from "../components/reactbits/Magnet";
+import ShinyText from "../components/reactbits/ShinyText";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Experience = () => {
   useGSAP(() => {
     // Loop through each timeline card and animate them in
-    // as the user scrolls to each card
     gsap.utils.toArray(".timeline-card").forEach((card) => {
-      // Animate the card coming in from the left
-      // and fade in
       gsap.from(card, {
-        // Move the card in from the left
         xPercent: -100,
-        // Make the card invisible at the start
         opacity: 0,
-        // Set the origin of the animation to the left side of the card
         transformOrigin: "left left",
-        // Animate over 1 second
         duration: 1,
-        // Use a power2 ease-in-out curve
         ease: "power2.inOut",
-        // Trigger the animation when the card is 80% of the way down the screen
         scrollTrigger: {
-          // The card is the trigger element
           trigger: card,
-          // Trigger the animation when the card is 80% down the screen
           start: "top 80%",
         },
       });
     });
 
-    // Animate the timeline height as the user scrolls
-    // from the top of the timeline to 70% down the screen
-    // The timeline height should scale down from 1 to 0
-    // as the user scrolls up the screen
+    // Animate the timeline height
     gsap.to(".timeline", {
-      // Set the origin of the animation to the bottom of the timeline
       transformOrigin: "bottom bottom",
-      // Animate the timeline height over 1 second
       ease: "power1.inOut",
-      // Trigger the animation when the timeline is at the top of the screen
-      // and end it when the timeline is at 70% down the screen
       scrollTrigger: {
         trigger: ".timeline",
         start: "top center",
         end: "70% center",
-        // Update the animation as the user scrolls
         onUpdate: (self) => {
-          // Scale the timeline height as the user scrolls
-          // from 1 to 0 as the user scrolls up the screen
           gsap.to(".timeline", {
             scaleY: 1 - self.progress,
           });
@@ -62,31 +43,19 @@ const Experience = () => {
       },
     });
 
-    // Loop through each expText element and animate them in
-    // as the user scrolls to each text element
+    // Loop through each expText element
     gsap.utils.toArray(".expText").forEach((text) => {
-      // Animate the text opacity from 0 to 1
-      // and move it from the left to its final position
-      // over 1 second with a power2 ease-in-out curve
       gsap.from(text, {
-        // Set the opacity of the text to 0
         opacity: 0,
-        // Move the text from the left to its final position
-        // (xPercent: 0 means the text is at its final position)
         xPercent: 0,
-        // Animate over 1 second
         duration: 1,
-        // Use a power2 ease-in-out curve
         ease: "power2.inOut",
-        // Trigger the animation when the text is 60% down the screen
         scrollTrigger: {
-          // The text is the trigger element
           trigger: text,
-          // Trigger the animation when the text is 60% down the screen
           start: "top 60%",
         },
       });
-    }, "<"); // position parameter - insert at the start of the animation
+    }, "<");
   }, []);
 
   return (
@@ -104,16 +73,25 @@ const Experience = () => {
             {expCards.map((card) => (
               <div key={card.title} className="exp-card-wrapper">
                 <div className="xl:w-2/6">
-                  <GlowCard className="card-border timeline-card rounded-xl p-10 mb-5 break-inside-avoid-column">
-                    <div className="p-8 flex flex-col gap-4">
-                      <h3 className="text-white text-xl md:text-2xl font-bold tracking-wider uppercase">{card.leftTitle}</h3>
+                  <SpotlightCard 
+                    className="timeline-card rounded-xl p-8 mb-5 break-inside-avoid-column border border-white/10"
+                    spotlightColor="rgba(217, 236, 255, 0.08)"
+                    borderColor="rgba(217, 236, 255, 0.25)"
+                  >
+                    <div className="flex flex-col gap-4">
+                      <h3 className="text-white text-xl md:text-2xl font-bold tracking-wider uppercase">
+                        <ShinyText text={card.leftTitle} className="font-bold" speed={4} />
+                      </h3>
                       <ul className="flex flex-col gap-3 mt-4">
                         {card.leftContent.map((item, index) => (
-                          <li key={index} className="text-white-50 text-base md:text-lg font-medium">{item}</li>
+                          <li key={index} className="text-white-50 text-base md:text-lg font-medium flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-white-50/60 inline-block" />
+                            {item}
+                          </li>
                         ))}
                       </ul>
                     </div>
-                  </GlowCard>
+                  </SpotlightCard>
                 </div>
                 <div className="xl:w-4/6">
                   <div className="flex items-start">
@@ -122,9 +100,11 @@ const Experience = () => {
                       <div className="gradient-line w-1 h-full" />
                     </div>
                     <div className="expText flex xl:gap-20 md:gap-10 gap-5 relative z-20">
-                      <div className="timeline-logo">
-                        <span className="text-white text-xl md:text-2xl font-bold">M</span>
-                      </div>
+                      <Magnet padding={20} magnetStrength={3}>
+                        <div className="timeline-logo shadow-lg border border-white/10 bg-black-100">
+                          <span className="text-white text-xl md:text-2xl font-bold">M</span>
+                        </div>
+                      </Magnet>
                       <div>
                         <h2 className="text-blue-50 text-lg md:text-xl font-bold mb-2 uppercase tracking-widest">{card.company}</h2>
                         <h1 className="font-semibold text-2xl md:text-3xl text-white">{card.title}</h1>
@@ -137,7 +117,7 @@ const Experience = () => {
                         <ul className="list-disc ms-5 mt-5 flex flex-col gap-5 text-white-50">
                           {card.responsibilities.map(
                             (responsibility, index) => (
-                              <li key={index} className="text-lg">
+                              <li key={index} className="text-lg leading-relaxed">
                                 {responsibility}
                               </li>
                             )

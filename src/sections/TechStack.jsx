@@ -3,7 +3,9 @@ import gsap from "gsap";
 
 import TitleHeader from "../components/TitleHeader";
 import TechIconCardExperience from "../components/models/tech_logos/TechIconCardExperience";
-import GlowCard from "../components/GlowCard";
+import SpotlightCard from "../components/reactbits/SpotlightCard";
+import Magnet from "../components/reactbits/Magnet";
+import ShinyText from "../components/reactbits/ShinyText";
 import { techStackIcons, techStackImgs } from "../constants";
 
 const TechStack = () => {
@@ -57,18 +59,25 @@ const TechStack = () => {
         {/* 2D Tech Stack Categories */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
           {techStackImgs.map((categoryObj, index) => (
-            <GlowCard key={index} className="bg-black-200 border border-black-50 rounded-xl p-6 relative">
-              <h3 className="text-white text-xl font-bold mb-4 uppercase tracking-wider text-blue-50">
-                {categoryObj.category}
+            <SpotlightCard 
+              key={index} 
+              className="rounded-xl p-6 relative border border-white/10 hover:border-white/20 transition-all duration-300"
+              spotlightColor="rgba(217, 236, 255, 0.08)"
+              borderColor="rgba(217, 236, 255, 0.25)"
+            >
+              <h3 className="text-xl font-bold mb-4 uppercase tracking-wider">
+                <ShinyText text={categoryObj.category} className="text-white font-bold" speed={4} />
               </h3>
               <div className="flex flex-wrap gap-2">
                 {categoryObj.skills.map((skill, i) => (
-                  <span key={i} className="px-3 py-1 bg-black text-white-50 text-sm font-medium rounded-full border border-black-50">
-                    {skill}
-                  </span>
+                  <Magnet key={i} padding={12} magnetStrength={4}>
+                    <span className="inline-block px-3 py-1 bg-black-200 text-white-50 text-sm font-medium rounded-full border border-white-50/10 hover:border-white-50/40 hover:text-white transition-colors cursor-default">
+                      {skill}
+                    </span>
+                  </Magnet>
                 ))}
               </div>
-            </GlowCard>
+            </SpotlightCard>
           ))}
         </div>
       </div>

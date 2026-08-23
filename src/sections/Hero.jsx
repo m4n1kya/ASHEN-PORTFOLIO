@@ -7,6 +7,9 @@ import Button from "../components/Button";
 import { words } from "../constants";
 import HeroParticles from "../components/HeroParticles";
 import HeroImageParticles from "../components/HeroImageParticles";
+import DecryptedText from "../components/reactbits/DecryptedText";
+import ShinyText from "../components/reactbits/ShinyText";
+import Magnet from "../components/reactbits/Magnet";
 
 const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
   const lanternContainerRef = useRef(null);
@@ -112,7 +115,15 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
           <div className="flex flex-col gap-6">
             <div className="hero-text">
               <h1 className="text-white text-[8vw] md:text-5xl lg:text-6xl font-bold tracking-tight leading-none mb-2 md:mb-4">
-                Manikya
+                <DecryptedText
+                  text="Manikya"
+                  speed={40}
+                  maxIterations={12}
+                  revealDirection="start"
+                  className="text-white"
+                  encryptedClassName="text-blue-50/40"
+                  animateOn="view"
+                />
               </h1>
               
               <h1 className="text-blue-50 text-[4vw] md:text-[24px] lg:text-[30px] font-semibold mb-6 tracking-wide mt-2 md:mt-4 flex items-center whitespace-nowrap leading-none">
@@ -138,22 +149,26 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
             </div>
 
             <p className="text-white-50 md:text-xl relative z-10 pointer-events-none mt-2 font-medium max-w-2xl leading-relaxed">
-              Turning <span className="text-white">impossible ideas</span> into engineered <span className="text-white">realities</span>.
+              Turning <ShinyText text="impossible ideas" className="text-white font-semibold" speed={3.5} /> into engineered <ShinyText text="realities" className="text-white font-semibold" speed={3.5} />.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 relative z-10 mt-6 pointer-events-auto">
-              <Button
-                text="View Projects"
-                className="md:w-72 w-full h-14"
-                id="projects"
-              />
-              <a 
-                href="/Manikya_N_Resume.pdf" 
-                download="Manikya_N_Resume.pdf"
-                className="flex items-center justify-center md:w-72 w-full h-14 rounded-lg border border-white-50 text-white-50 hover:bg-white-50 hover:text-black transition-colors duration-300 font-medium uppercase tracking-wider text-sm md:text-base"
-              >
-                Download Resume
-              </a>
+              <Magnet padding={40} magnetStrength={3}>
+                <Button
+                  text="View Projects"
+                  className="md:w-72 w-full h-14"
+                  id="projects"
+                />
+              </Magnet>
+              <Magnet padding={40} magnetStrength={3}>
+                <a 
+                  href="/Manikya_N_Resume.pdf" 
+                  download="Manikya_N_Resume.pdf"
+                  className="flex items-center justify-center md:w-72 w-full h-14 rounded-lg border border-white-50 text-white-50 hover:bg-white-50 hover:text-black transition-colors duration-300 font-medium uppercase tracking-wider text-sm md:text-base"
+                >
+                  Download Resume
+                </a>
+              </Magnet>
             </div>
           </div>
         </header>
