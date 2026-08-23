@@ -71,9 +71,9 @@ const XRayCursor = ({ isVisible = true }) => {
       const speed = Math.sqrt(smoothedVx * smoothedVx + smoothedVy * smoothedVy);
       const angle = Math.atan2(smoothedVy, smoothedVx);
       
-      // Balanced liquid stretch (0.75x max elongation)
-      const scaleX = 1 + Math.min(speed / 60, 0.75);
-      const scaleY = 1 - Math.min(speed / 100, 0.45);
+      // Balanced liquid stretch (0.50x max elongation)
+      const scaleX = 1 + Math.min(speed / 80, 0.50);
+      const scaleY = 1 - Math.min(speed / 120, 0.30);
 
       const size = isHovering ? 120 : 70;
       
