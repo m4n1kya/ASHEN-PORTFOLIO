@@ -43,24 +43,28 @@ const App = () => {
     }
   }, [hasLoadedOnce]);
 
-  // Navigate to gallery — Simple smooth fade out
+  // Navigate to gallery — True Crossfade
   const navigateToGallery = useCallback(() => {
     if (isTransitioning.current) return;
     isTransitioning.current = true;
 
-    // Fade out the home container with luxurious smoothness
+    // Immediately mount the gallery.
+    flushSync(() => {
+      setHasLoadedOnce(true);
+      setGalleryMounted(true);
+      setView('gallery');
+    });
+    sessionStorage.setItem('ashen_has_loaded', 'true');
+
+    // Simultaneously fade out the home container
     gsap.to('.home-container', {
       opacity: 0,
-      duration: 1.2,
-      ease: 'power3.inOut',
+      duration: 1.5,
+      ease: 'power2.inOut',
       onComplete: () => {
-        flushSync(() => {
-          setHasLoadedOnce(true);
-          setGalleryMounted(true);
-          setView('gallery');
-        });
-        sessionStorage.setItem('ashen_has_loaded', 'true');
         isTransitioning.current = false;
+        const hc = document.querySelector('.home-container');
+        if (hc) hc.style.display = 'none';
       },
     });
   }, []);
@@ -69,6 +73,9 @@ const App = () => {
   const navigateToHome = useCallback(() => {
     if (isTransitioning.current) return;
     isTransitioning.current = true;
+
+    const hc = document.querySelector('.home-container');
+    if (hc) hc.style.display = 'block';
 
     flushSync(() => {
       setView('home');
@@ -105,10 +112,10 @@ const App = () => {
       <XRayCursor isVisible={view === 'home'} />
       
       {/* Home page is ALWAYS mounted — never destroyed/recreated.
-          Hidden with display:none when viewing gallery. */}
+          Hidden with display:none ONLY when viewing gallery AND not transitioning. */}
       <div 
         className="home-container relative bg-transparent"
-        style={{ display: view === 'home' ? 'block' : 'none' }}
+        style={{ display: (view === 'home' || isTransitioning.current) ? 'block' : 'none' }}
       >
         <Loader hasLoadedOnce={hasLoadedOnce} />
         <Navbar />
