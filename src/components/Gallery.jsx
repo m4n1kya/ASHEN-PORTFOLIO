@@ -74,30 +74,29 @@ const Gallery = ({ onBack }) => {
   }));
 
   return (
-    <div ref={containerRef} className="gallery-container h-screen w-full bg-black relative z-[200] flex flex-col pt-10 px-5 md:px-20 overflow-hidden">
+    <div ref={containerRef} className="gallery-container h-screen w-screen bg-black fixed inset-0 z-[200] overflow-hidden">
       
-      {/* Sleek Back Button with Magnetic effect */}
-      <Magnet padding={50} magnetStrength={3} className="z-50 w-fit">
-        <button 
-          onClick={handleBack}
-          className="group relative flex items-center gap-3 px-6 py-3 bg-black-100/60 backdrop-blur-md border border-white-50/20 text-white-50 rounded-full hover:border-white hover:text-white transition-all duration-300 shadow-lg cursor-pointer"
-        >
-          <span className="group-hover:-translate-x-1 transition-transform duration-300">←</span>
-          <span className="text-sm uppercase tracking-widest font-semibold">Back to Portfolio</span>
-        </button>
-      </Magnet>
+      {/* Sleek Back Button with Magnetic effect - Positioned absolutely as an overlay */}
+      <div className="absolute top-10 left-5 md:left-10 z-[300]">
+        <Magnet padding={50} magnetStrength={3} className="w-fit">
+          <button 
+            onClick={handleBack}
+            className="group relative flex items-center gap-3 px-6 py-3 bg-black-100/60 backdrop-blur-md border border-white-50/20 text-white-50 rounded-full hover:border-white hover:text-white transition-all duration-300 shadow-lg cursor-pointer"
+          >
+            <span className="group-hover:-translate-x-1 transition-transform duration-300">←</span>
+            <span className="text-sm uppercase tracking-widest font-semibold">Back to Portfolio</span>
+          </button>
+        </Magnet>
+      </div>
 
-      {/* Main Content Area */}
-      <div className="gallery-content flex-1 w-full h-full relative mt-8 flex flex-col">
-      {/* Custom ReelGallery */}
-      <div className="absolute inset-0 z-10">
+      {/* Main Content Area - Full screen ReelGallery */}
+      <div className="gallery-content absolute inset-0 w-full h-full z-10">
         <ReelGallery 
           items={galleryItems}
           rows={4} 
           gap={32}
           speed={2}
         />
-      </div>
       </div>
     </div>
   );
