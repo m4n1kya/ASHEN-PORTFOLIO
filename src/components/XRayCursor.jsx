@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from "react";
 
 const styleContent = `
 @keyframes jellyBlob {
-  0% { border-radius: 30% 70% 30% 70% / 60% 30% 70% 40%; }
-  25% { border-radius: 70% 30% 60% 40% / 30% 70% 40% 60%; }
-  50% { border-radius: 40% 60% 70% 30% / 70% 40% 60% 30%; }
-  75% { border-radius: 60% 40% 30% 70% / 40% 60% 30% 70%; }
-  100% { border-radius: 30% 70% 30% 70% / 60% 30% 70% 40%; }
+  0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+  25% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  50% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+  75% { border-radius: 70% 30% 50% 50% / 50% 70% 30% 50%; }
+  100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
 }
 `;
 
@@ -25,8 +25,10 @@ const XRayCursor = ({ isVisible = true }) => {
 
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
-    let cursorX = mouseX;
-    let cursorY = mouseY;
+    let lastMouseX = mouseX;
+    let lastMouseY = mouseY;
+    let smoothedVx = 0;
+    let smoothedVy = 0;
     let isHovering = false;
     let animationFrameId;
 
@@ -55,24 +57,28 @@ const XRayCursor = ({ isVisible = true }) => {
     window.addEventListener("mouseout", handleMouseOut);
 
     const animate = () => {
-      // Calculate velocity and apply spring-like lag
-      const vx = mouseX - cursorX;
-      const vy = mouseY - cursorY;
-      
-      cursorX += vx * 0.15;
-      cursorY += vy * 0.15;
+      // Calculate raw velocity
+      const rawVx = mouseX - lastMouseX;
+      const rawVy = mouseY - lastMouseY;
+      lastMouseX = mouseX;
+      lastMouseY = mouseY;
 
-      // Calculate speed and angle for the jelly stretch effect
-      const speed = Math.sqrt(vx * vx + vy * vy);
-      const angle = Math.atan2(vy, vx);
-      
-      // Moderate stretch and squish so it remains blobby and doesn't turn into a thin line at high speeds
-      const scaleX = 1 + Math.min(speed / 100, 0.4);
-      const scaleY = 1 - Math.min(speed / 100, 0.25);
+      // Smooth the velocity so the stretch effect doesn't jitter
+      smoothedVx += (rawVx - smoothedVx) * 0.15;
+      smoothedVy += (rawVy - smoothedVy) * 0.15;
 
-      const size = isHovering ? 100 : 60;
+      // Calculate speed and angle for the liquid stretch effect using smoothed velocity
+      const speed = Math.sqrt(smoothedVx * smoothedVx + smoothedVy * smoothedVy);
+      const angle = Math.atan2(smoothedVy, smoothedVx);
       
-      cursor.style.transform = `translate3d(${cursorX - size / 2}px, ${cursorY - size / 2}px, 0) rotate(${angle}rad) scale(${scaleX}, ${scaleY})`;
+      // Aggressive liquid stretch based on movement
+      const scaleX = 1 + Math.min(speed / 40, 1.2);
+      const scaleY = 1 - Math.min(speed / 80, 0.4);
+
+      const size = isHovering ? 120 : 70;
+      
+      // Cursor perfectly instantly centers on mouseX/mouseY
+      cursor.style.transform = `translate3d(${mouseX - size / 2}px, ${mouseY - size / 2}px, 0) rotate(${angle}rad) scale(${scaleX}, ${scaleY})`;
       cursor.style.width = `${size}px`;
       cursor.style.height = `${size}px`;
 
