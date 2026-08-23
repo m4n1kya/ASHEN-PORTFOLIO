@@ -5,9 +5,9 @@
   overflow: hidden;
   perspective: 1200px;
   perspective-origin: 50% 50%;
-  /* Creates a mask to fade out the top and bottom edges */
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  /* Mask left and right edges for horizontal scroll */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
   cursor: grab;
 }
 
@@ -20,33 +20,33 @@
   top: 50%;
   left: 50%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column; /* Stack rows vertically */
   justify-content: center;
   align-items: center;
-  width: 140vw; /* Wider than viewport to fill out the perspective */
+  height: 140vh; /* Taller than viewport to fill out the perspective */
   /* Tilt the plane in 3D */
-  transform: translate(-50%, -50%) rotateX(15deg) rotateY(-10deg) rotateZ(-2deg) translateZ(-100px);
+  transform: translate(-50%, -50%) rotateX(10deg) rotateY(-15deg) rotateZ(2deg) translateZ(-100px);
   transform-style: preserve-3d;
 }
 
-.reel-gallery__col {
+.reel-gallery__row {
   position: relative;
-  width: 480px; /* Large tiles */
+  height: 316px; /* Large tiles height */
   transform-style: preserve-3d;
   will-change: transform;
 }
 
 .reel-gallery__track {
   display: flex;
-  flex-direction: column;
+  flex-direction: row; /* Items side by side */
   transform-style: preserve-3d;
   will-change: transform;
 }
 
 .reel-gallery__tile {
   position: relative;
-  width: 100%;
-  height: 316px; /* Large tiles */
+  width: 480px; /* Large tiles width */
+  height: 100%;
   flex-shrink: 0;
   border-radius: 16px;
   overflow: hidden;

@@ -1,8 +1,6 @@
 import { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import ShinyText from './reactbits/ShinyText';
-import BlurText from './reactbits/BlurText';
 import Magnet from './reactbits/Magnet';
 import ReelGallery from './reactbits/ReelGallery';
 
@@ -91,27 +89,15 @@ const Gallery = ({ onBack }) => {
 
       {/* Main Content Area */}
       <div className="gallery-content flex-1 w-full h-full relative mt-8 flex flex-col">
-        {/* Astonishing Heading */}
-        <div className="z-50 relative pointer-events-none mb-10 text-center flex flex-col items-center">
-          <BlurText 
-            text="SCREENSHOT LIBRARY" 
-            className="text-4xl md:text-6xl font-bold text-white mb-2 tracking-widest drop-shadow-2xl" 
-            delay={50} 
-          />
-          <p className="text-blue-50 md:text-lg tracking-widest uppercase opacity-70">
-            <ShinyText text="Explore the visuals" className="font-semibold" speed={3} />
-          </p>
-        </div>
-
-        {/* Custom ReelGallery */}
-        <div className="absolute inset-0 z-10 pt-32 pb-10">
-          <ReelGallery 
-            items={galleryItems}
-            columns={4} 
-            gap={32}
-            speed={2}
-          />
-        </div>
+      {/* Custom ReelGallery */}
+      <div className="absolute inset-0 z-10">
+        <ReelGallery 
+          items={galleryItems}
+          rows={4} 
+          gap={32}
+          speed={2}
+        />
+      </div>
       </div>
     </div>
   );
