@@ -44,6 +44,7 @@ const XRayCursor = ({ isVisible = true }) => {
         target.tagName.toLowerCase() === "a" ||
         target.tagName.toLowerCase() === "button"
       ) {
+        if (target.closest && target.closest(".no-cursor-hover")) return;
         isHovering = true;
       }
     };
