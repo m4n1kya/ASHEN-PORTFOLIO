@@ -286,7 +286,6 @@ class MorphEngine {
   loadTextures() {
     this.items.forEach((item, index) => {
       const img = new Image();
-      img.crossOrigin = 'anonymous';
       img.src = item.image;
       img.onload = () => {
         const texture = new Texture(this.gl, { generateMipmaps: false });
