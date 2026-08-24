@@ -13,6 +13,7 @@ const styleContent = `
 const XRayCursor = ({ isVisible = true }) => {
   const cursorRef = useRef(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isWindowHovered, setIsWindowHovered] = useState(true);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
@@ -53,9 +54,14 @@ const XRayCursor = ({ isVisible = true }) => {
       isHovering = false;
     };
 
+    const handleWindowLeave = () => setIsWindowHovered(false);
+    const handleWindowEnter = () => setIsWindowHovered(true);
+
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseover", handleMouseOver);
     window.addEventListener("mouseout", handleMouseOut);
+    document.addEventListener("mouseleave", handleWindowLeave);
+    document.addEventListener("mouseenter", handleWindowEnter);
 
     const animate = () => {
       // Calculate raw velocity
@@ -93,6 +99,8 @@ const XRayCursor = ({ isVisible = true }) => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseover", handleMouseOver);
       window.removeEventListener("mouseout", handleMouseOut);
+      document.removeEventListener("mouseleave", handleWindowLeave);
+      document.removeEventListener("mouseenter", handleWindowEnter);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
@@ -115,7 +123,7 @@ const XRayCursor = ({ isVisible = true }) => {
           pointerEvents: "none",
           zIndex: 9999,
           willChange: "transform, width, height, opacity",
-          opacity: isVisible ? 1 : 0,
+          opacity: isVisible && isWindowHovered ? 1 : 0,
           transition: "width 0.3s ease-out, height 0.3s ease-out, opacity 0.4s ease-out",
           animation: "jellyBlob 2.5s infinite linear",
           transformOrigin: "center center",
