@@ -225,7 +225,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
       </div>
 
       {/* Header Area & Tabs Inline */}
-      <div className="flex-none flex items-center p-2 md:px-6 md:py-2 border-b border-white-50/10 bg-black/10 backdrop-blur-md z-20 relative">
+      <div className="flex-none flex items-center p-2 md:px-6 md:py-2 border-b border-white-50/10 bg-transparent backdrop-blur-md z-20 relative">
         
         {/* Left Side: Back Button */}
         <div className="flex-none">
