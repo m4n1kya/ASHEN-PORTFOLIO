@@ -2,6 +2,21 @@ import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Galaxy from "./reactbits/Galaxy";
+import AccordionGallery from "./reactbits/AccordionGallery";
+
+const ashenritualImagesRow1 = [
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20154953.png", label: "Showcase" },
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155012.png", label: "Collections" },
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155110.png", label: "Product Viewer" },
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155130.png", label: "Interface Details" }
+];
+
+const ashenritualImagesRow2 = [
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155209.png", label: "Cart Experience" },
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155233.png", label: "Checkout" },
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155258.png", label: "VESPER AI Concierge" },
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155333.png", label: "Navigation" }
+];
 
 const projectsData = [
   {
@@ -202,15 +217,32 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
         <div className="flex-1 overflow-y-auto custom-scrollbar relative z-10 scroll-smooth">
           <div className="max-w-4xl mx-auto p-6 md:p-12 lg:p-16">
             
-            {/* Screenshot Placeholder Area */}
-            <div className="w-full aspect-[21/9] bg-black-200 rounded-2xl border border-white-50/10 mb-8 flex flex-col items-center justify-center overflow-hidden relative group">
-              <div className="absolute inset-0 bg-gradient-to-tr from-blue-50/10 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
-              <svg className="w-10 h-10 md:w-12 md:h-12 text-white-50 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <p className="text-white-50 font-mono text-xs md:text-sm tracking-widest uppercase">Screenshots Placeholder</p>
-              <p className="text-white-50/50 text-[10px] md:text-xs mt-2">Images will be added here</p>
-            </div>
+            {/* Conditional Screenshot Area */}
+            {activeTab === "ashenritual" ? (
+              <div className="flex flex-col gap-6 mb-12">
+                <AccordionGallery 
+                  items={ashenritualImagesRow1}
+                  height={300}
+                  defaultIndex={1}
+                  expandRatio={0.7}
+                />
+                <AccordionGallery 
+                  items={ashenritualImagesRow2}
+                  height={300}
+                  defaultIndex={2}
+                  expandRatio={0.7}
+                />
+              </div>
+            ) : (
+              <div className="w-full aspect-[21/9] bg-black-200/80 rounded-2xl border border-white-50/10 mb-8 flex flex-col items-center justify-center overflow-hidden relative group backdrop-blur-sm">
+                <div className="absolute inset-0 bg-gradient-to-tr from-blue-50/10 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
+                <svg className="w-10 h-10 md:w-12 md:h-12 text-white-50 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <p className="text-white-50 font-mono text-xs md:text-sm tracking-widest uppercase">Screenshots Placeholder</p>
+                <p className="text-white-50/50 text-[10px] md:text-xs mt-2">Images will be added here</p>
+              </div>
+            )}
 
             {/* Markdown Content */}
             <div className="prose prose-invert max-w-none">
