@@ -4,21 +4,28 @@ const HeroParticles = () => {
   const [particles, setParticles] = useState([]);
 
   useEffect(() => {
-    // Sparse magical particles distributed across the whole screen
-    const newParticles = Array.from({ length: 300 }).map((_, i) => {
-      const colors = ['#ffffff', '#e0e0e0', '#a0a0a0', '#737373']; 
-      const color = colors[Math.floor(Math.random() * colors.length)];
+    // Deep cinematic organic particles with extreme depth of field
+    const newParticles = Array.from({ length: 150 }).map((_, i) => {
+      // Create a non-linear size distribution (lots of tiny ones, few big ones)
+      const sizePower = Math.pow(Math.random(), 3);
+      const isForeground = sizePower > 0.8;
+      const size = sizePower * 4 + 1;
+      
+      // Foreground particles are sharp, background particles are heavily blurred
+      const blur = isForeground ? Math.random() * 1 : Math.random() * 5 + 1;
       
       return {
         id: i,
         left: Math.random() * 100, 
         top: Math.random() * 100, 
-        size: Math.random() * 2 + 1, 
-        delay: Math.random() * 5, 
-        duration: Math.random() * 6 + 4,
-        color: color,
-        tx: (Math.random() - 0.5) * 50, 
-        ty: - (Math.random() * 100 + 50), 
+        size: size, 
+        delay: Math.random() * 15, 
+        duration: Math.random() * 15 + 10, // Very slow drift (10s to 25s)
+        color: '#ffffff',
+        tx: (Math.random() - 0.5) * 150, // Drift omnidirectionally
+        ty: (Math.random() - 0.5) * 150, 
+        blur: blur,
+        peakOpacity: isForeground ? (Math.random() * 0.4 + 0.4) : (Math.random() * 0.2 + 0.1)
       };
     });
     setParticles(newParticles);
@@ -29,7 +36,7 @@ const HeroParticles = () => {
       {particles.map((p) => (
         <div
           key={p.id}
-          className="absolute rounded-full opacity-0 animate-faintParticle"
+          className="absolute rounded-full opacity-0 animate-magicalParticle"
           style={{
             left: `${p.left}%`,
             top: `${p.top}%`,
@@ -38,9 +45,11 @@ const HeroParticles = () => {
             backgroundColor: p.color,
             animationDelay: `${p.delay}s`,
             animationDuration: `${p.duration}s`,
-            boxShadow: `0 0 ${p.size * 2}px ${p.size * 0.5}px ${p.color}`,
+            filter: `blur(${p.blur}px)`,
+            boxShadow: `0 0 ${p.size * 3}px ${p.size}px ${p.color}`,
             '--tx': `${p.tx}px`,
             '--ty': `${p.ty}px`,
+            '--peak-opacity': p.peakOpacity,
           }}
         />
       ))}
