@@ -165,7 +165,7 @@ const App = () => {
       />
 
       <ParticleCursor />
-      <XRayCursor isVisible={view === 'home' || view === 'projects'} />
+      <XRayCursor isVisible={view === 'home'} />
       
       {/* Home page is ALWAYS mounted — never destroyed/recreated.
           Hidden with display:none ONLY when viewing gallery AND not transitioning. */}
