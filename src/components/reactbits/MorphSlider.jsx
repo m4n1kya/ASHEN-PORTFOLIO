@@ -105,7 +105,7 @@ vec2 coverUV(vec2 uv, vec2 res, vec2 img) {
   float iA = img.x / max(img.y, 1.0);
   vec2 s = vec2(1.0);
   float ratio = rA / max(iA, 0.0001);
-  if (ratio < 1.0) {
+  if (ratio > 1.0) {
     s.y = 1.0 / ratio;
   } else {
     s.x = ratio;
