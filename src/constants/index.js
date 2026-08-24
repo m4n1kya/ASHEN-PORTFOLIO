@@ -38,7 +38,7 @@ const words = [
 
 const counterItems = [
   { value: 500, suffix: "+", label: "Problems Solved" },
-  { value: 5, suffix: "+", label: "Major Projects" },
+  { value: 7, suffix: "+", label: "Major Projects" },
   { value: 2, suffix: "", label: "Industry Internships" },
   { value: 10, suffix: "+", label: "Technologies Used" },
 ];
