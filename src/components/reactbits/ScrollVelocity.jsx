@@ -75,7 +75,7 @@ const ScrollVelocity = ({
   );
 
   return (
-    <div className={`relative flex flex-col gap-6 md:gap-12 ${className}`}>
+    <div className={`relative flex flex-col gap-16 md:gap-24 ${className}`}>
       <ParallaxText baseVelocity={velocity}>{content}</ParallaxText>
       <ParallaxText baseVelocity={-velocity}>{content}</ParallaxText>
     </div>
