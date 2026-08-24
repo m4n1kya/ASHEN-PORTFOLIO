@@ -148,36 +148,40 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
     <div className="fixed inset-0 z-[1000] bg-black flex flex-col w-full h-full overflow-hidden">
       
       {/* Header Area & Tabs Inline */}
-      <div className="flex-none flex items-center justify-between p-4 md:px-8 md:py-4 border-b border-white-50/10 bg-black-100/40 backdrop-blur-md z-20 gap-4 md:gap-8">
+      <div className="flex-none flex items-center p-2 md:px-6 md:py-2 border-b border-white-50/10 bg-black-100/40 backdrop-blur-md z-20">
         
-        <h1 className="text-xl md:text-2xl font-bold text-white tracking-wide shrink-0">Projects</h1>
+        {/* Left Side: Back Button */}
+        <div className="flex-none">
+          <button
+            onClick={onBack}
+            className="flex items-center justify-center gap-1 md:gap-2 px-3 py-1.5 md:px-5 md:py-2 rounded-full border border-white-50/20 text-white-50 hover:text-white hover:border-white transition-all duration-300 group bg-black-200/50"
+          >
+            <svg className="w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span className="font-semibold uppercase text-xs md:text-sm tracking-wider">Back</span>
+          </button>
+        </div>
         
-        {/* Tabs */}
-        <div className="flex flex-row gap-2 md:gap-3 overflow-x-auto custom-scrollbar flex-1 justify-start md:justify-center px-2 py-2">
+        {/* Middle: Tabs */}
+        <div className="flex-1 flex flex-row gap-2 md:gap-3 overflow-x-auto custom-scrollbar justify-start md:justify-center px-4 py-1">
             {projectsData.map((project) => (
               <button
                 key={project.id}
                 onClick={() => setActiveTab(project.id)}
-                className={`text-center px-4 py-2 rounded-full transition-all duration-300 shrink-0 ${
+                className={`text-center px-3 py-1.5 md:px-4 md:py-2 rounded-full transition-all duration-300 shrink-0 ${
                   activeTab === project.id
                     ? "bg-white text-black font-bold shadow-md scale-[1.05]"
                     : "text-white-50 hover:bg-white-50/10 hover:text-white font-semibold"
                 }`}
               >
-                <div className="text-xs md:text-sm tracking-wide uppercase">{project.name}</div>
+                <div className="text-[10px] md:text-xs tracking-wide uppercase">{project.name}</div>
               </button>
             ))}
         </div>
 
-        <button
-          onClick={onBack}
-          className="flex items-center justify-center gap-1 md:gap-2 px-4 py-2 md:px-5 md:py-2.5 rounded-full border border-white-50/20 text-white-50 hover:text-white hover:border-white transition-all duration-300 group bg-black-200/50 shrink-0"
-        >
-          <svg className="w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          <span className="font-semibold uppercase text-xs md:text-sm tracking-wider">Back</span>
-        </button>
+        {/* Right Side Spacer for perfect centering */}
+        <div className="flex-none w-[70px] md:w-[100px] hidden md:block" />
       </div>
 
       <div className="flex-1 flex flex-col overflow-hidden relative">
@@ -188,9 +192,9 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
             mouseRepulsion={true}
             mouseInteraction={true}
             density={1.5}
-            glowIntensity={0.5}
+            glowIntensity={0.15}
             saturation={0.0}
-            twinkleIntensity={0.8}
+            twinkleIntensity={0.3}
           />
         </div>
 
