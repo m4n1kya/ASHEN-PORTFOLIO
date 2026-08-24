@@ -217,9 +217,9 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
             <div className="flex flex-col lg:flex-row lg:items-start gap-8 lg:gap-12">
               
               {/* Left Side: Screenshot / Slider (Sticky on Desktop) */}
-              <div className="w-full lg:w-1/2 lg:sticky lg:top-0 z-20">
+              <div className="w-full lg:w-[55%] lg:sticky lg:top-0 z-20">
                 {activeTab === "ashenritual" ? (
-                  <div className="w-full aspect-[16/9] lg:aspect-[4/3] relative rounded-2xl overflow-hidden shadow-2xl border border-white-50/10">
+                  <div className="w-full aspect-video relative rounded-2xl overflow-hidden shadow-2xl border border-white-50/10">
                     <MorphSlider 
                       items={ashenritualImages}
                       transition="melt"
@@ -228,10 +228,11 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                       drift={0.4}
                       autoplay
                       autoplayDelay={4}
+                      showCaptions={false}
                     />
                   </div>
                 ) : (
-                  <div className="w-full aspect-[16/9] lg:aspect-[4/3] bg-black-200/80 rounded-2xl border border-white-50/10 flex flex-col items-center justify-center overflow-hidden relative group backdrop-blur-sm">
+                  <div className="w-full aspect-video bg-black-200/80 rounded-2xl border border-white-50/10 flex flex-col items-center justify-center overflow-hidden relative group backdrop-blur-sm">
                     <div className="absolute inset-0 bg-gradient-to-tr from-blue-50/10 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
                     <svg className="w-10 h-10 md:w-12 md:h-12 text-white-50 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -243,7 +244,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
               </div>
 
               {/* Right Side: Markdown Content (Scrolls) */}
-              <div className="w-full lg:w-1/2 z-10">
+              <div className="w-full lg:w-[45%] z-10">
                 <div className="prose prose-invert max-w-none">
                   <div className="markdown-body animate-fadeIn">
                     <ReactMarkdown 
