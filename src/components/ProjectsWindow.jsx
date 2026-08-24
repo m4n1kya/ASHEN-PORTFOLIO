@@ -175,6 +175,20 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
   const [activeTab, setActiveTab] = useState(initialProject);
   const [markdownContent, setMarkdownContent] = useState("");
 
+  // Preload all images aggressively into browser cache to prevent loading lags on tab switch
+  useEffect(() => {
+    const allImages = [
+      ...ashenritualImages,
+      ...ashenVectorImages,
+      ...ecoLoopImages,
+      ...unieaseImages
+    ];
+    allImages.forEach(item => {
+      const img = new Image();
+      img.src = item.image;
+    });
+  }, []);
+
   // Determine images based on activeTab
   const getProjectImages = () => {
     switch (activeTab) {
@@ -255,9 +269,8 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
             
             {/* Left Side: Fixed on Desktop (Slider + Beautiful Info Card) */}
             <div className="w-full lg:w-[60%] lg:h-full lg:overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] flex flex-col gap-6 z-20 pb-8 lg:pb-16">
-              <div className="w-full aspect-[2559/1273] relative rounded-2xl overflow-hidden shadow-2xl border border-white-50/10 shrink-0">
+              <div className="w-full aspect-[2559/1273] relative rounded-2xl overflow-hidden shadow-2xl border border-white-50/10 shrink-0 bg-[#0c0c0e]">
                 <MorphSlider 
-                  key={activeTab} // Force webgl context recreate on tab change
                   items={currentImages}
                   transition="melt"
                   intensity={0.55}
