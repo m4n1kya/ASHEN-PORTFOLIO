@@ -7,25 +7,105 @@ const projectsData = [
     id: "ashenritual",
     name: "ASHENRITUAL",
     repoUrl: "https://github.com/m4n1kya/ASHENRITUAL",
-    rawReadme: "https://raw.githubusercontent.com/m4n1kya/ASHENRITUAL/main/README.md"
+    markdown: `
+# ASHENRITUAL
+*Luxury Fashion • Artificial Intelligence • Modern Web Engineering*
+
+ASHENRITUAL is a production-grade, headless e-commerce platform built to seamlessly merge the tactile experience of luxury fashion with the computational power of artificial intelligence. Engineered entirely on a modern TypeScript micro-architecture, the application delivers a cinematic user interface optimized for high-performance rendering.
+
+## Core Architecture
+Built upon strict software engineering principles, the system separates the presentation layer from the business logic. This decoupled architecture allows for rigorous security implementations, independent scalability, and the integration of advanced server-side rendering techniques.
+
+## Key Features
+- **AI Fashion Concierge**: Integrated directly into the interface, the VESPER AI acts as a personal stylist, reading the user's current navigational context to provide highly tailored recommendations.
+- **Server-Side Rendering**: Leveraging React Server Components and Next.js SSR, the frontend pre-computes HTML on the server edge, guaranteeing instantaneous initial page loads and optimal SEO indexing.
+- **Real-time AI Streaming**: Dialogue and structured data from the AI engine are streamed asynchronously via Server-Sent Events (SSE).
+- **Stateless Authentication**: User sessions are maintained using short-lived JSON Web Tokens (JWT) combined with secure, HTTP-only refresh tokens.
+- **Cinematic Interface**: Fluid scroll mechanics, advanced timelines, and magnetic interactions are engineered via GSAP and Lenis.
+
+## Technology Stack
+- **Frontend**: Next.js, React, TypeScript, Tailwind CSS, GSAP
+- **Backend**: NestJS, Prisma ORM, Node.js
+- **Database**: Neon PostgreSQL
+- **AI Integration**: Google Gemini API
+    `
   },
   {
     id: "uniease",
     name: "UNI-EASE",
     repoUrl: "https://github.com/m4n1kya/Epics-UniEase",
-    rawReadme: "https://raw.githubusercontent.com/m4n1kya/Epics-UniEase/main/README.md"
+    markdown: `
+# UNI-EASE
+*Campus Resource Optimization Ecosystem*
+
+UniEase is a modern university resource management platform designed to centralize essential campus services into a single, responsive web application. It simplifies access to important university resources by providing students with a unified platform for academic and campus-related information.
+
+## System Overview
+The application offers an intuitive interface for accessing faculty details, study materials, transportation schedules, food court information, and career resources, drastically reducing the friction of navigating large campus ecosystems.
+
+## Core Features
+- **Centralized Directories**: Comprehensive faculty and food court directories with advanced search and filtering.
+- **Digital Library Ecosystem**: Instant access to E-Books and study materials securely hosted on the cloud.
+- **Transportation Tracking**: Real-time campus transportation information and scheduling.
+- **Responsive Architecture**: Fully responsive user interface optimized for both desktop and mobile viewing.
+
+## Technology Stack
+- **Frontend**: React, TypeScript, Tailwind CSS, shadcn/ui
+- **Build Tools**: Vite, npm
+    `
   },
   {
     id: "ashen-vector",
     name: "ASHEN-VECTOR",
     repoUrl: "https://github.com/m4n1kya/ASHEN-VECTOR",
-    rawReadme: "https://raw.githubusercontent.com/m4n1kya/ASHEN-VECTOR/main/README.md"
+    markdown: `
+# ASHEN-VECTOR
+*Quantitative Market Intelligence Platform*
+
+ASHEN-VECTOR is an experimental quantitative market intelligence and systematic research platform built around Qlib-compatible market data infrastructure. It provides a modular architecture for quantitative factor research, statistical analysis, machine learning–based prediction, probability calibration, and systematic backtesting.
+
+## Platform Capabilities
+Designed as a personal quantitative research terminal, ASHEN-VECTOR delivers comprehensive analytical tools for systematic trading and market intelligence.
+
+- **Market Data Engine**: High-performance historical OHLCV price series querying via the Qlib data engine.
+- **Statistical Analysis**: In-depth calculation of returns, volatility, drawdown, Sharpe, and Sortino ratios.
+- **Technical Indicators**: Optimized computations for SMA, EMA, RSI, MACD, Bollinger Bands, ATR, and momentum.
+- **Quantitative Factor Scores**: Advanced composite scores for momentum, trend, volatility, liquidity, and mean reversion.
+- **Model Explainability**: SHAP-based feature contribution analysis to demystify machine learning predictions.
+
+## Architecture
+The system employs a sophisticated pipeline starting from Qlib market data, flowing through feature engineering, quantitative factors, and ML models, ultimately generating calibrated predictions and risk assessments.
+
+## Technology Stack
+- **Data & Analytics**: Microsoft Qlib, pandas, NumPy
+- **Backend**: Python 3.12, FastAPI
+- **Frontend**: Next.js Dashboard
+    `
   },
   {
     id: "eco-loop",
     name: "ECO-LOOP",
     repoUrl: "https://github.com/m4n1kya/eco-loop",
-    rawReadme: "https://raw.githubusercontent.com/m4n1kya/eco-loop/main/README.md"
+    markdown: `
+# ECO-LOOP
+*AI-Powered Building Energy Optimization*
+
+EcoLoop is an advanced AI-powered building energy optimization system that combines EnergyPlus building simulation with a locally hosted Large Language Model (LLM). It automatically analyzes building performance, recommends HVAC optimization strategies, modifies building control parameters, and evaluates energy savings through an iterative closed-loop workflow.
+
+## The Problem & Solution
+Commercial buildings consume a significant portion of global electricity, with HVAC systems accounting for one of the largest energy loads. Traditional EnergyPlus workflows require engineers to manually analyze large simulation outputs and tune HVAC schedules. EcoLoop automates this entirely.
+
+## Key Features
+- **AI-Powered Energy Analysis**: Automatic interpretation of EnergyPlus simulation outputs with natural language explanations generated by a local Qwen2.5 LLM.
+- **Intelligent HVAC Optimization**: The AI recommends optimal cooling temperatures and automatically updates EnergyPlus IDF schedules.
+- **Closed-Loop Simulation**: The system seamlessly runs baseline simulations, analyzes performance, optimizes settings, and re-runs the simulation to measure actual savings.
+- **Interactive Dashboard**: A robust Streamlit dashboard featuring KPI cards, energy comparisons, interactive Plotly charts, and optimization history.
+
+## Technology Stack
+- **Simulation**: EnergyPlus 26.1, EPW Weather Data, IDF Building Models
+- **AI & Analytics**: Python 3.13, Qwen2.5 1.5B via Ollama, Pandas
+- **Visualization**: Streamlit, Plotly, Matplotlib, ReportLab
+    `
   }
 ];
 
@@ -48,43 +128,26 @@ const MarkdownComponents = {
   table: ({node, ...props}) => <div className="overflow-x-auto my-8"><table className="w-full text-left border-collapse" {...props} /></div>,
   th: ({node, ...props}) => <th className="border-b border-white-50/20 py-3 px-4 font-bold text-white bg-black-200" {...props} />,
   td: ({node, ...props}) => <td className="border-b border-white-50/10 py-3 px-4 text-white-50" {...props} />,
+  em: ({node, ...props}) => <em className="text-blue-50/90 font-semibold italic" {...props} />,
 };
 
 const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
   const [activeTab, setActiveTab] = useState(initialProject);
   const [markdownContent, setMarkdownContent] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch README when active tab changes
+  // Update markdown content when active tab changes
   useEffect(() => {
-    const fetchReadme = async () => {
-      setIsLoading(true);
-      const project = projectsData.find(p => p.id === activeTab);
-      if (!project) return;
-      
-      try {
-        const response = await fetch(project.rawReadme);
-        if (response.ok) {
-          const text = await response.text();
-          setMarkdownContent(text);
-        } else {
-          setMarkdownContent("### Error fetching project details.\nPlease visit the [GitHub Repository](" + project.repoUrl + ") directly.");
-        }
-      } catch (error) {
-        setMarkdownContent("### Error fetching project details.\nPlease visit the [GitHub Repository](" + project.repoUrl + ") directly.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchReadme();
+    const project = projectsData.find(p => p.id === activeTab);
+    if (project) {
+      setMarkdownContent(project.markdown);
+    }
   }, [activeTab]);
 
   return (
     <div className="fixed inset-0 z-[1000] bg-black-100 flex flex-col w-full h-full overflow-hidden">
       
       {/* Header Area */}
-      <div className="flex-none flex items-center justify-between p-6 md:px-12 md:py-8 border-b border-white-50/10 bg-black-100/90 backdrop-blur-md z-10">
+      <div className="flex-none flex items-center justify-between p-6 md:px-12 md:py-8 border-b border-white-50/10 bg-black-100/90 backdrop-blur-md z-20">
         <h1 className="text-2xl md:text-4xl font-bold text-white tracking-widest uppercase">Projects</h1>
         <button
           onClick={onBack}
@@ -97,25 +160,25 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
         </button>
       </div>
 
-      <div className="flex-1 flex flex-col md:flex-row overflow-hidden relative">
+      <div className="flex-1 flex flex-col overflow-hidden relative">
         {/* Background gradient effects */}
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-50/5 blur-[120px] pointer-events-none" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-purple-500/5 blur-[120px] pointer-events-none" />
 
-        {/* Tabs Sidebar */}
-        <div className="flex-none md:w-64 lg:w-80 overflow-x-auto md:overflow-y-auto border-b md:border-b-0 md:border-r border-white-50/10 bg-black-200/30 z-10 custom-scrollbar">
-          <div className="flex flex-row md:flex-col p-4 md:p-6 gap-2 min-w-max md:min-w-0">
+        {/* Top Centered Tabs */}
+        <div className="flex-none w-full border-b border-white-50/10 bg-black-200/50 z-10 flex justify-start md:justify-center overflow-x-auto custom-scrollbar px-4">
+          <div className="flex flex-row p-4 gap-2 md:gap-4 min-w-max">
             {projectsData.map((project) => (
               <button
                 key={project.id}
                 onClick={() => setActiveTab(project.id)}
-                className={`text-left px-6 py-4 rounded-xl transition-all duration-300 ${
+                className={`text-center px-6 py-3 rounded-full transition-all duration-300 ${
                   activeTab === project.id
-                    ? "bg-white text-black font-bold shadow-lg scale-[1.02]"
+                    ? "bg-white text-black font-bold shadow-lg scale-[1.05]"
                     : "text-white-50 hover:bg-white-50/10 hover:text-white font-semibold"
                 }`}
               >
-                <div className="text-sm md:text-base tracking-wider">{project.name}</div>
+                <div className="text-sm md:text-base tracking-wider uppercase">{project.name}</div>
               </button>
             ))}
           </div>
@@ -137,21 +200,27 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
 
             {/* Markdown Content */}
             <div className="prose prose-invert max-w-none">
-              {isLoading ? (
-                <div className="flex flex-col items-center justify-center py-20">
-                  <div className="w-10 h-10 border-4 border-white-50/20 border-t-blue-50 rounded-full animate-spin mb-6" />
-                  <p className="text-white-50 uppercase tracking-widest text-sm font-semibold animate-pulse">Loading README...</p>
-                </div>
-              ) : (
-                <div className="markdown-body animate-fadeIn">
-                  <ReactMarkdown 
-                    remarkPlugins={[remarkGfm]}
-                    components={MarkdownComponents}
-                  >
-                    {markdownContent}
-                  </ReactMarkdown>
-                </div>
-              )}
+              <div className="markdown-body animate-fadeIn">
+                <ReactMarkdown 
+                  remarkPlugins={[remarkGfm]}
+                  components={MarkdownComponents}
+                >
+                  {markdownContent}
+                </ReactMarkdown>
+              </div>
+            </div>
+
+            {/* View Repository Button */}
+            <div className="mt-16 border-t border-white-50/20 pt-8 flex justify-center">
+              <a 
+                href={projectsData.find(p => p.id === activeTab)?.repoUrl} 
+                target="_blank" 
+                rel="noreferrer"
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-white text-black font-bold hover:bg-white-50 transition-colors group"
+              >
+                <span>View Full Repository on GitHub</span>
+                <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+              </a>
             </div>
 
           </div>
