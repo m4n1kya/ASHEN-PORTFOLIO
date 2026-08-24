@@ -14,6 +14,37 @@ const ashenritualImages = [
   { image: "/projects/ashenritual/Screenshot%202026-08-23%20155333.png" }
 ];
 
+const ashenVectorImages = [
+  { image: "/projects/ashen-vector/Screenshot%202026-08-24%20144308.png" },
+  { image: "/projects/ashen-vector/Screenshot%202026-08-24%20144322.png" },
+  { image: "/projects/ashen-vector/Screenshot%202026-08-24%20144339.png" },
+  { image: "/projects/ashen-vector/Screenshot%202026-08-24%20144423.png" },
+  { image: "/projects/ashen-vector/Screenshot%202026-08-24%20144443.png" },
+  { image: "/projects/ashen-vector/Screenshot%202026-08-24%20144536.png" }
+];
+
+const ecoLoopImages = [
+  { image: "/projects/eco-loop/Screenshot%202026-08-24%20144930.png" },
+  { image: "/projects/eco-loop/Screenshot%202026-08-24%20144955.png" },
+  { image: "/projects/eco-loop/Screenshot%202026-08-24%20145008.png" },
+  { image: "/projects/eco-loop/Screenshot%202026-08-24%20145021.png" },
+  { image: "/projects/eco-loop/Screenshot%202026-08-24%20145050.png" },
+  { image: "/projects/eco-loop/Screenshot%202026-08-24%20145128.png" }
+];
+
+const unieaseImages = [
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145311.png" },
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145321.png" },
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145339.png" },
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145351.png" },
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145359.png" },
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145417.png" },
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145428.png" },
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145442.png" },
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145451.png" },
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145512.png" }
+];
+
 const projectsData = [
   {
     id: "ashenritual",
@@ -144,6 +175,18 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
   const [activeTab, setActiveTab] = useState(initialProject);
   const [markdownContent, setMarkdownContent] = useState("");
 
+  // Determine images based on activeTab
+  const getProjectImages = () => {
+    switch (activeTab) {
+      case "ashenritual": return ashenritualImages;
+      case "uniease": return unieaseImages;
+      case "ashen-vector": return ashenVectorImages;
+      case "eco-loop": return ecoLoopImages;
+      default: return ashenritualImages;
+    }
+  };
+  const currentImages = getProjectImages();
+
   // Update markdown content when active tab changes
   useEffect(() => {
     const project = projectsData.find(p => p.id === activeTab);
@@ -212,29 +255,19 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
             
             {/* Left Side: Fixed on Desktop (Slider + Beautiful Info Card) */}
             <div className="w-full lg:w-[60%] lg:h-full lg:overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] flex flex-col gap-6 z-20 pb-8 lg:pb-16">
-              {activeTab === "ashenritual" ? (
-                <div className="w-full aspect-[2559/1273] relative rounded-2xl overflow-hidden shadow-2xl border border-white-50/10 shrink-0">
-                  <MorphSlider 
-                    items={ashenritualImages}
-                    transition="melt"
-                    intensity={0.55}
-                    aberration={0.35}
-                    drift={0.4}
-                    autoplay
-                    autoplayDelay={4}
-                    showCaptions={false}
-                  />
-                </div>
-              ) : (
-                <div className="w-full aspect-[2559/1273] bg-black-200/80 rounded-2xl border border-white-50/10 flex flex-col items-center justify-center overflow-hidden relative group backdrop-blur-sm shrink-0">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-blue-50/10 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
-                  <svg className="w-10 h-10 md:w-12 md:h-12 text-white-50 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <p className="text-white-50 font-mono text-xs md:text-sm tracking-widest uppercase">Screenshots Placeholder</p>
-                  <p className="text-white-50/50 text-[10px] md:text-xs mt-2">Images will be added here</p>
-                </div>
-              )}
+              <div className="w-full aspect-[2559/1273] relative rounded-2xl overflow-hidden shadow-2xl border border-white-50/10 shrink-0">
+                <MorphSlider 
+                  key={activeTab} // Force webgl context recreate on tab change
+                  items={currentImages}
+                  transition="melt"
+                  intensity={0.55}
+                  aberration={0.35}
+                  drift={0.4}
+                  autoplay
+                  autoplayDelay={4}
+                  showCaptions={false}
+                />
+              </div>
               
               {/* Short Description & Action Links (Desktop Only) */}
               <div className="hidden lg:flex flex-col text-white-50 shrink-0 px-2 mt-2">
