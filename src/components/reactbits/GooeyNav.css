@@ -139,7 +139,7 @@
 }
 
 .gooey-nav-container .effect.filter {
-  filter: url('#goo');
+  /* Removed filter: url('#goo'); */
 }
 
 .gooey-nav-container .effect.filter::after {
