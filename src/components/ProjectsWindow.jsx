@@ -225,11 +225,11 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
         />
       </div>
 
-      {/* Header Area & Tabs Inline */}
-      <div className="flex-none flex items-center p-2 md:px-6 md:py-2 border-b border-white-50/10 bg-transparent backdrop-blur-md z-20 relative">
+      {/* Floating Header Elements (Fixes GooeyNav mix-blend-mode) */}
+      <div className="absolute top-0 left-0 w-full p-4 md:p-6 flex items-center justify-between z-[50] pointer-events-none">
         
         {/* Left Side: Back Button */}
-        <div className="flex-none">
+        <div className="pointer-events-auto">
           <button
             onClick={onBack}
             className="flex items-center justify-center gap-1 md:gap-2 px-3 py-1.5 md:px-5 md:py-2 rounded-full text-white/40 hover:text-white transition-all duration-300 group bg-transparent"
@@ -241,8 +241,8 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
           </button>
         </div>
         
-        {/* Middle: Tabs */}
-        <div className="flex-1 flex justify-start md:justify-center px-4 py-1">
+        {/* Middle: Floating Tabs */}
+        <div className="absolute left-1/2 -translate-x-1/2 pointer-events-auto overflow-visible">
           <GooeyNav 
             items={projectsData}
             activeIndex={projectsData.findIndex(p => p.id === activeTab)}
@@ -250,12 +250,10 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
           />
         </div>
 
-        {/* Right Side Spacer for perfect centering */}
-        <div className="flex-none w-[70px] md:w-[100px] hidden md:block" />
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col overflow-hidden relative z-10">
+      <div className="flex-1 flex flex-col overflow-hidden relative z-10 pt-16 md:pt-24">
         
         {/* Content Container */}
         <div className="flex-1 overflow-y-auto lg:overflow-hidden relative z-10 flex flex-col">
