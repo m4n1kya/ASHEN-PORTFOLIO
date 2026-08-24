@@ -5,44 +5,44 @@ import Galaxy from "./reactbits/Galaxy";
 import MorphSlider from "./reactbits/MorphSlider";
 
 const ashenritualImages = [
-  { image: "/projects/ashenritual/Screenshot%202026-08-23%20154953.png" },
-  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155012.png" },
-  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155110.png" },
-  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155130.png" },
-  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155209.png" },
-  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155233.png" },
-  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155333.png" }
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20154953.jpg" },
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155012.jpg" },
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155110.jpg" },
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155130.jpg" },
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155209.jpg" },
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155233.jpg" },
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155333.jpg" }
 ];
 
 const ashenVectorImages = [
-  { image: "/projects/ashen-vector/Screenshot%202026-08-24%20144308.png" },
-  { image: "/projects/ashen-vector/Screenshot%202026-08-24%20144322.png" },
-  { image: "/projects/ashen-vector/Screenshot%202026-08-24%20144339.png" },
-  { image: "/projects/ashen-vector/Screenshot%202026-08-24%20144423.png" },
-  { image: "/projects/ashen-vector/Screenshot%202026-08-24%20144443.png" },
-  { image: "/projects/ashen-vector/Screenshot%202026-08-24%20144536.png" }
+  { image: "/projects/ashen-vector/Screenshot%202026-08-24%20144308.jpg" },
+  { image: "/projects/ashen-vector/Screenshot%202026-08-24%20144322.jpg" },
+  { image: "/projects/ashen-vector/Screenshot%202026-08-24%20144339.jpg" },
+  { image: "/projects/ashen-vector/Screenshot%202026-08-24%20144423.jpg" },
+  { image: "/projects/ashen-vector/Screenshot%202026-08-24%20144443.jpg" },
+  { image: "/projects/ashen-vector/Screenshot%202026-08-24%20144536.jpg" }
 ];
 
 const ecoLoopImages = [
-  { image: "/projects/eco-loop/Screenshot%202026-08-24%20144930.png" },
-  { image: "/projects/eco-loop/Screenshot%202026-08-24%20144955.png" },
-  { image: "/projects/eco-loop/Screenshot%202026-08-24%20145008.png" },
-  { image: "/projects/eco-loop/Screenshot%202026-08-24%20145021.png" },
-  { image: "/projects/eco-loop/Screenshot%202026-08-24%20145050.png" },
-  { image: "/projects/eco-loop/Screenshot%202026-08-24%20145128.png" }
+  { image: "/projects/eco-loop/Screenshot%202026-08-24%20144930.jpg" },
+  { image: "/projects/eco-loop/Screenshot%202026-08-24%20144955.jpg" },
+  { image: "/projects/eco-loop/Screenshot%202026-08-24%20145008.jpg" },
+  { image: "/projects/eco-loop/Screenshot%202026-08-24%20145021.jpg" },
+  { image: "/projects/eco-loop/Screenshot%202026-08-24%20145050.jpg" },
+  { image: "/projects/eco-loop/Screenshot%202026-08-24%20145128.jpg" }
 ];
 
 const unieaseImages = [
-  { image: "/projects/uniease/Screenshot%202026-08-24%20145311.png" },
-  { image: "/projects/uniease/Screenshot%202026-08-24%20145321.png" },
-  { image: "/projects/uniease/Screenshot%202026-08-24%20145339.png" },
-  { image: "/projects/uniease/Screenshot%202026-08-24%20145351.png" },
-  { image: "/projects/uniease/Screenshot%202026-08-24%20145359.png" },
-  { image: "/projects/uniease/Screenshot%202026-08-24%20145417.png" },
-  { image: "/projects/uniease/Screenshot%202026-08-24%20145428.png" },
-  { image: "/projects/uniease/Screenshot%202026-08-24%20145442.png" },
-  { image: "/projects/uniease/Screenshot%202026-08-24%20145451.png" },
-  { image: "/projects/uniease/Screenshot%202026-08-24%20145512.png" }
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145311.jpg" },
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145321.jpg" },
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145339.jpg" },
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145351.jpg" },
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145359.jpg" },
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145417.jpg" },
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145428.jpg" },
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145442.jpg" },
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145451.jpg" },
+  { image: "/projects/uniease/Screenshot%202026-08-24%20145512.jpg" }
 ];
 
 const projectsData = [
