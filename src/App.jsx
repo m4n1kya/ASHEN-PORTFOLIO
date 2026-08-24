@@ -13,11 +13,14 @@ import Navbar from "./components/NavBar";
 import Loader from "./components/Loader";
 import ParticleCursor from "./components/ParticleCursor";
 import XRayCursor from "./components/XRayCursor";
+import ProjectsWindow from "./components/ProjectsWindow";
 import Gallery from "./components/Gallery";
 
 const App = () => {
   const [view, setView] = useState('home');
+  const [activeProject, setActiveProject] = useState("ashenritual");
   const [galleryMounted, setGalleryMounted] = useState(false);
+  const [projectsMounted, setProjectsMounted] = useState(false);
   const [hasLoadedOnce, setHasLoadedOnce] = useState(() => {
     return sessionStorage.getItem('ashen_has_loaded') === 'true';
   });
@@ -57,6 +60,31 @@ const App = () => {
     sessionStorage.setItem('ashen_has_loaded', 'true');
 
     // Simultaneously fade out the home container
+    gsap.to('.home-container', {
+      opacity: 0,
+      duration: 1.5,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        isTransitioning.current = false;
+        const hc = document.querySelector('.home-container');
+        if (hc) hc.style.display = 'none';
+      },
+    });
+  }, []);
+
+  // Navigate to Projects Window
+  const navigateToProjects = useCallback((projectId) => {
+    if (isTransitioning.current) return;
+    isTransitioning.current = true;
+
+    flushSync(() => {
+      setHasLoadedOnce(true);
+      setActiveProject(projectId);
+      setProjectsMounted(true);
+      setView('projects');
+    });
+    sessionStorage.setItem('ashen_has_loaded', 'true');
+
     gsap.to('.home-container', {
       opacity: 0,
       duration: 1.5,
@@ -122,7 +150,7 @@ const App = () => {
         <Hero onNavigateToGallery={navigateToGallery} hasLoadedOnce={hasLoadedOnce} />
         <FeatureCards />
         <Experience />
-        <ShowcaseSection />
+        <ShowcaseSection onNavigateToProjects={navigateToProjects} />
         <LogoShowcase />
         <TechStack />
         <Contact />
@@ -131,6 +159,10 @@ const App = () => {
 
       {galleryMounted && view === 'gallery' && (
         <Gallery onBack={navigateToHome} />
+      )}
+
+      {projectsMounted && view === 'projects' && (
+        <ProjectsWindow onBack={navigateToHome} initialProject={activeProject} />
       )}
     </>
   );
