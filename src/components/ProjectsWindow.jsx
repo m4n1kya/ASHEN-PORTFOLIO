@@ -189,8 +189,8 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
             mouseInteraction={true}
             density={1.5}
             glowIntensity={0.5}
-            saturation={0.8}
-            hueShift={240}
+            saturation={0.0}
+            twinkleIntensity={0.8}
           />
         </div>
 
