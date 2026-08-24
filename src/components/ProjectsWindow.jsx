@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import Galaxy from "./reactbits/Galaxy";
 
 const projectsData = [
   {
@@ -144,10 +145,10 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
   }, [activeTab]);
 
   return (
-    <div className="fixed inset-0 z-[1000] bg-black-100 flex flex-col w-full h-full overflow-hidden">
+    <div className="fixed inset-0 z-[1000] bg-black flex flex-col w-full h-full overflow-hidden">
       
       {/* Header Area & Tabs Inline */}
-      <div className="flex-none flex items-center justify-between p-4 md:px-8 md:py-4 border-b border-white-50/10 bg-black-100/90 backdrop-blur-md z-20 gap-4 md:gap-8">
+      <div className="flex-none flex items-center justify-between p-4 md:px-8 md:py-4 border-b border-white-50/10 bg-black-100/40 backdrop-blur-md z-20 gap-4 md:gap-8">
         
         <h1 className="text-xl md:text-2xl font-bold text-white tracking-wide shrink-0">Projects</h1>
         
@@ -170,7 +171,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
 
         <button
           onClick={onBack}
-          className="flex items-center justify-center gap-1 md:gap-2 px-4 py-2 md:px-5 md:py-2.5 rounded-full border border-white-50/20 text-white-50 hover:text-white hover:border-white transition-all duration-300 group bg-black-200 shrink-0"
+          className="flex items-center justify-center gap-1 md:gap-2 px-4 py-2 md:px-5 md:py-2.5 rounded-full border border-white-50/20 text-white-50 hover:text-white hover:border-white transition-all duration-300 group bg-black-200/50 shrink-0"
         >
           <svg className="w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -180,9 +181,18 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
       </div>
 
       <div className="flex-1 flex flex-col overflow-hidden relative">
-        {/* Background gradient effects */}
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-50/5 blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-purple-500/5 blur-[120px] pointer-events-none" />
+        
+        {/* Galaxy Background */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <Galaxy 
+            mouseRepulsion={true}
+            mouseInteraction={true}
+            density={1.5}
+            glowIntensity={0.5}
+            saturation={0.8}
+            hueShift={240}
+          />
+        </div>
 
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto custom-scrollbar relative z-10 scroll-smooth">
