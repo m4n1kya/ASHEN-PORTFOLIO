@@ -33,22 +33,37 @@ const HeroImageParticles = ({ isHovered }) => {
   const hoverParticles = particles.filter(p => !p.isAmbient);
 
   const renderParticle = (p) => (
-    <div
+    <svg
       key={p.id}
-      className="absolute rounded-full opacity-0 animate-magicalParticle"
+      className="absolute animate-magicalParticle"
+      viewBox="0 0 24 24"
       style={{
         left: `${p.left}%`,
         top: `${p.top}%`,
-        width: `${p.size}px`,
-        height: `${p.size}px`,
-        backgroundColor: p.color,
+        width: `${p.size * 4}px`, // Scaled up slightly because the star is thinner than a solid circle
+        height: `${p.size * 4}px`,
         animationDelay: `${p.delay}s`,
         animationDuration: `${p.duration}s`,
-        boxShadow: `0 0 ${p.size * 3}px ${p.size}px ${p.color}`,
         '--tx': `${p.tx}px`,
         '--ty': `${p.ty}px`,
+        '--peak-opacity': 0.8,
       }}
-    />
+    >
+      <defs>
+        <filter id={`glow-${p.id}`} x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      <path 
+        d="M12 0 C 12 9, 15 12, 24 12 C 15 12, 12 15, 12 24 C 12 15, 9 12, 0 12 C 9 12, 12 9, 12 0 Z" 
+        fill={p.color} 
+        filter={`url(#glow-${p.id})`}
+      />
+    </svg>
   );
 
   return (

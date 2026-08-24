@@ -34,24 +34,28 @@ const HeroParticles = () => {
   return (
     <div className="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
       {particles.map((p) => (
-        <div
+        <svg
           key={p.id}
-          className="absolute rounded-full opacity-0 animate-magicalParticle"
+          className="absolute animate-magicalParticle"
+          viewBox="0 0 24 24"
           style={{
             left: `${p.left}%`,
             top: `${p.top}%`,
-            width: `${p.size}px`,
-            height: `${p.size}px`,
-            backgroundColor: p.color,
+            width: `${p.size * 4}px`, // Scaled up because star is thinner than a circle
+            height: `${p.size * 4}px`,
             animationDelay: `${p.delay}s`,
             animationDuration: `${p.duration}s`,
-            filter: `blur(${p.blur}px)`,
-            boxShadow: `0 0 ${p.size * 3}px ${p.size}px ${p.color}`,
+            filter: `blur(${p.blur}px) drop-shadow(0 0 ${p.size}px ${p.color})`, // Depth of field + glow
             '--tx': `${p.tx}px`,
             '--ty': `${p.ty}px`,
             '--peak-opacity': p.peakOpacity,
           }}
-        />
+        >
+          <path 
+            d="M12 0 C 12 9, 15 12, 24 12 C 15 12, 12 15, 12 24 C 12 15, 9 12, 0 12 C 9 12, 12 9, 12 0 Z" 
+            fill={p.color} 
+          />
+        </svg>
       ))}
     </div>
   );
