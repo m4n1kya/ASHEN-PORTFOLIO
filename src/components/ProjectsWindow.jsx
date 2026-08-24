@@ -3,6 +3,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Galaxy from "./reactbits/Galaxy";
 import MorphSlider from "./reactbits/MorphSlider";
+import GooeyNav from "./reactbits/GooeyNav";
 
 const ashenritualImages = [
   { image: "/projects/ashenritual/Screenshot%202026-08-23%20154953.jpg" },
@@ -231,7 +232,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
         <div className="flex-none">
           <button
             onClick={onBack}
-            className="flex items-center justify-center gap-1 md:gap-2 px-3 py-1.5 md:px-5 md:py-2 rounded-full border border-white-50/20 text-white-50 hover:text-white hover:border-white transition-all duration-300 group bg-black-200/50"
+            className="flex items-center justify-center gap-1 md:gap-2 px-3 py-1.5 md:px-5 md:py-2 rounded-full text-white/40 hover:text-white transition-all duration-300 group bg-transparent"
           >
             <svg className="w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -241,20 +242,12 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
         </div>
         
         {/* Middle: Tabs */}
-        <div className="flex-1 flex flex-row gap-2 md:gap-3 overflow-x-auto custom-scrollbar justify-start md:justify-center px-4 py-1">
-            {projectsData.map((project) => (
-              <button
-                key={project.id}
-                onClick={() => setActiveTab(project.id)}
-                className={`text-center px-3 py-1.5 md:px-4 md:py-2 rounded-full transition-all duration-300 shrink-0 ${
-                  activeTab === project.id
-                    ? "bg-white text-black font-bold shadow-md scale-[1.05]"
-                    : "text-white-50 hover:bg-white-50/10 hover:text-white font-semibold"
-                }`}
-              >
-                <div className="text-[10px] md:text-xs tracking-wide uppercase">{project.name}</div>
-              </button>
-            ))}
+        <div className="flex-1 flex justify-start md:justify-center px-4 py-1">
+          <GooeyNav 
+            items={projectsData}
+            activeIndex={projectsData.findIndex(p => p.id === activeTab)}
+            onChange={(index) => setActiveTab(projectsData[index].id)}
+          />
         </div>
 
         {/* Right Side Spacer for perfect centering */}
