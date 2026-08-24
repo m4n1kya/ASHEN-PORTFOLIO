@@ -20,11 +20,10 @@ const projectsData = [
     id: "ashenritual",
     name: "ASHENRITUAL",
     repoUrl: "https://github.com/m4n1kya/ASHENRITUAL",
+    shortDescription: "ASHENRITUAL is a production-grade, headless e-commerce platform built to seamlessly merge the tactile experience of luxury fashion with the computational power of artificial intelligence. Engineered entirely on a modern TypeScript micro-architecture, the application delivers a cinematic user interface optimized for high-performance rendering.",
     markdown: `
 # ASHENRITUAL
 *Luxury Fashion • Artificial Intelligence • Modern Web Engineering*
-
-ASHENRITUAL is a production-grade, headless e-commerce platform built to seamlessly merge the tactile experience of luxury fashion with the computational power of artificial intelligence. Engineered entirely on a modern TypeScript micro-architecture, the application delivers a cinematic user interface optimized for high-performance rendering.
 
 ## Core Architecture
 Built upon strict software engineering principles, the system separates the presentation layer from the business logic. This decoupled architecture allows for rigorous security implementations, independent scalability, and the integration of advanced server-side rendering techniques.
@@ -47,11 +46,10 @@ Built upon strict software engineering principles, the system separates the pres
     id: "uniease",
     name: "UNI-EASE",
     repoUrl: "https://github.com/m4n1kya/Epics-UniEase",
+    shortDescription: "UniEase is a modern university resource management platform designed to centralize essential campus services into a single, responsive web application. It simplifies access to important university resources by providing students with a unified platform for academic and campus-related information.",
     markdown: `
 # UNI-EASE
 *Campus Resource Optimization Ecosystem*
-
-UniEase is a modern university resource management platform designed to centralize essential campus services into a single, responsive web application. It simplifies access to important university resources by providing students with a unified platform for academic and campus-related information.
 
 ## System Overview
 The application offers an intuitive interface for accessing faculty details, study materials, transportation schedules, food court information, and career resources, drastically reducing the friction of navigating large campus ecosystems.
@@ -71,11 +69,10 @@ The application offers an intuitive interface for accessing faculty details, stu
     id: "ashen-vector",
     name: "ASHEN-VECTOR",
     repoUrl: "https://github.com/m4n1kya/ASHEN-VECTOR",
+    shortDescription: "ASHEN-VECTOR is an experimental quantitative market intelligence and systematic research platform built around Qlib-compatible market data infrastructure. It provides a modular architecture for quantitative factor research, statistical analysis, machine learning-based prediction, probability calibration, and systematic backtesting.",
     markdown: `
 # ASHEN-VECTOR
 *Quantitative Market Intelligence Platform*
-
-ASHEN-VECTOR is an experimental quantitative market intelligence and systematic research platform built around Qlib-compatible market data infrastructure. It provides a modular architecture for quantitative factor research, statistical analysis, machine learning–based prediction, probability calibration, and systematic backtesting.
 
 ## Platform Capabilities
 Designed as a personal quantitative research terminal, ASHEN-VECTOR delivers comprehensive analytical tools for systematic trading and market intelligence.
@@ -99,11 +96,10 @@ The system employs a sophisticated pipeline starting from Qlib market data, flow
     id: "eco-loop",
     name: "ECO-LOOP",
     repoUrl: "https://github.com/m4n1kya/eco-loop",
+    shortDescription: "EcoLoop is an advanced AI-powered building energy optimization system that combines EnergyPlus building simulation with a locally hosted Large Language Model (LLM). It automatically analyzes building performance, recommends HVAC optimization strategies, modifies building control parameters, and evaluates energy savings through an iterative closed-loop workflow.",
     markdown: `
 # ECO-LOOP
 *AI-Powered Building Energy Optimization*
-
-EcoLoop is an advanced AI-powered building energy optimization system that combines EnergyPlus building simulation with a locally hosted Large Language Model (LLM). It automatically analyzes building performance, recommends HVAC optimization strategies, modifies building control parameters, and evaluates energy savings through an iterative closed-loop workflow.
 
 ## The Problem & Solution
 Commercial buildings consume a significant portion of global electricity, with HVAC systems accounting for one of the largest energy loads. Traditional EnergyPlus workflows require engineers to manually analyze large simulation outputs and tune HVAC schedules. EcoLoop automates this entirely.
@@ -217,7 +213,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
             <div className="flex flex-col lg:flex-row lg:items-start gap-8 lg:gap-12">
               
               {/* Left Side: Screenshot / Slider (Sticky on Desktop) */}
-              <div className="w-full lg:w-[55%] lg:sticky lg:top-0 z-20">
+              <div className="w-full lg:w-[65%] lg:sticky lg:top-0 z-20 flex flex-col gap-6">
                 {activeTab === "ashenritual" ? (
                   <div className="w-full aspect-video relative rounded-2xl overflow-hidden shadow-2xl border border-white-50/10">
                     <MorphSlider 
@@ -241,10 +237,15 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                     <p className="text-white-50/50 text-[10px] md:text-xs mt-2">Images will be added here</p>
                   </div>
                 )}
+                
+                {/* Short Description below slider (Desktop Only) */}
+                <div className="hidden lg:block text-white-50 text-sm md:text-base leading-relaxed bg-black-200/40 p-6 rounded-2xl border border-white-50/5 backdrop-blur-md">
+                   <p>{projectsData.find(p => p.id === activeTab)?.shortDescription}</p>
+                </div>
               </div>
 
               {/* Right Side: Markdown Content (Scrolls) */}
-              <div className="w-full lg:w-[45%] z-10">
+              <div className="w-full lg:w-[35%] z-10">
                 <div className="prose prose-invert max-w-none">
                   <div className="markdown-body animate-fadeIn">
                     <ReactMarkdown 
