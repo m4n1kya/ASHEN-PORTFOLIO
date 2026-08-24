@@ -63,19 +63,20 @@ const XRayCursor = ({ isVisible = true }) => {
       lastMouseX = mouseX;
       lastMouseY = mouseY;
 
-      // Smooth the velocity so the stretch effect doesn't jitter
-      smoothedVx += (rawVx - smoothedVx) * 0.15;
-      smoothedVy += (rawVy - smoothedVy) * 0.15;
+      // Use a much faster smoothing factor (0.4) so the rotation angle doesn't lag wildly when drawing circles
+      smoothedVx += (rawVx - smoothedVx) * 0.4;
+      smoothedVy += (rawVy - smoothedVy) * 0.4;
 
       // Calculate speed and angle for the liquid stretch effect using smoothed velocity
       const speed = Math.sqrt(smoothedVx * smoothedVx + smoothedVy * smoothedVy);
       const angle = Math.atan2(smoothedVy, smoothedVx);
       
-      // Balanced liquid stretch (0.50x max elongation)
-      const scaleX = 1 + Math.min(speed / 80, 0.50);
-      const scaleY = 1 - Math.min(speed / 120, 0.30);
+      // Balanced liquid stretch
+      const scaleX = 1 + Math.min(speed / 80, 0.40);
+      const scaleY = 1 - Math.min(speed / 120, 0.25);
 
-      const size = isHovering ? 120 : 70;
+      // Reduced size slightly as requested
+      const size = isHovering ? 90 : 50;
       
       // Cursor perfectly instantly centers on mouseX/mouseY
       cursor.style.transform = `translate3d(${mouseX - size / 2}px, ${mouseY - size / 2}px, 0) rotate(${angle}rad) scale(${scaleX}, ${scaleY})`;
@@ -106,8 +107,8 @@ const XRayCursor = ({ isVisible = true }) => {
           position: "fixed",
           top: 0,
           left: 0,
-          width: "60px",
-          height: "60px",
+          width: "50px",
+          height: "50px",
           backgroundColor: "white",
           mixBlendMode: "difference",
           pointerEvents: "none",
