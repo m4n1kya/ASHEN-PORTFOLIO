@@ -183,7 +183,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
       <div className="flex-1 flex flex-col overflow-hidden relative">
         
         {/* Galaxy Background */}
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <Galaxy 
             mouseRepulsion={true}
             mouseInteraction={true}
