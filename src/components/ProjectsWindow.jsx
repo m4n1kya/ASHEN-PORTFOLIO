@@ -253,7 +253,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                      </a>
                    </div>
                  </div>
-                 <p className="text-sm leading-relaxed text-white-50/80 w-full">{projectsData.find(p => p.id === activeTab)?.shortDescription}</p>
+                 <p className="text-base leading-relaxed text-white-50/80 w-full">{projectsData.find(p => p.id === activeTab)?.shortDescription}</p>
               </div>
             </div>
 
