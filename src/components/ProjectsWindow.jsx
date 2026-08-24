@@ -20,7 +20,7 @@ const projectsData = [
     name: "ASHENRITUAL",
     repoUrl: "https://github.com/m4n1kya/ASHENRITUAL",
     liveUrl: "https://ashenritual.vercel.app",
-    shortDescription: "A production-grade, headless e-commerce platform merging luxury fashion with artificial intelligence via a cinematic, high-performance interface.",
+    shortDescription: "ASHENRITUAL is a production-grade, headless e-commerce platform built to seamlessly merge the tactile experience of luxury fashion with the computational power of artificial intelligence. Engineered entirely on a modern TypeScript micro-architecture, the application delivers a cinematic user interface optimized for high-performance rendering.",
     markdown: `
 # ASHENRITUAL
 *Luxury Fashion • Artificial Intelligence • Modern Web Engineering*
@@ -46,7 +46,7 @@ Built upon strict software engineering principles, the system separates the pres
     id: "uniease",
     name: "UNI-EASE",
     repoUrl: "https://github.com/m4n1kya/Epics-UniEase",
-    shortDescription: "A modern university resource platform centralizing campus services into a single, responsive web application for students.",
+    shortDescription: "UniEase is a modern university resource management platform designed to centralize essential campus services into a single, responsive web application. It simplifies access to important university resources by providing students with a unified platform for academic and campus-related information.",
     markdown: `
 # UNI-EASE
 *Campus Resource Optimization Ecosystem*
@@ -69,7 +69,7 @@ The application offers an intuitive interface for accessing faculty details, stu
     id: "ashen-vector",
     name: "ASHEN-VECTOR",
     repoUrl: "https://github.com/m4n1kya/ASHEN-VECTOR",
-    shortDescription: "An experimental quantitative market intelligence platform for systematic research, backtesting, and machine learning predictions.",
+    shortDescription: "ASHEN-VECTOR is an experimental quantitative market intelligence and systematic research platform built around Qlib-compatible market data infrastructure. It provides a modular architecture for quantitative factor research, statistical analysis, machine learning-based prediction, probability calibration, and systematic backtesting.",
     markdown: `
 # ASHEN-VECTOR
 *Quantitative Market Intelligence Platform*
@@ -96,7 +96,7 @@ The system employs a sophisticated pipeline starting from Qlib market data, flow
     id: "eco-loop",
     name: "ECO-LOOP",
     repoUrl: "https://github.com/m4n1kya/eco-loop",
-    shortDescription: "An AI-powered building energy optimization system utilizing LLMs and EnergyPlus to automatically recommend HVAC strategies.",
+    shortDescription: "EcoLoop is an advanced AI-powered building energy optimization system that combines EnergyPlus building simulation with a locally hosted Large Language Model (LLM). It automatically analyzes building performance, recommends HVAC optimization strategies, modifies building control parameters, and evaluates energy savings through an iterative closed-loop workflow.",
     markdown: `
 # ECO-LOOP
 *AI-Powered Building Energy Optimization*
@@ -253,7 +253,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                      </a>
                    </div>
                  </div>
-                 <p className="text-sm leading-relaxed text-white-50/80 max-w-2xl">{projectsData.find(p => p.id === activeTab)?.shortDescription}</p>
+                 <p className="text-sm leading-relaxed text-white-50/80 w-full">{projectsData.find(p => p.id === activeTab)?.shortDescription}</p>
               </div>
             </div>
 
