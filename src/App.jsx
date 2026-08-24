@@ -26,6 +26,7 @@ const App = () => {
   });
   const overlayRef = useRef(null);
   const isTransitioning = useRef(false);
+  const scrollPositionRef = useRef(0);
 
   // Silently preload all the massive Gallery images in the background
   // so that they are instantly available from cache when the user opens the Gallery.
@@ -50,6 +51,9 @@ const App = () => {
   const navigateToGallery = useCallback(() => {
     if (isTransitioning.current) return;
     isTransitioning.current = true;
+    
+    // Save scroll position before hiding home container
+    scrollPositionRef.current = window.scrollY;
 
     // Immediately mount the gallery.
     flushSync(() => {
@@ -82,6 +86,9 @@ const App = () => {
   const navigateToProjects = useCallback((projectId) => {
     if (isTransitioning.current) return;
     isTransitioning.current = true;
+
+    // Save scroll position before hiding home container
+    scrollPositionRef.current = window.scrollY;
 
     flushSync(() => {
       setHasLoadedOnce(true);
@@ -117,7 +124,8 @@ const App = () => {
     const hc = document.querySelector('.home-container');
     if (hc) hc.style.display = 'block';
 
-    window.scrollTo(0, 0);
+    // Restore the scroll position instead of jumping to the top
+    window.scrollTo(0, scrollPositionRef.current);
 
     // Fade IN the home container
     gsap.fromTo('.home-container', 
