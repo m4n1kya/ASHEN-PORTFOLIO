@@ -5,14 +5,13 @@ import Galaxy from "./reactbits/Galaxy";
 import MorphSlider from "./reactbits/MorphSlider";
 
 const ashenritualImages = [
-  { image: "/projects/ashenritual/Screenshot%202026-08-23%20154953.png", caption: "Showcase" },
-  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155012.png", caption: "Collections" },
-  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155110.png", caption: "Product Viewer" },
-  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155130.png", caption: "Interface Details" },
-  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155209.png", caption: "Cart Experience" },
-  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155233.png", caption: "Checkout" },
-  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155258.png", caption: "VESPER AI Concierge" },
-  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155333.png", caption: "Navigation" }
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20154953.png" },
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155012.png" },
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155110.png" },
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155130.png" },
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155209.png" },
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155233.png" },
+  { image: "/projects/ashenritual/Screenshot%202026-08-23%20155333.png" }
 ];
 
 const projectsData = [
@@ -215,7 +214,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
               {/* Left Side: Screenshot / Slider (Sticky on Desktop) */}
               <div className="w-full lg:w-[60%] lg:sticky lg:top-0 z-20 flex flex-col gap-6">
                 {activeTab === "ashenritual" ? (
-                  <div className="w-full aspect-[1.85] relative rounded-2xl overflow-hidden shadow-2xl border border-white-50/10">
+                  <div className="w-full aspect-[2559/1273] relative rounded-2xl overflow-hidden shadow-2xl border border-white-50/10">
                     <MorphSlider 
                       items={ashenritualImages}
                       transition="melt"
@@ -228,7 +227,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                     />
                   </div>
                 ) : (
-                  <div className="w-full aspect-[1.85] bg-black-200/80 rounded-2xl border border-white-50/10 flex flex-col items-center justify-center overflow-hidden relative group backdrop-blur-sm">
+                  <div className="w-full aspect-[2559/1273] bg-black-200/80 rounded-2xl border border-white-50/10 flex flex-col items-center justify-center overflow-hidden relative group backdrop-blur-sm">
                     <div className="absolute inset-0 bg-gradient-to-tr from-blue-50/10 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
                     <svg className="w-10 h-10 md:w-12 md:h-12 text-white-50 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
