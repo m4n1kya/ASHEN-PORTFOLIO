@@ -212,8 +212,20 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
   return (
     <div className="fixed inset-0 z-[1000] bg-black flex flex-col w-full h-full overflow-hidden">
       
+      {/* Global Galaxy Background (Behind Everything) */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <Galaxy 
+          mouseRepulsion={true}
+          mouseInteraction={true}
+          density={1.5}
+          glowIntensity={0.25}
+          saturation={0.0}
+          twinkleIntensity={0.45}
+        />
+      </div>
+
       {/* Header Area & Tabs Inline */}
-      <div className="flex-none flex items-center p-2 md:px-6 md:py-2 border-b border-white-50/10 bg-black/10 backdrop-blur-md z-20">
+      <div className="flex-none flex items-center p-2 md:px-6 md:py-2 border-b border-white-50/10 bg-black/10 backdrop-blur-md z-20 relative">
         
         {/* Left Side: Back Button */}
         <div className="flex-none">
@@ -249,37 +261,50 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
         <div className="flex-none w-[70px] md:w-[100px] hidden md:block" />
       </div>
 
-      <div className="flex-1 flex flex-col overflow-hidden relative">
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col overflow-hidden relative z-10">
         
-        {/* Galaxy Background */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          <Galaxy 
-            mouseRepulsion={true}
-            mouseInteraction={true}
-            density={1.5}
-            glowIntensity={0.25}
-            saturation={0.0}
-            twinkleIntensity={0.45}
-          />
-        </div>
-
-        {/* Content Area - Split scroll architecture for Desktop */}
+        {/* Content Container */}
         <div className="flex-1 overflow-y-auto lg:overflow-hidden relative z-10 flex flex-col">
           <div className="w-full flex-1 lg:h-full max-w-[1800px] mx-auto p-6 md:p-8 lg:p-12 xl:px-16 flex flex-col lg:flex-row gap-8 lg:gap-12 xl:gap-16">
             
             {/* Left Side: Fixed on Desktop (Slider + Beautiful Info Card) */}
             <div className="w-full lg:w-[60%] lg:h-full lg:overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] flex flex-col gap-6 z-20 pb-8 lg:pb-16">
+              
               <div className="w-full aspect-[2559/1273] relative rounded-2xl overflow-hidden shadow-2xl border border-white-50/10 shrink-0 bg-[#0c0c0e]">
-                <MorphSlider 
-                  items={currentImages}
-                  transition="melt"
-                  intensity={0.55}
-                  aberration={0.35}
-                  drift={0.4}
-                  autoplay
-                  autoplayDelay={4}
-                  showCaptions={false}
-                />
+                
+                {/* Ashenritual Slider */}
+                <div className={`absolute inset-0 transition-opacity duration-300 ${activeTab === 'ashenritual' ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
+                  <MorphSlider 
+                    items={ashenritualImages}
+                    transition="melt" intensity={0.55} aberration={0.35} drift={0.4} autoplay={activeTab === 'ashenritual'}
+                  />
+                </div>
+
+                {/* UniEase Slider */}
+                <div className={`absolute inset-0 transition-opacity duration-300 ${activeTab === 'uniease' ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
+                  <MorphSlider 
+                    items={unieaseImages}
+                    transition="melt" intensity={0.55} aberration={0.35} drift={0.4} autoplay={activeTab === 'uniease'}
+                  />
+                </div>
+
+                {/* Ashen-Vector Slider */}
+                <div className={`absolute inset-0 transition-opacity duration-300 ${activeTab === 'ashen-vector' ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
+                  <MorphSlider 
+                    items={ashenVectorImages}
+                    transition="melt" intensity={0.55} aberration={0.35} drift={0.4} autoplay={activeTab === 'ashen-vector'}
+                  />
+                </div>
+
+                {/* Eco-Loop Slider */}
+                <div className={`absolute inset-0 transition-opacity duration-300 ${activeTab === 'eco-loop' ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
+                  <MorphSlider 
+                    items={ecoLoopImages}
+                    transition="melt" intensity={0.55} aberration={0.35} drift={0.4} autoplay={activeTab === 'eco-loop'}
+                  />
+                </div>
+
               </div>
               
               {/* Short Description & Action Links (Desktop Only) */}
