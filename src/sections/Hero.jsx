@@ -5,7 +5,6 @@ import gsap from "gsap";
 import AnimatedCounter from "../components/AnimatedCounter";
 import Button from "../components/Button";
 import { words } from "../constants";
-import HeroParticles from "../components/HeroParticles";
 import HeroImageParticles from "../components/HeroImageParticles";
 import ShinyText from "../components/reactbits/ShinyText";
 
@@ -62,8 +61,6 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
 
   return (
     <section id="hero" className="relative overflow-hidden">
-      <HeroParticles />
-
       <div className="relative z-10 w-full min-h-[80vh] md:min-h-screen flex flex-col lg:flex-row items-center justify-between px-5 md:px-20 pt-32 lg:pt-20 pb-20 lg:pb-32 gap-10 lg:gap-0">
         
         {/* LEFT: Hero Content */}

@@ -3,6 +3,7 @@ import { flushSync } from "react-dom";
 import gsap from "gsap";
 import Footer from "./sections/Footer";
 import Contact from "./sections/Contact";
+import HeroParticles from "./components/HeroParticles";
 import TechStack from "./sections/TechStack";
 import Experience from "./sections/Experience";
 import Hero from "./sections/Hero";
@@ -173,6 +174,7 @@ const App = () => {
         className="home-container relative bg-transparent"
         style={{ display: (view === 'home' || isTransitioning.current) ? 'block' : 'none' }}
       >
+        <HeroParticles />
         <Loader hasLoadedOnce={hasLoadedOnce} />
         <Navbar />
         <Hero onNavigateToGallery={navigateToGallery} hasLoadedOnce={hasLoadedOnce} />

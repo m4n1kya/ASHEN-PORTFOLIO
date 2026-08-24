@@ -5,7 +5,7 @@ const HeroParticles = () => {
 
   useEffect(() => {
     // Sparse magical particles distributed across the whole screen
-    const newParticles = Array.from({ length: 120 }).map((_, i) => {
+    const newParticles = Array.from({ length: 300 }).map((_, i) => {
       const colors = ['#ffffff', '#e0e0e0', '#a0a0a0', '#737373']; 
       const color = colors[Math.floor(Math.random() * colors.length)];
       
@@ -25,7 +25,7 @@ const HeroParticles = () => {
   }, []);
 
   return (
-    <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
+    <div className="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
       {particles.map((p) => (
         <div
           key={p.id}
