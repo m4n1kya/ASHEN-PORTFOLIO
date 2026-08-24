@@ -35,7 +35,7 @@ const HeroImageParticles = ({ isHovered }) => {
   const renderParticle = (p) => (
     <div
       key={p.id}
-      className="absolute rounded-full animate-magicalParticle"
+      className="absolute rounded-full opacity-0 animate-magicalParticle"
       style={{
         left: `${p.left}%`,
         top: `${p.top}%`,
@@ -47,7 +47,6 @@ const HeroImageParticles = ({ isHovered }) => {
         boxShadow: `0 0 ${p.size * 3}px ${p.size}px ${p.color}`,
         '--tx': `${p.tx}px`,
         '--ty': `${p.ty}px`,
-        '--peak-opacity': 0.8,
       }}
     />
   );

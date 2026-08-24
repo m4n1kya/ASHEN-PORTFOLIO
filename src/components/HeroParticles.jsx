@@ -36,7 +36,7 @@ const HeroParticles = () => {
       {particles.map((p) => (
         <div
           key={p.id}
-          className="absolute rounded-full animate-magicalParticle"
+          className="absolute rounded-full opacity-0 animate-magicalParticle"
           style={{
             left: `${p.left}%`,
             top: `${p.top}%`,
@@ -45,8 +45,8 @@ const HeroParticles = () => {
             backgroundColor: p.color,
             animationDelay: `${p.delay}s`,
             animationDuration: `${p.duration}s`,
-            filter: `blur(${p.blur}px)`, // Depth of field
-            boxShadow: `0 0 ${p.size * 3}px ${p.size}px ${p.color}`, // Glow
+            filter: `blur(${p.blur}px)`,
+            boxShadow: `0 0 ${p.size * 3}px ${p.size}px ${p.color}`,
             '--tx': `${p.tx}px`,
             '--ty': `${p.ty}px`,
             '--peak-opacity': p.peakOpacity,
