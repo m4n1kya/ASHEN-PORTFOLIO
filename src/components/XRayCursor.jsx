@@ -31,6 +31,8 @@ const XRayCursor = ({ isVisible = true }) => {
     let smoothedVx = 0;
     let smoothedVy = 0;
     let isHovering = false;
+    let isWindowHoveredRaw = true;
+    let windowScale = 1;
     let animationFrameId;
 
     const handleMouseMove = (e) => {
@@ -54,8 +56,14 @@ const XRayCursor = ({ isVisible = true }) => {
       isHovering = false;
     };
 
-    const handleWindowLeave = () => setIsWindowHovered(false);
-    const handleWindowEnter = () => setIsWindowHovered(true);
+    const handleWindowLeave = () => {
+      setIsWindowHovered(false);
+      isWindowHoveredRaw = false;
+    };
+    const handleWindowEnter = () => {
+      setIsWindowHovered(true);
+      isWindowHoveredRaw = true;
+    };
 
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseover", handleMouseOver);
@@ -79,14 +87,21 @@ const XRayCursor = ({ isVisible = true }) => {
       const angle = Math.atan2(smoothedVy, smoothedVx);
       
       // Balanced liquid stretch
-      const scaleX = 1 + Math.min(speed / 80, 0.40);
-      const scaleY = 1 - Math.min(speed / 120, 0.25);
+      const baseScaleX = 1 + Math.min(speed / 80, 0.40);
+      const baseScaleY = 1 - Math.min(speed / 120, 0.25);
+
+      // Smooth suck-in/expand animation
+      const targetWindowScale = isWindowHoveredRaw ? 1 : 0;
+      windowScale += (targetWindowScale - windowScale) * 0.15;
+      
+      const finalScaleX = baseScaleX * windowScale;
+      const finalScaleY = baseScaleY * windowScale;
 
       // Reduced size slightly as requested
       const size = isHovering ? 90 : 50;
       
       // Cursor perfectly instantly centers on mouseX/mouseY
-      cursor.style.transform = `translate3d(${mouseX - size / 2}px, ${mouseY - size / 2}px, 0) rotate(${angle}rad) scale(${scaleX}, ${scaleY})`;
+      cursor.style.transform = `translate3d(${mouseX - size / 2}px, ${mouseY - size / 2}px, 0) rotate(${angle}rad) scale(${finalScaleX}, ${finalScaleY})`;
       cursor.style.width = `${size}px`;
       cursor.style.height = `${size}px`;
 
