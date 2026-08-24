@@ -211,7 +211,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
   }, [activeTab]);
 
   return (
-    <div className="fixed inset-0 z-[1000] bg-black flex flex-col w-full h-full overflow-hidden">
+    <div className="projects-window fixed inset-0 z-[1000] bg-black flex flex-col w-full h-full overflow-hidden">
       
       {/* Global Galaxy Background (Behind Everything) */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">

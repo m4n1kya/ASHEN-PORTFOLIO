@@ -59,6 +59,12 @@ const App = () => {
     });
     sessionStorage.setItem('ashen_has_loaded', 'true');
 
+    // Fade IN the gallery while simultaneously fading OUT the home container
+    gsap.fromTo('.gallery-window', 
+      { opacity: 0 }, 
+      { opacity: 1, duration: 1.5, ease: 'power2.inOut' }
+    );
+
     // Simultaneously fade out the home container
     gsap.to('.home-container', {
       opacity: 0,
@@ -85,6 +91,12 @@ const App = () => {
     });
     sessionStorage.setItem('ashen_has_loaded', 'true');
 
+    // Fade IN the projects window while fading OUT the home container
+    gsap.fromTo('.projects-window', 
+      { opacity: 0 }, 
+      { opacity: 1, duration: 1.5, ease: 'power2.inOut' }
+    );
+
     gsap.to('.home-container', {
       opacity: 0,
       duration: 1.5,
@@ -105,19 +117,27 @@ const App = () => {
     const hc = document.querySelector('.home-container');
     if (hc) hc.style.display = 'block';
 
-    flushSync(() => {
-      setView('home');
-    });
-
     window.scrollTo(0, 0);
 
-    // Fade the home container back in with extreme smoothness
+    // Fade IN the home container
     gsap.fromTo('.home-container', 
       { opacity: 0 },
-      { opacity: 1, duration: 1.5, ease: 'power3.inOut', onComplete: () => {
-        isTransitioning.current = false;
-      }}
+      { opacity: 1, duration: 1.5, ease: 'power3.inOut' }
     );
+
+    // Simultaneously fade OUT the active window
+    gsap.to('.projects-window, .gallery-window', {
+      opacity: 0,
+      duration: 1.5,
+      ease: 'power3.inOut',
+      onComplete: () => {
+        // Only unmount AFTER the fade out is fully complete
+        flushSync(() => {
+          setView('home');
+        });
+        isTransitioning.current = false;
+      }
+    });
   }, []);
 
   return (

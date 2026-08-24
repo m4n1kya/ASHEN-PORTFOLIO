@@ -22,7 +22,7 @@ const Gallery = ({ onBack }) => {
   }));
 
   return (
-    <div ref={containerRef} className="gallery-container h-screen w-screen bg-black fixed inset-0 z-[200] overflow-hidden">
+    <div ref={containerRef} className="gallery-window gallery-container h-screen w-screen bg-black fixed inset-0 z-[200] overflow-hidden">
       
       {/* Minimal Back Button with Magnetic effect - Positioned absolutely as an overlay */}
       <div className="absolute top-10 left-5 md:left-10 z-[300]">
