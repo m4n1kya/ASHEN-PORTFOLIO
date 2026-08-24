@@ -130,7 +130,7 @@ const Contact = () => {
             <img 
               src="/images/contact-office.jpg" 
               alt="Minimalist Office Setup" 
-              className="w-full h-full object-cover rounded-3xl shadow-xl border border-white/10"
+              className="relative z-10 w-full h-full object-cover rounded-3xl shadow-xl border border-white/10 bg-black"
             />
           </div>
         </div>

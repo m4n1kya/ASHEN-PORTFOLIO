@@ -20,12 +20,12 @@ const HeroParticles = () => {
         top: Math.random() * 100, 
         size: size, 
         delay: Math.random() * 15, 
-        duration: Math.random() * 15 + 10, // Very slow drift (10s to 25s)
+        duration: Math.random() * 20 + 20, // Very slow twinkle (20s to 40s cycle)
         color: '#ffffff',
-        tx: (Math.random() - 0.5) * 150, // Drift omnidirectionally
-        ty: (Math.random() - 0.5) * 150, 
+        tx: (Math.random() - 0.5) * 350, // More movement distance to compensate for longer duration
+        ty: (Math.random() - 0.5) * 350, 
         blur: blur,
-        peakOpacity: isForeground ? (Math.random() * 0.4 + 0.4) : (Math.random() * 0.2 + 0.1)
+        peakOpacity: isForeground ? (Math.random() * 0.3 + 0.3) : (Math.random() * 0.15 + 0.1) // Slightly softer peak brightness
       };
     });
     setParticles(newParticles);
