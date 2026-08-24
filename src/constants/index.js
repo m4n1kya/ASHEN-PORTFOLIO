@@ -94,7 +94,7 @@ const techStackImgs = [
 const techStackIcons = [
   {
     name: "Java",
-    modelPath: "/models/java-transformed.glb",
+    modelPath: "/models/jv-transformed.glb",
     scale: 1.4,
     rotation: [Math.PI / 15, 0, 0],
     position: [0, -0.6, 0],
