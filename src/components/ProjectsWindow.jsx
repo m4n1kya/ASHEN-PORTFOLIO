@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import Galaxy from "./reactbits/Galaxy";
 import MorphSlider from "./reactbits/MorphSlider";
 import GooeyNav from "./reactbits/GooeyNav";
-import GradualBlur from "./reactbits/GradualBlur";
 
 const ashenritualImages = [
   { image: "/projects/ashenritual/Screenshot%202026-08-23%20154953.jpg" },
@@ -377,15 +376,9 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                   </motion.div>
                 ))}
               </AnimatePresence>
-              
-              {/* Fade out the bottom of the scrolling text on Desktop */}
-              <GradualBlur className="hidden lg:block" position="bottom" height="8rem" strength={3} zIndex={50} />
             </div>
           </div>
         </div>
-        
-        {/* Fade out the bottom of the scrolling page on Mobile */}
-        <GradualBlur className="block lg:hidden" position="bottom" height="6rem" strength={3} zIndex={50} />
       </div>
     </div>
   );
