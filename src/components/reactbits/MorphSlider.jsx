@@ -228,9 +228,10 @@ class MorphEngine {
     this.tween = null;
 
     this.renderer = new Renderer({
-      alpha: false,
+      alpha: true,
       antialias: true,
-      dpr: Math.min(window.devicePixelRatio || 1, dprCap)
+      dpr: Math.min(window.devicePixelRatio || 1, dprCap),
+      premultipliedAlpha: false
     });
     this.gl = this.renderer.gl;
     this.gl.clearColor(0.05, 0.05, 0.06, 1);
