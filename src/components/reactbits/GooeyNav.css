@@ -39,14 +39,25 @@
 
 .gooey-nav-container nav ul {
   display: flex;
-  gap: 1em;
+  gap: 0.5em;
   list-style: none;
-  padding: 0;
+  padding: 0 1rem;
   margin: 0;
   position: relative;
   z-index: 3;
   color: white;
   text-shadow: 0 1px 1px hsl(205deg 30% 10% / 0.2);
+  
+  /* Mobile scrolling */
+  max-width: 100vw;
+  overflow-x: auto;
+  white-space: nowrap;
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+}
+
+.gooey-nav-container nav ul::-webkit-scrollbar {
+  display: none;
 }
 
 .gooey-nav-container nav ul li {
@@ -59,20 +70,24 @@
     box-shadow 0.3s ease;
   box-shadow: 0 0 0.5px 1.5px transparent;
   color: white;
+  flex-shrink: 0;
 }
 
 .gooey-nav-container nav ul li a {
   display: inline-block;
-  padding: 0.5em 1.2em;
-  font-size: 0.75rem;
+  padding: 0.5em 0.8em;
+  font-size: 0.65rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 @media (min-width: 768px) {
   .gooey-nav-container nav ul {
     gap: 2em;
+    padding: 0;
+    justify-content: center;
   }
   .gooey-nav-container nav ul li a {
     font-size: 0.85rem;
@@ -122,10 +137,11 @@
 .gooey-nav-container .effect.text {
   color: white;
   transition: color 0.3s ease;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 @media (min-width: 768px) {
