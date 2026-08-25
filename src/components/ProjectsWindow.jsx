@@ -264,7 +264,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col overflow-hidden relative z-10 pt-16 md:pt-24">
+      <div className="flex-1 flex flex-col overflow-hidden relative z-10 pt-32 md:pt-24">
         
         {/* Content Container */}
         <div className="flex-1 overflow-y-auto lg:overflow-hidden relative z-10 flex flex-col">
