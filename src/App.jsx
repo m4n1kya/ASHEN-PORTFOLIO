@@ -1,9 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { flushSync } from "react-dom";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Footer from "./sections/Footer";
 import Contact from "./sections/Contact";
 import HeroParticles from "./components/HeroParticles";
+
+gsap.registerPlugin(ScrollTrigger);
 import TechStack from "./sections/TechStack";
 import Experience from "./sections/Experience";
 import Hero from "./sections/Hero";
@@ -123,7 +126,11 @@ const App = () => {
     isTransitioning.current = true;
 
     const hc = document.querySelector('.home-container');
-    if (hc) hc.style.display = 'block';
+    if (hc) {
+      hc.style.display = 'block';
+      // Force ScrollTrigger to recalculate all positions now that display is block
+      ScrollTrigger.refresh();
+    }
 
     // Force synchronous layout recalculation so scrolling works flawlessly
     const isFromProjects = document.querySelector('.projects-window') !== null;

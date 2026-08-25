@@ -205,17 +205,20 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
     enter: (direction) => ({
       x: direction > 0 ? "100%" : "-100%",
       scale: 1,
+      opacity: 0,
       zIndex: 10
     }),
     center: {
       x: 0,
       scale: 1,
+      opacity: 1,
       zIndex: 10,
       transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
     },
     exit: {
       x: 0,
       scale: 0.9,
+      opacity: 0,
       zIndex: 0,
       transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
     }
