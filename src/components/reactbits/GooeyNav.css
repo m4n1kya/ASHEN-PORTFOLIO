@@ -151,7 +151,7 @@
 }
 
 .gooey-nav-container .effect.text.active {
-  color: white;
+  color: black;
 }
 
 .gooey-nav-container .effect.filter {
@@ -162,7 +162,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: #282732;
+  background: white;
   transform: scale(0);
   opacity: 0;
   z-index: -1;
