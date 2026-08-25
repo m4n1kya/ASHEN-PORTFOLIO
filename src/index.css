@@ -11,6 +11,7 @@ body {
   width: 100dvw;
   overflow-x: hidden;
   background-color: black;
+  -webkit-tap-highlight-color: transparent;
   background-image: linear-gradient(rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.88)), url('/images/bermuda-bg-1.jpg');
   background-size: cover;
   background-position: center;

@@ -215,24 +215,21 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
 
   const slideVariants = {
     enter: (direction) => ({
-      x: direction > 0 ? 100 : -100,
-      opacity: 0,
+      x: direction > 0 ? "100%" : "-100%",
       scale: 1,
       zIndex: 10
     }),
     center: {
       x: 0,
-      opacity: 1,
       scale: 1,
       zIndex: 10,
       transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
     },
     exit: {
       x: 0,
-      opacity: 0,
       scale: 0.9,
       zIndex: 0,
-      transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
     }
   };
 
