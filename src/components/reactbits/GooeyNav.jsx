@@ -45,19 +45,21 @@ const GooeyNav = ({
   };
 
   const updateEffectPosition = element => {
-    if (!containerRef.current || !filterRef.current || !textRef.current) return;
-    const containerRect = containerRef.current.getBoundingClientRect();
-    const pos = element.getBoundingClientRect();
+    requestAnimationFrame(() => {
+      if (!containerRef.current || !filterRef.current || !textRef.current) return;
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const pos = element.getBoundingClientRect();
 
-    const styles = {
-      left: `${pos.x - containerRect.x}px`,
-      top: `${pos.y - containerRect.y}px`,
-      width: `${pos.width}px`,
-      height: `${pos.height}px`
-    };
-    Object.assign(filterRef.current.style, styles);
-    Object.assign(textRef.current.style, styles);
-    textRef.current.innerText = element.innerText;
+      const styles = {
+        left: `${pos.x - containerRect.x}px`,
+        top: `${pos.y - containerRect.y}px`,
+        width: `${Math.min(pos.width, 300)}px`, // Cap width to prevent massive flashes
+        height: `${Math.min(pos.height, 100)}px`
+      };
+      Object.assign(filterRef.current.style, styles);
+      Object.assign(textRef.current.style, styles);
+      textRef.current.innerText = element.innerText;
+    });
   };
 
   const handleClick = (e, index) => {
