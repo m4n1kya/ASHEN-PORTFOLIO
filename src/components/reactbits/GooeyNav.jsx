@@ -10,7 +10,8 @@ const GooeyNav = ({
   timeVariance = 300,
   colors = [1, 2, 3, 1, 2, 3, 1, 4],
   activeIndex,
-  onChange
+  onChange,
+  className = ""
 }) => {
   const containerRef = useRef(null);
   const navRef = useRef(null);
