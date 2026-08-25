@@ -46,16 +46,20 @@ const GooeyNav = ({
 
   const updateEffectPosition = element => {
     requestAnimationFrame(() => {
-      if (!containerRef.current || !filterRef.current || !textRef.current) return;
-      const containerRect = containerRef.current.getBoundingClientRect();
-      const pos = element.getBoundingClientRect();
+      if (!navRef.current || !filterRef.current || !textRef.current) return;
+      
+      const width = element.offsetWidth;
+      const height = element.offsetHeight;
+      const left = element.offsetLeft;
+      const top = element.offsetTop;
 
       const styles = {
-        left: `${pos.x - containerRect.x}px`,
-        top: `${pos.y - containerRect.y}px`,
-        width: `${Math.min(pos.width, 300)}px`, // Cap width to prevent massive flashes
-        height: `${Math.min(pos.height, 100)}px`
+        left: `${left}px`,
+        top: `${top}px`,
+        width: `${width}px`,
+        height: `${height}px`
       };
+      
       Object.assign(filterRef.current.style, styles);
       Object.assign(textRef.current.style, styles);
       textRef.current.innerText = element.innerText;
@@ -64,7 +68,7 @@ const GooeyNav = ({
 
   const handleClick = (e, index) => {
     if (e) e.preventDefault();
-    const liEl = e ? (e.currentTarget.tagName === 'LI' ? e.currentTarget : e.currentTarget.parentElement) : navRef.current.querySelectorAll('li')[index];
+    const liEl = e ? (e.currentTarget.tagName === 'LI' ? e.currentTarget : e.currentTarget.parentElement) : navRef.current.querySelectorAll('li:not(.effect)')[index];
     if (currentIndex === index) return;
 
     if (onChange) {
@@ -77,19 +81,10 @@ const GooeyNav = ({
       updateEffectPosition(liEl);
     }
 
-    if (filterRef.current) {
-      const particles = filterRef.current.querySelectorAll('.particle');
-      particles.forEach(p => filterRef.current.removeChild(p));
-    }
-
     if (textRef.current) {
       textRef.current.classList.remove('active');
       void textRef.current.offsetWidth;
       textRef.current.classList.add('active');
-    }
-
-    if (filterRef.current) {
-      makeParticles(filterRef.current);
     }
   };
 
@@ -98,46 +93,52 @@ const GooeyNav = ({
       e.preventDefault();
       const liEl = e.currentTarget.parentElement;
       if (liEl) {
-        handleClick(e, index);
+        handleClick(null, index);
       }
     }
   };
 
   useEffect(() => {
-    if (!navRef.current || !containerRef.current) return;
-    const activeLi = navRef.current.querySelectorAll('li')[currentIndex];
-    if (activeLi) {
-      updateEffectPosition(activeLi);
-      textRef.current?.classList.add('active');
+    const listItems = navRef.current.querySelectorAll('li:not(.effect)');
+    if (listItems.length > 0 && listItems[currentIndex]) {
+      updateEffectPosition(listItems[currentIndex]);
     }
-
-    const resizeObserver = new ResizeObserver(() => {
-      const currentActiveLi = navRef.current?.querySelectorAll('li')[currentIndex];
-      if (currentActiveLi) {
-        updateEffectPosition(currentActiveLi);
-      }
-    });
-
-    resizeObserver.observe(containerRef.current);
-    return () => resizeObserver.disconnect();
+    
+    const handleResize = () => {
+      const activeItem = navRef.current.querySelectorAll('li:not(.effect)')[currentIndex];
+      if (activeItem) updateEffectPosition(activeItem);
+    };
+    
+    window.addEventListener("resize", handleResize);
+    requestAnimationFrame(handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [currentIndex]);
 
   return (
-    <div className="gooey-nav-container" ref={containerRef}>
-      {/* Clean Sliding Pill Navigation (No composite-crashing SVG filters) */}
+    <div className={`gooey-nav-container ${className}`} ref={containerRef}>
       <nav>
         <ul ref={navRef}>
           {items.map((item, index) => (
-            <li key={index} className={currentIndex === index ? 'active' : ''}>
-              <a href={item.href || "#"} onClick={e => handleClick(e, index)} onKeyDown={e => handleKeyDown(e, index)}>
-                {item.label || item.name}
+            <li
+              key={item.id || index}
+              className={index === currentIndex ? 'active' : ''}
+              onClick={e => handleClick(e, index)}
+            >
+              <a
+                href={`#${item.id || item.name}`}
+                onClick={e => e.preventDefault()}
+                onKeyDown={e => handleKeyDown(e, index)}
+              >
+                {item.name}
               </a>
             </li>
           ))}
+          <li className="effect filter" ref={filterRef} style={{ listStyle: 'none' }}></li>
+          <li className={`effect text ${activeIndex !== -1 ? 'active' : ''}`} ref={textRef} style={{ listStyle: 'none' }}>
+            {activeIndex !== -1 ? items[activeIndex]?.name : ''}
+          </li>
         </ul>
       </nav>
-      <span className="effect filter" ref={filterRef} />
-      <span className="effect text" ref={textRef} />
     </div>
   );
 };
