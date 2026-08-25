@@ -185,19 +185,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
     setActiveTab(newTabId);
   };
 
-  // Preload all images aggressively into browser cache to prevent loading lags on tab switch
-  useEffect(() => {
-    const allImages = [
-      ...ashenritualImages,
-      ...ashenVectorImages,
-      ...ecoLoopImages,
-      ...unieaseImages
-    ];
-    allImages.forEach(item => {
-      const img = new Image();
-      img.src = item.image;
-    });
-  }, []);
+
 
   // Determine images based on activeTab
   const getProjectImages = () => {
