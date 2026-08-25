@@ -185,7 +185,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
     setTimeout(() => {
       setDisplayTab(newTabId); // Swap content while invisible
       setIsFading(false);      // Trigger fade in
-    }, 800); // 800ms fade out duration
+    }, 300); // 300ms fade out duration
   };
 
   // Preload all images aggressively into browser cache to prevent loading lags on tab switch
@@ -271,7 +271,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
               <div className="w-full aspect-[2559/1273] relative rounded-2xl overflow-hidden shadow-2xl border border-white-50/10 shrink-0 bg-[#0c0c0e]">
                 
                 {/* Ashenritual Slider */}
-                <div className={`absolute inset-0 transition-opacity duration-1000 ${displayTab === 'ashenritual' && !isFading ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
+                <div className={`absolute inset-0 transition-opacity duration-300 ${displayTab === 'ashenritual' && !isFading ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
                   <MorphSlider 
                     items={ashenritualImages}
                     transition="melt" intensity={0.55} aberration={0.35} drift={0.4} autoplay={displayTab === 'ashenritual'}
@@ -279,7 +279,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                 </div>
 
                 {/* UniEase Slider */}
-                <div className={`absolute inset-0 transition-opacity duration-1000 ${displayTab === 'uniease' && !isFading ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
+                <div className={`absolute inset-0 transition-opacity duration-300 ${displayTab === 'uniease' && !isFading ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
                   <MorphSlider 
                     items={unieaseImages}
                     transition="melt" intensity={0.55} aberration={0.35} drift={0.4} autoplay={displayTab === 'uniease'}
@@ -287,7 +287,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                 </div>
 
                 {/* Ashen-Vector Slider */}
-                <div className={`absolute inset-0 transition-opacity duration-1000 ${displayTab === 'ashen-vector' && !isFading ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
+                <div className={`absolute inset-0 transition-opacity duration-300 ${displayTab === 'ashen-vector' && !isFading ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
                   <MorphSlider 
                     items={ashenVectorImages}
                     transition="melt" intensity={0.55} aberration={0.35} drift={0.4} autoplay={displayTab === 'ashen-vector'}
@@ -295,7 +295,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                 </div>
 
                 {/* Eco-Loop Slider */}
-                <div className={`absolute inset-0 transition-opacity duration-1000 ${displayTab === 'eco-loop' && !isFading ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
+                <div className={`absolute inset-0 transition-opacity duration-300 ${displayTab === 'eco-loop' && !isFading ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
                   <MorphSlider 
                     items={ecoLoopImages}
                     transition="melt" intensity={0.55} aberration={0.35} drift={0.4} autoplay={displayTab === 'eco-loop'}
@@ -309,7 +309,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                 {projectsData.map(project => (
                   <div 
                     key={project.id}
-                    className={`absolute inset-0 flex flex-col text-white-50 transition-opacity duration-1000 ${
+                    className={`absolute inset-0 flex flex-col text-white-50 transition-opacity duration-300 ${
                       displayTab === project.id && !isFading ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
                     }`}
                   >
@@ -337,12 +337,12 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
               {projectsData.map(project => (
                 <div 
                   key={project.id}
-                  className={`absolute inset-0 lg:overflow-y-auto custom-scrollbar transition-opacity duration-1000 ${
+                  className={`absolute inset-0 lg:overflow-y-auto custom-scrollbar transition-opacity duration-300 ${
                     displayTab === project.id && !isFading ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
                   }`}
                 >
                   <div className="prose prose-invert max-w-none pb-12">
-                    <div className="markdown-body">
+                    <div>
                       <ReactMarkdown 
                         remarkPlugins={[remarkGfm]}
                         components={MarkdownComponents}

@@ -228,7 +228,7 @@ class MorphEngine {
     this.tween = null;
 
     this.renderer = new Renderer({
-      alpha: true,
+      alpha: false,
       antialias: true,
       dpr: Math.min(window.devicePixelRatio || 1, dprCap)
     });
