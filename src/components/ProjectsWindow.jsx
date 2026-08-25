@@ -175,11 +175,14 @@ const MarkdownComponents = {
 
 const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
   const [activeTab, setActiveTab] = useState(initialProject);
-
+  const [direction, setDirection] = useState(0);
 
   const handleTabChange = (newTabId) => {
     if (newTabId === activeTab) return;
-    setActiveTab(newTabId); // AnimatePresence mode="wait" will handle the sequential fade automatically!
+    const oldIndex = projectsData.findIndex(p => p.id === activeTab);
+    const newIndex = projectsData.findIndex(p => p.id === newTabId);
+    setDirection(newIndex > oldIndex ? 1 : -1);
+    setActiveTab(newTabId);
   };
 
   // Preload all images aggressively into browser cache to prevent loading lags on tab switch
@@ -209,6 +212,29 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
   const currentImages = getProjectImages();
 
   // Markdown content is now rendered per-project directly in the JSX for seamless crossfades.
+
+  const slideVariants = {
+    enter: (direction) => ({
+      x: direction > 0 ? 100 : -100,
+      opacity: 0,
+      scale: 1,
+      zIndex: 10
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      scale: 1,
+      zIndex: 10,
+      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+    },
+    exit: {
+      x: 0,
+      opacity: 0,
+      scale: 0.9,
+      zIndex: 0,
+      transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
+    }
+  };
 
   return (
     <div className="projects-window fixed inset-0 z-[1000] bg-black flex flex-col w-full h-full overflow-hidden">
@@ -264,13 +290,14 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
               
               <div className="w-full aspect-[2559/1273] relative rounded-2xl overflow-hidden shadow-2xl border border-white-50/10 shrink-0 bg-[#0c0c0e]">
                 
-                <AnimatePresence mode="wait">
+                <AnimatePresence custom={direction}>
                   <motion.div
                     key={activeTab}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    custom={direction}
+                    variants={slideVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
                     className="absolute inset-0 z-10 pointer-events-auto bg-[#0c0c0e]"
                   >
                     <MorphSlider 
@@ -320,14 +347,15 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
               </div>
             </div>            {/* Right Side: Scrollable on Desktop */}
             <div className="w-full lg:w-[40%] lg:h-full relative z-10 pb-16 lg:pr-4">
-              <AnimatePresence mode="wait">
+              <AnimatePresence custom={direction}>
                 {projectsData.filter(p => p.id === activeTab).map(project => (
                   <motion.div 
                     key={project.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    custom={direction}
+                    variants={slideVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
                     className="absolute inset-0 lg:overflow-y-auto custom-scrollbar z-10 pointer-events-auto"
                   >
                     <div className="prose prose-invert max-w-none pb-12">
