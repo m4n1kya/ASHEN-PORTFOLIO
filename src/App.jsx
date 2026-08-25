@@ -125,8 +125,15 @@ const App = () => {
     const hc = document.querySelector('.home-container');
     if (hc) hc.style.display = 'block';
 
-    // Restore the scroll position instead of jumping to the top
-    window.scrollTo(0, scrollPositionRef.current);
+    // Force synchronous layout recalculation so scrolling works flawlessly
+    const isFromProjects = document.querySelector('.projects-window') !== null;
+    const showcase = document.getElementById('projects');
+
+    if (isFromProjects && showcase) {
+      window.scrollTo(0, showcase.offsetTop - 80);
+    } else {
+      window.scrollTo(0, scrollPositionRef.current);
+    }
 
     // Fade IN the home container
     gsap.fromTo('.home-container', 
