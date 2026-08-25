@@ -174,7 +174,19 @@ const MarkdownComponents = {
 
 const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
   const [activeTab, setActiveTab] = useState(initialProject);
-  const [markdownContent, setMarkdownContent] = useState("");
+  const [displayTab, setDisplayTab] = useState(initialProject);
+  const [isFading, setIsFading] = useState(false);
+
+  const handleTabChange = (newTabId) => {
+    if (newTabId === displayTab || isFading) return;
+    setActiveTab(newTabId); // Update GooeyNav active state immediately
+    setIsFading(true);      // Trigger fade out
+    
+    setTimeout(() => {
+      setDisplayTab(newTabId); // Swap content while invisible
+      setIsFading(false);      // Trigger fade in
+    }, 800); // 800ms fade out duration
+  };
 
   // Preload all images aggressively into browser cache to prevent loading lags on tab switch
   useEffect(() => {
@@ -240,7 +252,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
           <GooeyNav 
             items={projectsData}
             activeIndex={projectsData.findIndex(p => p.id === activeTab)}
-            onChange={(index) => setActiveTab(projectsData[index].id)}
+            onChange={(index) => handleTabChange(projectsData[index].id)}
           />
         </div>
 
@@ -259,34 +271,34 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
               <div className="w-full aspect-[2559/1273] relative rounded-2xl overflow-hidden shadow-2xl border border-white-50/10 shrink-0 bg-[#0c0c0e]">
                 
                 {/* Ashenritual Slider */}
-                <div className={`absolute inset-0 transition-opacity duration-1000 ${activeTab === 'ashenritual' ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
+                <div className={`absolute inset-0 transition-opacity duration-1000 ${displayTab === 'ashenritual' && !isFading ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
                   <MorphSlider 
                     items={ashenritualImages}
-                    transition="melt" intensity={0.55} aberration={0.35} drift={0.4} autoplay={activeTab === 'ashenritual'}
+                    transition="melt" intensity={0.55} aberration={0.35} drift={0.4} autoplay={displayTab === 'ashenritual'}
                   />
                 </div>
 
                 {/* UniEase Slider */}
-                <div className={`absolute inset-0 transition-opacity duration-1000 ${activeTab === 'uniease' ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
+                <div className={`absolute inset-0 transition-opacity duration-1000 ${displayTab === 'uniease' && !isFading ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
                   <MorphSlider 
                     items={unieaseImages}
-                    transition="melt" intensity={0.55} aberration={0.35} drift={0.4} autoplay={activeTab === 'uniease'}
+                    transition="melt" intensity={0.55} aberration={0.35} drift={0.4} autoplay={displayTab === 'uniease'}
                   />
                 </div>
 
                 {/* Ashen-Vector Slider */}
-                <div className={`absolute inset-0 transition-opacity duration-1000 ${activeTab === 'ashen-vector' ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
+                <div className={`absolute inset-0 transition-opacity duration-1000 ${displayTab === 'ashen-vector' && !isFading ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
                   <MorphSlider 
                     items={ashenVectorImages}
-                    transition="melt" intensity={0.55} aberration={0.35} drift={0.4} autoplay={activeTab === 'ashen-vector'}
+                    transition="melt" intensity={0.55} aberration={0.35} drift={0.4} autoplay={displayTab === 'ashen-vector'}
                   />
                 </div>
 
                 {/* Eco-Loop Slider */}
-                <div className={`absolute inset-0 transition-opacity duration-1000 ${activeTab === 'eco-loop' ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
+                <div className={`absolute inset-0 transition-opacity duration-1000 ${displayTab === 'eco-loop' && !isFading ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
                   <MorphSlider 
                     items={ecoLoopImages}
-                    transition="melt" intensity={0.55} aberration={0.35} drift={0.4} autoplay={activeTab === 'eco-loop'}
+                    transition="melt" intensity={0.55} aberration={0.35} drift={0.4} autoplay={displayTab === 'eco-loop'}
                   />
                 </div>
 
@@ -298,7 +310,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                   <div 
                     key={project.id}
                     className={`absolute inset-0 flex flex-col text-white-50 transition-opacity duration-1000 ${
-                      activeTab === project.id ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
+                      displayTab === project.id && !isFading ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
                     }`}
                   >
                      <div className="flex items-center justify-between mb-3">
@@ -326,7 +338,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                 <div 
                   key={project.id}
                   className={`absolute inset-0 lg:overflow-y-auto custom-scrollbar transition-opacity duration-1000 ${
-                    activeTab === project.id ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
+                    displayTab === project.id && !isFading ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
                   }`}
                 >
                   <div className="prose prose-invert max-w-none pb-12">
