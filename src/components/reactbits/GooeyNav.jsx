@@ -1,32 +1,13 @@
-import { useRef, useEffect, useState } from 'react';
+import React from 'react';
+import { motion } from 'framer-motion';
 import './GooeyNav.css';
 
 const GooeyNav = ({
-  items,
-  animationTime = 600,
-  particleCount = 15,
-  particleDistances = [90, 10],
-  particleR = 100,
-  timeVariance = 300,
-  colors = [1, 2, 3, 1, 2, 3, 1, 4],
+  items = [],
   activeIndex,
   onChange,
   className = ""
 }) => {
-  const containerRef = useRef(null);
-  const navRef = useRef(null);
-  const filterRef = useRef(null);
-  const textRef = useRef(null);
-  const [internalIndex, setInternalIndex] = useState(activeIndex || 0);
-
-  const currentIndex = activeIndex !== undefined ? activeIndex : internalIndex;
-
-  const noise = (n = 1) => n / 2 - Math.random() * n;
-
-  const getXY = (distance, pointIndex, totalPoints) => {
-    const angle = ((360 + noise(8)) / totalPoints) * pointIndex * (Math.PI / 180);
-    return [distance * Math.cos(angle), distance * Math.sin(angle)];
-  };
   const handleClick = (e, index) => {
     e.preventDefault();
     if (onChange && index !== activeIndex) {
