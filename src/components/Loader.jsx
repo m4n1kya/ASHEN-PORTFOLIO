@@ -68,12 +68,12 @@ const fragmentShaderSource = `
       // Layer 3 (Foreground clouds - moving the fastest, tearing across the screen)
       float f = fbm(flowPos + r_vec + vec2(-u_time * 0.3, 0.0));
 
-      // Deep Dark Thunder Cloud Colors (Absolute Pitch Black and subtle Dark Grey)
-      vec3 color = mix(vec3(0.0, 0.0, 0.0), vec3(0.12, 0.12, 0.14), clamp(f * 2.5 - 1.0, 0.0, 1.0));
+      // Deep Dark Thunder Cloud Colors (Slightly brightened per request)
+      vec3 color = mix(vec3(0.04, 0.04, 0.05), vec3(0.2, 0.22, 0.25), clamp(f * 2.5 - 1.0, 0.0, 1.0));
 
-      // Subsurface Lightning Scattering (Dark, muted, moody flashes)
-      color += vec3(0.12, 0.14, 0.16) * u_lightning * (f + 0.1);
-      color = pow(color, vec3(1.3));
+      // Subsurface Lightning Scattering (Brighter flashes for better contrast)
+      color += vec3(0.18, 0.2, 0.24) * u_lightning * (f + 0.1);
+      color = pow(color, vec3(1.2)); // Reduced gamma crush slightly to reveal more detail
 
       // REVEAL LOGIC (Highly Uneven Left to Right Sweep)
       float screenX = gl_FragCoord.xy.x / u_resolution.x;

@@ -1,24 +1,26 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, Suspense } from "react";
 import { flushSync } from "react-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Footer from "./sections/Footer";
-import Contact from "./sections/Contact";
 import HeroParticles from "./components/HeroParticles";
 
 gsap.registerPlugin(ScrollTrigger);
-import TechStack from "./sections/TechStack";
-import Experience from "./sections/Experience";
 import Hero from "./sections/Hero";
-import ShowcaseSection from "./sections/ShowcaseSection";
-import LogoShowcase from "./sections/LogoShowcase";
-import FeatureCards from "./sections/FeatureCards";
 import Navbar from "./components/NavBar";
 import Loader from "./components/Loader";
 import ParticleCursor from "./components/ParticleCursor";
 import XRayCursor from "./components/XRayCursor";
-import ProjectsWindow from "./components/ProjectsWindow";
-import Gallery from "./components/Gallery";
+
+// Lazy Loaded Sections
+const FeatureCards = React.lazy(() => import("./sections/FeatureCards"));
+const Experience = React.lazy(() => import("./sections/Experience"));
+const ShowcaseSection = React.lazy(() => import("./sections/ShowcaseSection"));
+const LogoShowcase = React.lazy(() => import("./sections/LogoShowcase"));
+const TechStack = React.lazy(() => import("./sections/TechStack"));
+const Contact = React.lazy(() => import("./sections/Contact"));
+const Footer = React.lazy(() => import("./sections/Footer"));
+const ProjectsWindow = React.lazy(() => import("./components/ProjectsWindow"));
+const Gallery = React.lazy(() => import("./components/Gallery"));
 
 const App = () => {
   const [view, setView] = useState('home');
@@ -192,22 +194,26 @@ const App = () => {
         <Loader hasLoadedOnce={hasLoadedOnce} />
         <Navbar />
         <Hero onNavigateToGallery={navigateToGallery} hasLoadedOnce={hasLoadedOnce} />
-        <FeatureCards />
-        <Experience />
-        <ShowcaseSection onNavigateToProjects={navigateToProjects} />
-        <LogoShowcase />
-        <TechStack />
-        <Contact />
-        <Footer />
+        <Suspense fallback={null}>
+          <FeatureCards />
+          <Experience />
+          <ShowcaseSection onNavigateToProjects={navigateToProjects} />
+          <LogoShowcase />
+          <TechStack />
+          <Contact />
+          <Footer />
+        </Suspense>
       </div>
 
-      {galleryMounted && view === 'gallery' && (
-        <Gallery onBack={navigateToHome} />
-      )}
+      <Suspense fallback={null}>
+        {galleryMounted && view === 'gallery' && (
+          <Gallery onBack={navigateToHome} />
+        )}
 
-      {projectsMounted && view === 'projects' && (
-        <ProjectsWindow onBack={navigateToHome} initialProject={activeProject} />
-      )}
+        {projectsMounted && view === 'projects' && (
+          <ProjectsWindow onBack={navigateToHome} initialProject={activeProject} />
+        )}
+      </Suspense>
     </>
   );
 };
