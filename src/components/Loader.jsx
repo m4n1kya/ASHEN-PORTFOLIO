@@ -243,6 +243,8 @@ const Loader = ({ hasLoadedOnce }) => {
   if (hasLoadedOnce) {
     const blocker = document.getElementById('pre-loader-blocker');
     if (blocker) blocker.remove();
+    // CRITICAL: Unlock the body scroll if we bypass the loader!
+    document.body.style.overflow = 'auto';
     return null;
   }
 
