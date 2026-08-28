@@ -38,7 +38,7 @@ const App = () => {
   // so that they are instantly available from cache when the user opens the Gallery.
   useEffect(() => {
     const preloadGalleryImages = () => {
-      for (let i = 1; i <= 13; i++) {
+      for (let i = 1; i <= 34; i++) {
         const img = new Image();
         img.src = `/images/gallery/screen-${i}.png`;
       }

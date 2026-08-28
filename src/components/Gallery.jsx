@@ -16,8 +16,8 @@ const Gallery = ({ onBack }) => {
     );
   }, { scope: containerRef });
 
-  const galleryItems = Array.from({ length: 31 }, (_, i) => ({
-    image: `/images/gallery/screen-${i + 1}.jpg`,
+  const galleryItems = Array.from({ length: 34 }, (_, i) => ({
+    image: `/images/gallery/screen-${i + 1}.png`,
     title: `Screenshot ${i + 1}`,
   }));
 
