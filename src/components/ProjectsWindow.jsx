@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { motion, AnimatePresence } from "framer-motion";
+
 import Galaxy from "./reactbits/Galaxy";
 import MorphSlider from "./reactbits/MorphSlider";
 import GooeyNav from "./reactbits/GooeyNav";
@@ -179,53 +179,10 @@ const MarkdownComponents = {
 
 const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
   const [activeTab, setActiveTab] = useState(initialProject);
-  const [direction, setDirection] = useState(0);
 
   const handleTabChange = (newTabId) => {
     if (newTabId === activeTab) return;
-    const oldIndex = projectsData.findIndex(p => p.id === activeTab);
-    const newIndex = projectsData.findIndex(p => p.id === newTabId);
-    setDirection(newIndex > oldIndex ? 1 : -1);
     setActiveTab(newTabId);
-  };
-
-
-
-  // Determine images based on activeTab
-  const getProjectImages = () => {
-    switch (activeTab) {
-      case "ashenritual": return ashenritualImages;
-      case "uni-verse": return unieaseImages;
-      case "ashen-vector": return ashenVectorImages;
-      case "beacon": return ecoLoopImages;
-      default: return ashenritualImages;
-    }
-  };
-  const currentImages = getProjectImages();
-
-  // Markdown content is now rendered per-project directly in the JSX for seamless crossfades.
-
-  const slideVariants = {
-    enter: () => ({
-      filter: "blur(20px)",
-      scale: 1.05,
-      opacity: 0,
-      zIndex: 10
-    }),
-    center: {
-      filter: "blur(0px)",
-      scale: 1,
-      opacity: 1,
-      zIndex: 10,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
-    },
-    exit: {
-      filter: "blur(20px)",
-      scale: 0.95,
-      opacity: 0,
-      zIndex: 0,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
-    }
   };
 
   return (
@@ -282,40 +239,56 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
               
               <div className="w-full aspect-[2559/1273] relative rounded-2xl overflow-hidden shadow-2xl border border-white-50/10 shrink-0 bg-[#0c0c0e]">
                 
-                <AnimatePresence custom={direction}>
-                  <motion.div
-                    key={activeTab}
-                    custom={direction}
-                    variants={slideVariants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    className="absolute inset-0 z-10 pointer-events-auto bg-[#0c0c0e]"
-                  >
-                    <MorphSlider 
-                      items={currentImages}
-                      transition="melt" 
-                      intensity={0.55} 
-                      aberration={0.35} 
-                      drift={0.4} 
-                      autoplay={true}
-                    />
-                  </motion.div>
-                </AnimatePresence>
+                {/* Render ALL sliders simultaneously — no remounting, no white flash */}
+                {projectsData.map(project => {
+                  const isActive = project.id === activeTab;
+                  const images = (() => {
+                    switch (project.id) {
+                      case "ashenritual": return ashenritualImages;
+                      case "uni-verse": return unieaseImages;
+                      case "ashen-vector": return ashenVectorImages;
+                      case "beacon": return ecoLoopImages;
+                      default: return ashenritualImages;
+                    }
+                  })();
+                  return (
+                    <div
+                      key={project.id}
+                      className="absolute inset-0 z-10 bg-[#0c0c0e]"
+                      style={{
+                        opacity: isActive ? 1 : 0,
+                        pointerEvents: isActive ? 'auto' : 'none',
+                        transition: 'opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
+                        zIndex: isActive ? 10 : 0,
+                      }}
+                    >
+                      <MorphSlider 
+                        items={images}
+                        transition="melt" 
+                        intensity={0.55} 
+                        aberration={0.35} 
+                        drift={0.4} 
+                        autoplay={isActive}
+                      />
+                    </div>
+                  );
+                })}
 
               </div>
               
               {/* Short Description & Action Links (Desktop Only) */}
               <div className="hidden lg:block relative h-[160px] shrink-0 px-2 mt-2">
-                <AnimatePresence mode="wait">
-                  {projectsData.filter(p => p.id === activeTab).map(project => (
-                    <motion.div 
+                {projectsData.map(project => {
+                  const isActive = project.id === activeTab;
+                  return (
+                    <div 
                       key={project.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                      className="absolute inset-0 flex flex-col text-white-50 z-10 pointer-events-auto"
+                      className="absolute inset-0 flex flex-col text-white-50 z-10"
+                      style={{
+                        opacity: isActive ? 1 : 0,
+                        pointerEvents: isActive ? 'auto' : 'none',
+                        transition: 'opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
+                      }}
                     >
                        <div className="flex items-center justify-between mb-3">
                          <h3 className="text-xl font-bold text-white tracking-widest uppercase">{project.name}</h3>
@@ -333,22 +306,23 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                          </div>
                        </div>
                        <p className="text-base leading-relaxed text-white-50/80 w-full">{project.shortDescription}</p>
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
+                    </div>
+                  );
+                })}
               </div>
             </div>            {/* Right Side: Scrollable on Desktop */}
             <div className="w-full lg:w-[40%] lg:h-full relative z-10 pb-16 lg:pr-4">
-              <AnimatePresence custom={direction}>
-                {projectsData.filter(p => p.id === activeTab).map(project => (
-                  <motion.div 
+              {projectsData.map(project => {
+                const isActive = project.id === activeTab;
+                return (
+                  <div 
                     key={project.id}
-                    custom={direction}
-                    variants={slideVariants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    className="absolute inset-0 lg:overflow-y-auto custom-scrollbar z-10 pointer-events-auto"
+                    className={`absolute inset-0 lg:overflow-y-auto custom-scrollbar z-10 ${isActive ? '' : 'overflow-hidden'}`}
+                    style={{
+                      opacity: isActive ? 1 : 0,
+                      pointerEvents: isActive ? 'auto' : 'none',
+                      transition: 'opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
+                    }}
                   >
                     <div className="prose prose-invert max-w-none pb-12">
                       <div>
@@ -390,9 +364,9 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                         )}
                       </div>
                     </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
