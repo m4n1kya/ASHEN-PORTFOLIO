@@ -254,11 +254,9 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                   return (
                     <div
                       key={project.id}
-                      className="absolute inset-0 z-10 bg-[#0c0c0e]"
+                      className="absolute inset-0 bg-[#0c0c0e]"
                       style={{
-                        opacity: isActive ? 1 : 0,
-                        pointerEvents: isActive ? 'auto' : 'none',
-                        transition: 'opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
+                        visibility: isActive ? 'visible' : 'hidden',
                         zIndex: isActive ? 10 : 0,
                       }}
                     >
@@ -277,7 +275,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
               </div>
               
               {/* Short Description & Action Links (Desktop Only) */}
-              <div className="hidden lg:block relative h-[160px] shrink-0 px-2 mt-2 bg-transparent">
+              <div className="hidden lg:block relative h-[160px] shrink-0 px-2 mt-2">
                 {projectsData.map(project => {
                   const isActive = project.id === activeTab;
                   return (
@@ -285,9 +283,8 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                       key={project.id}
                       className="absolute inset-0 flex flex-col text-white-50 z-10"
                       style={{
-                        opacity: isActive ? 1 : 0,
+                        visibility: isActive ? 'visible' : 'hidden',
                         pointerEvents: isActive ? 'auto' : 'none',
-                        transition: 'opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
                       }}
                     >
                        <div className="flex items-center justify-between mb-3">
@@ -311,7 +308,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                 })}
               </div>
             </div>            {/* Right Side: Scrollable on Desktop */}
-            <div className="w-full lg:w-[40%] lg:h-full relative z-10 pb-16 lg:pr-4 bg-transparent">
+            <div className="w-full lg:w-[40%] lg:h-full relative z-10 pb-16 lg:pr-4">
               {projectsData.map(project => {
                 const isActive = project.id === activeTab;
                 return (
@@ -319,12 +316,11 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                     key={project.id}
                     className={`absolute inset-0 lg:overflow-y-auto custom-scrollbar z-10 bg-black ${isActive ? '' : 'overflow-hidden'}`}
                     style={{
-                      opacity: isActive ? 1 : 0,
+                      visibility: isActive ? 'visible' : 'hidden',
                       pointerEvents: isActive ? 'auto' : 'none',
-                      transition: 'opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
                     }}
                   >
-                    <div className="prose prose-invert max-w-none pb-12 [&_*]:!bg-transparent">
+                    <div className="prose prose-invert max-w-none pb-12">
                       <div>
                         <ReactMarkdown 
                           remarkPlugins={[remarkGfm]}
