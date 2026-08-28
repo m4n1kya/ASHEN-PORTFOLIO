@@ -30,6 +30,8 @@ const IntroScreen = () => {
       className="fixed inset-0 w-screen h-screen z-0 overflow-hidden flex items-center justify-center bg-[#0c0c0e]"
     >
       
+      <HeroParticles />
+      
       {/* Masked Heading Component from React Bits */}
       <div className="absolute inset-0 z-10 flex items-center justify-center">
         <MaskedHeading
