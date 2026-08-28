@@ -238,42 +238,21 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
             <div className="w-full lg:w-[55%] lg:h-full lg:overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] flex flex-col gap-6 z-20 pb-8 lg:pb-16">
               
               <div className="w-full aspect-[2559/1273] relative rounded-2xl overflow-hidden shadow-2xl border border-white-50/10 shrink-0 bg-[#0c0c0e]">
-                
-                {/* Render ALL sliders simultaneously — no remounting, no white flash */}
-                {projectsData.map(project => {
-                  const isActive = project.id === activeTab;
-                  const images = (() => {
-                    switch (project.id) {
-                      case "ashenritual": return ashenritualImages;
-                      case "uni-verse": return unieaseImages;
-                      case "ashen-vector": return ashenVectorImages;
-                      case "beacon": return ecoLoopImages;
-                      default: return ashenritualImages;
-                    }
-                  })();
-                  return (
-                    <div
-                      key={project.id}
-                      className="absolute inset-0 bg-[#0c0c0e]"
-                      style={{
-                        visibility: isActive ? 'visible' : 'hidden',
-                        zIndex: isActive ? 10 : 0,
-                      }}
-                    >
-                      {isActive && (
-                        <MorphSlider 
-                          items={images}
-                          transition="melt" 
-                          intensity={0.55} 
-                          aberration={0.35} 
-                          drift={0.4} 
-                          autoplay={isActive}
-                        />
-                      )}
-                    </div>
-                  );
-                })}
-
+                <div className="absolute inset-0 bg-[#0c0c0e]">
+                  <MorphSlider 
+                    items={[
+                      ...ashenritualImages,
+                      ...unieaseImages,
+                      ...ashenVectorImages,
+                      ...ecoLoopImages
+                    ]}
+                    transition="melt" 
+                    intensity={0.55} 
+                    aberration={0.35} 
+                    drift={0.4} 
+                    autoplay={true}
+                  />
+                </div>
               </div>
               
               {/* Short Description & Action Links (Desktop Only) */}
