@@ -26,8 +26,8 @@ const HeroParticles = () => {
         left: Math.random() * 100, 
         top: Math.random() * 100, 
         size: size, 
-        delay: Math.random() * 10, 
-        duration: Math.random() * 12 + 10, // Very slow & steady 10s - 22s float cycle
+        delay: Math.random() * 15, 
+        duration: Math.random() * 15 + 18, // Even slower & more peaceful (18s - 33s cycle)
         color: color,
         tx1: tx1, ty1: ty1,
         tx2: tx2, ty2: ty2,
