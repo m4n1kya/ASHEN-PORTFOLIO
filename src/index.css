@@ -10,9 +10,9 @@ body {
   margin: 0;
   width: 100dvw;
   overflow-x: hidden;
-  background-color: black;
+  background-color: #0c0c0e;
   -webkit-tap-highlight-color: transparent;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.88)), url('/images/bermuda-bg-1.jpg');
+  background-image: linear-gradient(rgba(12, 12, 14, 0.88), rgba(12, 12, 14, 0.88)), url('/images/bermuda-bg-1.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -35,6 +35,7 @@ section {
 
 @theme {
   --font-sans: "Mona Sans", sans-serif;
+  --color-black: #0c0c0e;
   --color-white-50: #d9ecff;
   --color-black-50: #1c1c21;
   --color-black-100: #0e0e10;

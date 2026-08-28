@@ -184,7 +184,7 @@ const App = () => {
         style={{
           position: 'fixed',
           inset: 0,
-          backgroundColor: 'black',
+          backgroundColor: '#0c0c0e',
           opacity: 0,
           zIndex: 999999,
           pointerEvents: 'none',
