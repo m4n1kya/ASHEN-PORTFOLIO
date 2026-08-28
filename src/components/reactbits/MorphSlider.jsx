@@ -284,6 +284,32 @@ class MorphEngine {
     this.raf = requestAnimationFrame(this.boundLoop);
   }
 
+  updateItems(newItems) {
+    this.items = newItems;
+    this.current = 0;
+    this.shownIndex = 0;
+    this.animating = false;
+    this.dragging = false;
+    if (this.tween) this.tween.kill();
+    this.program.uniforms.uProgress.value = 0;
+    
+    // Clear old textures to prevent memory leaks
+    this.textures.forEach(tex => {
+      if (tex && tex.texture) this.gl.deleteTexture(tex.texture);
+    });
+    
+    this.textures = this.items.map(() => makeFallbackTexture(this.gl));
+    this.sizes = this.items.map(() => [1, 1]);
+    
+    this.program.uniforms.tCurrent.value = this.textures[0];
+    this.program.uniforms.uCurrentSize.value = this.sizes[0];
+    this.program.uniforms.tNext.value = this.textures[0];
+    this.program.uniforms.uNextSize.value = this.sizes[0];
+    
+    this.loadTextures();
+    if (this.onIndexChange) this.onIndexChange(0);
+  }
+
   loadTextures() {
     this.items.forEach((item, index) => {
       const img = new Image();
@@ -521,7 +547,15 @@ export default function MorphSlider({
       engineRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items, startIndex]);
+  }, []); // Run only once on mount
+
+  // Watch for items change and update engine without recreating WebGL context
+  useEffect(() => {
+    if (engineRef.current) {
+      engineRef.current.updateItems(items);
+      setIndex(0);
+    }
+  }, [items]);
 
   const handleNext = useCallback(() => engineRef.current?.next(), []);
   const handlePrev = useCallback(() => engineRef.current?.prev(), []);
