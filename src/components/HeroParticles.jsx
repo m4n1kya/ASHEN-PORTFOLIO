@@ -46,7 +46,7 @@ const HeroParticles = () => {
   }, []);
 
   return (
-    <div className={`fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden transition-opacity duration-[4000ms] ease-in-out ${isMounted ? 'opacity-100' : 'opacity-0'}`}>
+    <div className={`sticky top-0 w-full h-screen pointer-events-none z-0 overflow-hidden transition-opacity duration-[4000ms] ease-in-out ${isMounted ? 'opacity-100' : 'opacity-0'}`}>
       {particles.map((p) => (
         <div
           key={p.id}
