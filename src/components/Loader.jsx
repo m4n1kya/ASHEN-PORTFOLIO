@@ -247,7 +247,7 @@ const Loader = ({ hasLoadedOnce }) => {
     // Added 'bg-black' to prevent the 1-frame flash while WebGL compiles the shaders
     <div 
       ref={containerRef}
-      className="fixed inset-0 z-[99999] bg-black"
+      className="fixed inset-0 z-[99999] bg-black pointer-events-none"
     >
       <canvas 
         ref={canvasRef} 
