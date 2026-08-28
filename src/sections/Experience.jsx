@@ -7,7 +7,6 @@ import TitleHeader from "../components/TitleHeader";
 import SpotlightCard from "../components/reactbits/SpotlightCard";
 import Magnet from "../components/reactbits/Magnet";
 import ShinyText from "../components/reactbits/ShinyText";
-import SplitText from "../components/reactbits/SplitText";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -119,15 +118,7 @@ const Experience = () => {
                           {card.responsibilities.map(
                             (responsibility, index) => (
                               <li key={index} className="text-lg leading-relaxed">
-                                <SplitText
-                                  text={responsibility}
-                                  tag="span"
-                                  className=""
-                                  delay={10}
-                                  duration={0.6}
-                                  splitType="words"
-                                  textAlign="left"
-                                />
+                                {responsibility}
                               </li>
                             )
                           )}
