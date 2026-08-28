@@ -194,19 +194,23 @@ const App = () => {
       <ParticleCursor />
       <XRayCursor isVisible={view === 'home'} />
       
-      {/* Intro Screen - Sits fixed at z-0, behind the scrolling content */}
-      <IntroScreen />
-
-      {/* Home page is ALWAYS mounted — never destroyed/recreated.
-          Hidden with display:none ONLY when viewing gallery AND not transitioning. */}
       <div 
-        className="home-container relative bg-transparent mt-[100vh] z-10"
+        className="home-container relative bg-transparent mt-0 z-10"
         style={{ display: (view === 'home' || isTransitioning.current) ? 'block' : 'none' }}
       >
-        <HeroParticles />
-        <Loader hasLoadedOnce={hasLoadedOnce} />
-        
-        <Hero onNavigateToGallery={navigateToGallery} hasLoadedOnce={hasLoadedOnce} />
+        <div className="hero-pin-wrapper relative w-full h-screen overflow-hidden">
+          {/* Main Hero Content - Sits underneath the IntroScreen */}
+          <div className="absolute inset-0 z-0">
+            <HeroParticles />
+            <Loader hasLoadedOnce={hasLoadedOnce} />
+            <Hero onNavigateToGallery={navigateToGallery} hasLoadedOnce={hasLoadedOnce} />
+          </div>
+          
+          {/* Intro Screen - Sits on top and zooms/fades out to reveal Hero */}
+          <div className="absolute inset-0 z-[100] pointer-events-none">
+            <IntroScreen />
+          </div>
+        </div>
         
         <FeatureCards />
         

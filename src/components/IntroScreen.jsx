@@ -10,16 +10,16 @@ const IntroScreen = () => {
   const introRef = useRef(null);
 
   useEffect(() => {
-    // Parallax fade-out effect as the main content scrolls up over this screen
+    // Zoom and fade out effect to reveal the Hero area underneath
     gsap.to(introRef.current, {
-      yPercent: 20, // Moves down slightly to create depth
+      scale: 30, // massive zoom to go through the text
       opacity: 0,
-      scale: 0.95,
-      ease: 'none',
+      ease: 'power2.inOut',
       scrollTrigger: {
-        trigger: '.home-container', // The sliding element that comes up from the bottom
-        start: 'top bottom', // When the top of home-container hits the bottom of the viewport
-        end: 'top top', // When the top of home-container hits the top of the viewport
+        trigger: '.hero-pin-wrapper',
+        pin: true,
+        start: 'top top',
+        end: '+=150%', // Scroll 1.5x screen height to complete zoom
         scrub: true,
       }
     });
@@ -28,7 +28,7 @@ const IntroScreen = () => {
   return (
     <div 
       ref={introRef}
-      className="fixed inset-0 w-screen h-screen z-0 overflow-hidden flex items-center justify-center bg-[#0c0c0e]"
+      className="absolute inset-0 w-full h-full z-0 overflow-hidden flex items-center justify-center bg-[#0c0c0e]"
     >
       
       <HeroParticles containerClassName="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden" />
