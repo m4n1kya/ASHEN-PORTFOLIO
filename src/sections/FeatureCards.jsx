@@ -1,13 +1,21 @@
 import { abilities } from "../constants";
 import SpotlightCard from "../components/reactbits/SpotlightCard";
 import ShinyText from "../components/reactbits/ShinyText";
+import ScrollFloat from "../components/reactbits/ScrollFloat";
 
 const FeatureCards = () => (
   <div id="about" className="w-full section-padding">
     <div className="w-full text-center mb-12">
-      <h2 className="text-white text-3xl md:text-5xl font-bold">
+      <ScrollFloat
+        animationDuration={1}
+        ease='back.inOut(2)'
+        scrollStart='top bottom'
+        scrollEnd='bottom center'
+        stagger={0.02}
+        containerClassName="text-white text-3xl md:text-5xl font-bold w-full"
+      >
         Engineering Roles
-      </h2>
+      </ScrollFloat>
       <p className="text-blue-50 mt-4 md:text-xl max-w-3xl mx-auto">
         Building across the stack, from <ShinyText text="intelligent products" className="text-white font-semibold" speed={4} /> to production-ready systems.
       </p>
