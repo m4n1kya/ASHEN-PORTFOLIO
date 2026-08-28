@@ -260,14 +260,16 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                         zIndex: isActive ? 10 : 0,
                       }}
                     >
-                      <MorphSlider 
-                        items={images}
-                        transition="melt" 
-                        intensity={0.55} 
-                        aberration={0.35} 
-                        drift={0.4} 
-                        autoplay={isActive}
-                      />
+                      {isActive && (
+                        <MorphSlider 
+                          items={images}
+                          transition="melt" 
+                          intensity={0.55} 
+                          aberration={0.35} 
+                          drift={0.4} 
+                          autoplay={isActive}
+                        />
+                      )}
                     </div>
                   );
                 })}
