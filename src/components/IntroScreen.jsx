@@ -35,14 +35,14 @@ const IntroScreen = () => {
         <MaskedHeading
           text="MANIKYA"
           mediaType="image"
-          src="/images/bermuda-triangle-event.jpg"
+          src="/images/rocky-coastal-landscape.jpg"
           fillScale={1.8}
           parallax={120}
           reveal="none"
           trigger="view"
-          textScale={0.16}
+          textScale={0.28}
           className="w-full font-black uppercase tracking-tighter text-center"
-          style={{ fontFamily: '"Mona Sans", sans-serif' }}
+          style={{ fontFamily: '"Syne", sans-serif' }}
         />
       </div>
 
