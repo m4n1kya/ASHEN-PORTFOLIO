@@ -18,6 +18,7 @@ import LogoShowcase from "./sections/LogoShowcase";
 import TechStack from "./sections/TechStack";
 import Contact from "./sections/Contact";
 import Footer from "./sections/Footer";
+import { StaggeredMenu } from "./components/reactbits/StaggeredMenu";
 
 // XRay blob that expands to fullscreen between TechStack and Contact
 const BlobExpand = () => {
@@ -242,7 +243,34 @@ const App = () => {
 
       <ParticleCursor />
       <XRayCursor isVisible={view === 'home'} />
-      
+
+      {/* ── StaggeredMenu Navigation (fixed, top-left) ── */}
+      <div style={{ opacity: hasLoadedOnce ? 1 : 0, transition: 'opacity 1s ease 1.5s', pointerEvents: hasLoadedOnce ? 'auto' : 'none' }}>
+        <StaggeredMenu
+          position="left"
+          isFixed={true}
+          displayItemNumbering={true}
+          displaySocials={true}
+          menuButtonColor="#ffffff"
+          openMenuButtonColor="#000000"
+          changeMenuColorOnOpen={true}
+          colors={['#1c1c21', '#282732']}
+          accentColor="#839cb5"
+          items={[
+            { label: 'Home',       ariaLabel: 'Back to top',             link: '#', onClick: () => window.scrollTo({ top: 0, behavior: 'smooth' }) },
+            { label: 'About',      ariaLabel: 'Professional Summary',    link: '#about', onClick: () => document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' }) },
+            { label: 'Experience', ariaLabel: 'Work Experience',         link: '#experience', onClick: () => document.querySelector('#experience')?.scrollIntoView({ behavior: 'smooth' }) },
+            { label: 'Projects',   ariaLabel: 'Selected Projects',       link: '#projects', onClick: () => document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' }) },
+            { label: 'Skills',     ariaLabel: 'Technical Stack',         link: '#skills', onClick: () => document.querySelector('#skills')?.scrollIntoView({ behavior: 'smooth' }) },
+            { label: 'Contact',    ariaLabel: 'Get in touch',            link: '#contact', onClick: () => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' }) },
+          ]}
+          socialItems={[
+            { label: 'GitHub',   link: 'https://github.com/m4n1kya' },
+            { label: 'LinkedIn', link: 'https://www.linkedin.com/in/manikya-nariyapara' },
+          ]}
+        />
+      </div>
+
       <Loader hasLoadedOnce={hasLoadedOnce} />
       <div 
         className="home-container relative bg-transparent mt-0 z-10"
