@@ -6,13 +6,13 @@ const HeroParticles = () => {
   useEffect(() => {
     // Deep cinematic organic particles with extreme depth of field
     const newParticles = Array.from({ length: 150 }).map((_, i) => {
-      // Create a non-linear size distribution (lots of tiny ones, few big ones)
+      // Delicate, fine particle size distribution
       const sizePower = Math.pow(Math.random(), 3);
       const isForeground = sizePower > 0.8;
-      const size = sizePower * 4 + 1;
+      const size = sizePower * 1.5 + 1; // Max size ~2.5px
       
-      // Foreground particles are sharp, background particles are heavily blurred
-      const blur = isForeground ? Math.random() * 1 : Math.random() * 5 + 1;
+      // Soft, subtle blur
+      const blur = isForeground ? 0 : Math.random() * 1.5 + 0.5;
       
       return {
         id: i,
@@ -20,12 +20,12 @@ const HeroParticles = () => {
         top: Math.random() * 100, 
         size: size, 
         delay: Math.random() * 15, 
-        duration: Math.random() * 20 + 20, // Very slow twinkle (20s to 40s cycle)
+        duration: Math.random() * 20 + 20, 
         color: '#ffffff',
-        tx: (Math.random() - 0.5) * 350, // More movement distance to compensate for longer duration
+        tx: (Math.random() - 0.5) * 350, 
         ty: (Math.random() - 0.5) * 350, 
         blur: blur,
-        peakOpacity: isForeground ? (Math.random() * 0.3 + 0.3) : (Math.random() * 0.15 + 0.1) // Slightly softer peak brightness
+        peakOpacity: isForeground ? (Math.random() * 0.3 + 0.3) : (Math.random() * 0.15 + 0.1)
       };
     });
     setParticles(newParticles);
@@ -46,7 +46,7 @@ const HeroParticles = () => {
             animationDelay: `${p.delay}s`,
             animationDuration: `${p.duration}s`,
             filter: `blur(${p.blur}px)`,
-            boxShadow: `0 0 ${p.size * 3}px ${p.size}px ${p.color}`,
+            boxShadow: `0 0 ${p.size * 1.5}px 0px ${p.color}`,
             '--tx': `${p.tx}px`,
             '--ty': `${p.ty}px`,
             '--peak-opacity': p.peakOpacity,
