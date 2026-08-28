@@ -120,7 +120,7 @@ section {
     @apply fixed w-full left-1/2 py-3 px-5 md:px-20 -translate-x-1/2 z-[100] transition-all duration-300 ease-in-out;
 
     &.scrolled {
-      @apply top-0 bg-black/60 backdrop-blur-md;
+      @apply top-0 bg-black md:bg-black/60 backdrop-blur-md;
     }
 
     &.not-scrolled {
@@ -253,7 +253,7 @@ section {
   }
 
   .timeline-wrapper {
-    @apply absolute top-0 left-5 md:left-10 xl:left-[calc(33.333333%+5.85rem)] h-full flex justify-center;
+    @apply absolute top-0 left-5 md:left-10 xl:left-[calc(33.333333%+5.85rem)] h-full flex justify-center -z-10 xl:z-auto;
   }
 
   .timeline {
