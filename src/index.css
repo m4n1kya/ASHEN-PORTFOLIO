@@ -496,11 +496,12 @@ section {
 }
 
 @keyframes magicalParticle {
-  0% { transform: translate(0, 0) scale(0.4); opacity: 0; filter: brightness(1); }
-  25% { opacity: var(--peak-opacity, 0.8); transform: translate(var(--tx1), var(--ty1)) scale(1.5); filter: brightness(3.5); }
-  50% { opacity: calc(var(--peak-opacity, 0.8) * 0.45); transform: translate(var(--tx2), var(--ty2)) scale(0.9); filter: brightness(1.2); }
-  75% { opacity: calc(var(--peak-opacity, 0.8) * 0.95); transform: translate(var(--tx3), var(--ty3)) scale(1.4); filter: brightness(3.8); }
-  100% { transform: translate(calc(var(--tx3) * 1.2), calc(var(--ty3) * 1.2)) scale(0.4); opacity: 0; filter: brightness(1); }
+  0% { transform: translate(0, 0) scale(0.2); opacity: 0; filter: brightness(1); }
+  20% { opacity: var(--peak-opacity, 0.8); transform: translate(var(--tx1), var(--ty1)) scale(1.5); filter: brightness(3.5); }
+  40% { opacity: 0.15; transform: translate(var(--tx2), var(--ty2)) scale(0.6); filter: brightness(1.2); }
+  60% { opacity: calc(var(--peak-opacity, 0.8) * 0.95); transform: translate(var(--tx3), var(--ty3)) scale(1.4); filter: brightness(3.8); }
+  80% { opacity: 0.15; transform: translate(var(--tx4), var(--ty4)) scale(0.6); filter: brightness(1.2); }
+  100% { transform: translate(calc(var(--tx4) * 1.1), calc(var(--ty4) * 1.1)) scale(0.2); opacity: 0; filter: brightness(1); }
 }
 
 .animate-magicalParticle {
