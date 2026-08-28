@@ -114,20 +114,21 @@ const AppShowcase = ({ onNavigateToProjects }) => {
               <TiltedCard maxTilt={12} scale={1.03} className="border border-white/10 shadow-xl bg-black-100">
                 <img
                   src="/images/uniease.png"
-                  alt="UNI-EASE"
+                  alt="UNI-VERSE"
                   className="object-contain w-full h-auto block rounded-xl cursor-pointer hover:opacity-90 transition-opacity"
-                  onClick={() => onNavigateToProjects && onNavigateToProjects('uniease')}
+                  onClick={() => onNavigateToProjects && onNavigateToProjects('uni-verse')}
                 />
               </TiltedCard>
               <div className="flex justify-between items-center mt-2">
                 <h2 
                   className="text-xl font-bold m-0 cursor-pointer hover:text-white-50 transition-colors"
-                  onClick={() => onNavigateToProjects && onNavigateToProjects('uniease')}
+                  onClick={() => onNavigateToProjects && onNavigateToProjects('uni-verse')}
                 >
-                  UNI-EASE
+                  UNI-VERSE
                 </h2>
                 <div className="flex gap-4">
-                  <a href="https://github.com/m4n1kya/Epics-UniEase" target="_blank" rel="noreferrer" className="text-sm font-semibold text-blue-50 hover:text-white underline">GitHub</a>
+                  <a href="https://uni-verse-swart.vercel.app/" target="_blank" rel="noreferrer" className="text-sm font-semibold text-blue-50 hover:text-white underline">Live</a>
+                  <a href="https://github.com/m4n1kya/Uni-Verse" target="_blank" rel="noreferrer" className="text-sm font-semibold text-blue-50 hover:text-white underline">GitHub</a>
                 </div>
               </div>
               <p className="text-sm text-white-50 leading-relaxed">Campus Resource Optimization Ecosystem with AI/NLP interface, MERN stack, and AWS/Firebase architecture.</p>
@@ -160,20 +161,21 @@ const AppShowcase = ({ onNavigateToProjects }) => {
               <TiltedCard maxTilt={12} scale={1.03} className="border border-white/10 shadow-xl bg-black-100">
                 <img 
                   src="/images/ecoloop.png" 
-                  alt="ECO-LOOP" 
+                  alt="BEACON" 
                   className="object-contain w-full h-auto block rounded-xl cursor-pointer hover:opacity-90 transition-opacity" 
-                  onClick={() => onNavigateToProjects && onNavigateToProjects('eco-loop')}
+                  onClick={() => onNavigateToProjects && onNavigateToProjects('beacon')}
                 />
               </TiltedCard>
               <div className="flex justify-between items-center mt-2">
                 <h2 
                   className="text-xl font-bold m-0 cursor-pointer hover:text-white-50 transition-colors"
-                  onClick={() => onNavigateToProjects && onNavigateToProjects('eco-loop')}
+                  onClick={() => onNavigateToProjects && onNavigateToProjects('beacon')}
                 >
-                  ECO-LOOP
+                  BEACON
                 </h2>
                 <div className="flex gap-4">
-                  <a href="https://github.com/m4n1kya/eco-loop" target="_blank" rel="noreferrer" className="text-sm font-semibold text-blue-50 hover:text-white underline">GitHub</a>
+                  <a href="https://beacon-fuqtpoomdhrfdzhksccvvu.streamlit.app/" target="_blank" rel="noreferrer" className="text-sm font-semibold text-blue-50 hover:text-white underline">Live</a>
+                  <a href="https://github.com/m4n1kya/Beacon" target="_blank" rel="noreferrer" className="text-sm font-semibold text-blue-50 hover:text-white underline">GitHub</a>
                 </div>
               </div>
               <p className="text-sm text-white-50 leading-relaxed">A sustainable platform designed for environmental tracking and resource optimization.</p>
