@@ -24,10 +24,10 @@ const XRayCursor = ({ isVisible = true }) => {
     const cursor = cursorRef.current;
     if (!cursor) return;
 
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let lastMouseX = mouseX;
-    let lastMouseY = mouseY;
+    let mouseX = -9999;
+    let mouseY = -9999;
+    let lastMouseX = -9999;
+    let lastMouseY = -9999;
     let smoothedVx = 0;
     let smoothedVy = 0;
     let isHovering = false;
