@@ -134,29 +134,6 @@ const AppShowcase = ({ onNavigateToProjects }) => {
               <p className="text-sm text-white-50 leading-relaxed">Campus Resource Optimization Ecosystem with AI/NLP interface, MERN stack, and AWS/Firebase architecture.</p>
             </div>
 
-            <div className="project flex flex-col gap-3" ref={project3Ref}>
-              <TiltedCard maxTilt={12} scale={1.03} className="border border-white/10 shadow-xl bg-black-100">
-                <img 
-                  src="/images/ashen-vector.png" 
-                  alt="ASHEN-VECTOR" 
-                  className="object-contain w-full h-auto block rounded-xl cursor-pointer hover:opacity-90 transition-opacity" 
-                  onClick={() => onNavigateToProjects && onNavigateToProjects('ashen-vector')}
-                />
-              </TiltedCard>
-              <div className="flex justify-between items-center mt-2">
-                <h2 
-                  className="text-xl font-bold m-0 cursor-pointer hover:text-white-50 transition-colors"
-                  onClick={() => onNavigateToProjects && onNavigateToProjects('ashen-vector')}
-                >
-                  ASHEN-VECTOR
-                </h2>
-                <div className="flex gap-4">
-                  <a href="https://github.com/m4n1kya/ASHEN-VECTOR" target="_blank" rel="noreferrer" className="text-sm font-semibold text-blue-50 hover:text-white underline">GitHub</a>
-                </div>
-              </div>
-              <p className="text-sm text-white-50 leading-relaxed">An advanced AI-powered vector search interface and autonomous agent integration ecosystem.</p>
-            </div>
-
             <div className="project flex flex-col gap-3" ref={project2Ref}>
               <TiltedCard maxTilt={12} scale={1.03} className="border border-white/10 shadow-xl bg-black-100">
                 <img 
@@ -179,6 +156,29 @@ const AppShowcase = ({ onNavigateToProjects }) => {
                 </div>
               </div>
               <p className="text-sm text-white-50 leading-relaxed">A sustainable platform designed for environmental tracking and resource optimization.</p>
+            </div>
+
+            <div className="project flex flex-col gap-3" ref={project3Ref}>
+              <TiltedCard maxTilt={12} scale={1.03} className="border border-white/10 shadow-xl bg-black-100">
+                <img 
+                  src="/images/ashen-vector.png" 
+                  alt="ASHEN-VECTOR" 
+                  className="object-contain w-full h-auto block rounded-xl cursor-pointer hover:opacity-90 transition-opacity" 
+                  onClick={() => onNavigateToProjects && onNavigateToProjects('ashen-vector')}
+                />
+              </TiltedCard>
+              <div className="flex justify-between items-center mt-2">
+                <h2 
+                  className="text-xl font-bold m-0 cursor-pointer hover:text-white-50 transition-colors"
+                  onClick={() => onNavigateToProjects && onNavigateToProjects('ashen-vector')}
+                >
+                  ASHEN-VECTOR
+                </h2>
+                <div className="flex gap-4">
+                  <a href="https://github.com/m4n1kya/ASHEN-VECTOR" target="_blank" rel="noreferrer" className="text-sm font-semibold text-blue-50 hover:text-white underline">GitHub</a>
+                </div>
+              </div>
+              <p className="text-sm text-white-50 leading-relaxed">An advanced AI-powered vector search interface and autonomous agent integration ecosystem.</p>
             </div>
         </div>
       </div>
