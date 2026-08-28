@@ -200,34 +200,28 @@ const Loader = ({ hasLoadedOnce }) => {
 
     render();
 
-    // GSAP Cinematic Sequence
+    // Fast GSAP Cinematic Sequence
     const tl = gsap.timeline({
-      delay: 1.4, // Slightly reduced delay to speed things up
+      delay: 0.2,
       onComplete: () => {
         cancelAnimationFrame(animationFrameId);
         window.removeEventListener('resize', resize);
-        
-        // Hide the container to stop rendering and remove it from view
         if (containerRef.current) containerRef.current.style.display = 'none';
       }
     });
 
-    // Add a cinematic camera dolly push (slowly zooming into the clouds while the storm rages)
     gsap.to(canvasRef.current, {
-      scale: 1.2,
-      duration: 5.0,
-      ease: "power2.out" // Smoother deceleration
+      scale: 1.1,
+      duration: 1.5,
+      ease: "power2.out"
     });
 
-    // CRITICAL FIX: Instantly fade out the HTML pre-loader blocker so you can actually see the storm raging!
-    // We give it a tiny 0.1s delay to guarantee WebGL has drawn its first frame, preventing any flashing.
-    gsap.to("#pre-loader-blocker", { opacity: 0, duration: 0.2, delay: 0.1 });
+    gsap.to("#pre-loader-blocker", { opacity: 0, duration: 0.1, delay: 0.05 });
 
-    // Strip the React container's background color right before the canvas starts turning transparent.
     tl.to(containerRef.current, { backgroundColor: "transparent", duration: 0.01 })
       .to(uniforms, {
-        reveal: 3.5, // Pushes past the right edge + the massive noise distortion
-        duration: 2.5, // Slightly shorter sweep
+        reveal: 3.5,
+        duration: 0.9,
         ease: "power2.inOut",
       }, "<");
 

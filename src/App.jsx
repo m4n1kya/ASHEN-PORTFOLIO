@@ -11,14 +11,15 @@ import Loader from "./components/Loader";
 import ParticleCursor from "./components/ParticleCursor";
 import XRayCursor from "./components/XRayCursor";
 
-// Lazy Loaded Sections
-const FeatureCards = React.lazy(() => import("./sections/FeatureCards"));
-const Experience = React.lazy(() => import("./sections/Experience"));
-const ShowcaseSection = React.lazy(() => import("./sections/ShowcaseSection"));
-const LogoShowcase = React.lazy(() => import("./sections/LogoShowcase"));
-const TechStack = React.lazy(() => import("./sections/TechStack"));
-const Contact = React.lazy(() => import("./sections/Contact"));
-const Footer = React.lazy(() => import("./sections/Footer"));
+import FeatureCards from "./sections/FeatureCards";
+import Experience from "./sections/Experience";
+import ShowcaseSection from "./sections/ShowcaseSection";
+import LogoShowcase from "./sections/LogoShowcase";
+import TechStack from "./sections/TechStack";
+import Contact from "./sections/Contact";
+import Footer from "./sections/Footer";
+
+// Lazy Loaded Windows (Only loaded when opened by user)
 const ProjectsWindow = React.lazy(() => import("./components/ProjectsWindow"));
 const Gallery = React.lazy(() => import("./components/Gallery"));
 
@@ -203,15 +204,13 @@ const App = () => {
         <Loader hasLoadedOnce={hasLoadedOnce} />
         <Navbar />
         <Hero onNavigateToGallery={navigateToGallery} hasLoadedOnce={hasLoadedOnce} />
-        <Suspense fallback={null}>
-          <FeatureCards />
-          <Experience />
-          <ShowcaseSection onNavigateToProjects={navigateToProjects} />
-          <LogoShowcase />
-          <TechStack />
-          <Contact />
-          <Footer />
-        </Suspense>
+        <FeatureCards />
+        <Experience />
+        <ShowcaseSection onNavigateToProjects={navigateToProjects} />
+        <LogoShowcase />
+        <TechStack />
+        <Contact />
+        <Footer />
       </div>
 
       <Suspense fallback={null}>
