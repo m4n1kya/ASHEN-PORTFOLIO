@@ -314,7 +314,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                 return (
                   <div 
                     key={project.id}
-                    className={`absolute inset-0 lg:overflow-y-auto custom-scrollbar z-10 bg-black ${isActive ? '' : 'overflow-hidden'}`}
+                    className={`absolute inset-0 lg:overflow-y-auto custom-scrollbar z-10 ${isActive ? '' : 'overflow-hidden'}`}
                     style={{
                       visibility: isActive ? 'visible' : 'hidden',
                       pointerEvents: isActive ? 'auto' : 'none',
