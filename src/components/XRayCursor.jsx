@@ -13,7 +13,7 @@ const styleContent = `
 const XRayCursor = ({ isVisible = true }) => {
   const cursorRef = useRef(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
-  const [isWindowHovered, setIsWindowHovered] = useState(true);
+  const [isWindowHovered, setIsWindowHovered] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
@@ -31,11 +31,15 @@ const XRayCursor = ({ isVisible = true }) => {
     let smoothedVx = 0;
     let smoothedVy = 0;
     let isHovering = false;
-    let isWindowHoveredRaw = true;
-    let windowScale = 1;
+    let isWindowHoveredRaw = false;
+    let windowScale = 0;
     let animationFrameId;
 
     const handleMouseMove = (e) => {
+      if (!isWindowHoveredRaw) {
+        setIsWindowHovered(true);
+        isWindowHoveredRaw = true;
+      }
       mouseX = e.clientX;
       mouseY = e.clientY;
     };
