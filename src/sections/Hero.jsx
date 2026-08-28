@@ -7,6 +7,7 @@ import Button from "../components/Button";
 import { words } from "../constants";
 import HeroImageParticles from "../components/HeroImageParticles";
 import ShinyText from "../components/reactbits/ShinyText";
+import FoldText from "../components/reactbits/FoldText";
 
 const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
   const lanternContainerRef = useRef(null);
@@ -68,7 +69,21 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
           <div className="flex flex-col gap-6">
             <div className="hero-text">
               <h1 className="text-white text-[8vw] md:text-5xl lg:text-6xl font-bold tracking-tight leading-none mb-2 md:mb-4">
-                Manikya
+                <FoldText
+                  text="Manikya"
+                  splitBy="char"
+                  hinge="top"
+                  trigger="mount"
+                  duration={0.8}
+                  stagger={0.06}
+                  delay={hasLoadedOnce ? 0 : 1}
+                  ease="power3.out"
+                  perspective={700}
+                  creaseShading={0.55}
+                  fontSize="inherit"
+                  fontWeight="inherit"
+                  color="inherit"
+                />
               </h1>
               
               <h1 className="text-blue-50 text-[4vw] md:text-[24px] lg:text-[30px] font-semibold mb-6 tracking-wide mt-2 md:mt-4 flex items-center whitespace-nowrap leading-none">
