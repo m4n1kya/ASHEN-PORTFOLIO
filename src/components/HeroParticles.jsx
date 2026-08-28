@@ -13,16 +13,25 @@ const HeroParticles = () => {
       const size = Math.random() * (isGlowParticle ? 1.5 : 1) + 1.0; // Smaller particles
       const blur = isGlowParticle ? (Math.random() * 2 + 1) : 0;
       
+      // Organic random wandering path with gentle upward bias
+      const tx1 = (Math.random() - 0.5) * 60;
+      const ty1 = (Math.random() - 0.5) * 60 - 20;
+      const tx2 = tx1 + (Math.random() - 0.5) * 70;
+      const ty2 = ty1 + (Math.random() - 0.5) * 70 - 20;
+      const tx3 = tx2 + (Math.random() - 0.5) * 80;
+      const ty3 = ty2 + (Math.random() - 0.5) * 80 - 20;
+
       return {
         id: i,
         left: Math.random() * 100, 
         top: Math.random() * 100, 
         size: size, 
-        delay: Math.random() * 6, 
-        duration: Math.random() * 5 + 3.5, // Ethereal 3.5s - 8.5s float cycle
+        delay: Math.random() * 10, 
+        duration: Math.random() * 12 + 10, // Very slow & steady 10s - 22s float cycle
         color: color,
-        tx: (Math.random() - 0.5) * 120, 
-        ty: -(Math.random() * 140 + 40), // Upward floating movement like lantern embers
+        tx1: tx1, ty1: ty1,
+        tx2: tx2, ty2: ty2,
+        tx3: tx3, ty3: ty3,
         blur: blur,
         peakOpacity: isGlowParticle ? (Math.random() * 0.35 + 0.45) : (Math.random() * 0.3 + 0.3)
       };
@@ -49,8 +58,9 @@ const HeroParticles = () => {
             animationDuration: `${p.duration}s`,
             filter: `blur(${p.blur}px)`,
             boxShadow: `0 0 ${p.size * 3.5}px ${p.size * 0.8}px ${p.color}`,
-            '--tx': `${p.tx}px`,
-            '--ty': `${p.ty}px`,
+            '--tx1': `${p.tx1}px`, '--ty1': `${p.ty1}px`,
+            '--tx2': `${p.tx2}px`, '--ty2': `${p.ty2}px`,
+            '--tx3': `${p.tx3}px`, '--ty3': `${p.ty3}px`,
             '--peak-opacity': p.peakOpacity,
           }}
         />
