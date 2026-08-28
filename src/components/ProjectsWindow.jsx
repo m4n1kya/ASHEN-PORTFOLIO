@@ -228,10 +228,10 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col overflow-hidden relative z-10 pt-32 md:pt-24">
+      <div className="flex-1 flex flex-col overflow-hidden relative z-10 pt-32 md:pt-24 bg-transparent">
         
         {/* Content Container */}
-        <div className="flex-1 overflow-y-auto lg:overflow-hidden relative z-10 flex flex-col">
+        <div className="flex-1 overflow-y-auto lg:overflow-hidden relative z-10 flex flex-col bg-transparent">
           <div className="w-full flex-1 lg:h-full max-w-[1800px] mx-auto p-6 md:p-8 lg:p-12 xl:px-16 flex flex-col lg:flex-row gap-8 lg:gap-12 xl:gap-16">
             
             {/* Left Side: Fixed on Desktop (Slider + Beautiful Info Card) */}
@@ -277,7 +277,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
               </div>
               
               {/* Short Description & Action Links (Desktop Only) */}
-              <div className="hidden lg:block relative h-[160px] shrink-0 px-2 mt-2">
+              <div className="hidden lg:block relative h-[160px] shrink-0 px-2 mt-2 bg-transparent">
                 {projectsData.map(project => {
                   const isActive = project.id === activeTab;
                   return (
@@ -311,20 +311,20 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                 })}
               </div>
             </div>            {/* Right Side: Scrollable on Desktop */}
-            <div className="w-full lg:w-[40%] lg:h-full relative z-10 pb-16 lg:pr-4">
+            <div className="w-full lg:w-[40%] lg:h-full relative z-10 pb-16 lg:pr-4 bg-transparent">
               {projectsData.map(project => {
                 const isActive = project.id === activeTab;
                 return (
                   <div 
                     key={project.id}
-                    className={`absolute inset-0 lg:overflow-y-auto custom-scrollbar z-10 ${isActive ? '' : 'overflow-hidden'}`}
+                    className={`absolute inset-0 lg:overflow-y-auto custom-scrollbar z-10 bg-black ${isActive ? '' : 'overflow-hidden'}`}
                     style={{
                       opacity: isActive ? 1 : 0,
                       pointerEvents: isActive ? 'auto' : 'none',
                       transition: 'opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
                     }}
                   >
-                    <div className="prose prose-invert max-w-none pb-12">
+                    <div className="prose prose-invert max-w-none pb-12 [&_*]:!bg-transparent">
                       <div>
                         <ReactMarkdown 
                           remarkPlugins={[remarkGfm]}
