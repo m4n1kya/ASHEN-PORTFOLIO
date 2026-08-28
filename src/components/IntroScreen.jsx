@@ -43,9 +43,9 @@ const IntroScreen = () => {
           parallax={120}
           reveal="none"
           trigger="view"
-          textScale={0.25}
+          textScale={0.15}
           className="w-full font-black uppercase tracking-tighter text-center"
-          style={{ fontFamily: '"Bebas Neue", sans-serif' }}
+          style={{ fontFamily: '"Space Grotesk", sans-serif' }}
         />
       </div>
 
