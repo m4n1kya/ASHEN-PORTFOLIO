@@ -6,7 +6,7 @@ const HeroParticles = () => {
   useEffect(() => {
     // Deep cinematic organic particles with extreme depth of field
     const colors = ['#ffffff', '#e0e0e0', '#a0a0a0', '#ffffff']; 
-    const newParticles = Array.from({ length: 180 }).map((_, i) => {
+    const newParticles = Array.from({ length: 130 }).map((_, i) => {
       const isGlowParticle = i % 3 === 0; // ~33% soft blurry glowing particles
       const color = colors[i % colors.length];
       const size = Math.random() * (isGlowParticle ? 3.5 : 2) + 1.5;
