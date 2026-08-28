@@ -68,7 +68,7 @@ const MaskedHeading = ({
     if (!root || !measure) return;
     const s = settingsRef.current;
 
-    root.style.fontSize = `${clamp(root.clientWidth * s.textScale, 20, 200).toFixed(1)}px`;
+    root.style.fontSize = `${clamp(root.clientWidth * s.textScale, 20, 1000).toFixed(1)}px`;
 
     const cs = window.getComputedStyle(measure);
     for (let i = 0; i < wordRefs.current.length; i += 1) {
@@ -298,7 +298,7 @@ const MaskedHeading = ({
         <span className="masked-heading__clip" style={{ clipPath: `url(#${clipId})` }}>
           <span ref={mediaRef} className="masked-heading__media">
             {mediaType === 'video' ? (
-              <video className="masked-heading__source mix-blend-screen" src={src} poster={poster} autoPlay muted loop playsInline />
+              <video className="masked-heading__source" src={src} poster={poster} autoPlay muted loop playsInline />
             ) : (
               <img className="masked-heading__source" src={src} alt="" draggable={false} />
             )}
