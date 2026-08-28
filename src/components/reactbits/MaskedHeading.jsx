@@ -62,13 +62,20 @@ const MaskedHeading = ({
     media.style.filter = `brightness(${s.brightness}) saturate(${s.saturation})${s.grayscale ? ' grayscale(1)' : ''}`;
   }, []);
 
+  const lastWidthRef = useRef(0);
+
   const sync = useCallback(() => {
     const root = rootRef.current;
     const measure = measureRef.current;
     if (!root || !measure) return;
     const s = settingsRef.current;
 
-    root.style.fontSize = `${clamp(root.clientWidth * s.textScale, 20, 1000).toFixed(1)}px`;
+    const W = root.clientWidth;
+    // Cache the width to prevent unnecessary syncs on height-only resizes (like mobile URL bar)
+    if (W === lastWidthRef.current) return;
+    lastWidthRef.current = W;
+
+    root.style.fontSize = `${clamp(W * s.textScale, 20, 1000).toFixed(1)}px`;
 
     const cs = window.getComputedStyle(measure);
     for (let i = 0; i < wordRefs.current.length; i += 1) {

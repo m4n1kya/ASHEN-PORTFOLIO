@@ -28,7 +28,7 @@ const IntroScreen = () => {
   return (
     <div 
       ref={introRef}
-      className="absolute inset-0 w-full h-full z-0 overflow-hidden flex items-center justify-center bg-[#0c0c0e]"
+      className="absolute inset-0 w-full h-full z-0 overflow-hidden flex items-center justify-center bg-[#0c0c0e] will-change-transform"
     >
       
       <HeroParticles containerClassName="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden" />
@@ -44,7 +44,7 @@ const IntroScreen = () => {
           reveal="none"
           trigger="view"
           textScale={0.16}
-          className="w-full font-black uppercase tracking-tighter text-center"
+          className="w-full font-black uppercase text-center"
           style={{ fontFamily: '"Mona Sans", sans-serif' }}
         />
       </div>
