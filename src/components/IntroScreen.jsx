@@ -46,28 +46,6 @@ const IntroScreen = () => {
         />
       </div>
 
-      {/* UI Elements (Sit on top of the mask) */}
-      <div className="absolute inset-0 z-20 pointer-events-none p-6 md:p-10 flex flex-col justify-between">
-        <div className="flex justify-between items-start">
-          <div className="text-white-50 font-medium text-sm md:text-base leading-relaxed max-w-xs drop-shadow-md">
-            DESIGNED WITH INTENT
-          </div>
-          <div className="text-white-50 text-xs md:text-sm uppercase tracking-widest font-bold border border-white-50/20 px-4 py-2 rounded-full backdrop-blur-sm bg-black/20">
-            Scroll to explore
-          </div>
-        </div>
-        
-        <div className="flex justify-between items-end">
-          <div className="text-white-50 text-xs md:text-sm font-medium drop-shadow-md">
-            Creative Engineer
-          </div>
-          <div className="text-white-50 text-xs md:text-sm font-medium uppercase tracking-widest flex gap-4 drop-shadow-md">
-            <span>Engineering</span>
-            <span>/</span>
-            <span>Realities</span>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
