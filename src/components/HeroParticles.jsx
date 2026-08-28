@@ -7,7 +7,7 @@ const HeroParticles = () => {
   useEffect(() => {
     // Deep cinematic organic particles with extreme depth of field
     const colors = ['#ffffff', '#e0e0e0', '#a0a0a0', '#ffffff']; 
-    const newParticles = Array.from({ length: 100 }).map((_, i) => {
+    const newParticles = Array.from({ length: 150 }).map((_, i) => {
       const isGlowParticle = i % 3 === 0; // ~33% soft blurry glowing particles
       const color = colors[i % colors.length];
       const size = Math.random() * (isGlowParticle ? 1.5 : 1) + 1.0; // Smaller particles
@@ -46,7 +46,7 @@ const HeroParticles = () => {
   }, []);
 
   return (
-    <div className={`sticky top-0 w-full h-screen pointer-events-none z-0 overflow-hidden transition-opacity duration-[4000ms] ease-in-out ${isMounted ? 'opacity-100' : 'opacity-0'}`}>
+    <div className={`absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden transition-opacity duration-[4000ms] ease-in-out ${isMounted ? 'opacity-100' : 'opacity-0'}`}>
       {particles.map((p) => (
         <div
           key={p.id}
