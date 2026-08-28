@@ -352,7 +352,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                             target="_blank"
                             rel="noreferrer"
                             style={{ padding: '0.875rem 2.25rem', width: 'max-content', whiteSpace: 'nowrap' }}
-                            className="flex shrink-0 justify-center items-center gap-3 rounded-full bg-transparent border border-white/20 text-white font-bold hover:bg-white/10 hover:border-white/60 transition-colors duration-300 shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_25px_rgba(255,255,255,0.25)] backdrop-blur-sm"
+                            className="flex shrink-0 justify-center items-center gap-3 rounded-full bg-black border border-white-50/20 text-white font-bold hover:bg-white-50/10 transition-colors duration-300"
                           >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
