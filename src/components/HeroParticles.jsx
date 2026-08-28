@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const HeroParticles = () => {
+const HeroParticles = ({ containerClassName = "" }) => {
   const [particles, setParticles] = useState([]);
   const [isMounted, setIsMounted] = useState(false);
 
@@ -46,7 +46,7 @@ const HeroParticles = () => {
   }, []);
 
   return (
-    <div className={`sticky top-0 w-full h-screen -mb-[100vh] pointer-events-none z-0 overflow-hidden transition-opacity duration-[4000ms] ease-in-out ${isMounted ? 'opacity-100' : 'opacity-0'}`}>
+    <div className={containerClassName || `sticky top-0 w-full h-screen -mb-[100vh] pointer-events-none z-0 overflow-hidden transition-opacity duration-[4000ms] ease-in-out ${isMounted ? 'opacity-100' : 'opacity-0'}`}>
       {particles.map((p) => (
         <div
           key={p.id}

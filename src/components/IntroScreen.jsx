@@ -31,7 +31,7 @@ const IntroScreen = () => {
       className="fixed inset-0 w-screen h-screen z-0 overflow-hidden flex items-center justify-center bg-[#0c0c0e]"
     >
       
-      <HeroParticles />
+      <HeroParticles containerClassName="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden" />
       
       {/* Masked Heading Component from React Bits */}
       <div className="absolute inset-0 z-10 flex items-center justify-center">
@@ -43,9 +43,9 @@ const IntroScreen = () => {
           parallax={120}
           reveal="none"
           trigger="view"
-          textScale={0.15}
+          textScale={0.25}
           className="w-full font-black uppercase tracking-tighter text-center"
-          style={{ fontFamily: '"Syne", sans-serif' }}
+          style={{ fontFamily: '"Bebas Neue", sans-serif' }}
         />
       </div>
 
