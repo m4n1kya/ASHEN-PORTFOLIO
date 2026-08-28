@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import MaskedHeading from './reactbits/MaskedHeading';
+import HeroParticles from './HeroParticles';
 
 gsap.registerPlugin(ScrollTrigger);
 
