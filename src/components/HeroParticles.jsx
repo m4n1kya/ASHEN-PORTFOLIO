@@ -13,13 +13,13 @@ const HeroParticles = () => {
       const size = Math.random() * (isGlowParticle ? 1.5 : 1) + 1.0; // Smaller particles
       const blur = isGlowParticle ? (Math.random() * 2 + 1) : 0;
       
-      // Organic random wandering path with gentle upward bias
-      const tx1 = (Math.random() - 0.5) * 60;
-      const ty1 = (Math.random() - 0.5) * 60 - 20;
-      const tx2 = tx1 + (Math.random() - 0.5) * 70;
-      const ty2 = ty1 + (Math.random() - 0.5) * 70 - 20;
-      const tx3 = tx2 + (Math.random() - 0.5) * 80;
-      const ty3 = ty2 + (Math.random() - 0.5) * 80 - 20;
+      // Truly omnidirectional magical wandering (no upward bias)
+      const tx1 = (Math.random() - 0.5) * 100;
+      const ty1 = (Math.random() - 0.5) * 100;
+      const tx2 = tx1 + (Math.random() - 0.5) * 120;
+      const ty2 = ty1 + (Math.random() - 0.5) * 120;
+      const tx3 = tx2 + (Math.random() - 0.5) * 140;
+      const ty3 = ty2 + (Math.random() - 0.5) * 140;
 
       return {
         id: i,
