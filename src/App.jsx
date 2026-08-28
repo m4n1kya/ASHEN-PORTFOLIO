@@ -6,7 +6,6 @@ import HeroParticles from "./components/HeroParticles";
 
 gsap.registerPlugin(ScrollTrigger);
 import Hero from "./sections/Hero";
-import Navbar from "./components/NavBar";
 import Loader from "./components/Loader";
 import ParticleCursor from "./components/ParticleCursor";
 import XRayCursor from "./components/XRayCursor";
@@ -206,7 +205,7 @@ const App = () => {
       >
         <HeroParticles />
         <Loader hasLoadedOnce={hasLoadedOnce} />
-        <Navbar />
+        
         <Hero onNavigateToGallery={navigateToGallery} hasLoadedOnce={hasLoadedOnce} />
         <FeatureCards />
         <Experience />
