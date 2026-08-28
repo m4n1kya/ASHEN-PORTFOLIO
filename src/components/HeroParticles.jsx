@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 
 const HeroParticles = () => {
   const [particles, setParticles] = useState([]);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     // Deep cinematic organic particles with extreme depth of field
     const colors = ['#ffffff', '#e0e0e0', '#a0a0a0', '#ffffff']; 
-    const newParticles = Array.from({ length: 130 }).map((_, i) => {
+    const newParticles = Array.from({ length: 100 }).map((_, i) => {
       const isGlowParticle = i % 3 === 0; // ~33% soft blurry glowing particles
       const color = colors[i % colors.length];
-      const size = Math.random() * (isGlowParticle ? 3.5 : 2) + 1.5;
+      const size = Math.random() * (isGlowParticle ? 1.5 : 1) + 1.0; // Smaller particles
       const blur = isGlowParticle ? (Math.random() * 2 + 1) : 0;
       
       return {
@@ -27,10 +28,13 @@ const HeroParticles = () => {
       };
     });
     setParticles(newParticles);
+    
+    const timer = setTimeout(() => setIsMounted(true), 100);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
+    <div className={`fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden transition-opacity duration-[4000ms] ease-in-out ${isMounted ? 'opacity-100' : 'opacity-0'}`}>
       {particles.map((p) => (
         <div
           key={p.id}
