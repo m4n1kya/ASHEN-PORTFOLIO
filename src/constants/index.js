@@ -83,9 +83,12 @@ const abilities = [
 ];
 
 const techStackImgs = [
-  { category: "Concepts", skills: ["Data Structures & Algorithms", "OOP", "DBMS", "Operating Systems", "Computer Networks", "REST APIs", "JWT"] },
-  { category: "Languages & Frameworks", skills: ["Java", "JavaScript", "TypeScript", "SQL", "React.js", "Next.js", "Node.js", "Express.js", "NestJS", "Prisma"] },
-  { category: "Tools, Cloud & AI", skills: ["Git", "GitHub", "Docker", "AWS", "Kubernetes", "CI/CD", "Google Gemini API", "Qwen2.5", "Ollama"] }
+  { category: "Languages", skills: ["Java", "Python", "JavaScript", "TypeScript", "C++", "SQL"] },
+  { category: "Frontend", skills: ["React.js", "Next.js", "HTML5", "CSS3", "Tailwind CSS", "Redux", "Framer Motion", "Radix UI"] },
+  { category: "Backend & Databases", skills: ["Node.js", "Express.js", "NestJS", "REST APIs", "JWT", "PostgreSQL", "MySQL", "MongoDB", "Prisma"] },
+  { category: "CS Fundamentals", skills: ["Data Structures & Algorithms", "OOP", "DBMS", "Operating Systems", "Computer Networks"] },
+  { category: "AI / ML", skills: ["Google Gemini API", "Qwen2.5", "Ollama"] },
+  { category: "Cloud & Tools", skills: ["AWS", "Docker", "Kubernetes", "CI/CD", "Git", "GitHub", "Postman", "Swagger/OpenAPI"] },
 ];
 
 const techStackIcons = [
