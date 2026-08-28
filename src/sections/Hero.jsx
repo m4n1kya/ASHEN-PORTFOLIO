@@ -115,7 +115,7 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
         </header>
 
         {/* RIGHT: Visual */}
-        <figure className="lg:w-1/2 w-full flex justify-center items-center relative pb-20 lg:pb-0 z-50">
+        <figure className="lg:w-1/2 w-full flex justify-center items-center relative mt-24 lg:mt-0 pb-10 lg:pb-0 z-50">
           <div 
             ref={lanternContainerRef} 
             className="relative w-full flex justify-center items-center group cursor-pointer" 
