@@ -13,7 +13,7 @@ const IntroScreen = () => {
     // Zoom and fade out effect to reveal the Hero area underneath
     gsap.to(introRef.current, {
       scale: 30, // massive zoom to go through the text
-      opacity: 0,
+      autoAlpha: 0,
       ease: 'power2.inOut',
       scrollTrigger: {
         trigger: '.hero-pin-wrapper',
