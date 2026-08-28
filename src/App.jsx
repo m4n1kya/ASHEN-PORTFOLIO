@@ -194,6 +194,7 @@ const App = () => {
       <ParticleCursor />
       <XRayCursor isVisible={view === 'home'} />
       
+      <Loader hasLoadedOnce={hasLoadedOnce} />
       <div 
         className="home-container relative bg-transparent mt-0 z-10"
         style={{ display: (view === 'home' || isTransitioning.current) ? 'block' : 'none' }}
@@ -202,7 +203,6 @@ const App = () => {
           {/* Main Hero Content - Sits underneath the IntroScreen */}
           <div className="absolute inset-0 z-0">
             <HeroParticles />
-            <Loader hasLoadedOnce={hasLoadedOnce} />
             <Hero onNavigateToGallery={navigateToGallery} hasLoadedOnce={hasLoadedOnce} />
           </div>
           

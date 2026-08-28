@@ -12,7 +12,7 @@ const IntroScreen = () => {
   useEffect(() => {
     // Zoom and fade out effect to reveal the Hero area underneath
     gsap.to(introRef.current, {
-      scale: 30, // massive zoom to go through the text
+      scale: 10, // Safe zoom level to prevent SVG texture buffer crash in Chrome
       autoAlpha: 0,
       ease: 'power2.inOut',
       scrollTrigger: {
