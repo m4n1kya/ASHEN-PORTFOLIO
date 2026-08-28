@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import MaskedHeading from './reactbits/MaskedHeading';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,40 +32,21 @@ const IntroScreen = () => {
       {/* Fallback gradient if video fails/loads slowly */}
       <div className="absolute inset-0 w-full h-full z-0 bg-gradient-to-br from-white/40 via-white/20 to-transparent" />
       
-      {/* Background Video */}
-      <video 
-        autoPlay 
-        loop 
-        muted 
-        playsInline 
-        className="absolute inset-0 w-full h-full object-cover z-0 opacity-90 grayscale brightness-150 contrast-125 mix-blend-screen"
-        src="https://assets.mixkit.co/videos/preview/mixkit-ink-swirling-in-water-in-slow-motion-11883-large.mp4"
-      />
-
-      {/* SVG Mask Layer */}
-      <svg width="100%" height="100%" className="absolute inset-0 z-10 pointer-events-none">
-        <defs>
-          <mask id="cutout-text">
-            {/* White makes the overlay rect visible */}
-            <rect width="100%" height="100%" fill="white" />
-            {/* Black makes the overlay rect transparent, revealing the video beneath! */}
-            <text 
-              x="50%" 
-              y="50%" 
-              textAnchor="middle" 
-              dominantBaseline="middle" 
-              fill="black" 
-              className="font-black text-[16vw] md:text-[18vw] uppercase tracking-tighter"
-              style={{ fontFamily: '"Mona Sans", sans-serif' }}
-            >
-              MANIKYA
-            </text>
-          </mask>
-        </defs>
-
-        {/* The solid background that covers the video, with a hole cut in the shape of the text */}
-        <rect width="100%" height="100%" fill="#0c0c0e" mask="url(#cutout-text)" />
-      </svg>
+      {/* Masked Heading Component from React Bits */}
+      <div className="absolute inset-0 z-10 flex items-center justify-center">
+        <MaskedHeading
+          text="MANIKYA"
+          mediaType="video"
+          src="https://assets.mixkit.co/videos/preview/mixkit-ink-swirling-in-water-in-slow-motion-11883-large.mp4"
+          fillScale={1.3}
+          parallax={34}
+          reveal="none"
+          trigger="view"
+          textScale={0.16}
+          className="font-black uppercase tracking-tighter text-center"
+          style={{ fontFamily: '"Mona Sans", sans-serif' }}
+        />
+      </div>
 
       {/* UI Elements (Sit on top of the mask) */}
       <div className="absolute inset-0 z-20 pointer-events-none p-6 md:p-10 flex flex-col justify-between">
