@@ -21,6 +21,15 @@ const IntroScreen = () => {
         start: 'top top',
         end: '+=150%', // Scroll 1.5x screen height to complete zoom
         scrub: true,
+        onUpdate: (self) => {
+          if (introRef.current) {
+            if (self.progress > 0.8) {
+              introRef.current.style.pointerEvents = 'none';
+            } else {
+              introRef.current.style.pointerEvents = 'auto';
+            }
+          }
+        }
       }
     });
   }, []);
@@ -28,7 +37,7 @@ const IntroScreen = () => {
   return (
     <div 
       ref={introRef}
-      className="absolute inset-0 w-full h-full z-0 overflow-hidden flex items-center justify-center bg-[#0c0c0e] will-change-transform"
+      className="absolute inset-0 w-full h-full z-0 overflow-hidden flex items-center justify-center bg-[#0c0c0e] will-change-transform pointer-events-auto"
     >
       
       <HeroParticles containerClassName="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden" />

@@ -207,7 +207,7 @@ const App = () => {
           </div>
           
           {/* Intro Screen - Sits on top and zooms/fades out to reveal Hero */}
-          <div className="absolute inset-0 z-[100]">
+          <div className="absolute inset-0 z-[100] pointer-events-none">
             <IntroScreen />
           </div>
         </div>
