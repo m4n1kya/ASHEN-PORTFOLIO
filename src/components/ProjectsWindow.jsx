@@ -380,7 +380,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                             href={project.liveUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-blue-600 text-white font-bold hover:scale-105 transition-transform duration-300 shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_30px_rgba(37,99,235,0.5)]"
+                            className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-transparent border border-white/20 text-white font-bold hover:bg-white/5 hover:border-white/50 hover:scale-105 transition-all duration-300 shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_25px_rgba(255,255,255,0.15)] backdrop-blur-sm"
                           >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
