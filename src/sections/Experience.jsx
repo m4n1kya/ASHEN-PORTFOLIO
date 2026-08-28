@@ -7,6 +7,7 @@ import TitleHeader from "../components/TitleHeader";
 import SpotlightCard from "../components/reactbits/SpotlightCard";
 import Magnet from "../components/reactbits/Magnet";
 import ShinyText from "../components/reactbits/ShinyText";
+import SplitText from "../components/reactbits/SplitText";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -84,9 +85,17 @@ const Experience = () => {
                       </h3>
                       <ul className="flex flex-col gap-3 mt-4">
                         {card.leftContent.map((item, index) => (
-                          <li key={index} className="text-white-50 text-base md:text-lg font-medium flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-white-50/60 inline-block" />
-                            {item}
+                          <li key={index} className="text-white-50 text-base md:text-lg font-medium flex items-start gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-white-50/60 inline-block mt-2 shrink-0" />
+                            <SplitText
+                              text={item}
+                              tag="span"
+                              className=""
+                              delay={10}
+                              duration={0.6}
+                              splitType="words"
+                              textAlign="left"
+                            />
                           </li>
                         ))}
                       </ul>

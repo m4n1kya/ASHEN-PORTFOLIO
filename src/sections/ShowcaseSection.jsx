@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import TiltedCard from "../components/reactbits/TiltedCard";
 import Magnet from "../components/reactbits/Magnet";
 import ShinyText from "../components/reactbits/ShinyText";
+import SplitText from "../components/reactbits/SplitText";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -72,9 +73,14 @@ const AppShowcase = ({ onNavigateToProjects }) => {
             <p className="text-blue-50 font-semibold md:text-lg mt-2">
               <ShinyText text="AI-powered menswear e-commerce platform" className="font-semibold" speed={4} />
             </p>
-            <p className="text-white-50 md:text-xl mt-4 max-w-xl leading-relaxed">
-              Combining modern full-stack architecture with intelligent shopping experiences. Features a Next.js / TypeScript frontend with an integrated VESPER AI assistant for virtual try-ons and sizing.
-            </p>
+            <SplitText
+              text="Combining modern full-stack architecture with intelligent shopping experiences. Features a Next.js / TypeScript frontend with an integrated VESPER AI assistant for virtual try-ons and sizing."
+              className="text-white-50 md:text-xl mt-4 max-w-xl leading-relaxed"
+              delay={15}
+              duration={0.7}
+              splitType="words"
+              textAlign="left"
+            />
             
             <div className="flex flex-wrap gap-2 mt-6">
               <span className="px-3 py-1 bg-black-200 text-sm rounded-full text-white-50 border border-white-50/10">Next.js</span>
@@ -131,7 +137,14 @@ const AppShowcase = ({ onNavigateToProjects }) => {
                   <a href="https://github.com/m4n1kya/Uni-Verse" target="_blank" rel="noreferrer" className="text-sm font-semibold text-blue-50 hover:text-white underline">GitHub</a>
                 </div>
               </div>
-              <p className="text-sm text-white-50 leading-relaxed">Campus Resource Optimization Ecosystem with AI/NLP interface, MERN stack, and AWS/Firebase architecture.</p>
+              <SplitText
+                text="Campus Resource Optimization Ecosystem with AI/NLP interface, MERN stack, and AWS/Firebase architecture."
+                className="text-sm text-white-50 leading-relaxed"
+                delay={10}
+                duration={0.6}
+                splitType="words"
+                textAlign="left"
+              />
             </div>
 
             <div className="project flex flex-col gap-3" ref={project2Ref}>
@@ -155,7 +168,14 @@ const AppShowcase = ({ onNavigateToProjects }) => {
                   <a href="https://github.com/m4n1kya/Beacon" target="_blank" rel="noreferrer" className="text-sm font-semibold text-blue-50 hover:text-white underline">GitHub</a>
                 </div>
               </div>
-              <p className="text-sm text-white-50 leading-relaxed">A sustainable platform designed for environmental tracking and resource optimization.</p>
+              <SplitText
+                text="A sustainable platform designed for environmental tracking and resource optimization."
+                className="text-sm text-white-50 leading-relaxed"
+                delay={10}
+                duration={0.6}
+                splitType="words"
+                textAlign="left"
+              />
             </div>
 
             <div className="project flex flex-col gap-3" ref={project3Ref}>
@@ -178,7 +198,14 @@ const AppShowcase = ({ onNavigateToProjects }) => {
                   <a href="https://github.com/m4n1kya/ASHEN-VECTOR" target="_blank" rel="noreferrer" className="text-sm font-semibold text-blue-50 hover:text-white underline">GitHub</a>
                 </div>
               </div>
-              <p className="text-sm text-white-50 leading-relaxed">An advanced AI-powered vector search interface and autonomous agent integration ecosystem.</p>
+              <SplitText
+                text="An advanced AI-powered vector search interface and autonomous agent integration ecosystem."
+                className="text-sm text-white-50 leading-relaxed"
+                delay={10}
+                duration={0.6}
+                splitType="words"
+                textAlign="left"
+              />
             </div>
         </div>
       </div>

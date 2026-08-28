@@ -2,6 +2,7 @@ import { abilities } from "../constants";
 import SpotlightCard from "../components/reactbits/SpotlightCard";
 import ShinyText from "../components/reactbits/ShinyText";
 import ScrollFloat from "../components/reactbits/ScrollFloat";
+import SplitText from "../components/reactbits/SplitText";
 
 const FeatureCards = () => (
   <div id="about" className="w-full section-padding">
@@ -32,7 +33,14 @@ const FeatureCards = () => (
             <img src={imgPath} alt={title} className="w-8 h-8 object-contain" />
           </div>
           <h3 className="text-white text-2xl font-semibold mt-2">{title}</h3>
-          <p className="text-white-50 text-base leading-relaxed">{desc}</p>
+          <SplitText
+            text={desc}
+            className="text-white-50 text-base leading-relaxed"
+            delay={20}
+            duration={0.8}
+            splitType="words"
+            textAlign="left"
+          />
         </SpotlightCard>
       ))}
     </div>

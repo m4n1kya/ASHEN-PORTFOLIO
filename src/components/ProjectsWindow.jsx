@@ -5,6 +5,7 @@ import remarkGfm from "remark-gfm";
 import Galaxy from "./reactbits/Galaxy";
 import MorphSlider from "./reactbits/MorphSlider";
 import GooeyNav from "./reactbits/GooeyNav";
+import SplitText from "./reactbits/SplitText";
 
 const ashenritualImages = [
   { image: "/projects/ashenritual/Screenshot%202026-08-23%20154953.jpg" },
@@ -159,7 +160,22 @@ const MarkdownComponents = {
   h1: ({node, ...props}) => <h1 className="text-2xl md:text-3xl font-bold mt-0 mb-4 text-white" {...props} />,
   h2: ({node, ...props}) => <h2 className="text-xl md:text-2xl font-bold mt-10 mb-3 text-blue-50 border-b border-white-50/20 pb-2" {...props} />,
   h3: ({node, ...props}) => <h3 className="text-lg md:text-xl font-bold mt-6 mb-2 text-white" {...props} />,
-  p: ({node, ...props}) => <p className="text-white-50 text-sm md:text-base leading-relaxed mb-4" {...props} />,
+  p: ({node, children, ...props}) => {
+    if (typeof children === 'string' || (Array.isArray(children) && children.every(c => typeof c === 'string'))) {
+      return (
+        <SplitText 
+          text={Array.isArray(children) ? children.join('') : children} 
+          className="text-white-50 text-sm md:text-base leading-relaxed mb-4" 
+          delay={5} 
+          duration={0.6} 
+          splitType="words" 
+          textAlign="left" 
+          tag="p" 
+        />
+      );
+    }
+    return <p className="text-white-50 text-sm md:text-base leading-relaxed mb-4" {...props}>{children}</p>;
+  },
   a: ({node, ...props}) => <a className="text-blue-50 hover:text-white underline transition-colors" target="_blank" rel="noreferrer" {...props} />,
   ul: ({node, ...props}) => <ul className="list-disc pl-6 space-y-1.5 mb-4 text-white-50 text-sm md:text-base" {...props} />,
   ol: ({node, ...props}) => <ol className="list-decimal pl-6 space-y-1.5 mb-4 text-white-50 text-sm md:text-base" {...props} />,
@@ -302,7 +318,15 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
                            </a>
                          </div>
                        </div>
-                       <p className="text-base leading-relaxed text-white-50/80 w-full">{project.shortDescription}</p>
+                       <SplitText 
+                          text={project.shortDescription} 
+                          className="text-base leading-relaxed text-white-50/80 w-full"
+                          delay={5} 
+                          duration={0.6} 
+                          splitType="words" 
+                          textAlign="left" 
+                          tag="p" 
+                        />
                     </div>
                   );
                 })}
