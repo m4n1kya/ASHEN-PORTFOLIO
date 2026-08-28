@@ -35,9 +35,9 @@ const IntroScreen = () => {
         <MaskedHeading
           text="MANIKYA"
           mediaType="image"
-          src="/images/bermuda-bg.jpg"
-          fillScale={1.3}
-          parallax={34}
+          src="/images/bermuda-triangle-event.jpg"
+          fillScale={1.4}
+          parallax={120}
           reveal="none"
           trigger="view"
           textScale={0.16}
