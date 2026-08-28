@@ -10,7 +10,6 @@ import Navbar from "./components/NavBar";
 import Loader from "./components/Loader";
 import ParticleCursor from "./components/ParticleCursor";
 import XRayCursor from "./components/XRayCursor";
-import GradualBlur from "./components/reactbits/GradualBlur";
 
 // Lazy Loaded Sections
 const FeatureCards = React.lazy(() => import("./sections/FeatureCards"));
@@ -204,30 +203,6 @@ const App = () => {
           <Contact />
           <Footer />
         </Suspense>
-
-        {/* Global Page Blur for scrolling UI */}
-        <GradualBlur
-          target="page"
-          position="bottom"
-          height="8rem"
-          strength={2}
-          divCount={5}
-          curve="bezier"
-          exponential={true}
-          opacity={1}
-          zIndex={900}
-        />
-        <GradualBlur
-          target="page"
-          position="top"
-          height="4rem"
-          strength={1}
-          divCount={3}
-          curve="bezier"
-          exponential={true}
-          opacity={0.8}
-          zIndex={900}
-        />
       </div>
 
       <Suspense fallback={null}>
