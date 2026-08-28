@@ -119,7 +119,15 @@ const Experience = () => {
                           {card.responsibilities.map(
                             (responsibility, index) => (
                               <li key={index} className="text-lg leading-relaxed">
-                                {responsibility}
+                                <SplitText
+                                  text={responsibility}
+                                  tag="span"
+                                  className=""
+                                  delay={10}
+                                  duration={0.6}
+                                  splitType="words"
+                                  textAlign="left"
+                                />
                               </li>
                             )
                           )}
