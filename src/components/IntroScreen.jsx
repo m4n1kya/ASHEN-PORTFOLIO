@@ -36,14 +36,14 @@ const IntroScreen = () => {
       <div className="absolute inset-0 z-10 flex items-center justify-center">
         <MaskedHeading
           text="MANIKYA"
-          mediaType="video"
-          src="https://assets.mixkit.co/videos/preview/mixkit-ink-swirling-in-water-in-slow-motion-11883-large.mp4"
+          mediaType="image"
+          src="/images/bermuda-bg.jpg"
           fillScale={1.3}
           parallax={34}
           reveal="none"
           trigger="view"
           textScale={0.16}
-          className="font-black uppercase tracking-tighter text-center"
+          className="w-full font-black uppercase tracking-tighter text-center"
           style={{ fontFamily: '"Mona Sans", sans-serif' }}
         />
       </div>
