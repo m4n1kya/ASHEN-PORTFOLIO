@@ -201,7 +201,7 @@ const App = () => {
       {/* Home page is ALWAYS mounted — never destroyed/recreated.
           Hidden with display:none ONLY when viewing gallery AND not transitioning. */}
       <div 
-        className="home-container relative bg-[#0c0c0e] mt-[100vh] z-10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]"
+        className="home-container relative bg-[url('/images/bermuda-bg.jpg')] bg-cover bg-fixed bg-center mt-[100vh] z-10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]"
         style={{ display: (view === 'home' || isTransitioning.current) ? 'block' : 'none' }}
       >
         <HeroParticles />
