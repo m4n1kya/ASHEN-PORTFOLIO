@@ -10,6 +10,7 @@ import Navbar from "./components/NavBar";
 import Loader from "./components/Loader";
 import ParticleCursor from "./components/ParticleCursor";
 import XRayCursor from "./components/XRayCursor";
+import IntroScreen from "./components/IntroScreen";
 
 import FeatureCards from "./sections/FeatureCards";
 import Experience from "./sections/Experience";
@@ -194,10 +195,13 @@ const App = () => {
       <ParticleCursor />
       <XRayCursor isVisible={view === 'home'} />
       
+      {/* Intro Screen - Sits fixed at z-0, behind the scrolling content */}
+      <IntroScreen />
+
       {/* Home page is ALWAYS mounted — never destroyed/recreated.
           Hidden with display:none ONLY when viewing gallery AND not transitioning. */}
       <div 
-        className="home-container relative bg-transparent"
+        className="home-container relative bg-[#0c0c0e] mt-[100vh] z-10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]"
         style={{ display: (view === 'home' || isTransitioning.current) ? 'block' : 'none' }}
       >
         <HeroParticles />
