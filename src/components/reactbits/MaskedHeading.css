@@ -59,6 +59,8 @@
   height: 100%;
   object-fit: cover;
   object-position: center 15%;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
   user-select: none;
   -webkit-user-drag: none;
 }
