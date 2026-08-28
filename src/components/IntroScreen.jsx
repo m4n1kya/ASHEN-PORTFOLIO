@@ -29,8 +29,6 @@ const IntroScreen = () => {
       ref={introRef}
       className="fixed inset-0 w-screen h-screen z-0 overflow-hidden flex items-center justify-center bg-[#0c0c0e]"
     >
-      {/* Fallback gradient if video fails/loads slowly */}
-      <div className="absolute inset-0 w-full h-full z-0 bg-gradient-to-br from-white/40 via-white/20 to-transparent" />
       
       {/* Masked Heading Component from React Bits */}
       <div className="absolute inset-0 z-10 flex items-center justify-center">
