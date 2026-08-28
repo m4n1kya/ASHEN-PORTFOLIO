@@ -57,22 +57,19 @@ const projectsData = [
     shortDescription: "ASHENRITUAL is a production-grade, headless e-commerce platform built to seamlessly merge the tactile experience of luxury fashion with the computational power of artificial intelligence. Engineered entirely on a modern TypeScript micro-architecture, the application delivers a cinematic user interface optimized for high-performance rendering.",
     markdown: `
 # ASHENRITUAL
-*Luxury Fashion • Artificial Intelligence • Modern Web Engineering*
-
-## Core Architecture
-Built upon strict software engineering principles, the system separates the presentation layer from the business logic. This decoupled architecture allows for rigorous security implementations, independent scalability, and the integration of advanced server-side rendering techniques.
+*Full-Stack E-Commerce Platform*
 
 ## Key Features
-- **AI Fashion Concierge**: Integrated directly into the interface, the VESPER AI acts as a personal stylist, reading the user's current navigational context to provide highly tailored recommendations.
-- **Server-Side Rendering**: Leveraging React Server Components and Next.js SSR, the frontend pre-computes HTML on the server edge, guaranteeing instantaneous initial page loads and optimal SEO indexing.
-- **Real-time AI Streaming**: Dialogue and structured data from the AI engine are streamed asynchronously via Server-Sent Events (SSE).
-- **Stateless Authentication**: User sessions are maintained using short-lived JSON Web Tokens (JWT) combined with secure, HTTP-only refresh tokens.
-- **Cinematic Interface**: Fluid scroll mechanics, advanced timelines, and magnetic interactions are engineered via GSAP and Lenis.
+- Architected a scalable full-stack e-commerce platform using Next.js, TypeScript, NestJS, PostgreSQL, and Prisma ORM.
+- Designed 50+ REST API endpoints across 25+ Prisma models with comprehensive input validation and error handling.
+- Secured 20+ routes with JWT authentication, HTTP-only refresh tokens, RBAC, bcrypt, Helmet, and rate limiting.
+- Built VESPER, an AI-powered wardrobe intelligence system using Google Gemini API for personalized outfit recommendations.
+- Implemented responsive UI using Tailwind CSS, Framer Motion, and React Server Components for performance and SEO.
 
 ## Technology Stack
-- **Frontend**: Next.js, React, TypeScript, Tailwind CSS, GSAP
-- **Backend**: NestJS, Prisma ORM, Node.js
-- **Database**: Neon PostgreSQL
+- **Frontend**: Next.js, React, TypeScript, Tailwind CSS, Framer Motion
+- **Backend**: NestJS, Node.js, REST APIs, JWT
+- **Database**: PostgreSQL, Prisma ORM
 - **AI Integration**: Google Gemini API
     `
   },
@@ -84,20 +81,17 @@ Built upon strict software engineering principles, the system separates the pres
     shortDescription: "UniVerse is a modern university resource management platform designed to centralize essential campus services into a single, responsive web application. It simplifies access to important university resources by providing students with a unified platform for academic and campus-related information.",
     markdown: `
 # UNI-VERSE
-*Campus Resource Optimization Ecosystem*
+*Campus Resource Management Platform*
 
-## System Overview
-The application offers an intuitive interface for accessing faculty details, study materials, transportation schedules, food court information, and career resources, drastically reducing the friction of navigating large campus ecosystems.
-
-## Core Features
-- **Centralized Directories**: Comprehensive faculty and food court directories with advanced search and filtering.
-- **Digital Library Ecosystem**: Instant access to E-Books and study materials securely hosted on the cloud.
-- **Transportation Tracking**: Real-time campus transportation information and scheduling.
-- **Responsive Architecture**: Fully responsive user interface optimized for both desktop and mobile viewing.
+## Key Features
+- Led end-to-end development of a MERN-based campus platform with 20+ RESTful APIs for resource booking and user management.
+- Implemented JWT authentication and role-based access control across 3 user roles for secure permission-based access.
+- Built MongoDB aggregation pipelines for analytics dashboards and integrated an AI-powered assistant for campus queries.
 
 ## Technology Stack
-- **Frontend**: React, TypeScript, Tailwind CSS, shadcn/ui
-- **Build Tools**: Vite, npm
+- **Frontend**: React.js, Tailwind CSS
+- **Backend**: Node.js, Express.js, REST APIs, JWT, RBAC
+- **Database**: MongoDB
     `
   },
   {
@@ -110,20 +104,15 @@ The application offers an intuitive interface for accessing faculty details, stu
 # BEACON
 *Building Energy Analytics & Control Optimization Network*
 
-## The Problem & Solution
-Commercial buildings consume a significant portion of global electricity, with HVAC systems accounting for one of the largest energy loads. Traditional EnergyPlus workflows require engineers to manually analyze large simulation outputs and tune HVAC schedules. Beacon automates this entirely.
-
 ## Key Features
-- **AI-Powered Energy Analysis**: Automatic interpretation of EnergyPlus simulation outputs with natural language explanations generated by a local Qwen2.5 LLM.
-- **Intelligent HVAC Optimization**: The AI recommends optimal cooling temperatures and automatically updates EnergyPlus IDF schedules.
-- **Closed-Loop Simulation**: The system seamlessly runs baseline simulations, analyzes performance, optimizes settings, and re-runs the simulation to measure actual savings.
-- **Interactive Dashboard**: A robust Streamlit dashboard featuring KPI cards, energy comparisons, interactive Plotly charts, and optimization history.
-
+- Built an automated energy optimization platform integrating EnergyPlus building simulations with Qwen2.5 through Ollama.
+- Engineered a modular Python pipeline to automate EnergyPlus simulation execution, process building energy data, and generate AI-driven optimization recommendations, achieving a 3.57% reduction in simulated electricity consumption.
+- Created interactive Streamlit dashboards with Plotly visualizations for real-time building energy performance monitoring.
 
 ## Technology Stack
-- **Simulation**: EnergyPlus 26.1, EPW Weather Data, IDF Building Models
-- **AI & Analytics**: Python 3.13, Qwen2.5 1.5B via Ollama, Pandas
-- **Visualization**: Streamlit, Plotly, Matplotlib, ReportLab
+- **Languages & Frameworks**: Python, Streamlit, Pandas, Plotly
+- **Simulation**: EnergyPlus
+- **AI Integration**: Qwen2.5, Ollama
     `
   },
   {

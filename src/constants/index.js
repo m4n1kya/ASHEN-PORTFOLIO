@@ -83,12 +83,9 @@ const abilities = [
 ];
 
 const techStackImgs = [
-  { category: "Languages", skills: ["Java", "Python", "JavaScript", "TypeScript", "C++", "SQL"] },
-  { category: "Frontend", skills: ["React.js", "Next.js", "HTML5", "CSS3", "Tailwind CSS", "Redux", "Framer Motion", "Radix UI"] },
-  { category: "Backend & Databases", skills: ["Node.js", "Express.js", "NestJS", "REST APIs", "JWT", "PostgreSQL", "MySQL", "MongoDB", "Prisma"] },
-  { category: "CS Fundamentals", skills: ["Data Structures & Algorithms", "OOP", "DBMS", "Operating Systems", "Computer Networks"] },
-  { category: "AI / ML", skills: ["Google Gemini API", "Qwen2.5", "Ollama"] },
-  { category: "Cloud & Tools", skills: ["AWS", "Docker", "Kubernetes", "CI/CD", "Git", "GitHub", "Postman", "Swagger/OpenAPI"] },
+  { category: "Concepts", skills: ["Data Structures & Algorithms", "OOP", "DBMS", "Operating Systems", "Computer Networks", "REST APIs", "JWT"] },
+  { category: "Languages & Frameworks", skills: ["Java", "JavaScript", "TypeScript", "SQL", "React.js", "Next.js", "Node.js", "Express.js", "NestJS", "Prisma"] },
+  { category: "Tools, Cloud & AI", skills: ["Git", "GitHub", "Docker", "AWS", "Kubernetes", "CI/CD", "Google Gemini API", "Qwen2.5", "Ollama"] }
 ];
 
 const techStackIcons = [
@@ -136,13 +133,14 @@ const expCards = [
       "Software Architecture",
       "Problem Solving"
     ],
-    company: "MPOnline Limited",
+    company: "MPOnline Limited (Govt. of MP & TCS JV)",
     title: "Advanced Software Engineering & Development Intern",
-    date: "May 2026 - August 2026",
+    date: "May 2026 - August 2026 | Bhopal, India",
     responsibilities: [
-      "Built and maintained scalable full-stack applications.",
-      "Developed robust backend APIs and optimized database queries.",
-      "Collaborated on system design and architectural improvements.",
+      "Built REST APIs and backend components using Java, C++, Python, and SQL in an industry-oriented engineering program.",
+      "Applied SDLC and Agile methodologies across 6 sprints with comprehensive unit and integration testing for live projects.",
+      "Tested 20+ API endpoints using Postman, documented with Swagger, and managed code with Git for version control.",
+      "Collaborated with senior engineers on database design and systematic debugging to deliver reliable software features."
     ],
   },
   {
@@ -157,11 +155,12 @@ const expCards = [
     ],
     company: "Ethnus",
     title: "MERN Stack Intern",
-    date: "2024",
+    date: "July 2024 - October 2024 | Remote",
     responsibilities: [
-      "Designed and implemented RESTful APIs using Node.js and Express.",
-      "Built dynamic frontend interfaces with React.",
-      "Managed application state and integrated MongoDB databases.",
+      "Developed 4 full-stack application modules using MongoDB, Express.js, React.js, and Node.js with modular component architecture.",
+      "Built 15+ RESTful APIs with JWT-based authentication and secure CRUD operations for core application features.",
+      "Created 10+ responsive React interfaces using Redux for state management and Tailwind CSS for consistent styling.",
+      "Optimized MongoDB queries with strategic indexing and aggregation pipelines, reducing API response latency by 40%."
     ],
   }
 ];
