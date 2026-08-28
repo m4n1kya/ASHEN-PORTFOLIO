@@ -98,8 +98,6 @@ const Loader = ({ hasLoadedOnce }) => {
     // If hasLoadedOnce is true, we don't want to run the WebGL loader logic
     if (hasLoadedOnce) return;
 
-    document.body.style.overflow = 'hidden';
-
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -207,7 +205,6 @@ const Loader = ({ hasLoadedOnce }) => {
       delay: 1.4, // Slightly reduced delay to speed things up
       onComplete: () => {
         cancelAnimationFrame(animationFrameId);
-        document.body.style.overflow = 'auto';
         window.removeEventListener('resize', resize);
         
         // Hide the container to stop rendering and remove it from view
@@ -243,8 +240,6 @@ const Loader = ({ hasLoadedOnce }) => {
   if (hasLoadedOnce) {
     const blocker = document.getElementById('pre-loader-blocker');
     if (blocker) blocker.remove();
-    // CRITICAL: Unlock the body scroll if we bypass the loader!
-    document.body.style.overflow = 'auto';
     return null;
   }
 
