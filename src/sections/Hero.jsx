@@ -6,11 +6,12 @@ import AnimatedCounter from "../components/AnimatedCounter";
 import Button from "../components/Button";
 import { words } from "../constants";
 import HeroImageParticles from "../components/HeroImageParticles";
-import ShinyText from "../components/reactbits/ShinyText";
+import VariableProximity from "../components/reactbits/VariableProximity";
 
 const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
   const lanternContainerRef = useRef(null);
   const lanternImgRef = useRef(null);
+  const containerRef = useRef(null);
   const [isLanternHovered, setIsLanternHovered] = useState(false);
 
   useGSAP(() => {
@@ -93,9 +94,17 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
               </h1>
             </div>
 
-            <p className="text-white-50 md:text-xl relative z-10 pointer-events-none mt-2 font-medium max-w-2xl leading-relaxed">
-              Turning <ShinyText text="impossible ideas" className="text-white font-semibold" speed={3.5} /> into engineered <ShinyText text="realities" className="text-white font-semibold" speed={3.5} />.
-            </p>
+            <div ref={containerRef} className="text-white-50 md:text-xl relative z-10 mt-2 font-medium max-w-2xl leading-relaxed cursor-default pointer-events-auto">
+              <VariableProximity
+                label="Turning impossible ideas into engineered realities."
+                className="text-white"
+                fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                toFontVariationSettings="'wght' 1000, 'opsz' 40"
+                containerRef={containerRef}
+                radius={120}
+                falloff='linear'
+              />
+            </div>
 
             <div className="flex flex-col sm:flex-row gap-4 relative z-10 mt-6 pointer-events-auto">
               <Button
