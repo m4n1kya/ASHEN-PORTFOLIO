@@ -51,6 +51,7 @@
   inset: 0;
   display: block;
   will-change: transform, filter;
+  transform-origin: top center;
 }
 
 .masked-heading__source {
@@ -59,6 +60,7 @@
   height: 100%;
   object-fit: cover;
   object-position: top;
+  margin-top: 25vh;
   user-select: none;
   -webkit-user-drag: none;
 }
