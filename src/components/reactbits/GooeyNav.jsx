@@ -40,9 +40,8 @@ const GooeyNav = ({
                     layoutId="activeTabIndicator"
                     className="absolute inset-0 rounded-full"
                     style={{
-                      background: 'rgba(255, 255, 255, 0.05)',
+                      background: 'rgba(255, 255, 255, 0.15)',
                       border: '1px solid rgba(255, 255, 255, 0.2)',
-                      backdropFilter: 'blur(10px)',
                       zIndex: -1
                     }}
                     transition={{
