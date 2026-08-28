@@ -48,11 +48,6 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
 
   const handleLanternClick = () => {
     if (!lanternContainerRef.current) return;
-    
-    // Stop the CSS float animation so GSAP can take over smoothly
-    if (lanternImgRef.current) {
-      lanternImgRef.current.classList.remove("animate-floatHover");
-    }
 
     // Trigger navigation transition
     if (onNavigateToGallery) {
