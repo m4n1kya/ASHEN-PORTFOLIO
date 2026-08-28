@@ -15,10 +15,11 @@ const SplitText = ({
   splitType = 'chars',
   from = { opacity: 0, y: 40 },
   to = { opacity: 1, y: 0 },
-  threshold = 0.1,
-  rootMargin = '-100px',
+  threshold = 0,
+  rootMargin = '0px',
   textAlign = 'center',
   tag = 'p',
+  scroller,
   onLetterAnimationComplete
 }) => {
   const ref = useRef(null);
@@ -97,6 +98,7 @@ const SplitText = ({
               stagger: delay / 1000,
               scrollTrigger: {
                 trigger: el,
+                scroller: scroller || undefined,
                 start,
                 toggleActions: 'play reverse play reverse',
                 fastScrollEnd: true,
