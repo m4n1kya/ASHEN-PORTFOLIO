@@ -40,7 +40,7 @@ const IntroScreen = () => {
           parallax={120}
           reveal="none"
           trigger="view"
-          textScale={0.28}
+          textScale={0.20}
           className="w-full font-black uppercase tracking-tighter text-center"
           style={{ fontFamily: '"Syne", sans-serif' }}
         />
