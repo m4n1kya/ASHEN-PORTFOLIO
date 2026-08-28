@@ -38,9 +38,18 @@ const App = () => {
   // so that they are instantly available from cache when the user opens the Gallery.
   useEffect(() => {
     const preloadGalleryImages = () => {
-      for (let i = 1; i <= 34; i++) {
+      // Eagerly preload first 8 images visible in the viewport
+      for (let i = 1; i <= 8; i++) {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = `/images/gallery/screen-${i}.webp`;
+        document.head.appendChild(link);
+      }
+      // Lazily preload the rest via Image() so they cache without blocking
+      for (let i = 9; i <= 34; i++) {
         const img = new Image();
-        img.src = `/images/gallery/screen-${i}.png`;
+        img.src = `/images/gallery/screen-${i}.webp`;
       }
     };
     // Wait a couple of seconds so we don't impact initial page load, then fetch

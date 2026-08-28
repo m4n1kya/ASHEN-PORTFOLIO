@@ -97,7 +97,13 @@ const ReelGallery = ({
                   key={`${r}-${i}`} 
                   className="reel-gallery__tile"
                 >
-                  <img src={item.image} alt={item.title} loading="eager" fetchpriority="high" decoding="sync" />
+                  <img 
+                    src={item.image} 
+                    alt={item.title} 
+                    loading={r === 0 ? "eager" : "lazy"}
+                    fetchpriority={r === 0 ? "high" : "low"}
+                    decoding="async"
+                  />
                   <div className="reel-gallery__tile-overlay" />
                 </div>
               ))}
