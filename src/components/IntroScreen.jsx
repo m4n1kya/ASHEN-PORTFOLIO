@@ -36,7 +36,7 @@ const IntroScreen = () => {
           text="MANIKYA"
           mediaType="image"
           src="/images/bermuda-triangle-event.jpg"
-          fillScale={1.4}
+          fillScale={1.8}
           parallax={120}
           reveal="none"
           trigger="view"
