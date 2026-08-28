@@ -60,10 +60,10 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
       <div className="relative z-10 w-full min-h-[80vh] md:min-h-screen flex flex-col lg:flex-row items-center justify-between px-5 md:px-20 pt-32 lg:pt-20 pb-20 lg:pb-32 gap-10 lg:gap-0">
         
         {/* LEFT: Hero Content */}
-        <header className="flex flex-col justify-center lg:w-1/2 w-full">
+        <header className="flex flex-col justify-center lg:w-[60%] w-full">
           <div className="flex flex-col gap-6">
             <div className="hero-text">
-              <h1 className="text-white text-[8vw] md:text-5xl lg:text-6xl font-bold tracking-tight leading-none mb-2 md:mb-4">
+              <h1 className="text-white text-[15vw] md:text-[80px] lg:text-[140px] font-black tracking-tighter leading-[0.85] mb-4 md:mb-6 uppercase">
                 <FoldText
                   text="Manikya"
                   splitBy="char"
@@ -81,21 +81,21 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
                 />
               </h1>
               
-              <h1 className="text-blue-50 text-[4vw] md:text-[24px] lg:text-[30px] font-semibold mb-6 tracking-wide mt-2 md:mt-4 flex items-center whitespace-nowrap leading-none">
+              <h1 className="text-white-50 text-[5vw] md:text-[36px] lg:text-[48px] font-bold mb-8 tracking-tight mt-2 flex items-center whitespace-nowrap leading-none uppercase">
                 SOFTWARE&nbsp;
-                <span className="slide text-white h-[6vw] md:h-[32px] lg:h-[40px]">
+                <span className="slide text-white h-[7vw] md:h-[48px] lg:h-[60px]">
                   <span className="wrapper">
                     {words.map((word, index) => (
                       <span
                         key={index}
-                        className="flex items-center md:gap-3 gap-2 h-[6vw] md:h-[32px] lg:h-[40px]"
+                        className="flex items-center md:gap-4 gap-2 h-[7vw] md:h-[48px] lg:h-[60px]"
                       >
                         <img
                           src={word.imgPath}
                           alt="icon"
-                          className="w-4 h-4 md:w-6 md:h-6 p-1 rounded-full bg-white-50"
+                          className="w-5 h-5 md:w-8 md:h-8 p-1 rounded-full bg-white-50"
                         />
-                        <span className="text-[4vw] md:text-[24px] lg:text-[30px] leading-none">{word.text}</span>
+                        <span className="text-[5vw] md:text-[36px] lg:text-[48px] leading-none">{word.text}</span>
                       </span>
                     ))}
                   </span>
@@ -103,8 +103,8 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
               </h1>
             </div>
 
-            <p className="text-white-50 md:text-xl relative z-10 pointer-events-none mt-2 font-medium max-w-2xl leading-relaxed">
-              Turning <ShinyText text="impossible ideas" className="text-white font-semibold" speed={3.5} /> into engineered <ShinyText text="realities" className="text-white font-semibold" speed={3.5} />.
+            <p className="text-white-50 md:text-2xl relative z-10 pointer-events-none mt-4 font-medium max-w-2xl leading-relaxed">
+              Turning <ShinyText text="impossible ideas" className="text-white font-bold" speed={3.5} /> into engineered <ShinyText text="realities" className="text-white font-bold" speed={3.5} />.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 relative z-10 mt-6 pointer-events-auto">

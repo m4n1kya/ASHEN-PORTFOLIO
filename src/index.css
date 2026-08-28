@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400..800&family=Inter:wght@300..900&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -8,8 +8,11 @@
 html,
 body {
   margin: 0;
+  padding: 0;
   width: 100dvw;
   overflow-x: hidden;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   background-color: #0c0c0e;
   -webkit-tap-highlight-color: transparent;
   background-image: linear-gradient(rgba(12, 12, 14, 0.88), rgba(12, 12, 14, 0.88)), url('/images/bermuda-bg-1.jpg');
@@ -17,11 +20,17 @@ body {
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  color: white;
+  color: #ffffff;
   scroll-behavior: smooth;
-  font-family: "Mona Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   font-size: 14px; /* Globally scale down all rem-based Tailwind sizes */
   cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 3 L18 8 L9 12 Z' fill='white' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 4 3, auto;
+}
+
+h1, h2, h3, h4, h5, h6, .heading-font {
+  font-family: "Syne", sans-serif;
+  letter-spacing: -0.02em;
 }
 
 /* Custom hover cursor for links and buttons */

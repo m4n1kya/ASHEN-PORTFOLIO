@@ -6,18 +6,28 @@ import SplitText from "../components/reactbits/SplitText";
 
 const FeatureCards = () => (
   <div id="about" className="w-full section-padding">
-    <div className="w-full text-center mb-12">
+    <div className="w-full text-center mb-16 md:mb-24">
       <ScrollFloat
         animationDuration={1}
         ease='back.inOut(2)'
         scrollStart='top bottom'
         scrollEnd='bottom center'
         stagger={0.02}
-        containerClassName="text-white text-3xl md:text-5xl font-bold w-full uppercase tracking-widest"
+        containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black w-full uppercase tracking-tighter leading-none"
       >
-        Professional Summary
+        PROFESSIONAL
       </ScrollFloat>
-      <p className="text-white-50 mt-6 md:text-xl max-w-5xl mx-auto leading-relaxed font-medium">
+      <ScrollFloat
+        animationDuration={1.2}
+        ease='back.inOut(2)'
+        scrollStart='top bottom'
+        scrollEnd='bottom center'
+        stagger={0.02}
+        containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black w-full uppercase tracking-tighter leading-none text-white/40"
+      >
+        SUMMARY
+      </ScrollFloat>
+      <p className="text-white-50 mt-10 md:text-2xl max-w-4xl mx-auto leading-relaxed font-medium">
         Computer Science undergraduate (B.Tech in CSE @ VIT Bhopal, <ShinyText text="CGPA 9.21" className="text-white font-bold" speed={3} />) with hands-on experience developing full-stack and AI-based applications. Familiar with modern web engineering, <ShinyText text="REST APIs" className="text-white font-bold" speed={3} />, and authentication architectures. Strong foundation in Data Structures & Algorithms, OOP, DBMS, Operating Systems, and Computer Networks.
       </p>
     </div>

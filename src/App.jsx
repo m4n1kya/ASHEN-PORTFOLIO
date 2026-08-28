@@ -12,6 +12,7 @@ import XRayCursor from "./components/XRayCursor";
 import IntroScreen from "./components/IntroScreen";
 
 import FeatureCards from "./sections/FeatureCards";
+import ScrollExpand from "./components/reactbits/ScrollExpand";
 import Experience from "./sections/Experience";
 import ShowcaseSection from "./sections/ShowcaseSection";
 import LogoShowcase from "./sections/LogoShowcase";
@@ -207,7 +208,23 @@ const App = () => {
         <Loader hasLoadedOnce={hasLoadedOnce} />
         
         <Hero onNavigateToGallery={navigateToGallery} hasLoadedOnce={hasLoadedOnce} />
-        <FeatureCards />
+        
+        <div className="w-full relative z-20 bg-black-100">
+          <ScrollExpand
+            src="/images/bermuda-bg.jpg"
+            title="PROFESSIONAL"
+            scrollHint="Scroll to Reveal"
+            useWindowScroll={true}
+            mediaZoom={1.5}
+            overlayScrim={0.8}
+            scrollDistance={1.5}
+            holdDistance={0.5}
+          >
+            <div className="w-full h-full overflow-y-auto overflow-x-hidden flex items-center justify-center pt-20">
+              <FeatureCards />
+            </div>
+          </ScrollExpand>
+        </div>
         <Experience />
         <ShowcaseSection onNavigateToProjects={navigateToProjects} />
         <LogoShowcase />
