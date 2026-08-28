@@ -101,8 +101,8 @@ const XRayCursor = ({ isVisible = true }) => {
       const finalScaleX = baseScaleX * windowScale;
       const finalScaleY = baseScaleY * windowScale;
 
-      // Reduced size slightly as requested
-      const size = isHovering ? 90 : 50;
+      // Increased size as requested
+      const size = isHovering ? 140 : 80;
       
       // Cursor perfectly instantly centers on mouseX/mouseY
       cursor.style.transform = `translate3d(${mouseX - size / 2}px, ${mouseY - size / 2}px, 0) rotate(${angle}rad) scale(${finalScaleX}, ${finalScaleY})`;
@@ -135,8 +135,8 @@ const XRayCursor = ({ isVisible = true }) => {
           position: "fixed",
           top: 0,
           left: 0,
-          width: "50px",
-          height: "50px",
+          width: "80px",
+          height: "80px",
           backgroundColor: "white",
           mixBlendMode: "difference",
           pointerEvents: "none",
