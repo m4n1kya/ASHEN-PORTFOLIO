@@ -19,6 +19,55 @@ import TechStack from "./sections/TechStack";
 import Contact from "./sections/Contact";
 import Footer from "./sections/Footer";
 
+// XRay blob that expands to fullscreen between TechStack and Contact
+const BlobExpand = () => {
+  const ref = useRef(null);
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        trigger: '#contact',
+        start: 'top 65%',
+        once: true,
+        onEnter: () => {
+          gsap.timeline()
+            .to(ref.current, {
+              scale: 70,
+              duration: 0.9,
+              ease: 'power3.in',
+              willChange: 'transform',
+            })
+            .to(ref.current, {
+              opacity: 0,
+              duration: 0.35,
+              ease: 'power2.out',
+            })
+            .set(ref.current, { display: 'none' });
+        },
+      });
+    });
+    return () => ctx.revert();
+  }, []);
+  return (
+    <div
+      ref={ref}
+      style={{
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%) scale(0)',
+        width: 80,
+        height: 80,
+        borderRadius: '50%',
+        background: 'white',
+        mixBlendMode: 'difference',
+        pointerEvents: 'none',
+        zIndex: 99998,
+        willChange: 'transform',
+      }}
+    />
+  );
+};
+
 // Lazy Loaded Windows (Only loaded when opened by user)
 const ProjectsWindow = React.lazy(() => import("./components/ProjectsWindow"));
 const Gallery = React.lazy(() => import("./components/Gallery"));
@@ -218,6 +267,7 @@ const App = () => {
         <ShowcaseSection onNavigateToProjects={navigateToProjects} />
         <LogoShowcase />
         <TechStack />
+        <BlobExpand />
         <Contact />
         <Footer />
       </div>

@@ -6,8 +6,58 @@ import TiltedCard from "../components/reactbits/TiltedCard";
 import Magnet from "../components/reactbits/Magnet";
 import ShinyText from "../components/reactbits/ShinyText";
 import SplitText from "../components/reactbits/SplitText";
+import CurtainReveal from "../components/CurtainReveal";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// ── Big diagonal title (Awwwards style) ──────────────────────────────────────
+const ProjectsTitle = () => {
+  const lineRef = useRef(null);
+  const subRef = useRef(null);
+
+  useGSAP(() => {
+    gsap.fromTo(
+      lineRef.current,
+      { y: 80, opacity: 0, skewY: 3 },
+      {
+        y: 0,
+        opacity: 1,
+        skewY: 0,
+        duration: 1,
+        ease: "power4.out",
+        scrollTrigger: { trigger: lineRef.current, start: "top 85%", once: true },
+      }
+    );
+    gsap.fromTo(
+      subRef.current,
+      { y: 30, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: "power3.out",
+        delay: 0.15,
+        scrollTrigger: { trigger: subRef.current, start: "top 90%", once: true },
+      }
+    );
+  }, []);
+
+  return (
+    <div className="mb-16 overflow-hidden">
+      <p ref={subRef} className="text-blue-50 text-sm md:text-base font-bold uppercase tracking-[0.2em] mb-4">
+        Selected Work
+      </p>
+      <h2
+        ref={lineRef}
+        className="text-white text-[12vw] md:text-[8vw] lg:text-[6vw] font-black uppercase leading-none tracking-tighter"
+      >
+        Projects
+      </h2>
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 const AppShowcase = ({ onNavigateToProjects }) => {
   const sectionRef = useRef(null);
@@ -17,118 +67,132 @@ const AppShowcase = ({ onNavigateToProjects }) => {
   const project3Ref = useRef(null);
 
   useGSAP(() => {
-    // Animation for the main section
+    // Featured project: slides in from bottom-right
     gsap.fromTo(
-      sectionRef.current,
-      { opacity: 0 },
-      { opacity: 1, duration: 1.5 }
+      featuredRef.current,
+      { y: 60, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1.1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: featuredRef.current,
+          start: "top 85%",
+          once: true,
+        },
+      }
     );
 
-    // Animations for each app showcase
-    const cards = [featuredRef.current, project1Ref.current, project3Ref.current, project2Ref.current];
-
-    cards.forEach((card, index) => {
-      gsap.fromTo(
-        card,
-        {
-          y: 50,
-          opacity: 0,
+    // Secondary projects: stagger up from below
+    const cards = [project1Ref.current, project2Ref.current, project3Ref.current];
+    gsap.fromTo(
+      cards,
+      { y: 80, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        ease: "power3.out",
+        stagger: 0.15,
+        scrollTrigger: {
+          trigger: cards[0],
+          start: "top 85%",
+          once: true,
         },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          delay: 0.2 * (index + 1),
-          scrollTrigger: {
-            trigger: card,
-            start: "top bottom-=100",
-          },
-        }
-      );
-    });
+      }
+    );
   }, []);
 
   return (
-    <div id="projects" ref={sectionRef} className="app-showcase">
-      <div className="w-full">
-        {/* ASHENRITUAL Full Width Featured (Top) */}
-        <div ref={featuredRef} className="flex flex-col xl:flex-row gap-10 group transition-all duration-500">
-          <div className="xl:w-[55%] w-full">
-            <TiltedCard maxTilt={10} scale={1} className="border border-white/10 shadow-2xl bg-black-100">
-              <img 
-                src="/images/ashenritual.png" 
-                alt="ASHENRITUAL" 
-                className="object-cover w-full h-full rounded-xl cursor-pointer hover:opacity-90 transition-opacity" 
-                onClick={() => onNavigateToProjects && onNavigateToProjects('ashenritual')}
+    <CurtainReveal type="bars" triggerStart="top 90%">
+      <div id="projects" ref={sectionRef} className="app-showcase">
+        <div className="w-full">
+          <ProjectsTitle />
+
+          {/* ── ASHENRITUAL Featured ── */}
+          <div
+            ref={featuredRef}
+            className="flex flex-col xl:flex-row gap-10 group transition-all duration-500"
+          >
+            <div className="xl:w-[55%] w-full">
+              <TiltedCard maxTilt={10} scale={1} className="border border-white/10 shadow-2xl bg-black-100">
+                <img
+                  src="/images/ashenritual.png"
+                  alt="ASHENRITUAL"
+                  className="object-cover w-full h-full rounded-xl cursor-pointer hover:opacity-90 transition-opacity"
+                  onClick={() => onNavigateToProjects && onNavigateToProjects("ashenritual")}
+                />
+              </TiltedCard>
+            </div>
+            <div className="xl:w-[45%] w-full flex flex-col justify-center">
+              <h2
+                className="text-white text-3xl md:text-5xl font-bold leading-tight cursor-pointer hover:text-white-50 transition-colors"
+                onClick={() => onNavigateToProjects && onNavigateToProjects("ashenritual")}
+              >
+                ASHENRITUAL
+              </h2>
+              <p className="text-blue-50 font-semibold md:text-lg mt-2">
+                <ShinyText text="AI-powered menswear e-commerce platform" className="font-semibold" speed={4} />
+              </p>
+              <SplitText
+                text="Combining modern full-stack architecture with intelligent shopping experiences. Features a Next.js / TypeScript frontend with an integrated VESPER AI assistant for virtual try-ons and sizing."
+                className="text-white-50 md:text-xl mt-4 max-w-xl leading-relaxed"
+                delay={15}
+                duration={0.7}
+                splitType="words"
+                textAlign="left"
               />
-            </TiltedCard>
-          </div>
-          <div className="xl:w-[45%] w-full flex flex-col justify-center">
-            <h2 
-              className="text-white text-3xl md:text-5xl font-bold leading-tight cursor-pointer hover:text-white-50 transition-colors"
-              onClick={() => onNavigateToProjects && onNavigateToProjects('ashenritual')}
-            >
-              ASHENRITUAL
-            </h2>
-            <p className="text-blue-50 font-semibold md:text-lg mt-2">
-              <ShinyText text="AI-powered menswear e-commerce platform" className="font-semibold" speed={4} />
-            </p>
-            <SplitText
-              text="Combining modern full-stack architecture with intelligent shopping experiences. Features a Next.js / TypeScript frontend with an integrated VESPER AI assistant for virtual try-ons and sizing."
-              className="text-white-50 md:text-xl mt-4 max-w-xl leading-relaxed"
-              delay={15}
-              duration={0.7}
-              splitType="words"
-              textAlign="left"
-            />
-            
-            <div className="flex flex-wrap gap-2 mt-6">
-              <span className="px-3 py-1 bg-black-200 text-sm rounded-full text-white-50 border border-white-50/10">Next.js</span>
-              <span className="px-3 py-1 bg-black-200 text-sm rounded-full text-white-50 border border-white-50/10">TypeScript</span>
-              <span className="px-3 py-1 bg-black-200 text-sm rounded-full text-white-50 border border-white-50/10">Tailwind CSS</span>
-              <span className="px-3 py-1 bg-black-200 text-sm rounded-full text-white-50 border border-white-50/10">AI Integration</span>
-            </div>
-
-            <div className="flex gap-4 mt-8">
-              <Magnet padding={25} magnetStrength={3}>
-                <a 
-                  href="https://github.com/m4n1kya/ASHENRITUAL" 
-                  target="_blank" 
-                  rel="noreferrer" 
-                  className="inline-block px-6 py-3 rounded-lg bg-white text-black font-semibold hover:bg-white-50 transition-colors"
-                >
-                  GitHub
-                </a>
-              </Magnet>
-              <Magnet padding={25} magnetStrength={3}>
-                <a 
-                  href="https://ashenritual-e2ql.vercel.app/" 
-                  target="_blank" 
-                  rel="noreferrer" 
-                  className="inline-block px-6 py-3 rounded-lg border border-white-50 text-white hover:bg-white-50 hover:text-black transition-colors font-semibold"
-                >
-                  Live Demo
-                </a>
-              </Magnet>
+              <div className="flex flex-wrap gap-2 mt-6">
+                {["Next.js", "TypeScript", "Tailwind CSS", "AI Integration"].map((t) => (
+                  <span
+                    key={t}
+                    className="px-3 py-1 bg-black-200 text-sm rounded-full text-white-50 border border-white-50/10"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+              <div className="flex gap-4 mt-8">
+                <Magnet padding={25} magnetStrength={3}>
+                  <a
+                    href="https://github.com/m4n1kya/ASHENRITUAL"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block px-6 py-3 rounded-lg bg-white text-black font-semibold hover:bg-white-50 transition-colors"
+                  >
+                    GitHub
+                  </a>
+                </Magnet>
+                <Magnet padding={25} magnetStrength={3}>
+                  <a
+                    href="https://ashenritual-e2ql.vercel.app/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block px-6 py-3 rounded-lg border border-white-50 text-white hover:bg-white-50 hover:text-black transition-colors font-semibold"
+                  >
+                    Live Demo
+                  </a>
+                </Magnet>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Secondary Projects Grid */}
-        <div className="mt-10 xl:mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          {/* ── Secondary Projects Grid ── */}
+          <div className="mt-10 xl:mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             <div className="project flex flex-col gap-3" ref={project1Ref}>
               <TiltedCard maxTilt={12} scale={1.03} className="border border-white/10 shadow-xl bg-black-100">
                 <img
                   src="/images/uniease.png"
                   alt="UNI-VERSE"
                   className="object-contain w-full h-auto block rounded-xl cursor-pointer hover:opacity-90 transition-opacity"
-                  onClick={() => onNavigateToProjects && onNavigateToProjects('uni-verse')}
+                  onClick={() => onNavigateToProjects && onNavigateToProjects("uni-verse")}
                 />
               </TiltedCard>
               <div className="flex justify-between items-center mt-2">
-                <h2 
+                <h2
                   className="text-xl font-bold m-0 cursor-pointer hover:text-white-50 transition-colors"
-                  onClick={() => onNavigateToProjects && onNavigateToProjects('uni-verse')}
+                  onClick={() => onNavigateToProjects && onNavigateToProjects("uni-verse")}
                 >
                   UNI-VERSE
                 </h2>
@@ -149,17 +213,17 @@ const AppShowcase = ({ onNavigateToProjects }) => {
 
             <div className="project flex flex-col gap-3" ref={project2Ref}>
               <TiltedCard maxTilt={12} scale={1.03} className="border border-white/10 shadow-xl bg-black-100">
-                <img 
-                  src="/images/ecoloop.png" 
-                  alt="BEACON" 
-                  className="object-contain w-full h-auto block rounded-xl cursor-pointer hover:opacity-90 transition-opacity" 
-                  onClick={() => onNavigateToProjects && onNavigateToProjects('beacon')}
+                <img
+                  src="/images/ecoloop.png"
+                  alt="BEACON"
+                  className="object-contain w-full h-auto block rounded-xl cursor-pointer hover:opacity-90 transition-opacity"
+                  onClick={() => onNavigateToProjects && onNavigateToProjects("beacon")}
                 />
               </TiltedCard>
               <div className="flex justify-between items-center mt-2">
-                <h2 
+                <h2
                   className="text-xl font-bold m-0 cursor-pointer hover:text-white-50 transition-colors"
-                  onClick={() => onNavigateToProjects && onNavigateToProjects('beacon')}
+                  onClick={() => onNavigateToProjects && onNavigateToProjects("beacon")}
                 >
                   BEACON
                 </h2>
@@ -180,17 +244,17 @@ const AppShowcase = ({ onNavigateToProjects }) => {
 
             <div className="project flex flex-col gap-3" ref={project3Ref}>
               <TiltedCard maxTilt={12} scale={1.03} className="border border-white/10 shadow-xl bg-black-100">
-                <img 
-                  src="/images/ashen-vector.png" 
-                  alt="ASHEN-VECTOR" 
-                  className="object-contain w-full h-auto block rounded-xl cursor-pointer hover:opacity-90 transition-opacity" 
-                  onClick={() => onNavigateToProjects && onNavigateToProjects('ashen-vector')}
+                <img
+                  src="/images/ashen-vector.png"
+                  alt="ASHEN-VECTOR"
+                  className="object-contain w-full h-auto block rounded-xl cursor-pointer hover:opacity-90 transition-opacity"
+                  onClick={() => onNavigateToProjects && onNavigateToProjects("ashen-vector")}
                 />
               </TiltedCard>
               <div className="flex justify-between items-center mt-2">
-                <h2 
+                <h2
                   className="text-xl font-bold m-0 cursor-pointer hover:text-white-50 transition-colors"
-                  onClick={() => onNavigateToProjects && onNavigateToProjects('ashen-vector')}
+                  onClick={() => onNavigateToProjects && onNavigateToProjects("ashen-vector")}
                 >
                   ASHEN-VECTOR
                 </h2>
@@ -207,9 +271,10 @@ const AppShowcase = ({ onNavigateToProjects }) => {
                 textAlign="left"
               />
             </div>
+          </div>
         </div>
       </div>
-    </div>
+    </CurtainReveal>
   );
 };
 
