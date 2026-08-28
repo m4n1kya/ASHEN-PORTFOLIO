@@ -6,7 +6,7 @@ import SplitText from "../components/reactbits/SplitText";
 
 const FeatureCards = () => (
   <div id="about" className="w-full section-padding">
-    <div className="w-full text-center mb-16 md:mb-24">
+    <div className="w-full text-left mb-16 md:mb-24">
       <ScrollFloat
         animationDuration={1}
         ease='back.inOut(2)'
@@ -27,7 +27,7 @@ const FeatureCards = () => (
       >
         SUMMARY
       </ScrollFloat>
-      <p className="text-white-50 mt-10 md:text-2xl max-w-4xl mx-auto leading-relaxed font-medium">
+      <p className="text-white-50 mt-10 md:text-2xl max-w-4xl leading-relaxed font-medium text-left">
         Computer Science undergraduate (B.Tech in CSE @ VIT Bhopal, <ShinyText text="CGPA 9.21" className="text-white font-bold" speed={3} />) with hands-on experience developing full-stack and AI-based applications. Familiar with modern web engineering, <ShinyText text="REST APIs" className="text-white font-bold" speed={3} />, and authentication architectures. Strong foundation in Data Structures & Algorithms, OOP, DBMS, Operating Systems, and Computer Networks.
       </p>
     </div>
