@@ -97,17 +97,21 @@ const FloatingTab = ({ tab, index, side }) => {
        scale: 1, opacity: 1, duration: 0.6, delay: (index % 3) * 0.1, ease: "back.out(1.5)"
      });
 
-     // Smooth continuous floating like the lantern
-     gsap.to(tabRef.current, {
-       y: -35,
-       scale: 1.05,
-       rotation: index % 2 === 0 ? 2 : -2,
-       duration: 2.5,
-       ease: "sine.inOut",
-       yoyo: true,
-       repeat: -1,
-       delay: (index % 3) * 0.5 + 0.6
-     });
+     // Large, independent random floating animation
+     const floatTween = () => {
+       if (!tabRef.current) return;
+       gsap.to(tabRef.current, {
+         x: gsap.utils.random(-30, 30),
+         y: gsap.utils.random(-30, 30),
+         rotation: gsap.utils.random(-3, 3),
+         scale: gsap.utils.random(0.98, 1.05),
+         duration: gsap.utils.random(3, 5),
+         ease: "sine.inOut",
+         onComplete: floatTween
+       });
+     };
+     
+     setTimeout(floatTween, 600 + ((index % 3) * 200));
    }, []);
 
    return (
