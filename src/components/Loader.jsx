@@ -48,7 +48,7 @@ const CSSMaskedNumber = ({ number, src, parallax = 120 }) => {
       className="font-black uppercase tabular-nums"
       style={{ 
         fontFamily: '"Roboto", sans-serif',
-        fontSize: 'clamp(80px, 15vw, 250px)',
+        fontSize: 'clamp(60px, 10vw, 150px)',
         lineHeight: '0.85',
         backgroundColor: '#ffffff',
         backgroundImage: `url(${src})`,
