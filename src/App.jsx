@@ -331,7 +331,7 @@ const App = () => {
       <XRayCursor isVisible={view === 'home'} />
 
       {/* ── Fixed UI Elements ── */}
-      <div style={{ opacity: (view !== 'home' || showNav) ? 1 : 0, transition: 'opacity 1s ease', pointerEvents: (view !== 'home' || showNav) ? 'auto' : 'none', zIndex: 9999, position: 'relative' }}>
+      <div style={{ opacity: ((view !== 'home' || showNav) && view !== 'gallery') ? 1 : 0, transition: 'opacity 1s ease', pointerEvents: ((view !== 'home' || showNav) && view !== 'gallery') ? 'auto' : 'none', zIndex: 9999, position: 'relative' }}>
         {/* Top Left Menu */}
         <StaggeredMenu
           position="left"

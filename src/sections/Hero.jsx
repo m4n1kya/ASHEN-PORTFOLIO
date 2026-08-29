@@ -199,7 +199,10 @@ const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, 
   }, [hasLoadedOnce]);
 
   const handleLanternClick = () => {
-    if (!isCentered) return;
+    if (!isCentered) {
+      onNavigateToGallery();
+      return;
+    }
     setIsMenuOpen(prev => !prev);
   };
 
@@ -263,19 +266,15 @@ const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, 
                   </span>
                 </h1>
               </div>
-
-              <p className="text-white-50 md:text-lg lg:text-xl relative z-10 pointer-events-none mt-4 font-medium max-w-2xl leading-relaxed">
-                Turning <ShinyText text="impossible ideas" className="text-white font-bold" speed={3.5} /> into engineered <ShinyText text="realities" className="text-white font-bold" speed={3.5} />.
-              </p>
             </div>
           </header>
 
           {/* RIGHT: Visual (Lantern) */}
           <figure className="w-full lg:w-1/2 flex justify-center items-center relative h-[55%] lg:h-full z-50 hero-right-visual">
             <div 
-              className={`relative w-full flex justify-center items-center group transition-all duration-300 ${isCentered ? 'cursor-pointer scale-[1.15] lg:scale-110' : ''}`}
+              className={`relative w-full flex justify-center items-center group transition-all duration-300 cursor-pointer ${isCentered ? 'scale-[1.15] lg:scale-110' : ''}`}
               onClick={handleLanternClick}
-              onMouseEnter={() => isCentered && setIsLanternHovered(true)}
+              onMouseEnter={() => setIsLanternHovered(true)}
               onMouseLeave={() => setIsLanternHovered(false)}
             >
               <HeroImageParticles isHovered={isLanternHovered} />
