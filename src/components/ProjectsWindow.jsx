@@ -186,9 +186,12 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
       </div>
 
       {/* Flying Posters Background */}
-      <div className="absolute inset-0 z-[1] overflow-hidden opacity-100">
+      <div className="absolute inset-0 z-[1] overflow-hidden opacity-100 flex items-center justify-center pointer-events-none">
         <FlyingPosters 
           key={activeTab}
+          planeWidth={900}
+          planeHeight={450}
+          className="pointer-events-auto"
           items={(() => {
             let activeImages = [];
             switch (activeTab) {
