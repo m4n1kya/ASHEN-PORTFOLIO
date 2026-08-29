@@ -109,7 +109,7 @@ const FloatingTab = ({ tab, index, side }) => {
    );
 };
 
-const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, hasLoadedOnce }) => {
+const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, hasLoadedOnce, setShowNav }) => {
   const containerRef = useRef(null);
   const introRef = useRef(null);
   const lanternImgRef = useRef(null);
@@ -139,6 +139,12 @@ const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, 
         scrub: 1,
         pin: true,
         onUpdate: (self) => {
+          if (self.progress > 0.35) {
+            if (setShowNav) setShowNav(true);
+          } else {
+            if (setShowNav) setShowNav(false);
+          }
+
           if (self.progress >= 0.99) {
             setIsCentered(true);
           } else {

@@ -80,6 +80,7 @@ const App = () => {
   const [galleryMounted, setGalleryMounted] = useState(false);
   const [projectsMounted, setProjectsMounted] = useState(false);
   const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
+  const [showNav, setShowNav] = useState(false);
   const overlayRef = useRef(null);
   const curtainRef = useRef(null);
   const isTransitioning = useRef(false);
@@ -329,8 +330,9 @@ const App = () => {
       <ParticleCursor />
       <XRayCursor isVisible={view === 'home'} />
 
-      {/* ── StaggeredMenu Navigation (fixed, top-left) ── */}
-      <div style={{ opacity: hasLoadedOnce ? 1 : 0, transition: 'opacity 1s ease', pointerEvents: hasLoadedOnce ? 'auto' : 'none', zIndex: 9999, position: 'relative' }}>
+      {/* ── Fixed UI Elements ── */}
+      <div style={{ opacity: (view !== 'home' || showNav) ? 1 : 0, transition: 'opacity 1s ease', pointerEvents: (view !== 'home' || showNav) ? 'auto' : 'none', zIndex: 9999, position: 'relative' }}>
+        {/* Top Left Menu */}
         <StaggeredMenu
           position="left"
           isFixed={true}
@@ -355,6 +357,19 @@ const App = () => {
             { label: 'LinkedIn', link: 'https://www.linkedin.com/in/manikya-nariyapara' },
           ]}
         />
+
+        {/* Top Right Resume Button */}
+        <a 
+          href="/resume.pdf" 
+          download="Manikya_Resume.pdf"
+          className="fixed top-5 right-5 z-[9999] px-6 py-2 rounded-full border border-white/20 bg-white/5 backdrop-blur-md text-white font-semibold flex items-center gap-2 hover:bg-white/10 hover:scale-105 transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+          style={{ fontFamily: '"Mona Sans", sans-serif' }}
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          RESUME
+        </a>
       </div>
 
       <Loader hasLoadedOnce={hasLoadedOnce} />
@@ -371,6 +386,7 @@ const App = () => {
           onNavigateToContact={navigateToContact}
           onNavigateToGallery={navigateToGallery} 
           hasLoadedOnce={hasLoadedOnce} 
+          setShowNav={setShowNav}
         />
       </div>
 
