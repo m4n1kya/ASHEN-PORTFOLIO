@@ -89,7 +89,7 @@ const ExperienceWindow = ({ onBack }) => {
       </div>
 
       {/* Infinite Spiral Background */}
-      <div className="absolute inset-0 z-[1] overflow-hidden opacity-30 flex items-center justify-center pointer-events-none">
+      <div className="absolute inset-0 z-[1] overflow-hidden opacity-70 flex items-center justify-center pointer-events-none">
         <InfiniteSpiral
           items={spiralImages}
           animationMode="auto"
@@ -125,7 +125,7 @@ const ExperienceWindow = ({ onBack }) => {
       <div className="exp-window-scroll flex-1 overflow-y-auto overflow-x-hidden relative z-10 w-full h-full pt-20 pb-40 px-5 md:px-20 xl:px-40">
         
         <div className="w-full mb-16 md:mb-32 flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-12 exp-window-fade-up">
-          <div className="flex-[1.8] text-left w-full flex flex-col">
+          <div className="flex-[1.8] text-left w-full flex flex-col relative z-10">
             <BlobTextReveal 
               text="WORK" 
               className="text-white text-[12vw] md:text-8xl lg:text-9xl font-black uppercase tracking-tighter leading-none"
@@ -146,7 +146,7 @@ const ExperienceWindow = ({ onBack }) => {
               <div key={index} className="w-full flex flex-col xl:flex-row gap-10 exp-window-fade-up">
                 <div className="w-full">
                   <SpotlightCard
-                    className="w-full rounded-2xl p-8 md:p-10 border border-white/10 bg-black/40 backdrop-blur-md flex flex-col justify-between shadow-2xl"
+                    className="w-full rounded-2xl p-8 md:p-10 border border-white/10 bg-transparent flex flex-col justify-between shadow-2xl"
                     spotlightColor="rgba(217, 236, 255, 0.08)"
                     borderColor="rgba(217, 236, 255, 0.25)"
                   >
