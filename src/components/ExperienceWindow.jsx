@@ -187,7 +187,7 @@ const ExperienceWindow = ({ onBack }) => {
 
         {/* Industrial Exposure Section */}
         <div className="mt-40 mb-20 flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-12 exp-window-fade-up">
-          <div className="flex-[1.8] text-left w-full flex flex-col">
+          <div className="flex-[1.8] text-left w-full flex flex-col relative z-10">
             <BlobTextReveal 
               text="INDUSTRIAL" 
               className="text-white text-[10vw] md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none"
@@ -200,9 +200,9 @@ const ExperienceWindow = ({ onBack }) => {
           </div>
         </div>
 
-        <div className="relative max-w-[1400px] mx-auto exp-window-fade-up">
+        <div className="relative max-w-[1400px] mx-auto exp-window-fade-up z-10">
            <SpotlightCard
-              className="rounded-xl p-8 md:p-12 border border-white/10 bg-black/40 backdrop-blur-md overflow-hidden relative"
+              className="rounded-xl p-8 md:p-12 border border-white/10 bg-black/20 backdrop-blur-sm overflow-hidden relative"
               spotlightColor="rgba(217, 236, 255, 0.08)"
               borderColor="rgba(217, 236, 255, 0.25)"
             >
