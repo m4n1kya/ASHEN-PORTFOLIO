@@ -70,8 +70,13 @@ const FloatingTab = ({ tab, index, side }) => {
    const containerRef = useRef(null);
    const tabRef = useRef(null);
    
-   const yPos = index % 3 === 0 ? '-140px' : index % 3 === 1 ? '0px' : '140px';
-   const xPos = side === 'left' ? '-280px' : '280px';
+   // Create a semi-circle formation around the lantern
+   const isMiddle = index % 3 === 1;
+   const y = index % 3 === 0 ? -170 : isMiddle ? 0 : 170;
+   const x = side === 'left' ? (isMiddle ? -360 : -270) : (isMiddle ? 360 : 270);
+   
+   const yPos = `${y}px`;
+   const xPos = `${x}px`;
 
    // Pre-generate 3 subtle particles for this tab using the same styling as the lantern
    const [particles] = useState(() => Array.from({ length: 3 }).map((_, i) => ({
