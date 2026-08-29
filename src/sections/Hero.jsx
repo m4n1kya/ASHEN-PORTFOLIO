@@ -78,15 +78,21 @@ const FloatingTab = ({ tab, index, side }) => {
        scale: 1, opacity: 1, duration: 0.6, delay: (index % 3) * 0.1, ease: "back.out(1.5)"
      });
 
-     gsap.to(tabRef.current, {
-       y: "+=15",
-       x: "+=10",
-       rotation: (Math.random() - 0.5) * 5,
-       duration: 2 + Math.random(),
-       repeat: -1,
-       yoyo: true,
-       ease: "sine.inOut"
-     });
+     // Random bubble floating animation
+     const floatTween = () => {
+       if (!tabRef.current) return;
+       gsap.to(tabRef.current, {
+         x: gsap.utils.random(-25, 25),
+         y: gsap.utils.random(-25, 25),
+         rotation: gsap.utils.random(-6, 6),
+         duration: gsap.utils.random(2.5, 4),
+         ease: "sine.inOut",
+         onComplete: floatTween
+       });
+     };
+     
+     // Start floating after entrance animation
+     setTimeout(floatTween, 600 + ((index % 3) * 100));
    }, []);
 
    return (
@@ -102,7 +108,7 @@ const FloatingTab = ({ tab, index, side }) => {
          tab.action();
        }}
      >
-       <div className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/20 rounded-full text-white font-medium hover:bg-white/10 hover:scale-110 transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)] whitespace-nowrap">
+       <div className="px-6 py-3 bg-white/95 backdrop-blur-md border border-white/50 rounded-full text-black font-bold tracking-wide hover:bg-white hover:scale-110 transition-all shadow-[0_10px_40px_rgba(255,255,255,0.3),inset_0_2px_5px_rgba(255,255,255,1)] whitespace-nowrap">
          {tab.label}
        </div>
      </div>
