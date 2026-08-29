@@ -68,6 +68,23 @@ const FeatureCards = () => {
           },
         }
       );
+      // Profile Image animation
+      gsap.fromTo(
+        ".profile-img",
+        { scale: 0, opacity: 0, rotation: -45 },
+        {
+          scale: 1,
+          opacity: 1,
+          rotation: 0,
+          duration: 1,
+          ease: "back.out(1.5)",
+          scrollTrigger: {
+            trigger: ".profile-img",
+            start: "top 88%",
+            once: true,
+          },
+        }
+      );
     }, cardsRef);
 
     return () => ctx.revert();
@@ -87,16 +104,23 @@ const FeatureCards = () => {
         >
           PROFESSIONAL
         </ScrollFloat>
-        <ScrollFloat
-          animationDuration={1.2}
-          ease="back.inOut(2)"
-          scrollStart="top bottom"
-          scrollEnd="bottom center"
-          stagger={0.02}
-          containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black w-full uppercase tracking-tighter leading-none text-white/40"
-        >
-          SUMMARY
-        </ScrollFloat>
+        <div className="flex flex-col md:flex-row items-start md:items-end gap-6 md:gap-10">
+          <ScrollFloat
+            animationDuration={1.2}
+            ease="back.inOut(2)"
+            scrollStart="top bottom"
+            scrollEnd="bottom center"
+            stagger={0.02}
+            containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none text-white/40"
+          >
+            SUMMARY
+          </ScrollFloat>
+          <img 
+            src="/images/profile.jpg" 
+            alt="Manikya" 
+            className="profile-img w-28 h-28 md:w-32 md:h-32 rounded-full object-cover filter grayscale contrast-125 brightness-[0.85] border-2 border-white/20 mb-2 md:mb-5 shadow-2xl" 
+          />
+        </div>
         <p className="summary-para text-white-50 mt-10 md:text-2xl max-w-4xl leading-relaxed font-medium text-left">
           Computer Science undergraduate (B.Tech in CSE @ VIT Bhopal,{" "}
           <ShinyText text="CGPA 9.21" className="text-white font-bold" speed={3} />) with
