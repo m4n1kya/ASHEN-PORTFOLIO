@@ -75,10 +75,10 @@ const ContactWindow = ({ onBack }) => {
 
       {/* Main Content Area */}
       <div className="flex-1 overflow-y-auto relative z-10 flex flex-col items-center justify-center p-6 md:p-12 lg:p-20">
-        <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
+        <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           
           {/* Left Side: Form */}
-          <div className="flex flex-col justify-center contact-fade-up">
+          <div className="flex flex-col justify-center contact-fade-up lg:col-span-7 xl:col-span-8">
             <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-4">Let's Connect</h2>
             <p className="text-white-50 text-lg mb-10">Have questions or ideas? Drop me a message and I'll get back to you as soon as possible.</p>
             
@@ -88,31 +88,33 @@ const ContactWindow = ({ onBack }) => {
               borderColor="rgba(217, 236, 255, 0.25)"
             >
               <form ref={formRef} onSubmit={handleSubmit} className="w-full flex flex-col gap-6">
-                <div className="contact-form-field">
-                  <label htmlFor="name" className="block text-white/70 text-sm font-semibold mb-2">Your Name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={form.name}
-                    onChange={handleChange}
-                    placeholder="John Doe"
-                    className="w-full bg-black-200/50 border border-white/10 rounded-lg p-4 text-white focus:outline-none focus:border-white/40 transition-colors"
-                    required
-                  />
-                </div>
-                <div className="contact-form-field">
-                  <label htmlFor="email" className="block text-white/70 text-sm font-semibold mb-2">Your Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    placeholder="john@example.com"
-                    className="w-full bg-black-200/50 border border-white/10 rounded-lg p-4 text-white focus:outline-none focus:border-white/40 transition-colors"
-                    required
-                  />
+                <div className="flex flex-col md:flex-row gap-6 w-full">
+                  <div className="contact-form-field flex-1">
+                    <label htmlFor="name" className="block text-white/70 text-sm font-semibold mb-2">Your Name</label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={form.name}
+                      onChange={handleChange}
+                      placeholder="John Doe"
+                      className="w-full bg-black-200/50 border border-white/10 rounded-lg p-4 text-white focus:outline-none focus:border-white/40 transition-colors"
+                      required
+                    />
+                  </div>
+                  <div className="contact-form-field flex-1">
+                    <label htmlFor="email" className="block text-white/70 text-sm font-semibold mb-2">Your Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      placeholder="john@example.com"
+                      className="w-full bg-black-200/50 border border-white/10 rounded-lg p-4 text-white focus:outline-none focus:border-white/40 transition-colors"
+                      required
+                    />
+                  </div>
                 </div>
                 <div className="contact-form-field">
                   <label htmlFor="message" className="block text-white/70 text-sm font-semibold mb-2">Message</label>
@@ -142,7 +144,7 @@ const ContactWindow = ({ onBack }) => {
           </div>
 
           {/* Right Side: Social Logos */}
-          <div className="flex flex-col justify-center items-center lg:items-start contact-fade-up h-full pt-10 lg:pt-0">
+          <div className="flex flex-col justify-center items-center lg:items-start contact-fade-up h-full pt-10 lg:pt-0 lg:col-span-5 xl:col-span-4 lg:pl-10">
             <h3 className="text-2xl font-bold text-white/50 uppercase tracking-widest mb-10 hidden lg:block">Socials</h3>
             <div className="grid grid-cols-2 gap-8 w-full max-w-sm">
               <a href="#" className="flex flex-col items-center gap-4 text-white/60 hover:text-white transition-all duration-300 hover:-translate-y-2 group">
