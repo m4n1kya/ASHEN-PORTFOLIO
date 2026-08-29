@@ -21,9 +21,15 @@ const CSSMaskedNumber = ({ number, src, parallax = 120 }) => {
     };
 
     const animate = () => {
+      // Add a continuous slow automatic drift to the background so it feels alive even without mouse movement
+      const timeOffset = Date.now() * 0.02;
+
       currentX += (targetX - currentX) * 0.1;
       currentY += (targetY - currentY) * 0.1;
-      setOffset({ x: currentX, y: currentY });
+      setOffset({ 
+        x: currentX + timeOffset, 
+        y: currentY + (Math.sin(Date.now() * 0.001) * 20) // subtle vertical bobbing
+      });
       rafId = requestAnimationFrame(animate);
     };
 
@@ -69,18 +75,17 @@ const Loader = ({ hasLoadedOnce }) => {
     // Immediately fade out the HTML blocker so the React loader is visible
     gsap.to("#pre-loader-blocker", { opacity: 0, duration: 0.1, delay: 0.05 });
 
-    let currentVal = 0;
-    const durationMs = 2200; // 2.2 seconds minimum
-    const intervalMs = 20; // 50fps updates
-    const steps = durationMs / intervalMs;
-    const increment = 100 / steps;
-
-    const interval = setInterval(() => {
-      currentVal += increment;
-      if (currentVal >= 100) {
-        currentVal = 100;
-        clearInterval(interval);
-        
+    const proxy = { val: 0 };
+    
+    // Tween the proxy object to 100, and update React state on every frame
+    const tween = gsap.to(proxy, {
+      val: 100,
+      duration: 2.2, // exactly 2.2 seconds
+      ease: "power2.inOut",
+      onUpdate: () => {
+        setDisplayValue(Math.floor(proxy.val));
+      },
+      onComplete: () => {
         // Complete loading animation
         gsap.to(containerRef.current, {
           yPercent: -100,
@@ -95,10 +100,9 @@ const Loader = ({ hasLoadedOnce }) => {
           }
         });
       }
-      setDisplayValue(Math.floor(currentVal));
-    }, intervalMs);
+    });
 
-    return () => clearInterval(interval);
+    return () => tween.kill();
   }, [hasLoadedOnce]);
 
   if (hasLoadedOnce) {
