@@ -52,18 +52,18 @@ const CSSMaskedNumber = ({ number, src, parallax = 120 }) => {
         lineHeight: '0.85',
         backgroundColor: '#ffffff',
         backgroundImage: `url(${src})`,
-        backgroundSize: 'max(150vw, 150vh)',
+        backgroundSize: '300vw',
         backgroundPosition: `calc(50% + ${offset.x}px) calc(50% + ${offset.y}px)`,
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
         color: 'transparent',
-        backgroundRepeat: 'no-repeat',
+        backgroundRepeat: 'repeat',
       }}
     >
       {number}
     </div>
   );
-};
+}; // End of CSSMaskedNumber
 
 // ── Main Loader Component ─────────────────────────────────────────────────────
 const Loader = ({ hasLoadedOnce }) => {
