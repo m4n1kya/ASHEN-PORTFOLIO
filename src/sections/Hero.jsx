@@ -69,10 +69,21 @@ const CSSMaskedHeading = ({ text, src, parallax = 120 }) => {
 const FloatingTab = ({ tab, index, side }) => {
    const containerRef = useRef(null);
    const tabRef = useRef(null);
-   const particlesRef = useRef([]);
    
    const yPos = index % 3 === 0 ? '-140px' : index % 3 === 1 ? '0px' : '140px';
    const xPos = side === 'left' ? '-280px' : '280px';
+
+   // Pre-generate 3 subtle particles for this tab using the same styling as the lantern
+   const [particles] = useState(() => Array.from({ length: 3 }).map((_, i) => ({
+      id: i,
+      size: Math.random() * 2 + 1.5,
+      delay: Math.random() * 5,
+      duration: Math.random() * 4 + 2,
+      tx: (Math.random() - 0.5) * 40,
+      ty: - (Math.random() * 50 + 20),
+      left: 50 + (Math.random() * 60 - 30),
+      top: 50 + (Math.random() * 40 - 20)
+   })));
 
    useGSAP(() => {
      gsap.fromTo(containerRef.current, {
@@ -96,23 +107,6 @@ const FloatingTab = ({ tab, index, side }) => {
      
      // Start floating after entrance animation
      setTimeout(floatTween, 600 + ((index % 3) * 100));
-
-     // Animate particles
-     particlesRef.current.forEach((particle) => {
-       if (!particle) return;
-       const animateParticle = () => {
-         gsap.to(particle, {
-           x: gsap.utils.random(-40, 40),
-           y: gsap.utils.random(-40, 40),
-           opacity: gsap.utils.random(0.1, 0.6),
-           scale: gsap.utils.random(0.5, 1.5),
-           duration: gsap.utils.random(2, 4),
-           ease: "sine.inOut",
-           onComplete: animateParticle
-         });
-       };
-       setTimeout(animateParticle, 600 + gsap.utils.random(0, 500));
-     });
    }, []);
 
    return (
@@ -128,16 +122,22 @@ const FloatingTab = ({ tab, index, side }) => {
          tab.action();
        }}
      >
-       {/* Particles */}
-       {[...Array(4)].map((_, i) => (
+       {/* Exactly like the Lantern Particles (CSS Animated, twinkling, flowing up) */}
+       {particles.map((p) => (
          <div 
-           key={i}
-           ref={el => particlesRef.current[i] = el}
-           className="absolute w-1 h-1 bg-white rounded-full pointer-events-none shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+           key={p.id}
+           className="absolute rounded-full opacity-0 animate-magicalParticle pointer-events-none z-0"
            style={{
-             top: `${50 + (Math.random() * 60 - 30)}%`,
-             left: `${50 + (Math.random() * 120 - 60)}%`,
-             opacity: 0
+             left: `${p.left}%`,
+             top: `${p.top}%`,
+             width: `${p.size}px`,
+             height: `${p.size}px`,
+             backgroundColor: '#ffffff',
+             animationDelay: `${p.delay}s`,
+             animationDuration: `${p.duration}s`,
+             boxShadow: `0 0 ${p.size * 3}px ${p.size}px #ffffff`,
+             '--tx': `${p.tx}px`,
+             '--ty': `${p.ty}px`,
            }}
          />
        ))}
