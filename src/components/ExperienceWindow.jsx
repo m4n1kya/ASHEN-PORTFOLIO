@@ -10,8 +10,46 @@ import Galaxy from "./reactbits/Galaxy";
 import BlobTextReveal from "./reactbits/BlobTextReveal";
 import TickerScroll from "./reactbits/TickerScroll";
 import AccordionGallery from "./reactbits/AccordionGallery";
+import InfiniteSpiral from "./reactbits/InfiniteSpiral";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const spiralImages = [
+  { src: '/images/spiral/Screenshot 2026-08-23 155500.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-23 155333.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-23 155311.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-23 155258.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-23 155233.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-23 155209.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-23 155159.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-23 155130.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-23 155110.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-23 155012.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-23 154953.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-24 144308.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-24 144322.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-24 144339.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-24 144423.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-24 144443.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-24 144536.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-28 105348.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-28 105409.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-28 105421.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-28 105439.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-28 105457.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-28 105509.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-28 105522.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-28 104912.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-28 104924.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-28 104948.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-28 105004.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-28 105012.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-28 105025.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-28 105036.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-28 105048.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-28 105058.png', alt: 'Spiral image' },
+  { src: '/images/spiral/Screenshot 2026-08-28 105121.png', alt: 'Spiral image' }
+];
 
 const galleryItems = [
   { image: '/images/experience/17618539952862.jpg', label: 'BSNL WORKSHOP' },
@@ -47,6 +85,26 @@ const ExperienceWindow = ({ onBack }) => {
           glowIntensity={0.2}
           saturation={0.0}
           twinkleIntensity={0.4}
+        />
+      </div>
+
+      {/* Infinite Spiral Background */}
+      <div className="absolute inset-0 z-[1] overflow-hidden opacity-30 flex items-center justify-center pointer-events-none">
+        <InfiniteSpiral
+          items={spiralImages}
+          animationMode="auto"
+          speed={0.55}
+          radius={350}
+          cardWidth={400}
+          cardHeight={225}
+          verticalSpacing={120}
+          perspective={1000}
+          cardRadius={10}
+          centerScale={1.2}
+          edgeBlur={6}
+          cardsPerTurn={7}
+          pauseOnHover={false}
+          imageFit="contain"
         />
       </div>
 
