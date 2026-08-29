@@ -10,6 +10,7 @@ import ShinyText from "./reactbits/ShinyText";
 import Galaxy from "./reactbits/Galaxy";
 import BlobTextReveal from "./reactbits/BlobTextReveal";
 import TickerScroll from "./reactbits/TickerScroll";
+import BigJavaModel from "./models/BigJavaModel";
 import { techStackIcons, techStackImgs } from "../constants";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -114,7 +115,7 @@ const SkillsWindow = ({ onBack }) => {
       <div className="skills-window-scroll flex-1 overflow-y-auto overflow-x-hidden relative z-10 w-full h-full pt-20 pb-40 px-5 md:px-20 xl:px-40">
         
         <div className="w-full mb-16 md:mb-32 flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-12 skills-window-fade-up">
-          <div className="flex-[1.8] text-left w-full flex flex-col">
+          <div className="flex-[1.8] text-left w-full flex flex-col relative z-10">
             <BlobTextReveal 
               text="TECHNICAL" 
               className="text-white text-[12vw] md:text-8xl lg:text-9xl font-black uppercase tracking-tighter leading-none"
@@ -127,18 +128,13 @@ const SkillsWindow = ({ onBack }) => {
               duration={1.5}
             />
           </div>
+
+          <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-[400px] h-[400px] xl:w-[500px] xl:h-[500px] z-0 opacity-80 pointer-events-none">
+            <BigJavaModel />
+          </div>
         </div>
 
         <div className="max-w-[1400px] mx-auto">
-          {/* Ticker Scroll of core skills */}
-          <div className="mb-20 opacity-30 skills-window-fade-up">
-             <TickerScroll speed={40} direction="left" className="text-4xl md:text-6xl font-black uppercase tracking-widest text-white">
-                REACT • NEXT.JS • NODE.JS • EXPRESS • MONGODB • POSTGRESQL •
-             </TickerScroll>
-             <TickerScroll speed={35} direction="right" className="text-4xl md:text-6xl font-black uppercase tracking-widest text-white mt-4">
-                PYTHON • JAVA • C++ • AWS • DOCKER • TAILWIND CSS •
-             </TickerScroll>
-          </div>
 
           {/* 3D Tech Icons */}
           <div className="tech-grid mb-32">
