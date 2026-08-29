@@ -78,7 +78,7 @@ const ContactWindow = ({ onBack }) => {
         <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           
           {/* Left Side: Form */}
-          <div className="flex flex-col justify-center contact-fade-up lg:col-span-7 xl:col-span-8">
+          <div className="flex flex-col justify-center contact-fade-up lg:col-span-7 xl:col-span-8 lg:order-last">
             <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-4">Let's Connect</h2>
             <p className="text-white-50 text-lg mb-10">Have questions or ideas? Drop me a message and I'll get back to you as soon as possible.</p>
             
@@ -144,7 +144,7 @@ const ContactWindow = ({ onBack }) => {
           </div>
 
           {/* Right Side: Social Logos */}
-          <div className="flex flex-col justify-center items-center lg:items-start contact-fade-up h-full pt-10 lg:pt-0 lg:col-span-5 xl:col-span-4 lg:pl-10">
+          <div className="flex flex-col justify-center items-center lg:items-start contact-fade-up h-full pt-10 lg:pt-0 lg:col-span-5 xl:col-span-4 lg:pr-10 lg:order-first">
             <h3 className="text-2xl font-bold text-white/50 uppercase tracking-widest mb-10 hidden lg:block">Socials</h3>
             <div className="grid grid-cols-2 gap-8 w-full max-w-sm">
               <a href="#" className="flex flex-col items-center gap-4 text-white/60 hover:text-white transition-all duration-300 hover:-translate-y-2 group">
