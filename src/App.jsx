@@ -164,6 +164,7 @@ const App = () => {
         if (hc) hc.style.display = 'none';
         window.scrollTo(0, 0);
         ScrollTrigger.refresh();
+        setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
       },
     });
   }, []);
@@ -332,7 +333,7 @@ const App = () => {
       <XRayCursor isVisible={view === 'home'} />
 
       {/* ── StaggeredMenu Navigation (fixed, top-left) ── */}
-      <div style={{ opacity: hasLoadedOnce && view === 'home' ? 1 : 0, transition: 'opacity 1s ease', pointerEvents: hasLoadedOnce && view === 'home' ? 'auto' : 'none' }}>
+      <div style={{ opacity: hasLoadedOnce ? 1 : 0, transition: 'opacity 1s ease', pointerEvents: hasLoadedOnce ? 'auto' : 'none', zIndex: 9999, position: 'relative' }}>
         <StaggeredMenu
           position="left"
           isFixed={true}
@@ -344,6 +345,7 @@ const App = () => {
           colors={['#1c1c21', '#282732']}
           accentColor="#839cb5"
           items={[
+            { label: 'Lantern',    ariaLabel: 'Back to Lantern',         link: '#', onClick: navigateToHome },
             { label: 'Overview',   ariaLabel: 'Professional Summary',    link: '#', onClick: navigateToOverview },
             { label: 'Experience', ariaLabel: 'Work Experience',         link: '#', onClick: () => {} },
             { label: 'Projects',   ariaLabel: 'Selected Projects',       link: '#', onClick: navigateToGallery },
