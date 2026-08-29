@@ -127,7 +127,7 @@ const FeatureCards = () => {
         </div>
 
         {/* Right Side: Large Image */}
-        <div className="flex-1 w-full flex justify-center lg:justify-end">
+        <div className="flex-1 w-full flex justify-center">
           <img 
             src="/images/profile.jpg" 
             alt="Manikya" 
