@@ -56,7 +56,6 @@ const projectsData = [
     liveUrl: "https://ashenritual.vercel.app",
     shortDescription: "ASHENRITUAL is a production-grade, headless e-commerce platform built to seamlessly merge the tactile experience of luxury fashion with the computational power of artificial intelligence. Engineered entirely on a modern TypeScript micro-architecture, the application delivers a cinematic user interface optimized for high-performance rendering.",
     markdown: `
-# ASHENRITUAL
 *Full-Stack E-Commerce Platform*
 
 ## Key Features
@@ -80,7 +79,6 @@ const projectsData = [
     liveUrl: "https://uni-verse-swart.vercel.app/",
     shortDescription: "UniVerse is a modern university resource management platform designed to centralize essential campus services into a single, responsive web application. It simplifies access to important university resources by providing students with a unified platform for academic and campus-related information.",
     markdown: `
-# UNI-VERSE
 *Campus Resource Management Platform*
 
 ## Key Features
@@ -101,7 +99,6 @@ const projectsData = [
     liveUrl: "https://beacon-fuqtpoomdhrfdzhksccvvu.streamlit.app/",
     shortDescription: "Beacon – Building Energy Analytics & Control Optimization Network is an advanced AI-powered building energy optimization system that combines EnergyPlus building simulation with a locally hosted Large Language Model (LLM). It automatically analyzes building performance, recommends HVAC optimization strategies, modifies building control parameters, and evaluates energy savings through an iterative closed-loop workflow.",
     markdown: `
-# BEACON
 *Building Energy Analytics & Control Optimization Network*
 
 ## Key Features
@@ -121,7 +118,6 @@ const projectsData = [
     repoUrl: "https://github.com/m4n1kya/ASHEN-VECTOR",
     shortDescription: "ASHEN-VECTOR is an experimental quantitative market intelligence and systematic research platform built around Qlib-compatible market data infrastructure. It provides a modular architecture for quantitative factor research, statistical analysis, machine learning-based prediction, probability calibration, and systematic backtesting.",
     markdown: `
-# ASHEN-VECTOR
 *Quantitative Market Intelligence Platform*
 
 ## Platform Capabilities
