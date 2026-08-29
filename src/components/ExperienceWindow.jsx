@@ -146,7 +146,7 @@ const ExperienceWindow = ({ onBack }) => {
               <div key={index} className="w-full flex flex-col xl:flex-row gap-10 exp-window-fade-up">
                 <div className="w-full">
                   <SpotlightCard
-                    className="w-full rounded-2xl p-8 md:p-10 border border-white/10 bg-transparent flex flex-col justify-between shadow-2xl"
+                    className="w-full rounded-2xl p-8 md:p-10 border border-white/10 bg-black/20 backdrop-blur-sm flex flex-col justify-between shadow-2xl"
                     spotlightColor="rgba(217, 236, 255, 0.08)"
                     borderColor="rgba(217, 236, 255, 0.25)"
                   >
