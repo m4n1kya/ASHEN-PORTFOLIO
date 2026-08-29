@@ -368,18 +368,12 @@ const App = () => {
         className="home-container relative bg-transparent mt-0 z-10"
         style={{ display: (view === 'home' || isTransitioning.current) ? 'block' : 'none' }}
       >
-        <div className="hero-pin-wrapper relative w-full h-screen overflow-hidden">
-          {/* Main Hero Content - Sits underneath the IntroScreen */}
-          <div className="absolute inset-0 z-0">
-            <HeroParticles />
-            <Hero 
-              onNavigateToOverview={navigateToOverview}
-              onNavigateToContact={navigateToContact}
-              onNavigateToGallery={navigateToGallery} 
-              hasLoadedOnce={hasLoadedOnce} 
-            />
-          </div>
-        </div>
+        <Hero 
+          onNavigateToOverview={navigateToOverview}
+          onNavigateToContact={navigateToContact}
+          onNavigateToGallery={navigateToGallery} 
+          hasLoadedOnce={hasLoadedOnce} 
+        />
       </div>
 
       <div 
