@@ -114,7 +114,7 @@ const FeatureCards = () => {
           <img 
             src="/images/profile.jpg" 
             alt="Manikya" 
-            className="profile-img w-full max-w-sm lg:max-w-md h-auto rounded-2xl object-cover shadow-2xl border border-white/10" 
+            className="profile-img w-full max-w-sm lg:max-w-md h-auto rounded-[2.5rem] object-cover shadow-2xl border border-white/10" 
           />
         </div>
 
