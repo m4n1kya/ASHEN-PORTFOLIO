@@ -34,8 +34,7 @@ const BlobTextReveal = ({ text, className = "", delay = 0, duration = 1.2 }) => 
       <motion.div
         variants={blobVariants}
         initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.1 }}
+        animate="visible"
         className="relative z-10"
       >
         {text}
