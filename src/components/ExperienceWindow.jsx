@@ -32,24 +32,7 @@ const ExperienceWindow = ({ onBack }) => {
       { y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: "power3.out", delay: 0.2 }
     );
 
-    // HORIZONTAL SCROLL LOGIC
-    if (horizontalRef.current) {
-      const cards = gsap.utils.toArray(".horizontal-item");
-      const totalWidth = cards.length * 800; // rough width of items
 
-      gsap.to(cards, {
-        xPercent: -100 * (cards.length - 1),
-        ease: "none",
-        scrollTrigger: {
-          trigger: horizontalRef.current,
-          scroller: ".exp-window-scroll",
-          pin: true,
-          scrub: 1,
-          snap: 1 / (cards.length - 1),
-          end: () => "+=" + horizontalRef.current.offsetWidth * 2,
-        }
-      });
-    }
 
   }, { scope: containerRef });
 
@@ -99,14 +82,13 @@ const ExperienceWindow = ({ onBack }) => {
           </div>
         </div>
 
-        {/* Horizontal Scrolling Timeline Section */}
-        <div ref={horizontalRef} className="h-screen w-full flex items-center overflow-hidden mb-32 pt-20">
-          <div className="flex gap-20 w-[300vw] px-10">
+        {/* Vertical Timeline Section */}
+        <div className="w-full flex flex-col gap-10 mb-32 pt-10 relative max-w-[1400px] mx-auto">
             {expCards.map((card, index) => (
-              <div key={index} className="horizontal-item flex-shrink-0 w-[800px] h-[600px] flex flex-col xl:flex-row gap-10">
-                <div className="w-full h-full">
+              <div key={index} className="w-full flex flex-col xl:flex-row gap-10 exp-window-fade-up">
+                <div className="w-full">
                   <SpotlightCard
-                    className="w-full h-full rounded-2xl p-10 border border-white/10 bg-black/40 backdrop-blur-md flex flex-col justify-between shadow-2xl"
+                    className="w-full rounded-2xl p-8 md:p-10 border border-white/10 bg-black/40 backdrop-blur-md flex flex-col justify-between shadow-2xl"
                     spotlightColor="rgba(217, 236, 255, 0.08)"
                     borderColor="rgba(217, 236, 255, 0.25)"
                   >
@@ -118,13 +100,13 @@ const ExperienceWindow = ({ onBack }) => {
                       </Magnet>
                       <div>
                         <h2 className="text-blue-200 text-xl font-bold uppercase tracking-widest">{card.company}</h2>
-                        <h1 className="font-semibold text-3xl text-white tracking-tight">{card.title}</h1>
+                        <h1 className="font-semibold text-2xl md:text-3xl text-white tracking-tight">{card.title}</h1>
                       </div>
                     </div>
                     
                     <p className="text-white-50 font-medium text-lg mb-6">{card.date}</p>
                     
-                    <div className="flex-1 overflow-y-auto pr-4 custom-scrollbar">
+                    <div className="w-full pr-4">
                       <ul className="list-disc ms-5 flex flex-col gap-4 text-white/70">
                         {card.responsibilities.map((r, i) => (
                           <li key={i} className="text-lg leading-relaxed">{r}</li>
@@ -143,10 +125,6 @@ const ExperienceWindow = ({ onBack }) => {
                 </div>
               </div>
             ))}
-            
-            {/* End of Horizontal Timeline padding block */}
-            <div className="horizontal-item flex-shrink-0 w-[200px]" />
-          </div>
         </div>
 
         {/* Industrial Exposure Section */}
