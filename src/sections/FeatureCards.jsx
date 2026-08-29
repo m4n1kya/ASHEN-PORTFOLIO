@@ -71,13 +71,12 @@ const FeatureCards = () => {
       // Profile Image animation
       gsap.fromTo(
         ".profile-img",
-        { scale: 0, opacity: 0, rotation: -45 },
+        { x: 150, opacity: 0 },
         {
-          scale: 1,
+          x: 0,
           opacity: 1,
-          rotation: 0,
-          duration: 1,
-          ease: "back.out(1.5)",
+          duration: 1.2,
+          ease: "power3.out",
           scrollTrigger: {
             trigger: ".profile-img",
             start: "top 88%",
@@ -93,42 +92,49 @@ const FeatureCards = () => {
   return (
     <section id="about" className="relative pb-24 overflow-hidden pt-10" ref={cardsRef}>
       {/* ── Section Title ── */}
-      <div className="w-full text-left mb-16 md:mb-24">
-        <ScrollFloat
-          animationDuration={1}
-          ease="back.inOut(2)"
-          scrollStart="top bottom"
-          scrollEnd="bottom center"
-          stagger={0.02}
-          containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black w-full uppercase tracking-tighter leading-none"
-        >
-          PROFESSIONAL
-        </ScrollFloat>
-        <div className="flex flex-col md:flex-row items-start md:items-end gap-6 md:gap-10">
+      <div className="w-full mb-16 md:mb-24 flex flex-col lg:flex-row items-center lg:items-start justify-between gap-10 lg:gap-20">
+        
+        {/* Left Side: Text */}
+        <div className="flex-1 text-left w-full">
+          <ScrollFloat
+            animationDuration={1}
+            ease="back.inOut(2)"
+            scrollStart="top bottom"
+            scrollEnd="bottom center"
+            stagger={0.02}
+            containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black w-full uppercase tracking-tighter leading-none"
+          >
+            PROFESSIONAL
+          </ScrollFloat>
           <ScrollFloat
             animationDuration={1.2}
             ease="back.inOut(2)"
             scrollStart="top bottom"
             scrollEnd="bottom center"
             stagger={0.02}
-            containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none text-white/40"
+            containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none text-white/40 mt-2"
           >
             SUMMARY
           </ScrollFloat>
+          <p className="summary-para text-white-50 mt-10 md:text-2xl max-w-3xl leading-relaxed font-medium text-left">
+            Computer Science undergraduate (B.Tech in CSE @ VIT Bhopal,{" "}
+            <ShinyText text="CGPA 9.21" className="text-white font-bold" speed={3} />) with
+            hands-on experience developing full-stack and AI-based applications. Familiar with
+            modern web engineering, <ShinyText text="REST APIs" className="text-white font-bold" speed={3} />, and
+            authentication architectures. Strong foundation in Data Structures &amp; Algorithms,
+            OOP, DBMS, Operating Systems, and Computer Networks.
+          </p>
+        </div>
+
+        {/* Right Side: Large Image */}
+        <div className="flex-1 w-full flex justify-center lg:justify-end">
           <img 
             src="/images/profile.jpg" 
             alt="Manikya" 
-            className="profile-img w-28 h-28 md:w-32 md:h-32 rounded-full object-cover filter grayscale contrast-125 brightness-[0.85] border-2 border-white/20 mb-2 md:mb-5 shadow-2xl" 
+            className="profile-img w-full max-w-sm lg:max-w-md h-auto rounded-2xl object-cover filter grayscale contrast-125 brightness-[0.85] shadow-2xl border border-white/10" 
           />
         </div>
-        <p className="summary-para text-white-50 mt-10 md:text-2xl max-w-4xl leading-relaxed font-medium text-left">
-          Computer Science undergraduate (B.Tech in CSE @ VIT Bhopal,{" "}
-          <ShinyText text="CGPA 9.21" className="text-white font-bold" speed={3} />) with
-          hands-on experience developing full-stack and AI-based applications. Familiar with
-          modern web engineering, <ShinyText text="REST APIs" className="text-white font-bold" speed={3} />, and
-          authentication architectures. Strong foundation in Data Structures &amp; Algorithms,
-          OOP, DBMS, Operating Systems, and Computer Networks.
-        </p>
+
       </div>
 
       {/* ── Ability Cards ── */}
