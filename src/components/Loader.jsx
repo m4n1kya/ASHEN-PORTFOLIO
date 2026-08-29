@@ -78,41 +78,39 @@ const Loader = ({ hasLoadedOnce }) => {
     let loadedAssets = 0;
     const totalAssets = imagesToPreload.length;
     
-    // We use a proxy object to tween the value smoothly from 0 to 100
-    const progressProxy = { val: 0 };
-    let currentTargetProgress = 0;
+    // We use two proxies: one for strict time (minimum 2s), one for actual assets.
+    // The displayed value will follow the SLOWER of the two.
+    const timeProxy = { val: 0 };
+    const assetProxy = { val: 0 };
+    let hasCompleted = false;
 
-    // GSAP tween for the counter
-    const counterTween = gsap.to(progressProxy, {
+    // 1. Force a strict minimum 2.2 second animation
+    gsap.to(timeProxy, {
       val: 100,
-      duration: 1.5, // Minimum total time for the loading sequence
-      ease: "power1.inOut",
-      paused: true,
-      onUpdate: () => {
-        // Only update if we've reached a whole number
-        const currentInt = Math.floor(progressProxy.val);
-        setDisplayValue(currentInt);
-      }
+      duration: 2.2,
+      ease: "power2.inOut"
     });
 
+    // 2. Update loop to pick the lowest progress
+    const tickerFunc = () => {
+      const currentVal = Math.min(timeProxy.val, assetProxy.val);
+      setDisplayValue(Math.floor(currentVal));
+      
+      if (currentVal >= 99.9 && !hasCompleted) {
+        hasCompleted = true;
+        completeLoading();
+      }
+    };
+    gsap.ticker.add(tickerFunc);
+
+    let currentAssetTarget = 0;
     const updateProgress = (percentage) => {
-      // Ensure we only ever go forward
-      if (percentage > currentTargetProgress) {
-        currentTargetProgress = percentage;
-        
-        // Update the tween's destination
-        gsap.to(progressProxy, {
-          val: currentTargetProgress,
-          duration: 0.5,
-          ease: "power2.out",
-          onUpdate: () => {
-            setDisplayValue(Math.floor(progressProxy.val));
-          },
-          onComplete: () => {
-            if (progressProxy.val >= 99.9) {
-              completeLoading();
-            }
-          }
+      if (percentage > currentAssetTarget) {
+        currentAssetTarget = percentage;
+        gsap.to(assetProxy, {
+          val: currentAssetTarget,
+          duration: 0.8,
+          ease: "power2.out"
         });
       }
     };
@@ -164,7 +162,10 @@ const Loader = ({ hasLoadedOnce }) => {
       updateProgress(100);
     }, 5000);
 
-    return () => clearTimeout(fallback);
+    return () => {
+      clearTimeout(fallback);
+      gsap.ticker.remove(tickerFunc);
+    };
 
   }, [hasLoadedOnce]);
 
