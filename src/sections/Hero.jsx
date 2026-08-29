@@ -176,27 +176,20 @@ const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, 
 
     // 2. HORIZONTAL SCROLL: MOVE LEFT TEXT OUT AND LANTERN TO CENTER (~50% to 100% of scroll)
     tl.to(".hero-left-content", {
-      x: () => -window.innerWidth * 0.5,
+      x: () => -window.innerWidth,
       opacity: 0,
       ease: "power2.inOut"
     }, ">")
     .to(".hero-right-visual", {
-      x: () => -window.innerWidth * 0.25,
+      x: () => window.innerWidth < 1024 ? 0 : -window.innerWidth * 0.25,
+      y: () => window.innerWidth < 1024 ? -window.innerHeight * 0.2 : 0,
+      scale: 1.25,
+      ease: "power2.inOut"
+    }, "<")
+    .to(".scroll-indicator", {
+      opacity: 0,
       ease: "power2.inOut"
     }, "<");
-
-    gsap.fromTo(".scroll-indicator",
-      { opacity: 0.6 },
-      {
-        opacity: 0,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "+=300", 
-          scrub: true,
-        },
-      }
-    );
 
     gsap.fromTo(
       ".scroll-mouse-dot",
@@ -225,13 +218,13 @@ const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, 
       {/* ── UNDERNEATH: MAIN HERO (TEXT + LANTERN) ── */}
       <section id="hero" className="absolute inset-0 z-0 overflow-hidden w-full h-full">
         <HeroParticles />
-        <div className="relative z-10 w-full h-full flex flex-col lg:flex-row items-center justify-between px-5 md:px-20">
+        <div className="relative z-10 w-full h-full flex flex-col lg:flex-row items-center justify-center lg:justify-between px-5 md:px-20 pt-20 lg:pt-0">
           
           {/* LEFT: Hero Content */}
-          <header className="flex flex-col justify-center w-full lg:w-[60%] h-full hero-left-content">
-            <div className="flex flex-col gap-6">
+          <header className="flex flex-col justify-center lg:justify-center w-full lg:w-[60%] h-[45%] lg:h-full hero-left-content">
+            <div className="flex flex-col gap-4 lg:gap-6">
               <div className="hero-text">
-                <h1 className="text-white text-[12vw] md:text-[50px] lg:text-[80px] font-black tracking-tighter leading-[0.85] mb-4 md:mb-6 uppercase">
+                <h1 className="text-white text-[12vw] md:text-[50px] lg:text-[80px] font-black tracking-tighter leading-[0.85] mb-2 md:mb-6 uppercase">
                   <FoldText
                     text="Manikya"
                     splitBy="char"
@@ -278,9 +271,9 @@ const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, 
           </header>
 
           {/* RIGHT: Visual (Lantern) */}
-          <figure className="w-full lg:w-1/2 flex justify-center items-center relative h-full z-50 hero-right-visual">
+          <figure className="w-full lg:w-1/2 flex justify-center items-center relative h-[55%] lg:h-full z-50 hero-right-visual">
             <div 
-              className={`relative w-full flex justify-center items-center group transition-all duration-300 ${isCentered ? 'cursor-pointer scale-110' : ''}`}
+              className={`relative w-full flex justify-center items-center group transition-all duration-300 ${isCentered ? 'cursor-pointer scale-[1.15] lg:scale-110' : ''}`}
               onClick={handleLanternClick}
               onMouseEnter={() => isCentered && setIsLanternHovered(true)}
               onMouseLeave={() => setIsLanternHovered(false)}
@@ -310,7 +303,7 @@ const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, 
           </figure>
         </div>
 
-        <div className="absolute top-[90vh] left-1/2 -translate-x-1/2 scroll-indicator z-[999] pointer-events-none opacity-60 mix-blend-screen">
+        <div className="absolute bottom-10 lg:top-[90vh] lg:bottom-auto left-1/2 -translate-x-1/2 scroll-indicator z-[999] pointer-events-none opacity-60 mix-blend-screen">
           <div className="w-[16px] h-[28px] rounded-full border-[1.5px] border-white flex justify-center p-1 shadow-[0_0_10px_rgba(255,255,255,0.2)]">
             <div className="w-1 h-1 bg-white rounded-full scroll-mouse-dot shadow-[0_0_4px_rgba(255,255,255,1)]"></div>
           </div>
