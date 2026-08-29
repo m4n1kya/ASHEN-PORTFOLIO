@@ -136,14 +136,35 @@ const expCards = [
       "Software Architecture",
       "Problem Solving"
     ],
-    company: "MPOnline Limited (Govt. of MP & TCS JV)",
+    company: "MPOnline Limited",
     title: "Advanced Software Engineering & Development Intern",
-    date: "May 2026 - August 2026 | Bhopal, India",
+    date: "May 2026 - August 2026",
     responsibilities: [
-      "Built REST APIs and backend components using Java, C++, Python, and SQL in an industry-oriented engineering program.",
-      "Applied SDLC and Agile methodologies across 6 sprints with comprehensive unit and integration testing for live projects.",
-      "Tested 20+ API endpoints using Postman, documented with Swagger, and managed code with Git for version control.",
-      "Collaborated with senior engineers on database design and systematic debugging to deliver reliable software features."
+      "Contributed to software engineering and application development projects, working across development, debugging, testing, and implementation workflows.",
+      "Developed and integrated application features using modern software development practices and technologies.",
+      "Worked with backend services, APIs, databases, and frontend components to build and enhance application functionality.",
+      "Collaborated on debugging and problem-solving tasks to improve application reliability and maintainability.",
+      "Applied software engineering principles including modular development, version control, testing, and code optimization."
+    ],
+  },
+  {
+    leftTitle: "PLATFORM ENGINEERING",
+    leftContent: [
+      "ServiceNow Platform",
+      "Workflow Automation",
+      "Agentic AI",
+      "Flow Designer",
+      "ATF",
+      "System Administration"
+    ],
+    company: "ServiceNow (SmartBridge)",
+    title: "ServiceNow Virtual Intern",
+    date: "March 2026 - May 2026",
+    responsibilities: [
+      "Completed a virtual internship focused on ServiceNow platform administration, workflow automation, and enterprise application development.",
+      "Gained hands-on exposure to ServiceNow Administration fundamentals, Flow Designer, reports, and Automated Test Framework (ATF).",
+      "Explored Agentic AI concepts and their applications within the ServiceNow ecosystem.",
+      "Completed ServiceNow Micro-Certification learning modules and Certified System Administrator (CSA) exam preparation."
     ],
   },
   {
@@ -156,20 +177,22 @@ const expCards = [
       "Backend Development",
       "API Integration"
     ],
-    company: "Ethnus",
+    company: "ETHNUS",
     title: "MERN Stack Intern",
-    date: "July 2024 - October 2024 | Remote",
+    date: "May 2025 - July 2025",
     responsibilities: [
-      "Developed 4 full-stack application modules using MongoDB, Express.js, React.js, and Node.js with modular component architecture.",
-      "Built 15+ RESTful APIs with JWT-based authentication and secure CRUD operations for core application features.",
-      "Created 10+ responsive React interfaces using Redux for state management and Tailwind CSS for consistent styling.",
-      "Optimized MongoDB queries with strategic indexing and aggregation pipelines, reducing API response latency by 40%."
+      "Developed full-stack web applications using MongoDB, Express.js, React.js, and Node.js (MERN stack).",
+      "Built responsive and reusable React.js components to implement application interfaces and user-facing functionality.",
+      "Developed and integrated RESTful APIs using Node.js and Express.js for frontend-backend communication.",
+      "Implemented MongoDB database integration for storing and managing application data.",
+      "Debugged application issues and followed modular development practices to improve code quality and maintainability."
     ],
   }
 ];
 
 const expLogos = [
   { name: "MPOnline", imgPath: "/images/fav.png" },
+  { name: "ServiceNow", imgPath: "/images/fav.png" },
   { name: "Ethnus", imgPath: "/images/fav.png" },
 ];
 
