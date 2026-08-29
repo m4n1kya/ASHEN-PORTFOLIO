@@ -196,11 +196,11 @@ const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, 
   };
 
   const tabs = [
-    { label: "Overview", action: onNavigateToOverview, side: "left" },
-    { label: "Experience", action: () => {}, side: "left" },
+    { label: "Overview", action: () => onNavigateToOverview(), side: "left" },
+    { label: "Experience", action: () => onNavigateToOverview('experience'), side: "left" },
     { label: "Projects", action: () => {}, side: "left" },
-    { label: "Technical Skills", action: () => {}, side: "right" },
-    { label: "Certifications", action: () => {}, side: "right" },
+    { label: "Technical Skills", action: () => onNavigateToOverview('skills'), side: "right" },
+    { label: "Certifications", action: () => onNavigateToOverview('achievements'), side: "right" },
     { label: "Contact", action: onNavigateToContact, side: "right" },
   ];
 

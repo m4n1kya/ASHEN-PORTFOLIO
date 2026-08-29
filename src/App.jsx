@@ -135,8 +135,22 @@ const App = () => {
   };
 
   // Navigate to Overview
-  const navigateToOverview = useCallback(() => {
+  const navigateToOverview = useCallback((targetId = null) => {
     if (isTransitioning.current) return;
+    const tid = typeof targetId === 'string' ? targetId : null;
+    
+    const oc = document.querySelector('.overview-container');
+    const targetEl = tid ? document.getElementById(tid) : null;
+
+    if (oc && oc.style.display !== 'none' && getComputedStyle(oc).opacity === '1') {
+      if (targetEl) {
+        window.scrollTo({ top: targetEl.offsetTop - 50, behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
     isTransitioning.current = true;
     scrollPositionRef.current = window.scrollY;
 
@@ -150,7 +164,16 @@ const App = () => {
           setView('overview');
         });
         sessionStorage.setItem('ashen_has_loaded', 'true');
-        window.scrollTo(0, 0);
+        
+        // Wait a tiny bit for the browser to render the newly displayed overview-container
+        setTimeout(() => {
+            const newTargetEl = tid ? document.getElementById(tid) : null;
+            if (newTargetEl) {
+              window.scrollTo(0, newTargetEl.offsetTop - 50);
+            } else {
+              window.scrollTo(0, 0);
+            }
+        }, 0);
 
         const hc = document.querySelector('.home-container');
         if (hc) hc.style.display = 'none';
@@ -358,11 +381,11 @@ const App = () => {
           accentColor="#839cb5"
           items={[
             { label: 'Home',       ariaLabel: 'Back to Home',            link: '#', onClick: navigateToHome },
-            { label: 'Overview',   ariaLabel: 'Professional Summary',    link: '#', onClick: navigateToOverview },
-            { label: 'Experience', ariaLabel: 'Work Experience',         link: '#', onClick: () => {} },
-            { label: 'Projects',   ariaLabel: 'Selected Projects',       link: '#', onClick: navigateToGallery },
-            { label: 'Skills',     ariaLabel: 'Technical Stack',         link: '#', onClick: () => {} },
-            { label: 'Certifications', ariaLabel: 'Certifications',      link: '#', onClick: () => {} },
+            { label: 'Overview',   ariaLabel: 'Professional Summary',    link: '#', onClick: () => navigateToOverview() },
+            { label: 'Experience', ariaLabel: 'Work Experience',         link: '#', onClick: () => navigateToOverview('experience') },
+            { label: 'Projects',   ariaLabel: 'Selected Projects',       link: '#', onClick: () => {} },
+            { label: 'Skills',     ariaLabel: 'Technical Stack',         link: '#', onClick: () => navigateToOverview('skills') },
+            { label: 'Certifications', ariaLabel: 'Certifications',      link: '#', onClick: () => navigateToOverview('achievements') },
             { label: 'Contact',    ariaLabel: 'Get in touch',            link: '#', onClick: navigateToContact },
           ]}
           socialItems={[
