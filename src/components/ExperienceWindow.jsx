@@ -9,8 +9,16 @@ import ShinyText from "./reactbits/ShinyText";
 import Galaxy from "./reactbits/Galaxy";
 import BlobTextReveal from "./reactbits/BlobTextReveal";
 import TickerScroll from "./reactbits/TickerScroll";
+import AccordionGallery from "./reactbits/AccordionGallery";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const galleryItems = [
+  { image: '/images/experience/1761853993904.jpg', label: 'Tech Summit' },
+  { image: '/images/experience/1761853995146.jpg', label: 'Industry Workshop' },
+  { image: '/images/experience/1761853995286.jpg', label: 'Open Source' },
+  { image: '/images/experience/1761853995774.jpg', label: 'Hackathon' }
+];
 
 const ExperienceWindow = ({ onBack }) => {
   const containerRef = useRef(null);
@@ -184,7 +192,14 @@ const ExperienceWindow = ({ onBack }) => {
                   <li className="text-lg leading-relaxed">Exposure to enterprise agile workflows, CI/CD pipeline structures, and team collaboration protocols.</li>
                   <li className="text-lg leading-relaxed">Gained insights into scalability and performance optimization directly from senior industry professionals.</li>
                 </ul>
-                <p className="text-white/40 italic mt-8 text-sm uppercase tracking-widest border-t border-white/10 pt-4">More details coming soon...</p>
+                <div className="mt-8 pt-6 border-t border-white/10">
+                  <AccordionGallery
+                    items={galleryItems}
+                    defaultIndex={1}
+                    expandRatio={0.52}
+                    trigger="hover"
+                  />
+                </div>
               </div>
           </SpotlightCard>
         </div>
