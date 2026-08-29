@@ -6,6 +6,7 @@ import TiltedCard from "../components/reactbits/TiltedCard";
 import Magnet from "../components/reactbits/Magnet";
 import ShinyText from "../components/reactbits/ShinyText";
 import SplitText from "../components/reactbits/SplitText";
+import ScrollFloat from "../components/reactbits/ScrollFloat";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -42,16 +43,29 @@ const ProjectsTitle = () => {
   }, []);
 
   return (
-    <div className="mb-16 overflow-hidden">
-      <p ref={subRef} className="text-blue-50 text-sm md:text-base font-bold uppercase tracking-[0.2em] mb-4">
-        Selected Work
-      </p>
-      <h2
-        ref={lineRef}
-        className="text-white text-[12vw] md:text-[8vw] lg:text-[6vw] font-black uppercase leading-none tracking-tighter"
-      >
-        Projects
-      </h2>
+    <div className="w-full mb-16 md:mb-24 flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-12">
+      <div className="flex-[1.8] text-left w-full">
+        <ScrollFloat
+          animationDuration={1}
+          ease="back.inOut(2)"
+          scrollStart="top bottom"
+          scrollEnd="bottom center"
+          stagger={0.02}
+          containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black w-full uppercase tracking-tighter leading-none"
+        >
+          SELECTED
+        </ScrollFloat>
+        <ScrollFloat
+          animationDuration={1.2}
+          ease="back.inOut(2)"
+          scrollStart="top bottom"
+          scrollEnd="bottom center"
+          stagger={0.02}
+          containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none text-white/40 mt-2"
+        >
+          PROJECTS
+        </ScrollFloat>
+      </div>
     </div>
   );
 };

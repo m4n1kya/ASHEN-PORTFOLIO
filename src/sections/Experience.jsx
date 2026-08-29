@@ -7,6 +7,7 @@ import { expCards } from "../constants";
 import SpotlightCard from "../components/reactbits/SpotlightCard";
 import Magnet from "../components/reactbits/Magnet";
 import ShinyText from "../components/reactbits/ShinyText";
+import ScrollFloat from "../components/reactbits/ScrollFloat";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -142,10 +143,30 @@ const Experience = () => {
   return (
     <section id="experience" className="flex-center md:mt-40 mt-20 section-padding xl:px-0">
         <div className="w-full h-full md:px-20 px-5">
-          <CharRevealTitle
-            title="Professional Work Experience"
-            sub="My Career Overview"
-          />
+          <div className="w-full mb-16 md:mb-24 flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-12">
+            <div className="flex-[1.8] text-left w-full">
+              <ScrollFloat
+                animationDuration={1}
+                ease="back.inOut(2)"
+                scrollStart="top bottom"
+                scrollEnd="bottom center"
+                stagger={0.02}
+                containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black w-full uppercase tracking-tighter leading-none"
+              >
+                WORK
+              </ScrollFloat>
+              <ScrollFloat
+                animationDuration={1.2}
+                ease="back.inOut(2)"
+                scrollStart="top bottom"
+                scrollEnd="bottom center"
+                stagger={0.02}
+                containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none text-white/40 mt-2"
+              >
+                EXPERIENCE
+              </ScrollFloat>
+            </div>
+          </div>
 
           <div className="mt-32 relative">
             <div className="relative z-50 xl:space-y-32 space-y-10">

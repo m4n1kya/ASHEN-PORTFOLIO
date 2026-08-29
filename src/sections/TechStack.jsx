@@ -8,6 +8,7 @@ import SpotlightCard from "../components/reactbits/SpotlightCard";
 import Magnet from "../components/reactbits/Magnet";
 import ShinyText from "../components/reactbits/ShinyText";
 import GlitchText from "../components/GlitchText";
+import ScrollFloat from "../components/reactbits/ScrollFloat";
 import { techStackIcons, techStackImgs } from "../constants";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -86,19 +87,29 @@ const TechStack = () => {
   return (
       <div id="skills" className="flex-center section-padding">
         <div className="w-full h-full md:px-10 px-5">
-          {/* Glitch-text section title */}
-          <div className="flex flex-col items-center gap-5 mb-16">
-            <div className="hero-badge">
-              <p>What I Work With</p>
+          <div className="w-full mb-16 md:mb-24 flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-12">
+            <div className="flex-[1.8] text-left w-full">
+              <ScrollFloat
+                animationDuration={1}
+                ease="back.inOut(2)"
+                scrollStart="top bottom"
+                scrollEnd="bottom center"
+                stagger={0.02}
+                containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black w-full uppercase tracking-tighter leading-none"
+              >
+                TECHNICAL
+              </ScrollFloat>
+              <ScrollFloat
+                animationDuration={1.2}
+                ease="back.inOut(2)"
+                scrollStart="top bottom"
+                scrollEnd="bottom center"
+                stagger={0.02}
+                containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none text-white/40 mt-2"
+              >
+                ARSENAL
+              </ScrollFloat>
             </div>
-            <GlitchText
-              text="TECHNICAL ARSENAL"
-              tag="h2"
-              className="font-semibold md:text-5xl text-3xl text-center w-full"
-              triggerStart="top 82%"
-              speed={25}
-              settleFactor={0.32}
-            />
           </div>
 
           {/* 3D Tech Icons */}
