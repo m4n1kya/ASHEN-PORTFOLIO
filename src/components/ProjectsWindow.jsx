@@ -211,6 +211,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
               <div className="w-full h-[75vh] md:h-[85vh] relative rounded-2xl overflow-hidden shadow-2xl border border-white-50/10 bg-[#0c0c0e]">
                 <div className="absolute inset-0 bg-[#0c0c0e]">
                   <FlyingPosters 
+                    key={activeTab}
                     items={(() => {
                       let activeImages = [];
                       switch (activeTab) {

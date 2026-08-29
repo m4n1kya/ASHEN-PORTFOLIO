@@ -323,9 +323,10 @@ class Canvas {
 
   createPreloader() {
     this.loaded = 0;
-    if (!this.items.length) return;
+    if (!this.items || !this.items.length) return;
 
-    this.items.forEach(src => {
+    if (Array.isArray(this.items)) {
+      this.items.forEach(src => {
       const image = new Image();
       image.crossOrigin = 'anonymous';
       image.src = src;
@@ -336,7 +337,8 @@ class Canvas {
           document.documentElement.classList.add('loaded');
         }
       };
-    });
+      });
+    }
   }
 
   onResize() {
@@ -358,7 +360,7 @@ class Canvas {
 
     this.viewport = { height, width };
 
-    if (this.medias) {
+    if (this.medias && Array.isArray(this.medias)) {
       this.medias.forEach(media => media.onResize({ screen: this.screen, viewport: this.viewport }));
     }
   }
@@ -388,7 +390,7 @@ class Canvas {
   update() {
     this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
 
-    if (this.medias) {
+    if (this.medias && Array.isArray(this.medias)) {
       this.medias.forEach(media => media.update(this.scroll));
     }
     this.renderer.render({ scene: this.scene, camera: this.camera });
@@ -427,7 +429,7 @@ class Canvas {
     window.removeEventListener('touchend', this.onTouchUp);
     
     // Clean up WebGL resources
-    if (this.medias) {
+    if (this.medias && Array.isArray(this.medias)) {
       this.medias.forEach(media => {
         if (media.program && media.program.uniforms.tMap.value) {
           this.gl.deleteTexture(media.program.uniforms.tMap.value.texture);
@@ -441,8 +443,6 @@ class Canvas {
       this.gl.deleteBuffer(this.planeGeometry.attributes.position.buffer);
       this.gl.deleteBuffer(this.planeGeometry.attributes.uv.buffer);
     }
-    const ext = this.gl.getExtension('WEBGL_lose_context');
-    if (ext) ext.loseContext();
   }
 }
 
