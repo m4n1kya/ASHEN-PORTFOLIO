@@ -1,18 +1,62 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
 import AnimatedCounter from "../components/AnimatedCounter";
-import Button from "../components/Button";
 import { words } from "../constants";
 import HeroImageParticles from "../components/HeroImageParticles";
 import ShinyText from "../components/reactbits/ShinyText";
 import FoldText from "../components/reactbits/FoldText";
 
-const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
-  const lanternContainerRef = useRef(null);
+const FloatingTab = ({ tab, index, side }) => {
+   const tabRef = useRef(null);
+   const yPos = index % 3 === 0 ? '-140px' : index % 3 === 1 ? '0px' : '140px';
+   const xPos = side === 'left' ? '-280px' : '280px';
+
+   useGSAP(() => {
+     gsap.fromTo(tabRef.current, {
+       scale: 0, opacity: 0
+     }, {
+       scale: 1, opacity: 1, duration: 0.6, delay: (index % 3) * 0.1, ease: "back.out(1.5)"
+     });
+
+     gsap.to(tabRef.current, {
+       y: "+=15",
+       x: "+=10",
+       rotation: (Math.random() - 0.5) * 5,
+       duration: 2 + Math.random(),
+       repeat: -1,
+       yoyo: true,
+       ease: "sine.inOut"
+     });
+   }, []);
+
+   return (
+     <div 
+       ref={tabRef}
+       className="absolute pointer-events-auto cursor-pointer flex items-center justify-center"
+       style={{
+         transform: `translate(${xPos}, ${yPos})`,
+         zIndex: 100
+       }}
+       onClick={(e) => {
+         e.stopPropagation();
+         tab.action();
+       }}
+     >
+       <div className="px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/20 rounded-full text-white font-medium hover:bg-white/10 hover:scale-110 transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)] whitespace-nowrap">
+         {tab.label}
+       </div>
+     </div>
+   );
+};
+
+const Hero = ({ onNavigateToOverview, onNavigateToContact, hasLoadedOnce }) => {
+  const containerRef = useRef(null);
   const lanternImgRef = useRef(null);
   const [isLanternHovered, setIsLanternHovered] = useState(false);
+  const [isCentered, setIsCentered] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useGSAP(() => {
     if (!hasLoadedOnce) {
@@ -22,16 +66,48 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
         { y: 0, opacity: 1, stagger: 0.2, duration: 1, ease: "power2.inOut" }
       );
     } else {
-      // If we've already loaded once, just ensure they are visible
       gsap.set(".hero-text h1", { y: 0, opacity: 1 });
     }
+
+    // GSAP Timeline for horizontal scroll lock
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top top",
+        end: "+=1500", // 1500px of scrolling
+        scrub: 1,
+        pin: true,
+        onUpdate: (self) => {
+          if (self.progress >= 0.99) {
+            setIsCentered(true);
+          } else {
+            setIsCentered(false);
+            setIsMenuOpen(false); // Close menu if user scrolls back up
+          }
+        }
+      }
+    });
+
+    // Move left content out and fade it
+    tl.to(".hero-left-content", {
+      x: () => -window.innerWidth * 0.5,
+      opacity: 0,
+      ease: "power2.inOut"
+    }, 0);
+
+    // Right visual is currently taking the right half of the screen on desktop.
+    // To center it exactly, we shift it left by 25vw on desktop.
+    tl.to(".hero-right-visual", {
+      x: () => -window.innerWidth * 0.25,
+      ease: "power2.inOut"
+    }, 0);
 
     gsap.fromTo(".scroll-indicator",
       { opacity: 0.6 },
       {
         opacity: 0,
         scrollTrigger: {
-          trigger: "#hero",
+          trigger: containerRef.current,
           start: "top top",
           end: "+=300", 
           scrub: true,
@@ -47,20 +123,25 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
   }, []);
 
   const handleLanternClick = () => {
-    if (!lanternContainerRef.current) return;
-
-    // Trigger navigation transition
-    if (onNavigateToGallery) {
-      onNavigateToGallery();
-    }
+    if (!isCentered) return;
+    setIsMenuOpen(prev => !prev);
   };
 
+  const tabs = [
+    { label: "Overview", action: onNavigateToOverview, side: "left" },
+    { label: "Experience", action: () => {}, side: "left" },
+    { label: "Projects", action: () => {}, side: "left" },
+    { label: "Technical Skills", action: () => {}, side: "right" },
+    { label: "Certifications", action: () => {}, side: "right" },
+    { label: "Contact", action: onNavigateToContact, side: "right" },
+  ];
+
   return (
-    <section id="hero" className="relative overflow-hidden">
-      <div className="relative z-10 w-full min-h-[80vh] md:min-h-screen flex flex-col lg:flex-row items-center justify-between px-5 md:px-20 pt-32 lg:pt-20 pb-20 lg:pb-32 gap-10 lg:gap-0">
+    <section id="hero" className="relative overflow-hidden w-full h-screen" ref={containerRef}>
+      <div className="relative z-10 w-full h-full flex flex-col lg:flex-row items-center justify-between px-5 md:px-20">
         
         {/* LEFT: Hero Content */}
-        <header className="flex flex-col justify-center lg:w-[60%] w-full">
+        <header className="flex flex-col justify-center w-full lg:w-[60%] h-full hero-left-content">
           <div className="flex flex-col gap-6">
             <div className="hero-text">
               <h1 className="text-white text-[12vw] md:text-[50px] lg:text-[80px] font-black tracking-tighter leading-[0.85] mb-4 md:mb-6 uppercase">
@@ -106,53 +187,42 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce }) => {
             <p className="text-white-50 md:text-lg lg:text-xl relative z-10 pointer-events-none mt-4 font-medium max-w-2xl leading-relaxed">
               Turning <ShinyText text="impossible ideas" className="text-white font-bold" speed={3.5} /> into engineered <ShinyText text="realities" className="text-white font-bold" speed={3.5} />.
             </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 relative z-10 mt-6 pointer-events-auto">
-              <Button
-                text="View Projects"
-                className="md:w-72 w-full h-14"
-                id="projects"
-              />
-              <a 
-                href="/Manikya_N_Resume.pdf" 
-                download="Manikya_N_Resume.pdf"
-                className="flex items-center justify-center md:w-72 w-full h-14 rounded-lg border border-white-50 text-white-50 hover:bg-white-50 hover:text-black transition-colors duration-300 font-medium uppercase tracking-wider text-sm md:text-base"
-              >
-                Download Resume
-              </a>
-            </div>
           </div>
         </header>
 
         {/* RIGHT: Visual */}
-        <figure className="lg:w-1/2 w-full flex justify-center items-center relative mt-24 lg:mt-0 pb-10 lg:pb-0 z-50">
+        <figure className="w-full lg:w-1/2 flex justify-center items-center relative h-full z-50 hero-right-visual">
           <div 
-            ref={lanternContainerRef} 
-            className="relative w-full flex justify-center items-center group cursor-pointer" 
+            className={`relative w-full flex justify-center items-center group transition-all duration-300 ${isCentered ? 'cursor-pointer scale-110' : ''}`}
             onClick={handleLanternClick}
-            onMouseEnter={() => setIsLanternHovered(true)}
+            onMouseEnter={() => isCentered && setIsLanternHovered(true)}
             onMouseLeave={() => setIsLanternHovered(false)}
-            onTouchStart={() => setIsLanternHovered(true)}
-            onTouchEnd={() => setIsLanternHovered(false)}
-            onTouchCancel={() => setIsLanternHovered(false)}
           >
             <HeroImageParticles isHovered={isLanternHovered} />
             
-            {/* Added a subtle glow behind the lantern to indicate it is clickable */}
-            <div className="absolute inset-0 bg-white/5 rounded-full blur-3xl opacity-0 group-hover:opacity-25 transition-opacity duration-500 pointer-events-none" />
+            <div className={`absolute inset-0 bg-white/5 rounded-full blur-3xl transition-opacity duration-500 pointer-events-none ${isCentered && isLanternHovered ? 'opacity-40' : 'opacity-0'}`} />
             
             <img 
               ref={lanternImgRef}
               src="/images/hero-lantern.png" 
-              alt="Enter Gallery" 
-              title="Click to enter the screenshot gallery"
-              className="h-[300px] md:h-[450px] lg:h-[550px] object-contain animate-floatHover relative z-10 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all duration-300"
+              alt="Lantern" 
+              className={`h-[300px] md:h-[450px] lg:h-[550px] object-contain relative z-10 transition-all duration-700
+                ${isCentered && isLanternHovered ? 'drop-shadow-[0_0_40px_rgba(255,255,255,0.4)] scale-[1.02]' : 'animate-floatHover drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]'}
+              `}
             />
+
+            {/* Floating Tabs */}
+            {isMenuOpen && (
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[60]">
+                {tabs.map((tab, i) => (
+                  <FloatingTab key={tab.label} tab={tab} index={i} side={tab.side} />
+                ))}
+              </div>
+            )}
           </div>
         </figure>
       </div>
 
-      {/* Aesthetic Animated Scroll Indicator (No Text) */}
       <div className="absolute top-[90vh] left-1/2 -translate-x-1/2 scroll-indicator z-[999] pointer-events-none opacity-60 mix-blend-screen">
         <div className="w-[16px] h-[28px] rounded-full border-[1.5px] border-white flex justify-center p-1 shadow-[0_0_10px_rgba(255,255,255,0.2)]">
           <div className="w-1 h-1 bg-white rounded-full scroll-mouse-dot shadow-[0_0_4px_rgba(255,255,255,1)]"></div>

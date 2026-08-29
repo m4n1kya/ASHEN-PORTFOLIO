@@ -136,6 +136,70 @@ const App = () => {
     }
   };
 
+  // Navigate to Overview
+  const navigateToOverview = useCallback(() => {
+    if (isTransitioning.current) return;
+    isTransitioning.current = true;
+    
+    scrollPositionRef.current = window.scrollY;
+
+    flushSync(() => {
+      setHasLoadedOnce(true);
+      setView('overview');
+    });
+    sessionStorage.setItem('ashen_has_loaded', 'true');
+
+    gsap.fromTo('.overview-container', 
+      { opacity: 0 }, 
+      { opacity: 1, duration: 1.5, ease: 'power2.inOut' }
+    );
+
+    gsap.to('.home-container', {
+      opacity: 0,
+      duration: 1.5,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        isTransitioning.current = false;
+        const hc = document.querySelector('.home-container');
+        if (hc) hc.style.display = 'none';
+        window.scrollTo(0, 0);
+        ScrollTrigger.refresh();
+      },
+    });
+  }, []);
+
+  // Navigate to Contact
+  const navigateToContact = useCallback(() => {
+    if (isTransitioning.current) return;
+    isTransitioning.current = true;
+    
+    scrollPositionRef.current = window.scrollY;
+
+    flushSync(() => {
+      setHasLoadedOnce(true);
+      setView('contact');
+    });
+    sessionStorage.setItem('ashen_has_loaded', 'true');
+
+    gsap.fromTo('.contact-container', 
+      { opacity: 0 }, 
+      { opacity: 1, duration: 1.5, ease: 'power2.inOut' }
+    );
+
+    gsap.to('.home-container', {
+      opacity: 0,
+      duration: 1.5,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        isTransitioning.current = false;
+        const hc = document.querySelector('.home-container');
+        if (hc) hc.style.display = 'none';
+        window.scrollTo(0, 0);
+        ScrollTrigger.refresh();
+      },
+    });
+  }, []);
+
   // Navigate to gallery — True Crossfade
   const navigateToGallery = useCallback(() => {
     if (isTransitioning.current) return;
@@ -280,12 +344,12 @@ const App = () => {
           colors={['#1c1c21', '#282732']}
           accentColor="#839cb5"
           items={[
-            { label: 'Home',       ariaLabel: 'Back to top',             link: '#', onClick: () => handleNav('#', { type: 'radial', color: '#0c0c0e' }) },
-            { label: 'About',      ariaLabel: 'Professional Summary',    link: '#about', onClick: () => handleNav('#about', { type: 'blinds', color: '#111827' }) },
-            { label: 'Experience', ariaLabel: 'Work Experience',         link: '#experience', onClick: () => handleNav('#experience', { type: 'split', color: '#1e1b2e' }) },
-            { label: 'Projects',   ariaLabel: 'Selected Projects',       link: '#projects', onClick: () => handleNav('#projects', { type: 'bars', color: '#1e1b2e' }) },
-            { label: 'Skills',     ariaLabel: 'Technical Stack',         link: '#skills', onClick: () => handleNav('#skills', { type: 'radial', color: '#111827' }) },
-            { label: 'Contact',    ariaLabel: 'Get in touch',            link: '#contact', onClick: () => handleNav('#contact', { type: 'slash', color: '#0c0c0e' }) },
+            { label: 'Overview',   ariaLabel: 'Professional Summary',    link: '#', onClick: navigateToOverview },
+            { label: 'Experience', ariaLabel: 'Work Experience',         link: '#', onClick: () => {} },
+            { label: 'Projects',   ariaLabel: 'Selected Projects',       link: '#', onClick: navigateToGallery },
+            { label: 'Skills',     ariaLabel: 'Technical Stack',         link: '#', onClick: () => {} },
+            { label: 'Certifications', ariaLabel: 'Certifications',      link: '#', onClick: () => {} },
+            { label: 'Contact',    ariaLabel: 'Get in touch',            link: '#', onClick: navigateToContact },
           ]}
           socialItems={[
             { label: 'GitHub',   link: 'https://github.com/m4n1kya' },
@@ -307,7 +371,12 @@ const App = () => {
           {/* Main Hero Content - Sits underneath the IntroScreen */}
           <div className="absolute inset-0 z-0">
             <HeroParticles />
-            <Hero onNavigateToGallery={navigateToGallery} hasLoadedOnce={hasLoadedOnce} />
+            <Hero 
+              onNavigateToOverview={navigateToOverview}
+              onNavigateToContact={navigateToContact}
+              onNavigateToGallery={navigateToGallery} 
+              hasLoadedOnce={hasLoadedOnce} 
+            />
           </div>
           
           {/* Intro Screen - Sits on top and zooms/fades out to reveal Hero */}
@@ -315,15 +384,25 @@ const App = () => {
             <IntroScreen />
           </div>
         </div>
-        
+      </div>
+
+      <div 
+        className="overview-container relative bg-transparent mt-0 z-10"
+        style={{ display: (view === 'overview' || isTransitioning.current) ? 'block' : 'none' }}
+      >
         <FeatureCards />
-        
         <Experience />
         <ShowcaseSection onNavigateToProjects={navigateToProjects} />
         <LogoShowcase />
         <TechStack />
         <Achievements />
-        <BlobExpand />
+        <Footer />
+      </div>
+
+      <div 
+        className="contact-container relative bg-transparent mt-0 z-10"
+        style={{ display: (view === 'contact' || isTransitioning.current) ? 'block' : 'none' }}
+      >
         <Contact />
         <Footer />
       </div>
