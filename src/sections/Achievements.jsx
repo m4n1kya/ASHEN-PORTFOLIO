@@ -32,16 +32,26 @@ const Achievements = () => {
   return (
     <section id="achievements" className="relative pb-24 overflow-hidden pt-10" ref={containerRef}>
       <div className="w-full mb-16 md:mb-24 px-5 md:px-20 lg:px-24 flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-12">
-        <div className="flex-[1.8] text-left w-full">
+        <div className="flex-[1.8] text-left w-full flex flex-wrap items-center gap-x-4 md:gap-x-6 gap-y-2">
           <ScrollFloat
             animationDuration={1}
             ease="back.inOut(2)"
             scrollStart="top bottom"
             scrollEnd="bottom center"
             stagger={0.02}
-            containerClassName="text-white text-[8vw] md:text-6xl lg:text-7xl font-black w-full uppercase tracking-tighter leading-none"
+            containerClassName="text-white text-[8vw] md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-none"
           >
-            CERTIFICATIONS & ACHIEVEMENTS
+            CERTIFICATIONS
+          </ScrollFloat>
+          <ScrollFloat
+            animationDuration={1.2}
+            ease="back.inOut(2)"
+            scrollStart="top bottom"
+            scrollEnd="bottom center"
+            stagger={0.02}
+            containerClassName="text-white text-[8vw] md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-none text-white/40"
+          >
+            & ACHIEVEMENTS
           </ScrollFloat>
         </div>
       </div>
@@ -63,16 +73,26 @@ const Achievements = () => {
 
       {/* ── INDUSTRIAL EXPOSURE AREA ── */}
       <div className="w-full mb-16 md:mb-24 px-5 md:px-20 lg:px-24 flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-12 mt-20">
-        <div className="flex-[1.8] text-left w-full">
+        <div className="flex-[1.8] text-left w-full flex flex-wrap items-center gap-x-4 md:gap-x-6 gap-y-2">
           <ScrollFloat
             animationDuration={1}
             ease="back.inOut(2)"
             scrollStart="top bottom"
             scrollEnd="bottom center"
             stagger={0.02}
-            containerClassName="text-white text-[8vw] md:text-6xl lg:text-7xl font-black w-full uppercase tracking-tighter leading-none"
+            containerClassName="text-white text-[8vw] md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-none"
           >
-            INDUSTRIAL EXPOSURE
+            INDUSTRIAL
+          </ScrollFloat>
+          <ScrollFloat
+            animationDuration={1.2}
+            ease="back.inOut(2)"
+            scrollStart="top bottom"
+            scrollEnd="bottom center"
+            stagger={0.02}
+            containerClassName="text-white text-[8vw] md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-none text-white/40"
+          >
+            EXPOSURE
           </ScrollFloat>
         </div>
       </div>
