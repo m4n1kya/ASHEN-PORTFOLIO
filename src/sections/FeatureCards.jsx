@@ -92,7 +92,7 @@ const FeatureCards = () => {
   return (
     <section id="about" className="relative pb-24 overflow-hidden pt-10" ref={cardsRef}>
       {/* ── Section Title ── */}
-      <div className="w-full mb-16 md:mb-24 flex flex-col lg:flex-row items-center lg:items-start justify-between gap-10 lg:gap-20">
+      <div className="w-full mb-16 md:mb-24 flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-20">
         
         {/* Left Side: Text */}
         <div className="flex-1 text-left w-full">
@@ -131,7 +131,7 @@ const FeatureCards = () => {
           <img 
             src="/images/profile.jpg" 
             alt="Manikya" 
-            className="profile-img w-full max-w-sm lg:max-w-md h-auto rounded-2xl object-cover filter grayscale contrast-125 brightness-[0.85] shadow-2xl border border-white/10" 
+            className="profile-img w-full max-w-sm lg:max-w-md h-auto rounded-2xl object-cover filter saturate-50 contrast-125 brightness-90 shadow-2xl border border-white/10" 
           />
         </div>
 
