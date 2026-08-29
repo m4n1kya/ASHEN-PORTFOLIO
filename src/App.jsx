@@ -79,9 +79,7 @@ const App = () => {
   const [activeProject, setActiveProject] = useState("ashenritual");
   const [galleryMounted, setGalleryMounted] = useState(false);
   const [projectsMounted, setProjectsMounted] = useState(false);
-  const [hasLoadedOnce, setHasLoadedOnce] = useState(() => {
-    return sessionStorage.getItem('ashen_has_loaded') === 'true';
-  });
+  const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
   const overlayRef = useRef(null);
   const curtainRef = useRef(null);
   const isTransitioning = useRef(false);
