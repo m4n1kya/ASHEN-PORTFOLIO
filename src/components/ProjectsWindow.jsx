@@ -189,8 +189,8 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
       <div className="absolute inset-0 z-[1] overflow-hidden opacity-100 flex items-center justify-center pointer-events-none">
         <FlyingPosters 
           key={activeTab}
-          planeWidth={900}
-          planeHeight={450}
+          planeWidth={1150}
+          planeHeight={575}
           className="pointer-events-auto"
           items={(() => {
             let activeImages = [];
