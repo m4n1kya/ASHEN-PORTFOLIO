@@ -155,21 +155,19 @@ const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, 
       }
     });
 
-    if (!hasLoadedOnce) {
-      // 1. ZOOM IN AND FADE OUT INTRO (0% to ~40% of scroll)
-      tl.to(introRef.current, {
-        scale: 10,
-        autoAlpha: 0,
-        ease: "power2.inOut",
-        onUpdate: function() {
-          if (this.progress() > 0.8) {
-            if (introRef.current) introRef.current.style.pointerEvents = 'none';
-          } else {
-            if (introRef.current) introRef.current.style.pointerEvents = 'auto';
-          }
+    // 1. ZOOM IN AND FADE OUT INTRO (0% to ~40% of scroll)
+    tl.to(introRef.current, {
+      scale: 10,
+      autoAlpha: 0,
+      ease: "power2.inOut",
+      onUpdate: function() {
+        if (this.progress() > 0.8) {
+          if (introRef.current) introRef.current.style.pointerEvents = 'none';
+        } else {
+          if (introRef.current && !hasLoadedOnce) introRef.current.style.pointerEvents = 'auto';
         }
-      }, 0);
-    }
+      }
+    }, 0);
 
     // Add a small pause where the hero is perfectly visible before scrolling horizontally
     tl.to({}, { duration: 0.2 }); 

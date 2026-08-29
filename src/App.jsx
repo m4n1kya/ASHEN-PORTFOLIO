@@ -271,9 +271,15 @@ const App = () => {
   // Navigate back to home
   const navigateToHome = useCallback(() => {
     if (isTransitioning.current) return;
-    isTransitioning.current = true;
 
     const hc = document.querySelector('.home-container');
+    if (hc && hc.style.display !== 'none' && getComputedStyle(hc).opacity === '1') {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      return;
+    }
+
+    isTransitioning.current = true;
+
     if (hc) {
       hc.style.display = 'block';
       // Force ScrollTrigger to recalculate all positions now that display is block
