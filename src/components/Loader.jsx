@@ -12,6 +12,7 @@ const CSSMaskedNumber = ({ number, src, parallax = 120 }) => {
     let targetY = 0;
     let currentX = 0;
     let currentY = 0;
+    let driftTime = 0;
 
     const onMove = (e) => {
       const nx = (e.clientX / window.innerWidth) * 2 - 1;
@@ -22,13 +23,13 @@ const CSSMaskedNumber = ({ number, src, parallax = 120 }) => {
 
     const animate = () => {
       // Add a continuous slow automatic drift to the background so it feels alive even without mouse movement
-      const timeOffset = Date.now() * 0.02;
+      driftTime += 0.5;
 
       currentX += (targetX - currentX) * 0.1;
       currentY += (targetY - currentY) * 0.1;
       setOffset({ 
-        x: currentX + timeOffset, 
-        y: currentY + (Math.sin(Date.now() * 0.001) * 20) // subtle vertical bobbing
+        x: currentX + driftTime, 
+        y: currentY + (Math.sin(driftTime * 0.05) * 20) // subtle vertical bobbing
       });
       rafId = requestAnimationFrame(animate);
     };
@@ -51,7 +52,7 @@ const CSSMaskedNumber = ({ number, src, parallax = 120 }) => {
         lineHeight: '0.85',
         backgroundColor: '#ffffff',
         backgroundImage: `url(${src})`,
-        backgroundSize: 'cover',
+        backgroundSize: '150%',
         backgroundPosition: `calc(50% + ${offset.x}px) calc(50% + ${offset.y}px)`,
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
