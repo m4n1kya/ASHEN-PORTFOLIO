@@ -210,7 +210,7 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
       <div className="absolute top-0 left-0 w-full p-4 md:p-6 z-[50] pointer-events-none">
         
         {/* Center: Project Tabs */}
-        <div className="w-full flex justify-center pointer-events-auto z-[51]">
+        <div className="w-full flex justify-center pointer-events-auto z-[51] mt-16 md:mt-0">
           <GooeyNav 
             items={projectsData}
             activeIndex={projectsData.findIndex(p => p.id === activeTab)}
