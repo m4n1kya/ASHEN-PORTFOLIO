@@ -81,6 +81,11 @@ const App = () => {
     if (viewRef.current === newView) return;
     isTransitioning.current = true;
 
+    // Safety net: if something goes wrong, always unlock after 3s
+    const safetyTimer = setTimeout(() => {
+      isTransitioning.current = false;
+    }, 3000);
+
     const { mountKey, projectId, targetId } = options;
 
     gsap.to(overlayRef.current, {
@@ -96,28 +101,25 @@ const App = () => {
         });
         sessionStorage.setItem('ashen_has_loaded', 'true');
 
-        // Scroll and refresh BEFORE fading the overlay back in
-        // so the user never sees a flash of wrong scroll position
-        requestAnimationFrame(() => {
-          if (targetId) {
-            const el = document.getElementById(targetId);
-            window.scrollTo(0, el ? el.offsetTop - 50 : 0);
-          } else {
-            window.scrollTo(0, 0);
+        // Scroll WHILE overlay is opaque — user sees nothing
+        if (targetId) {
+          const el = document.getElementById(targetId);
+          window.scrollTo(0, el ? el.offsetTop - 50 : 0);
+        } else {
+          window.scrollTo(0, 0);
+        }
+
+        // Fade back in — reveal the new view
+        gsap.to(overlayRef.current, {
+          opacity: 0,
+          duration: 0.5,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            clearTimeout(safetyTimer);
+            isTransitioning.current = false;
+            // Refresh AFTER overlay is gone so GSAP pin recalculates cleanly
+            ScrollTrigger.refresh();
           }
-
-          // Refresh triggers IMMEDIATELY — so Hero pin is at position 0 (intro screen)
-          // before the black overlay fades away
-          ScrollTrigger.refresh();
-
-          gsap.to(overlayRef.current, {
-            opacity: 0,
-            duration: 0.5,
-            ease: 'power2.inOut',
-            onComplete: () => {
-              isTransitioning.current = false;
-            }
-          });
         });
       }
     });
@@ -138,10 +140,21 @@ const App = () => {
     const tid = typeof targetId === 'string' ? targetId : null;
 
     if (viewRef.current === 'overview') {
+      // Already in overview — just scroll to section
       const el = tid ? document.getElementById(tid) : null;
       window.scrollTo({ top: el ? el.offsetTop - 50 : 0, behavior: 'smooth' });
       return;
     }
+
+    if (viewRef.current === 'home') {
+      // Overview is already in DOM below the Hero — just scroll down to it
+      const overviewEl = document.querySelector('.overview-container');
+      const targetEl = tid ? document.getElementById(tid) : overviewEl;
+      window.scrollTo({ top: targetEl ? targetEl.offsetTop : 0, behavior: 'smooth' });
+      return;
+    }
+
+    // Coming from a different overlay window — full wipe transition
     transitionTo('overview', { targetId: tid });
   }, [transitionTo]);
 
@@ -253,10 +266,10 @@ const App = () => {
         />
       </div>
 
-      {/* ── Overview (scrollable sections page) ── */}
+      {/* ── Overview (scrollable sections — also rendered below Hero so scrolling flows naturally) ── */}
       <div
         className="overview-container relative bg-transparent mt-0 z-10"
-        style={{ display: view === 'overview' ? 'block' : 'none' }}
+        style={{ display: (view === 'home' || view === 'overview') ? 'block' : 'none' }}
       >
         <FeatureCards />
         <Experience />
