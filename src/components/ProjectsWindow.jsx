@@ -185,6 +185,24 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
         />
       </div>
 
+      {/* Flying Posters Background */}
+      <div className="absolute inset-0 z-[1] overflow-hidden opacity-50">
+        <FlyingPosters 
+          key={activeTab}
+          items={(() => {
+            let activeImages = [];
+            switch (activeTab) {
+              case "ashenritual": activeImages = ashenritualImages; break;
+              case "uni-verse": activeImages = unieaseImages; break;
+              case "ashen-vector": activeImages = ashenVectorImages; break;
+              case "beacon": activeImages = ecoLoopImages; break;
+              default: activeImages = ashenritualImages;
+            }
+            return activeImages.map(img => img.image);
+          })()}
+        />
+      </div>
+
       {/* Floating Header: GooeyNav tabs only — Menu button handles navigation */}
       <div className="absolute top-0 left-0 w-full p-4 md:p-6 z-[50] pointer-events-none">
         
@@ -205,28 +223,8 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
         {/* Content Container */}
         <div className="flex-1 overflow-y-auto relative z-10 flex flex-col bg-transparent custom-scrollbar">
           <div className="w-full max-w-[1400px] mx-auto p-6 md:p-8 lg:p-12 xl:px-16 flex flex-col gap-12 lg:gap-16">
-            
-            {/* Top: Flying Posters Slider (Full Screen Height) */}
-            <div className="w-full flex justify-center z-20">
-              <div className="w-full h-[75vh] md:h-[85vh] relative rounded-2xl overflow-hidden shadow-2xl border border-white-50/10 bg-[#0c0c0e]">
-                <div className="absolute inset-0 bg-[#0c0c0e]">
-                  <FlyingPosters 
-                    key={activeTab}
-                    items={(() => {
-                      let activeImages = [];
-                      switch (activeTab) {
-                        case "ashenritual": activeImages = ashenritualImages; break;
-                        case "uni-verse": activeImages = unieaseImages; break;
-                        case "ashen-vector": activeImages = ashenVectorImages; break;
-                        case "beacon": activeImages = ecoLoopImages; break;
-                        default: activeImages = ashenritualImages;
-                      }
-                      return activeImages.map(img => img.image);
-                    })()}
-                  />
-                </div>
-              </div>
-            </div>
+            {/* Top gap so content starts further down, allowing posters to be seen clearly */}
+            <div className="w-full h-[30vh] md:h-[40vh] shrink-0 pointer-events-none"></div>
             
             {/* Bottom: Project Details (Moves as user scrolls) */}
             <div className="w-full relative z-10 pb-20">
