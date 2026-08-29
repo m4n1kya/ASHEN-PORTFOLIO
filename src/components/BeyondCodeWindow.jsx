@@ -3,10 +3,18 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Galaxy from "./reactbits/Galaxy";
-import SpotlightCard from "./reactbits/SpotlightCard";
 import BlobTextReveal from "./reactbits/BlobTextReveal";
+import FlowingMenu from "./reactbits/FlowingMenu";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const beyondItems = [
+  { link: '#', text: 'ESCAPE', image: 'https://images.unsplash.com/photo-1782977389500-dd7adad33ebe?q=80&w=600&h=400&fit=crop&sat=-100&auto=format' },
+  { link: '#', text: 'LIFESTYLE', image: 'https://images.unsplash.com/photo-1781499455083-6ccc3beb20cd?q=80&w=600&h=400&fit=crop&sat=-100&auto=format' },
+  { link: '#', text: 'RESONANCE', image: 'https://images.unsplash.com/photo-1776394254711-4a0d7345269a?q=80&w=600&h=400&fit=crop&sat=-100&auto=format' },
+  { link: '#', text: 'ATHLETICS', image: 'https://images.unsplash.com/photo-1781242629922-6f39cc3671cd?q=80&w=600&h=400&fit=crop&sat=-100&auto=format' },
+  { link: '#', text: 'PIXELS', image: 'https://images.unsplash.com/photo-1782977389500-dd7adad33ebe?q=80&w=600&h=400&fit=crop&sat=-100&auto=format' }
+];
 
 const BeyondCodeWindow = ({ onBack }) => {
   const containerRef = useRef(null);
@@ -51,7 +59,7 @@ const BeyondCodeWindow = ({ onBack }) => {
       <div className="beyond-window-scroll flex-1 overflow-y-auto overflow-x-hidden relative z-10 w-full h-full pt-20 pb-40 px-5 md:px-20 xl:px-40">
         
         <div className="w-full mb-16 md:mb-32 flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-12 beyond-window-fade-up">
-          <div className="flex-[1.8] text-left w-full flex flex-col">
+          <div className="flex-[1.8] text-left w-full flex flex-col relative z-10">
             <BlobTextReveal 
               text="BEYOND" 
               className="text-white text-[10vw] md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none"
@@ -67,15 +75,16 @@ const BeyondCodeWindow = ({ onBack }) => {
         </div>
 
         <div className="w-full mb-32 max-w-[1200px] mx-auto beyond-window-fade-up">
-           <SpotlightCard
-              className="rounded-xl p-8 md:p-12 border border-white/10 bg-black/40 backdrop-blur-md"
-              spotlightColor="rgba(217, 236, 255, 0.08)"
-              borderColor="rgba(217, 236, 255, 0.25)"
-            >
-              <div className="text-white-50 text-lg text-center">
-                <p>Content for Beyond Code goes here.</p>
-              </div>
-            </SpotlightCard>
+           <div style={{ height: '600px', position: 'relative' }} className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+              <FlowingMenu 
+                items={beyondItems} 
+                bgColor="rgba(0,0,0,0.5)" 
+                marqueeBgColor="rgba(255,255,255,0.1)"
+                marqueeTextColor="#ffffff"
+                textColor="rgba(255,255,255,0.7)"
+                borderColor="rgba(255,255,255,0.1)"
+              />
+           </div>
         </div>
 
       </div>
