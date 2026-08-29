@@ -89,7 +89,6 @@ const App = () => {
       ease: 'power2.inOut',
       onComplete: () => {
         flushSync(() => {
-          // Mount the window component if needed
           if (mountKey) mounted.current[mountKey] = true;
           if (projectId) setActiveProject(projectId);
           setHasLoadedOnce(true);
@@ -97,7 +96,8 @@ const App = () => {
         });
         sessionStorage.setItem('ashen_has_loaded', 'true');
 
-        // Scroll after React has rendered
+        // Scroll and refresh BEFORE fading the overlay back in
+        // so the user never sees a flash of wrong scroll position
         requestAnimationFrame(() => {
           if (targetId) {
             const el = document.getElementById(targetId);
@@ -106,19 +106,22 @@ const App = () => {
             window.scrollTo(0, 0);
           }
 
+          // Refresh triggers IMMEDIATELY — so Hero pin is at position 0 (intro screen)
+          // before the black overlay fades away
+          ScrollTrigger.refresh();
+
           gsap.to(overlayRef.current, {
             opacity: 0,
             duration: 0.5,
             ease: 'power2.inOut',
             onComplete: () => {
               isTransitioning.current = false;
-              ScrollTrigger.refresh();
             }
           });
         });
       }
     });
-  }, []); // no deps — uses refs
+  }, []);
 
   // ── Navigation helpers ──────────────────────────────────────────────────────
   const navigateToHome = useCallback(() => {
