@@ -494,7 +494,7 @@ const App = () => {
             { label: 'Home',       ariaLabel: 'Back to Home',            link: '#', onClick: navigateToHome },
             { label: 'Overview',   ariaLabel: 'Professional Summary',    link: '#', onClick: () => navigateToOverview() },
             { label: 'Experience', ariaLabel: 'Work Experience',         link: '#', onClick: navigateToExperience },
-            { label: 'Projects',   ariaLabel: 'Selected Projects',       link: '#', onClick: () => {} },
+            { label: 'Projects',   ariaLabel: 'Selected Projects',       link: '#', onClick: () => navigateToProjects('ashenritual') },
             { label: 'Skills',     ariaLabel: 'Technical Stack',         link: '#', onClick: navigateToSkills },
             { label: 'Certifications', ariaLabel: 'Certifications',      link: '#', onClick: navigateToCertifications },
             { label: 'Contact',    ariaLabel: 'Get in touch',            link: '#', onClick: navigateToContact },
@@ -535,6 +535,7 @@ const App = () => {
           onNavigateToExperience={navigateToExperience}
           onNavigateToSkills={navigateToSkills}
           onNavigateToCertifications={navigateToCertifications}
+          onNavigateToProjects={navigateToProjects}
           hasLoadedOnce={hasLoadedOnce} 
           setShowNav={setShowNav}
         />
