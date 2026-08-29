@@ -9,7 +9,6 @@ import Hero from "./sections/Hero";
 import Loader from "./components/Loader";
 import ParticleCursor from "./components/ParticleCursor";
 import XRayCursor from "./components/XRayCursor";
-import IntroScreen from "./components/IntroScreen";
 
 import FeatureCards from "./sections/FeatureCards";
 import Experience from "./sections/Experience";
@@ -379,11 +378,6 @@ const App = () => {
               onNavigateToGallery={navigateToGallery} 
               hasLoadedOnce={hasLoadedOnce} 
             />
-          </div>
-          
-          {/* Intro Screen - Sits on top and zooms/fades out to reveal Hero */}
-          <div className="absolute inset-0 z-[100] pointer-events-none">
-            <IntroScreen />
           </div>
         </div>
       </div>
