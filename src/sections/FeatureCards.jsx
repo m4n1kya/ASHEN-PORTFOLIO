@@ -92,10 +92,10 @@ const FeatureCards = () => {
   return (
     <section id="about" className="relative pb-24 overflow-hidden pt-10" ref={cardsRef}>
       {/* ── Section Title ── */}
-      <div className="w-full mb-16 md:mb-24 flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+      <div className="w-full mb-16 md:mb-24 flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-16">
         
         {/* Left Side: Text */}
-        <div className="flex-1 text-left w-full">
+        <div className="flex-[1.3] text-left w-full">
           <ScrollFloat
             animationDuration={1}
             ease="back.inOut(2)"
@@ -116,7 +116,7 @@ const FeatureCards = () => {
           >
             SUMMARY
           </ScrollFloat>
-          <p className="summary-para text-white-50 mt-10 md:text-2xl max-w-3xl leading-relaxed font-medium text-left">
+          <p className="summary-para text-white-50 mt-10 md:text-2xl w-full pr-0 lg:pr-10 leading-relaxed font-medium text-left">
             Computer Science undergraduate (B.Tech in CSE @ VIT Bhopal,{" "}
             <ShinyText text="CGPA 9.21" className="text-white font-bold" speed={3} />) with
             hands-on experience developing full-stack and AI-based applications. Familiar with
@@ -127,7 +127,7 @@ const FeatureCards = () => {
         </div>
 
         {/* Right Side: Large Image */}
-        <div className="flex-1 w-full flex justify-center lg:justify-start">
+        <div className="flex-1 w-full flex justify-center lg:justify-end">
           <img 
             src="/images/profile.jpg" 
             alt="Manikya" 
