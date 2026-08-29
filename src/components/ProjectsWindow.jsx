@@ -3,7 +3,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import Galaxy from "./reactbits/Galaxy";
-import MorphSlider from "./reactbits/MorphSlider";
+import FlyingPosters from "./reactbits/FlyingPosters";
 import GooeyNav from "./reactbits/GooeyNav";
 
 const ashenritualImages = [
@@ -206,25 +206,22 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
         <div className="flex-1 overflow-y-auto relative z-10 flex flex-col bg-transparent custom-scrollbar">
           <div className="w-full max-w-[1400px] mx-auto p-6 md:p-8 lg:p-12 xl:px-16 flex flex-col gap-12 lg:gap-16">
             
-            {/* Top: Morph Slider (Big and Center) */}
+            {/* Top: Flying Posters Slider (Full Screen Height) */}
             <div className="w-full flex justify-center z-20">
-              <div className="w-full aspect-[2559/1273] relative rounded-2xl overflow-hidden shadow-2xl border border-white-50/10 bg-[#0c0c0e]">
+              <div className="w-full h-[75vh] md:h-[85vh] relative rounded-2xl overflow-hidden shadow-2xl border border-white-50/10 bg-[#0c0c0e]">
                 <div className="absolute inset-0 bg-[#0c0c0e]">
-                  <MorphSlider 
+                  <FlyingPosters 
                     items={(() => {
+                      let activeImages = [];
                       switch (activeTab) {
-                        case "ashenritual": return ashenritualImages;
-                        case "uni-verse": return unieaseImages;
-                        case "ashen-vector": return ashenVectorImages;
-                        case "beacon": return ecoLoopImages;
-                        default: return ashenritualImages;
+                        case "ashenritual": activeImages = ashenritualImages; break;
+                        case "uni-verse": activeImages = unieaseImages; break;
+                        case "ashen-vector": activeImages = ashenVectorImages; break;
+                        case "beacon": activeImages = ecoLoopImages; break;
+                        default: activeImages = ashenritualImages;
                       }
+                      return activeImages.map(img => img.image);
                     })()}
-                    transition="melt" 
-                    intensity={0.55} 
-                    aberration={0.35} 
-                    drift={0.4} 
-                    autoplay={true}
                   />
                 </div>
               </div>
