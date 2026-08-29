@@ -44,6 +44,7 @@ const CSSMaskedNumber = ({ number, src, parallax = 120 }) => {
         fontFamily: '"Mona Sans", sans-serif',
         fontSize: 'clamp(80px, 15vw, 250px)',
         lineHeight: '0.85',
+        backgroundColor: '#ffffff',
         backgroundImage: `url(${src})`,
         backgroundSize: 'cover',
         backgroundPosition: `calc(50% + ${offset.x}px) calc(50% + ${offset.y}px)`,
