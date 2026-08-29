@@ -204,6 +204,7 @@ const App = () => {
 
       <ParticleCursor />
       <XRayCursor isVisible={true} />
+      <HeroParticles containerClassName="fixed inset-0 w-full h-full pointer-events-none z-[-1] overflow-hidden" />
 
       {/* ── Fixed UI: Menu + Resume ── */}
       <div

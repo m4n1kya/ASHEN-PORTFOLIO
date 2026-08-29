@@ -39,19 +39,9 @@ const Achievements = () => {
             scrollStart="top bottom"
             scrollEnd="bottom center"
             stagger={0.02}
-            containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black w-full uppercase tracking-tighter leading-none"
+            containerClassName="text-white text-[8vw] md:text-6xl lg:text-7xl font-black w-full uppercase tracking-tighter leading-none"
           >
-            CERTIFICATIONS
-          </ScrollFloat>
-          <ScrollFloat
-            animationDuration={1.2}
-            ease="back.inOut(2)"
-            scrollStart="top bottom"
-            scrollEnd="bottom center"
-            stagger={0.02}
-            containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none text-white/40 mt-2"
-          >
-            & ACHIEVEMENTS
+            CERTIFICATIONS & ACHIEVEMENTS
           </ScrollFloat>
         </div>
       </div>
@@ -80,19 +70,9 @@ const Achievements = () => {
             scrollStart="top bottom"
             scrollEnd="bottom center"
             stagger={0.02}
-            containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black w-full uppercase tracking-tighter leading-none"
+            containerClassName="text-white text-[8vw] md:text-6xl lg:text-7xl font-black w-full uppercase tracking-tighter leading-none"
           >
-            INDUSTRIAL
-          </ScrollFloat>
-          <ScrollFloat
-            animationDuration={1.2}
-            ease="back.inOut(2)"
-            scrollStart="top bottom"
-            scrollEnd="bottom center"
-            stagger={0.02}
-            containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none text-white/40 mt-2"
-          >
-            EXPOSURE
+            INDUSTRIAL EXPOSURE
           </ScrollFloat>
         </div>
       </div>

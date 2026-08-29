@@ -148,7 +148,7 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce, setShowNav }) => {
       
       {/* ── UNDERNEATH: MAIN HERO (TEXT + LANTERN) ── */}
       <section id="hero" className="absolute inset-0 z-0 overflow-hidden w-full h-full">
-        <HeroParticles />
+
         <div className="relative z-10 w-full h-full flex flex-col lg:flex-row items-center justify-center lg:justify-between px-5 md:px-20 pt-20 lg:pt-0">
           
           {/* LEFT: Hero Content */}
