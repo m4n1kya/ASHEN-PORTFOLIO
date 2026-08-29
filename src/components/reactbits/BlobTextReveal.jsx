@@ -35,7 +35,7 @@ const BlobTextReveal = ({ text, className = "", delay = 0, duration = 1.2 }) => 
         variants={blobVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, amount: 0.1 }}
         className="relative z-10"
       >
         {text}
