@@ -10,6 +10,7 @@ import ShinyText from "../components/reactbits/ShinyText";
 import GlitchText from "../components/GlitchText";
 import ScrollFloat from "../components/reactbits/ScrollFloat";
 import { techStackIcons, techStackImgs } from "../constants";
+import LightingCubesGrid from "../components/reactbits/LightingCubesGrid";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -85,8 +86,11 @@ const TechStack = () => {
   }, []);
 
   return (
-      <div id="skills" className="flex-center section-padding">
-        <div className="w-full h-full md:px-10 px-5">
+      <div id="skills" className="flex-center section-padding relative overflow-hidden">
+        {/* The Exact Lighting Cubes Grid Background */}
+        <LightingCubesGrid />
+        
+        <div className="w-full h-full md:px-10 px-5 z-10 relative">
           <div className="w-full mb-16 md:mb-24 flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-12">
             <div className="flex-[1.8] text-left w-full flex flex-wrap items-center gap-x-4 md:gap-x-6 gap-y-2">
               <ScrollFloat
