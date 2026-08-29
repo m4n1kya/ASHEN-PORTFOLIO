@@ -191,17 +191,14 @@ const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, 
   }, []);
 
   const handleLanternClick = () => {
-    if (!isCentered) {
-      onNavigateToGallery();
-      return;
-    }
+    if (!isCentered) return;
     setIsMenuOpen(prev => !prev);
   };
 
   const tabs = [
     { label: "Overview", action: onNavigateToOverview, side: "left" },
     { label: "Experience", action: () => {}, side: "left" },
-    { label: "Projects", action: onNavigateToGallery, side: "left" },
+    { label: "Projects", action: () => {}, side: "left" },
     { label: "Technical Skills", action: () => {}, side: "right" },
     { label: "Certifications", action: () => {}, side: "right" },
     { label: "Contact", action: onNavigateToContact, side: "right" },
@@ -264,7 +261,7 @@ const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, 
           {/* RIGHT: Visual (Lantern) */}
           <figure className="w-full lg:w-1/2 flex justify-center items-center relative h-[55%] lg:h-full z-50 hero-right-visual">
             <div 
-              className={`relative w-full flex justify-center items-center group transition-all duration-300 cursor-pointer ${isCentered ? 'scale-[1.15] lg:scale-110' : ''}`}
+              className={`relative w-full flex justify-center items-center group transition-all duration-300 ${isCentered ? 'cursor-pointer scale-[1.15] lg:scale-110' : ''}`}
               onClick={handleLanternClick}
               onMouseEnter={() => setIsLanternHovered(true)}
               onMouseLeave={() => setIsLanternHovered(false)}

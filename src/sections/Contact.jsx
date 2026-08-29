@@ -111,6 +111,19 @@ const Contact = () => {
         }
       );
 
+      gsap.fromTo(
+        ".social-link",
+        { y: 20, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: "power3.out",
+          scrollTrigger: { trigger: ".social-links-container", start: "top 85%", once: true },
+        }
+      );
+
       // Contact image: scale up from small
       gsap.fromTo(
         ".contact-image",
@@ -136,14 +149,22 @@ const Contact = () => {
     <section id="contact" className="flex-center section-padding" ref={sectionRef}>
       <div className="w-full h-full md:px-10 px-5">
         {/* Title */}
-        <div className="flex flex-col items-center gap-5 mb-16">
+        <div className="flex flex-col items-center gap-5 mb-10">
           <div className="hero-badge contact-badge">
             <p>Have questions or ideas? Let's talk!</p>
           </div>
           <SplitWordTitle words={["Get in Touch", "—", "Let's Connect"]} />
         </div>
 
-        <div className="grid-12-cols mt-16 gap-10">
+        {/* Big Social Links */}
+        <div className="social-links-container flex flex-wrap justify-center items-center gap-8 md:gap-16 mb-16 w-full">
+          <a href="#" className="social-link text-white hover:text-white-50 text-2xl md:text-4xl lg:text-5xl font-black uppercase tracking-widest transition-colors duration-300">LinkedIn</a>
+          <a href="#" className="social-link text-white hover:text-white-50 text-2xl md:text-4xl lg:text-5xl font-black uppercase tracking-widest transition-colors duration-300">X</a>
+          <a href="#" className="social-link text-white hover:text-white-50 text-2xl md:text-4xl lg:text-5xl font-black uppercase tracking-widest transition-colors duration-300">GitHub</a>
+          <a href="#" className="social-link text-white hover:text-white-50 text-2xl md:text-4xl lg:text-5xl font-black uppercase tracking-widest transition-colors duration-300">Mail</a>
+        </div>
+
+        <div className="grid-12-cols gap-10">
           {/* Form */}
           <div className="xl:col-span-6">
             <SpotlightCard
