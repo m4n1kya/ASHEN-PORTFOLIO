@@ -109,7 +109,7 @@ const FloatingTab = ({ tab, index, side }) => {
          tab.action();
        }}
      >
-        <div ref={tabRef} className="px-7 py-3 bg-gradient-to-b from-white/15 to-white/5 backdrop-blur-xl border-t border-t-white/30 border-b border-b-black/50 border-x border-x-white/10 rounded-full text-gray-100 text-sm font-bold uppercase tracking-[0.15em] hover:from-white/25 hover:to-white/10 hover:scale-110 transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.8),inset_0_1px_2px_rgba(255,255,255,0.4)] whitespace-nowrap">
+        <div ref={tabRef} className="px-7 py-3 bg-white/5 backdrop-blur-2xl border border-white/20 rounded-full text-white font-medium uppercase tracking-[0.2em] text-xs hover:bg-white/15 hover:border-white/40 hover:scale-105 transition-all duration-300 shadow-[0_8px_32px_rgba(255,255,255,0.05),inset_0_1px_2px_rgba(255,255,255,0.2)] whitespace-nowrap">
           {tab.label}
         </div>
       </div>
