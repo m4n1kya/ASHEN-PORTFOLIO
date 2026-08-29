@@ -69,6 +69,8 @@ const CSSMaskedHeading = ({ text, src, parallax = 120 }) => {
 const FloatingTab = ({ tab, index, side }) => {
    const containerRef = useRef(null);
    const tabRef = useRef(null);
+   const particlesRef = useRef([]);
+   
    const yPos = index % 3 === 0 ? '-140px' : index % 3 === 1 ? '0px' : '140px';
    const xPos = side === 'left' ? '-280px' : '280px';
 
@@ -83,9 +85,9 @@ const FloatingTab = ({ tab, index, side }) => {
      const floatTween = () => {
        if (!tabRef.current) return;
        gsap.to(tabRef.current, {
-         x: gsap.utils.random(-10, 10),
-         y: gsap.utils.random(-10, 10),
-         rotation: gsap.utils.random(-3, 3),
+         x: gsap.utils.random(-16, 16),
+         y: gsap.utils.random(-16, 16),
+         rotation: gsap.utils.random(-4, 4),
          duration: gsap.utils.random(2.5, 4),
          ease: "sine.inOut",
          onComplete: floatTween
@@ -94,6 +96,23 @@ const FloatingTab = ({ tab, index, side }) => {
      
      // Start floating after entrance animation
      setTimeout(floatTween, 600 + ((index % 3) * 100));
+
+     // Animate particles
+     particlesRef.current.forEach((particle) => {
+       if (!particle) return;
+       const animateParticle = () => {
+         gsap.to(particle, {
+           x: gsap.utils.random(-40, 40),
+           y: gsap.utils.random(-40, 40),
+           opacity: gsap.utils.random(0.1, 0.6),
+           scale: gsap.utils.random(0.5, 1.5),
+           duration: gsap.utils.random(2, 4),
+           ease: "sine.inOut",
+           onComplete: animateParticle
+         });
+       };
+       setTimeout(animateParticle, 600 + gsap.utils.random(0, 500));
+     });
    }, []);
 
    return (
@@ -109,11 +128,25 @@ const FloatingTab = ({ tab, index, side }) => {
          tab.action();
        }}
      >
-        <div ref={tabRef} className="px-7 py-3 bg-white/5 backdrop-blur-2xl border border-white/20 rounded-full text-white font-medium uppercase tracking-[0.2em] text-xs hover:bg-white/15 hover:border-white/40 hover:scale-105 transition-all duration-300 shadow-[0_8px_32px_rgba(255,255,255,0.05),inset_0_1px_2px_rgba(255,255,255,0.2)] whitespace-nowrap">
-          {tab.label}
-        </div>
-      </div>
-    );
+       {/* Particles */}
+       {[...Array(4)].map((_, i) => (
+         <div 
+           key={i}
+           ref={el => particlesRef.current[i] = el}
+           className="absolute w-1 h-1 bg-white rounded-full pointer-events-none shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+           style={{
+             top: `${50 + (Math.random() * 60 - 30)}%`,
+             left: `${50 + (Math.random() * 120 - 60)}%`,
+             opacity: 0
+           }}
+         />
+       ))}
+
+       <div ref={tabRef} className="px-7 py-3 bg-white/5 backdrop-blur-2xl border border-white/20 rounded-full text-white font-medium uppercase tracking-[0.2em] text-xs hover:bg-white/15 hover:border-white/40 hover:scale-105 transition-all duration-300 shadow-[0_8px_32px_rgba(255,255,255,0.05),inset_0_1px_2px_rgba(255,255,255,0.2)] whitespace-nowrap relative z-10">
+         {tab.label}
+       </div>
+     </div>
+   );
 };
 
 const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, hasLoadedOnce, setShowNav }) => {
