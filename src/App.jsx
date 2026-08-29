@@ -199,7 +199,7 @@ const App = () => {
     });
   }, []);
 
-  // Navigate to gallery — True Crossfade
+  // Navigate to gallery
   const navigateToGallery = useCallback(() => {
     if (isTransitioning.current) return;
     isTransitioning.current = true;
@@ -207,30 +207,31 @@ const App = () => {
     // Save scroll position before hiding home container
     scrollPositionRef.current = window.scrollY;
 
-    // Immediately mount the gallery.
-    flushSync(() => {
-      setHasLoadedOnce(true);
-      setGalleryMounted(true);
-      setView('gallery');
-    });
-    sessionStorage.setItem('ashen_has_loaded', 'true');
-
-    // Fade IN the gallery while simultaneously fading OUT the home container
-    gsap.fromTo('.gallery-window', 
-      { opacity: 0 }, 
-      { opacity: 1, duration: 1.5, ease: 'power2.inOut' }
-    );
-
-    // Simultaneously fade out the home container
-    gsap.to('.home-container', {
-      opacity: 0,
-      duration: 1.5,
+    gsap.to(overlayRef.current, {
+      opacity: 1,
+      duration: 0.6,
       ease: 'power2.inOut',
       onComplete: () => {
-        isTransitioning.current = false;
+        flushSync(() => {
+          setHasLoadedOnce(true);
+          setGalleryMounted(true);
+          setView('gallery');
+        });
+        sessionStorage.setItem('ashen_has_loaded', 'true');
+        
+        window.scrollTo(0, 0);
         const hc = document.querySelector('.home-container');
         if (hc) hc.style.display = 'none';
-      },
+
+        gsap.to(overlayRef.current, {
+          opacity: 0,
+          duration: 0.6,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            isTransitioning.current = false;
+          }
+        });
+      }
     });
   }, []);
 
@@ -242,29 +243,32 @@ const App = () => {
     // Save scroll position before hiding home container
     scrollPositionRef.current = window.scrollY;
 
-    flushSync(() => {
-      setHasLoadedOnce(true);
-      setActiveProject(projectId);
-      setProjectsMounted(true);
-      setView('projects');
-    });
-    sessionStorage.setItem('ashen_has_loaded', 'true');
-
-    // Fade IN the projects window while fading OUT the home container
-    gsap.fromTo('.projects-window', 
-      { opacity: 0 }, 
-      { opacity: 1, duration: 1.5, ease: 'power2.inOut' }
-    );
-
-    gsap.to('.home-container', {
-      opacity: 0,
-      duration: 1.5,
+    gsap.to(overlayRef.current, {
+      opacity: 1,
+      duration: 0.6,
       ease: 'power2.inOut',
       onComplete: () => {
-        isTransitioning.current = false;
+        flushSync(() => {
+          setHasLoadedOnce(true);
+          setActiveProject(projectId);
+          setProjectsMounted(true);
+          setView('projects');
+        });
+        sessionStorage.setItem('ashen_has_loaded', 'true');
+        
+        window.scrollTo(0, 0);
         const hc = document.querySelector('.home-container');
         if (hc) hc.style.display = 'none';
-      },
+
+        gsap.to(overlayRef.current, {
+          opacity: 0,
+          duration: 0.6,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            isTransitioning.current = false;
+          }
+        });
+      }
     });
   }, []);
 
@@ -280,39 +284,38 @@ const App = () => {
 
     isTransitioning.current = true;
 
-    if (hc) {
-      hc.style.display = 'block';
-      // Force ScrollTrigger to recalculate all positions now that display is block
-      ScrollTrigger.refresh();
-    }
-
-    // Force synchronous layout recalculation so scrolling works flawlessly
-    const isFromProjects = document.querySelector('.projects-window') !== null;
-    const showcase = document.getElementById('projects');
-
-    if (isFromProjects && showcase) {
-      window.scrollTo(0, showcase.offsetTop - 80);
-    } else {
-      window.scrollTo(0, scrollPositionRef.current);
-    }
-
-    // Fade IN the home container
-    gsap.fromTo('.home-container', 
-      { opacity: 0 },
-      { opacity: 1, duration: 1.5, ease: 'power3.inOut' }
-    );
-
-    // Simultaneously fade OUT the active window
-    gsap.to('.projects-window, .gallery-window', {
-      opacity: 0,
-      duration: 1.5,
-      ease: 'power3.inOut',
+    gsap.to(overlayRef.current, {
+      opacity: 1,
+      duration: 0.6,
+      ease: 'power2.inOut',
       onComplete: () => {
-        // Only unmount AFTER the fade out is fully complete
+        if (hc) {
+          hc.style.display = 'block';
+          // Force ScrollTrigger to recalculate all positions now that display is block
+          ScrollTrigger.refresh();
+        }
+
+        const isFromProjects = document.querySelector('.projects-window') !== null;
+        const showcase = document.getElementById('projects');
+
+        if (isFromProjects && showcase) {
+          window.scrollTo(0, showcase.offsetTop - 80);
+        } else {
+          window.scrollTo(0, scrollPositionRef.current);
+        }
+
         flushSync(() => {
           setView('home');
         });
-        isTransitioning.current = false;
+
+        gsap.to(overlayRef.current, {
+          opacity: 0,
+          duration: 0.6,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            isTransitioning.current = false;
+          }
+        });
       }
     });
   }, []);
