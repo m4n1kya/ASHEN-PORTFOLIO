@@ -183,7 +183,9 @@ const App = () => {
   }, [transitionTo]);
 
   const isOverlayView = OVERLAY_VIEWS.includes(view);
-  const showMenu = !isOverlayView || (view !== 'gallery' && view !== 'projects');
+
+  // Menu is hidden only during gallery (pure fullscreen visual) and on home before scroll
+  const menuVisible = view !== 'gallery' && (view !== 'home' || showNav);
 
   return (
     <>
@@ -206,9 +208,9 @@ const App = () => {
       {/* ── Fixed UI: Menu + Resume ── */}
       <div
         style={{
-          opacity: (showNav || view !== 'home') && view !== 'gallery' && view !== 'projects' ? 1 : 0,
+          opacity: menuVisible ? 1 : 0,
           transition: 'opacity 1s ease',
-          pointerEvents: (showNav || view !== 'home') && view !== 'gallery' && view !== 'projects' ? 'auto' : 'none',
+          pointerEvents: menuVisible ? 'auto' : 'none',
           zIndex: 9999,
           position: 'relative',
         }}

@@ -189,24 +189,11 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
         />
       </div>
 
-      {/* Floating Header Elements (Fixes GooeyNav mix-blend-mode) */}
+      {/* Floating Header: GooeyNav tabs only — Menu button handles navigation */}
       <div className="absolute top-0 left-0 w-full p-4 md:p-6 z-[50] pointer-events-none">
         
-        {/* Left Side: Back Button */}
-        <div className="pointer-events-auto inline-block relative z-[60]">
-          <button
-            onClick={onBack}
-            className="flex items-center justify-center gap-1 md:gap-2 px-3 py-1.5 md:px-5 md:py-2 rounded-full text-white/40 hover:text-white transition-all duration-300 group bg-transparent cursor-pointer"
-          >
-            <svg className="w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            <span className="font-semibold uppercase text-xs md:text-sm tracking-wider">Back</span>
-          </button>
-        </div>
-        
-        {/* Middle: Floating Tabs */}
-        <div className="absolute left-0 w-full md:left-1/2 md:-translate-x-1/2 md:w-auto top-16 md:top-6 pointer-events-auto flex justify-center z-[51]">
+        {/* Center: Project Tabs */}
+        <div className="w-full flex justify-center pointer-events-auto z-[51]">
           <GooeyNav 
             items={projectsData}
             activeIndex={projectsData.findIndex(p => p.id === activeTab)}
