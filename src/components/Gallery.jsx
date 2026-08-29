@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import Magnet from './reactbits/Magnet';
 import ReelGallery from './reactbits/ReelGallery';
 
 const Gallery = ({ onBack }) => {
@@ -24,17 +23,36 @@ const Gallery = ({ onBack }) => {
   return (
     <div ref={containerRef} className="gallery-window gallery-container h-screen w-screen bg-black fixed inset-0 z-[200] overflow-hidden">
       
-      {/* Minimal Back Button with Magnetic effect - Positioned absolutely as an overlay */}
-      <div className="absolute top-10 left-5 md:left-10 z-[300]">
-        <Magnet padding={30} magnetStrength={2} className="w-fit">
-          <button 
-            onClick={onBack}
-            className="group relative flex items-center gap-2 px-4 py-2 text-white/40 hover:text-white transition-colors duration-300 cursor-pointer"
-          >
-            <span className="group-hover:-translate-x-1 transition-transform duration-300 text-lg">←</span>
-            <span className="text-xs uppercase tracking-[0.2em] font-medium">Return</span>
-          </button>
-        </Magnet>
+      {/* Return Button — styled to match Menu button, large click target */}
+      <div className="absolute top-0 left-0 z-[300]" style={{ margin: '1.6em 2em' }}>
+        <button
+          onClick={onBack}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            background: 'rgba(0,0,0,0.4)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            border: '1px solid rgba(255,255,255,0.15)',
+            borderRadius: '4px',
+            padding: '0.75em 1em',
+            color: '#ffffff',
+            fontFamily: '"Mona Sans", sans-serif',
+            fontSize: '1rem',
+            fontWeight: 600,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            lineHeight: 1,
+            cursor: 'pointer',
+            transition: 'background 0.3s ease, border-color 0.3s ease',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(0,0,0,0.65)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(0,0,0,0.4)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'; }}
+        >
+          <span style={{ fontSize: '1rem', lineHeight: 1 }}>←</span>
+          Return
+        </button>
       </div>
 
       {/* Main Content Area - Full screen ReelGallery */}
