@@ -109,11 +109,11 @@ const FloatingTab = ({ tab, index, side }) => {
          tab.action();
        }}
      >
-       <div ref={tabRef} className="px-6 py-3 bg-white/95 backdrop-blur-md border border-white/50 rounded-full text-black font-bold tracking-wide hover:bg-white hover:scale-110 transition-all shadow-[0_10px_40px_rgba(255,255,255,0.3),inset_0_2px_5px_rgba(255,255,255,1)] whitespace-nowrap">
-         {tab.label}
-       </div>
-     </div>
-   );
+        <div ref={tabRef} className="px-7 py-3 bg-gradient-to-b from-white/15 to-white/5 backdrop-blur-xl border-t border-t-white/30 border-b border-b-black/50 border-x border-x-white/10 rounded-full text-gray-100 text-sm font-bold uppercase tracking-[0.15em] hover:from-white/25 hover:to-white/10 hover:scale-110 transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.8),inset_0_1px_2px_rgba(255,255,255,0.4)] whitespace-nowrap">
+          {tab.label}
+        </div>
+      </div>
+    );
 };
 
 const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, hasLoadedOnce, setShowNav }) => {
