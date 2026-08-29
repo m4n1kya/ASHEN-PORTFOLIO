@@ -6,7 +6,6 @@ import TiltedCard from "../components/reactbits/TiltedCard";
 import Magnet from "../components/reactbits/Magnet";
 import ShinyText from "../components/reactbits/ShinyText";
 import SplitText from "../components/reactbits/SplitText";
-import CurtainReveal from "../components/CurtainReveal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -105,7 +104,6 @@ const AppShowcase = ({ onNavigateToProjects }) => {
   }, []);
 
   return (
-    <CurtainReveal type="bars" triggerStart="top 90%">
       <div id="projects" ref={sectionRef} className="app-showcase">
         <div className="w-full">
           <ProjectsTitle />
@@ -274,7 +272,6 @@ const AppShowcase = ({ onNavigateToProjects }) => {
           </div>
         </div>
       </div>
-    </CurtainReveal>
   );
 };
 

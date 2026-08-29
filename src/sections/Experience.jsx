@@ -7,7 +7,6 @@ import { expCards } from "../constants";
 import SpotlightCard from "../components/reactbits/SpotlightCard";
 import Magnet from "../components/reactbits/Magnet";
 import ShinyText from "../components/reactbits/ShinyText";
-import CurtainReveal from "../components/CurtainReveal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -141,8 +140,7 @@ const Experience = () => {
   }, []);
 
   return (
-    <CurtainReveal type="slash" triggerStart="top 88%">
-      <section id="experience" className="flex-center md:mt-40 mt-20 section-padding xl:px-0">
+    <section id="experience" className="flex-center md:mt-40 mt-20 section-padding xl:px-0">
         <div className="w-full h-full md:px-20 px-5">
           <CharRevealTitle
             title="Professional Work Experience"
@@ -216,7 +214,6 @@ const Experience = () => {
           </div>
         </div>
       </section>
-    </CurtainReveal>
   );
 };
 

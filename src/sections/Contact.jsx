@@ -4,7 +4,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SpotlightCard from "../components/reactbits/SpotlightCard";
 import Magnet from "../components/reactbits/Magnet";
-import CurtainReveal from "../components/CurtainReveal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -134,91 +133,89 @@ const Contact = () => {
   }, []);
 
   return (
-    <CurtainReveal type="radial" triggerStart="top 80%">
-      <section id="contact" className="flex-center section-padding" ref={sectionRef}>
-        <div className="w-full h-full md:px-10 px-5">
-          {/* Title */}
-          <div className="flex flex-col items-center gap-5 mb-16">
-            <div className="hero-badge contact-badge">
-              <p>Have questions or ideas? Let's talk!</p>
-            </div>
-            <SplitWordTitle words={["Get in Touch", "—", "Let's Connect"]} />
+    <section id="contact" className="flex-center section-padding" ref={sectionRef}>
+      <div className="w-full h-full md:px-10 px-5">
+        {/* Title */}
+        <div className="flex flex-col items-center gap-5 mb-16">
+          <div className="hero-badge contact-badge">
+            <p>Have questions or ideas? Let's talk!</p>
+          </div>
+          <SplitWordTitle words={["Get in Touch", "—", "Let's Connect"]} />
+        </div>
+
+        <div className="grid-12-cols mt-16 gap-10">
+          {/* Form */}
+          <div className="xl:col-span-6">
+            <SpotlightCard
+              className="bg-black/40 backdrop-blur-2xl border border-white/10 shadow-2xl rounded-2xl p-10 h-full"
+              spotlightColor="rgba(217, 236, 255, 0.07)"
+              borderColor="rgba(217, 236, 255, 0.25)"
+            >
+              <form ref={formRef} onSubmit={handleSubmit} className="w-full flex flex-col gap-7">
+                <div className="contact-form-field">
+                  <label htmlFor="name">Your name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder="What's your good name?"
+                    required
+                  />
+                </div>
+                <div className="contact-form-field">
+                  <label htmlFor="email">Your Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="What's your email address?"
+                    required
+                  />
+                </div>
+                <div className="contact-form-field">
+                  <label htmlFor="message">Your Message</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={form.message}
+                    onChange={handleChange}
+                    placeholder="How can I help you?"
+                    rows="5"
+                    required
+                  />
+                </div>
+                <div className="w-full contact-form-field">
+                  <Magnet padding={30} magnetStrength={3} className="w-full">
+                    <button type="submit" className="w-full">
+                      <div className="cta-button group w-full">
+                        <div className="bg-circle" />
+                        <p className="text">{loading ? "Sending..." : "Send Message"}</p>
+                        <div className="arrow-wrapper">
+                          <img src="/images/arrow-down.svg" alt="arrow" />
+                        </div>
+                      </div>
+                    </button>
+                  </Magnet>
+                </div>
+              </form>
+            </SpotlightCard>
           </div>
 
-          <div className="grid-12-cols mt-16 gap-10">
-            {/* Form */}
-            <div className="xl:col-span-6">
-              <SpotlightCard
-                className="bg-black/40 backdrop-blur-2xl border border-white/10 shadow-2xl rounded-2xl p-10 h-full"
-                spotlightColor="rgba(217, 236, 255, 0.07)"
-                borderColor="rgba(217, 236, 255, 0.25)"
-              >
-                <form ref={formRef} onSubmit={handleSubmit} className="w-full flex flex-col gap-7">
-                  <div className="contact-form-field">
-                    <label htmlFor="name">Your name</label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={form.name}
-                      onChange={handleChange}
-                      placeholder="What's your good name?"
-                      required
-                    />
-                  </div>
-                  <div className="contact-form-field">
-                    <label htmlFor="email">Your Email</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={form.email}
-                      onChange={handleChange}
-                      placeholder="What's your email address?"
-                      required
-                    />
-                  </div>
-                  <div className="contact-form-field">
-                    <label htmlFor="message">Your Message</label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={form.message}
-                      onChange={handleChange}
-                      placeholder="How can I help you?"
-                      rows="5"
-                      required
-                    />
-                  </div>
-                  <div className="w-full contact-form-field">
-                    <Magnet padding={30} magnetStrength={3} className="w-full">
-                      <button type="submit" className="w-full">
-                        <div className="cta-button group w-full">
-                          <div className="bg-circle" />
-                          <p className="text">{loading ? "Sending..." : "Send Message"}</p>
-                          <div className="arrow-wrapper">
-                            <img src="/images/arrow-down.svg" alt="arrow" />
-                          </div>
-                        </div>
-                      </button>
-                    </Magnet>
-                  </div>
-                </form>
-              </SpotlightCard>
-            </div>
-
-            {/* Image */}
-            <div className="xl:col-span-6 min-h-96 w-full h-full flex justify-center items-center">
-              <img
-                src="/images/contact-office.jpg"
-                alt="Minimalist Office Setup"
-                className="contact-image relative z-10 w-full h-full object-cover rounded-3xl shadow-xl border border-white/10 bg-black"
-              />
-            </div>
+          {/* Image */}
+          <div className="xl:col-span-6 min-h-96 w-full h-full flex justify-center items-center">
+            <img
+              src="/images/contact-office.jpg"
+              alt="Minimalist Office Setup"
+              className="contact-image relative z-10 w-full h-full object-cover rounded-3xl shadow-xl border border-white/10 bg-black"
+            />
           </div>
         </div>
-      </section>
-    </CurtainReveal>
+      </div>
+    </section>
   );
 };
 

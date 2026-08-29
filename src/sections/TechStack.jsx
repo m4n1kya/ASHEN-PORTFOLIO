@@ -8,7 +8,6 @@ import SpotlightCard from "../components/reactbits/SpotlightCard";
 import Magnet from "../components/reactbits/Magnet";
 import ShinyText from "../components/reactbits/ShinyText";
 import GlitchText from "../components/GlitchText";
-import CurtainReveal from "../components/CurtainReveal";
 import { techStackIcons, techStackImgs } from "../constants";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -85,7 +84,6 @@ const TechStack = () => {
   }, []);
 
   return (
-    <CurtainReveal type="split" triggerStart="top 88%">
       <div id="skills" className="flex-center section-padding">
         <div className="w-full h-full md:px-10 px-5">
           {/* Glitch-text section title */}
@@ -152,7 +150,6 @@ const TechStack = () => {
           </div>
         </div>
       </div>
-    </CurtainReveal>
   );
 };
 

@@ -19,6 +19,7 @@ import TechStack from "./sections/TechStack";
 import Contact from "./sections/Contact";
 import Footer from "./sections/Footer";
 import { StaggeredMenu } from "./components/reactbits/StaggeredMenu";
+import GlobalCurtain from "./components/GlobalCurtain";
 
 // XRay blob that expands to fullscreen between TechStack and Contact
 const BlobExpand = () => {
@@ -82,6 +83,7 @@ const App = () => {
     return sessionStorage.getItem('ashen_has_loaded') === 'true';
   });
   const overlayRef = useRef(null);
+  const curtainRef = useRef(null);
   const isTransitioning = useRef(false);
   const scrollPositionRef = useRef(0);
 
@@ -112,6 +114,26 @@ const App = () => {
       sessionStorage.setItem('ashen_has_loaded', 'true');
     }
   }, [hasLoadedOnce]);
+
+  const handleNav = (selector, curtainConfig) => {
+    if (curtainRef.current) {
+      curtainRef.current.cover(curtainConfig, () => {
+        if (selector === '#') {
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        } else {
+          const el = document.querySelector(selector);
+          if (el) el.scrollIntoView({ behavior: 'instant' });
+        }
+        setTimeout(() => {
+          curtainRef.current.reveal();
+          ScrollTrigger.refresh();
+        }, 150);
+      });
+    } else {
+      if (selector === '#') window.scrollTo({ top: 0, behavior: 'smooth' });
+      else document.querySelector(selector)?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   // Navigate to gallery — True Crossfade
   const navigateToGallery = useCallback(() => {
@@ -245,7 +267,7 @@ const App = () => {
       <XRayCursor isVisible={view === 'home'} />
 
       {/* ── StaggeredMenu Navigation (fixed, top-left) ── */}
-      <div style={{ opacity: hasLoadedOnce ? 1 : 0, transition: 'opacity 1s ease 1.5s', pointerEvents: hasLoadedOnce ? 'auto' : 'none' }}>
+      <div style={{ opacity: hasLoadedOnce && view === 'home' ? 1 : 0, transition: 'opacity 1s ease', pointerEvents: hasLoadedOnce && view === 'home' ? 'auto' : 'none' }}>
         <StaggeredMenu
           position="left"
           isFixed={true}
@@ -257,12 +279,12 @@ const App = () => {
           colors={['#1c1c21', '#282732']}
           accentColor="#839cb5"
           items={[
-            { label: 'Home',       ariaLabel: 'Back to top',             link: '#', onClick: () => window.scrollTo({ top: 0, behavior: 'smooth' }) },
-            { label: 'About',      ariaLabel: 'Professional Summary',    link: '#about', onClick: () => document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' }) },
-            { label: 'Experience', ariaLabel: 'Work Experience',         link: '#experience', onClick: () => document.querySelector('#experience')?.scrollIntoView({ behavior: 'smooth' }) },
-            { label: 'Projects',   ariaLabel: 'Selected Projects',       link: '#projects', onClick: () => document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' }) },
-            { label: 'Skills',     ariaLabel: 'Technical Stack',         link: '#skills', onClick: () => document.querySelector('#skills')?.scrollIntoView({ behavior: 'smooth' }) },
-            { label: 'Contact',    ariaLabel: 'Get in touch',            link: '#contact', onClick: () => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' }) },
+            { label: 'Home',       ariaLabel: 'Back to top',             link: '#', onClick: () => handleNav('#', { type: 'radial', color: '#0c0c0e' }) },
+            { label: 'About',      ariaLabel: 'Professional Summary',    link: '#about', onClick: () => handleNav('#about', { type: 'blinds', color: '#111827' }) },
+            { label: 'Experience', ariaLabel: 'Work Experience',         link: '#experience', onClick: () => handleNav('#experience', { type: 'split', color: '#1e1b2e' }) },
+            { label: 'Projects',   ariaLabel: 'Selected Projects',       link: '#projects', onClick: () => handleNav('#projects', { type: 'bars', color: '#1e1b2e' }) },
+            { label: 'Skills',     ariaLabel: 'Technical Stack',         link: '#skills', onClick: () => handleNav('#skills', { type: 'radial', color: '#111827' }) },
+            { label: 'Contact',    ariaLabel: 'Get in touch',            link: '#contact', onClick: () => handleNav('#contact', { type: 'slash', color: '#0c0c0e' }) },
           ]}
           socialItems={[
             { label: 'GitHub',   link: 'https://github.com/m4n1kya' },
@@ -272,6 +294,10 @@ const App = () => {
       </div>
 
       <Loader hasLoadedOnce={hasLoadedOnce} />
+      
+      {/* ── Global Curtain for Section Navigation ── */}
+      <GlobalCurtain ref={curtainRef} />
+
       <div 
         className="home-container relative bg-transparent mt-0 z-10"
         style={{ display: (view === 'home' || isTransitioning.current) ? 'block' : 'none' }}
