@@ -26,14 +26,6 @@ const XRayCursor = ({ isVisible = true }) => {
 
     let mouseX = -9999;
     let mouseY = -9999;
-    
-    // For smooth magnetic lerping
-    let currentX = -9999;
-    let currentY = -9999;
-    let currentWidth = 80;
-    let currentHeight = 80;
-    let currentBr = 40; // border radius in px
-    
     let lastMouseX = -9999;
     let lastMouseY = -9999;
     let smoothedVx = 0;
@@ -42,7 +34,6 @@ const XRayCursor = ({ isVisible = true }) => {
     let isWindowHoveredRaw = false;
     let windowScale = 0;
     let animationFrameId;
-    let magneticTarget = null;
 
     const handleMouseMove = (e) => {
       if (!isWindowHoveredRaw) {
@@ -51,22 +42,10 @@ const XRayCursor = ({ isVisible = true }) => {
       }
       mouseX = e.clientX;
       mouseY = e.clientY;
-      
-      if (currentX === -9999) {
-        currentX = mouseX;
-        currentY = mouseY;
-      }
     };
 
     const handleMouseOver = (e) => {
       const target = e.target;
-      
-      const mag = target.closest && target.closest('[data-magnetic="true"]');
-      if (mag) {
-        magneticTarget = mag;
-        return;
-      }
-      
       if (
         window.getComputedStyle(target).cursor === "pointer" ||
         target.tagName.toLowerCase() === "a" ||
@@ -77,11 +56,7 @@ const XRayCursor = ({ isVisible = true }) => {
       }
     };
 
-    const handleMouseOut = (e) => {
-      const target = e.target;
-      if (target.closest && target.closest('[data-magnetic="true"]')) {
-        magneticTarget = null;
-      }
+    const handleMouseOut = () => {
       isHovering = false;
     };
 
@@ -101,67 +76,38 @@ const XRayCursor = ({ isVisible = true }) => {
     document.addEventListener("mouseenter", handleWindowEnter);
 
     const animate = () => {
+      // Calculate raw velocity
       const rawVx = mouseX - lastMouseX;
       const rawVy = mouseY - lastMouseY;
       lastMouseX = mouseX;
       lastMouseY = mouseY;
 
+      // Use a much faster smoothing factor (0.4) so the rotation angle doesn't lag wildly when drawing circles
       smoothedVx += (rawVx - smoothedVx) * 0.4;
       smoothedVy += (rawVy - smoothedVy) * 0.4;
 
+      // Calculate speed and angle for the liquid stretch effect using smoothed velocity
       const speed = Math.sqrt(smoothedVx * smoothedVx + smoothedVy * smoothedVy);
       const angle = Math.atan2(smoothedVy, smoothedVx);
       
+      // Balanced liquid stretch
+      const baseScaleX = 1 + Math.min(speed / 80, 0.40);
+      const baseScaleY = 1 - Math.min(speed / 120, 0.25);
+
+      // Smooth suck-in/expand animation
       const targetWindowScale = isWindowHoveredRaw ? 1 : 0;
       windowScale += (targetWindowScale - windowScale) * 0.15;
+      
+      const finalScaleX = baseScaleX * windowScale;
+      const finalScaleY = baseScaleY * windowScale;
 
-      if (magneticTarget) {
-        const rect = magneticTarget.getBoundingClientRect();
-        const targetX = rect.left + rect.width / 2;
-        const targetY = rect.top + rect.height / 2;
-        const targetWidth = rect.width;
-        const targetHeight = rect.height;
-        const targetBr = 16; 
-        
-        currentX += (targetX - currentX) * 0.18;
-        currentY += (targetY - currentY) * 0.18;
-        currentWidth += (targetWidth - currentWidth) * 0.18;
-        currentHeight += (targetHeight - currentHeight) * 0.18;
-        currentBr += (targetBr - currentBr) * 0.18;
-
-        cursor.style.transform = `translate3d(${currentX - currentWidth / 2}px, ${currentY - currentHeight / 2}px, 0) scale(${windowScale})`;
-        cursor.style.width = `${currentWidth}px`;
-        cursor.style.height = `${currentHeight}px`;
-        cursor.style.borderRadius = `${currentBr}px`;
-        cursor.style.animation = "none";
-      } else {
-        const baseScaleX = 1 + Math.min(speed / 80, 0.40);
-        const baseScaleY = 1 - Math.min(speed / 120, 0.25);
-        
-        const finalScaleX = baseScaleX * windowScale;
-        const finalScaleY = baseScaleY * windowScale;
-
-        const targetSize = isHovering ? 140 : 80;
-        
-        // Snap back to mouse quickly when leaving magnetic
-        currentX += (mouseX - currentX) * 0.4;
-        currentY += (mouseY - currentY) * 0.4;
-        currentWidth += (targetSize - currentWidth) * 0.2;
-        currentHeight += (targetSize - currentHeight) * 0.2;
-        currentBr += (targetSize / 2 - currentBr) * 0.2;
-
-        cursor.style.transform = `translate3d(${currentX - currentWidth / 2}px, ${currentY - currentHeight / 2}px, 0) rotate(${angle}rad) scale(${finalScaleX}, ${finalScaleY})`;
-        cursor.style.width = `${currentWidth}px`;
-        cursor.style.height = `${currentHeight}px`;
-        
-        if (Math.abs(currentBr - targetSize / 2) < 2 && Math.abs(currentWidth - targetSize) < 2) {
-           cursor.style.borderRadius = "50%";
-           cursor.style.animation = "jellyBlob 2.5s infinite linear";
-        } else {
-           cursor.style.borderRadius = `${currentBr}px`;
-           cursor.style.animation = "none";
-        }
-      }
+      // Increased size as requested
+      const size = isHovering ? 140 : 80;
+      
+      // Cursor perfectly instantly centers on mouseX/mouseY
+      cursor.style.transform = `translate3d(${mouseX - size / 2}px, ${mouseY - size / 2}px, 0) rotate(${angle}rad) scale(${finalScaleX}, ${finalScaleY})`;
+      cursor.style.width = `${size}px`;
+      cursor.style.height = `${size}px`;
 
       animationFrameId = requestAnimationFrame(animate);
     };
@@ -195,9 +141,10 @@ const XRayCursor = ({ isVisible = true }) => {
           mixBlendMode: "difference",
           pointerEvents: "none",
           zIndex: 9999,
-          willChange: "transform, width, height, opacity, border-radius",
+          willChange: "transform, width, height, opacity",
           opacity: isVisible && isWindowHovered ? 1 : 0,
-          transition: "opacity 0.4s ease-out",
+          transition: "width 0.3s ease-out, height 0.3s ease-out, opacity 0.4s ease-out",
+          animation: "jellyBlob 2.5s infinite linear",
           transformOrigin: "center center",
         }}
       />

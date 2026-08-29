@@ -109,11 +109,11 @@ const FeatureCards = () => {
           </p>
         </div>
 
+        {/* Right Side: Large Image */}
         <div className="flex-1 w-full flex justify-center">
           <img 
             src="/images/profile.jpg" 
             alt="Manikya" 
-            data-magnetic="true"
             className="profile-img w-full max-w-sm lg:max-w-md h-auto rounded-2xl object-cover shadow-2xl border border-white/10" 
           />
         </div>
