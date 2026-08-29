@@ -66,101 +66,13 @@ const CSSMaskedHeading = ({ text, src, parallax = 120 }) => {
   );
 };
 
-const FloatingTab = ({ tab, index, side }) => {
-   const containerRef = useRef(null);
-   const tabRef = useRef(null);
-   
-   // Create a semi-circle formation around the lantern, pulled in closer
-   const isMiddle = index % 3 === 1;
-   const y = index % 3 === 0 ? -155 : isMiddle ? 0 : 155;
-   const x = side === 'left' ? (isMiddle ? -290 : -220) : (isMiddle ? 290 : 220);
-   
-   const yPos = `${y}px`;
-   const xPos = `${x}px`;
 
-   // Pre-generate 3 subtle particles for this tab using the same styling as the lantern
-   const [particles] = useState(() => Array.from({ length: 3 }).map((_, i) => ({
-      id: i,
-      size: Math.random() * 2 + 1.5,
-      delay: Math.random() * 5,
-      duration: Math.random() * 4 + 2,
-      tx: (Math.random() - 0.5) * 40,
-      ty: - (Math.random() * 50 + 20),
-      left: 50 + (Math.random() * 60 - 30),
-      top: 50 + (Math.random() * 40 - 20)
-   })));
 
-   useGSAP(() => {
-     gsap.fromTo(containerRef.current, {
-       scale: 0, opacity: 0
-     }, {
-       scale: 1, opacity: 1, duration: 0.6, delay: (index % 3) * 0.1, ease: "back.out(1.5)"
-     });
-
-     // Large, independent random floating animation
-     const floatTween = () => {
-       if (!tabRef.current) return;
-       gsap.to(tabRef.current, {
-         x: gsap.utils.random(-30, 30),
-         y: gsap.utils.random(-30, 30),
-         rotation: gsap.utils.random(-3, 3),
-         scale: gsap.utils.random(0.98, 1.05),
-         duration: gsap.utils.random(3, 5),
-         ease: "sine.inOut",
-         onComplete: floatTween
-       });
-     };
-     
-     setTimeout(floatTween, 600 + ((index % 3) * 200));
-   }, []);
-
-   return (
-     <div 
-       ref={containerRef}
-       className="absolute pointer-events-auto cursor-pointer flex items-center justify-center"
-       style={{
-         transform: `translate(${xPos}, ${yPos})`,
-         zIndex: 100
-       }}
-       onClick={(e) => {
-         e.stopPropagation();
-         tab.action();
-       }}
-     >
-       {/* Exactly like the Lantern Particles (CSS Animated, twinkling, flowing up) */}
-       {particles.map((p) => (
-         <div 
-           key={p.id}
-           className="absolute rounded-full opacity-0 animate-magicalParticle pointer-events-none z-0"
-           style={{
-             left: `${p.left}%`,
-             top: `${p.top}%`,
-             width: `${p.size}px`,
-             height: `${p.size}px`,
-             backgroundColor: '#ffffff',
-             animationDelay: `${p.delay}s`,
-             animationDuration: `${p.duration}s`,
-             boxShadow: `0 0 ${p.size * 3}px ${p.size}px #ffffff`,
-             '--tx': `${p.tx}px`,
-             '--ty': `${p.ty}px`,
-           }}
-         />
-       ))}
-
-       <div ref={tabRef} className="px-7 py-3 bg-white/5 backdrop-blur-2xl border border-white/20 rounded-full text-white font-medium uppercase tracking-[0.2em] text-xs hover:bg-white/15 hover:border-white/40 hover:scale-105 transition-all duration-300 shadow-[0_8px_32px_rgba(255,255,255,0.05),inset_0_1px_2px_rgba(255,255,255,0.2)] whitespace-nowrap relative z-10">
-         {tab.label}
-       </div>
-     </div>
-   );
-};
-
-const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, onNavigateToExperience, onNavigateToSkills, onNavigateToCertifications, onNavigateToProjects, hasLoadedOnce, setShowNav }) => {
+const Hero = ({ hasLoadedOnce, setShowNav }) => {
   const containerRef = useRef(null);
   const introRef = useRef(null);
   const lanternImgRef = useRef(null);
   const [isLanternHovered, setIsLanternHovered] = useState(false);
-  const [isCentered, setIsCentered] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useGSAP(() => {
     gsap.fromTo(
@@ -170,11 +82,12 @@ const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, 
     );
 
     // MASTER SEQUENCE TIMELINE
+    // No pin — after animation completes, user scrolls naturally into Overview
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top top",
-        end: "+=3500", // 3500px total scroll distance for the whole sequence
+        end: "+=2000",
         scrub: 1,
         pin: true,
         onUpdate: (self) => {
@@ -182,13 +95,6 @@ const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, 
             if (setShowNav) setShowNav(true);
           } else {
             if (setShowNav) setShowNav(false);
-          }
-
-          if (self.progress >= 0.99) {
-            setIsCentered(true);
-          } else {
-            setIsCentered(false);
-            setIsMenuOpen(false); // Close menu if user scrolls back up
           }
         }
       }
@@ -235,19 +141,7 @@ const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, 
     );
   }, []);
 
-  const handleLanternClick = () => {
-    if (!isCentered) return;
-    setIsMenuOpen(prev => !prev);
-  };
 
-  const tabs = [
-    { label: "Overview", action: () => onNavigateToOverview(), side: "left" },
-    { label: "Experience", action: onNavigateToExperience, side: "left" },
-    { label: "Projects", action: () => onNavigateToProjects("ashenritual"), side: "left" },
-    { label: "Technical Skills", action: onNavigateToSkills, side: "right" },
-    { label: "Certifications", action: onNavigateToCertifications, side: "right" },
-    { label: "Contact", action: onNavigateToContact, side: "right" },
-  ];
 
   return (
     <div className="hero-pin-wrapper relative w-full h-screen overflow-hidden" ref={containerRef}>
@@ -306,32 +200,22 @@ const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, 
           {/* RIGHT: Visual (Lantern) */}
           <figure className="w-full lg:w-1/2 flex justify-center items-center relative h-[55%] lg:h-full z-50 hero-right-visual">
             <div 
-              className={`relative w-full flex justify-center items-center group transition-all duration-300 ${isCentered ? 'cursor-pointer scale-[1.15] lg:scale-110' : ''}`}
-              onClick={handleLanternClick}
+              className="relative w-full flex justify-center items-center group transition-all duration-300"
               onMouseEnter={() => setIsLanternHovered(true)}
               onMouseLeave={() => setIsLanternHovered(false)}
             >
               <HeroImageParticles isHovered={isLanternHovered} />
               
-              <div className={`absolute inset-0 bg-white/5 rounded-full blur-3xl transition-opacity duration-500 pointer-events-none ${isCentered && isLanternHovered ? 'opacity-40' : 'opacity-0'}`} />
+              <div className={`absolute inset-0 bg-white/5 rounded-full blur-3xl transition-opacity duration-500 pointer-events-none ${isLanternHovered ? 'opacity-40' : 'opacity-0'}`} />
               
               <img 
                 ref={lanternImgRef}
                 src="/images/hero-lantern.png" 
                 alt="Lantern" 
-                className={`h-[300px] md:h-[450px] lg:h-[550px] object-contain relative z-10 transition-all duration-700
-                  ${isCentered && isLanternHovered ? 'drop-shadow-[0_0_40px_rgba(255,255,255,0.4)] scale-[1.02]' : 'animate-floatHover drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]'}
+                className={`h-[300px] md:h-[450px] lg:h-[550px] object-contain relative z-10 transition-all duration-700 animate-floatHover
+                  ${isLanternHovered ? 'drop-shadow-[0_0_40px_rgba(255,255,255,0.4)] scale-[1.02]' : 'drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]'}
                 `}
               />
-
-              {/* Floating Tabs */}
-              {isMenuOpen && (
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[60]">
-                  {tabs.map((tab, i) => (
-                    <FloatingTab key={tab.label} tab={tab} index={i} side={tab.side} />
-                  ))}
-                </div>
-              )}
             </div>
           </figure>
         </div>

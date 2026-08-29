@@ -146,18 +146,20 @@ const App = () => {
     if (isTransitioning.current) return;
     const tid = typeof targetId === 'string' ? targetId : null;
     
-    const oc = document.querySelector('.overview-container');
-    const targetEl = tid ? document.getElementById(tid) : null;
+    // We are now always rendering overview-container when in home view.
+    // Just scroll to it!
+    const targetEl = tid ? document.getElementById(tid) : document.querySelector('.overview-container');
 
-    if (oc && oc.style.display !== 'none' && getComputedStyle(oc).opacity === '1') {
+    if (view === 'home' || view === 'overview') {
       if (targetEl) {
-        window.scrollTo({ top: targetEl.offsetTop - 50, behavior: 'smooth' });
+        window.scrollTo({ top: targetEl.offsetTop, behavior: 'smooth' });
       } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: document.querySelector('.overview-container')?.offsetTop || 0, behavior: 'smooth' });
       }
       return;
     }
 
+    // If coming from another window (like contact or experience), do the wipe transition
     isTransitioning.current = true;
     scrollPositionRef.current = window.scrollY;
 
@@ -168,22 +170,18 @@ const App = () => {
       onComplete: () => {
         flushSync(() => {
           setHasLoadedOnce(true);
-          setView('overview');
+          setView('home');
         });
         sessionStorage.setItem('ashen_has_loaded', 'true');
         
-        // Wait a tiny bit for the browser to render the newly displayed overview-container
         setTimeout(() => {
-            const newTargetEl = tid ? document.getElementById(tid) : null;
+            const newTargetEl = tid ? document.getElementById(tid) : document.querySelector('.overview-container');
             if (newTargetEl) {
-              window.scrollTo(0, newTargetEl.offsetTop - 50);
+              window.scrollTo(0, newTargetEl.offsetTop);
             } else {
               window.scrollTo(0, 0);
             }
         }, 0);
-
-        const hc = document.querySelector('.home-container');
-        if (hc) hc.style.display = 'none';
 
         gsap.to(overlayRef.current, {
           opacity: 0,
@@ -197,7 +195,7 @@ const App = () => {
         });
       }
     });
-  }, []);
+  }, [view]);
 
   // Navigate to Contact
 
@@ -413,9 +411,8 @@ const App = () => {
   const navigateToHome = useCallback(() => {
     if (isTransitioning.current) return;
 
-    const hc = document.querySelector('.home-container');
-    if (hc && hc.style.display !== 'none' && getComputedStyle(hc).opacity === '1') {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    if (view === 'home' || view === 'overview') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
@@ -426,25 +423,10 @@ const App = () => {
       duration: 0.6,
       ease: 'power2.inOut',
       onComplete: () => {
-        if (hc) {
-          hc.style.display = 'block';
-          // Force ScrollTrigger to recalculate all positions now that display is block
-          ScrollTrigger.refresh();
-        }
-
-        const isFromProjects = document.querySelector('.projects-window') !== null;
-        const showcase = document.getElementById('projects');
-
-        if (isFromProjects && showcase) {
-          window.scrollTo(0, showcase.offsetTop - 80);
-        } else {
-          // As requested, always scroll to the topmost area like refreshing the site
-          window.scrollTo(0, 0);
-        }
-
         flushSync(() => {
           setView('home');
         });
+        window.scrollTo(0, 0);
 
         gsap.to(overlayRef.current, {
           opacity: 0,
@@ -452,11 +434,12 @@ const App = () => {
           ease: 'power2.inOut',
           onComplete: () => {
             isTransitioning.current = false;
+            ScrollTrigger.refresh();
           }
         });
       }
     });
-  }, []);
+  }, [view]);
 
   return (
     <>
@@ -526,16 +509,9 @@ const App = () => {
 
       <div 
         className="home-container relative bg-transparent mt-0 z-10"
-        style={{ display: (view === 'home' || isTransitioning.current) ? 'block' : 'none' }}
+        style={{ display: (view === 'home' || view === 'overview' || isTransitioning.current) ? 'block' : 'none' }}
       >
         <Hero 
-          onNavigateToOverview={navigateToOverview}
-          onNavigateToContact={navigateToContact}
-          onNavigateToGallery={navigateToGallery}
-          onNavigateToExperience={navigateToExperience}
-          onNavigateToSkills={navigateToSkills}
-          onNavigateToCertifications={navigateToCertifications}
-          onNavigateToProjects={navigateToProjects}
           hasLoadedOnce={hasLoadedOnce} 
           setShowNav={setShowNav}
         />
@@ -543,7 +519,7 @@ const App = () => {
 
       <div 
         className="overview-container relative bg-transparent mt-0 z-10"
-        style={{ display: (view === 'overview' || isTransitioning.current) ? 'block' : 'none' }}
+        style={{ display: (view === 'home' || view === 'overview' || isTransitioning.current) ? 'block' : 'none' }}
       >
         <FeatureCards />
         <Experience />
