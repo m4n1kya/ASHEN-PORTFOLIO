@@ -27,9 +27,10 @@ const Gallery = React.lazy(() => import("./components/Gallery"));
 const ExperienceWindow = React.lazy(() => import("./components/ExperienceWindow"));
 const SkillsWindow = React.lazy(() => import("./components/SkillsWindow"));
 const CertificationsWindow = React.lazy(() => import("./components/CertificationsWindow"));
+const BeyondCodeWindow = React.lazy(() => import("./components/BeyondCodeWindow"));
 
-// Valid view states: 'home' | 'overview' | 'gallery' | 'projects' | 'contact' | 'experience' | 'skills' | 'certifications'
-const OVERLAY_VIEWS = ['gallery', 'projects', 'contact', 'experience', 'skills', 'certifications'];
+// Valid view states: 'home' | 'overview' | 'gallery' | 'projects' | 'contact' | 'experience' | 'skills' | 'certifications' | 'beyondcode'
+const OVERLAY_VIEWS = ['gallery', 'projects', 'contact', 'experience', 'skills', 'certifications', 'beyondcode'];
 
 const App = () => {
   const [view, setView] = useState('home');
@@ -38,7 +39,7 @@ const App = () => {
   const [showNav, setShowNav] = useState(false);
 
   // Track which windows have been mounted (so lazy components aren't re-mounted on every open)
-  const mounted = useRef({ gallery: false, projects: false, contact: false, experience: false, skills: false, certifications: false });
+  const mounted = useRef({ gallery: false, projects: false, contact: false, experience: false, skills: false, certifications: false, beyondcode: false });
 
   const overlayRef = useRef(null);
   const curtainRef = useRef(null);
@@ -182,6 +183,10 @@ const App = () => {
     transitionTo('certifications', { mountKey: 'certifications' });
   }, [transitionTo]);
 
+  const navigateToBeyondCode = useCallback(() => {
+    transitionTo('beyondcode', { mountKey: 'beyondcode' });
+  }, [transitionTo]);
+
   const isOverlayView = OVERLAY_VIEWS.includes(view);
 
   // Menu is hidden only during gallery (pure fullscreen visual) and on home before scroll
@@ -233,6 +238,7 @@ const App = () => {
             { label: 'Projects',       ariaLabel: 'Selected Projects',    link: '#', onClick: () => navigateToProjects('ashenritual') },
             { label: 'Skills',         ariaLabel: 'Technical Stack',      link: '#', onClick: navigateToSkills },
             { label: 'Certifications', ariaLabel: 'Certifications',       link: '#', onClick: navigateToCertifications },
+            { label: 'Beyond Code',    ariaLabel: 'Beyond Code',          link: '#', onClick: navigateToBeyondCode },
             { label: 'Contact',        ariaLabel: 'Get in touch',         link: '#', onClick: navigateToContact },
           ]}
           socialItems={[
@@ -335,6 +341,9 @@ const App = () => {
         )}
         {mounted.current.certifications && view === 'certifications' && (
           <CertificationsWindow onBack={navigateToHome} />
+        )}
+        {mounted.current.beyondcode && view === 'beyondcode' && (
+          <BeyondCodeWindow onBack={navigateToHome} />
         )}
       </Suspense>
     </>
