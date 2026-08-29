@@ -14,7 +14,7 @@ import AccordionGallery from "./reactbits/AccordionGallery";
 gsap.registerPlugin(ScrollTrigger);
 
 const galleryItems = [
-  { image: '/images/experience/1761853995286.jpg', label: 'Open Source' },      // Was 3rd
+  { image: '/images/experience/17618539952862.jpg', label: 'Open Source' },      // Was 3rd
   { image: '/images/experience/1761853995146.jpg', label: 'Industry Workshop' }, // Remains 2nd
   { image: '/images/experience/1761853995774.jpg', label: 'Hackathon' },         // Was 4th
   { image: '/images/experience/1761853993904.jpg', label: 'Tech Summit' }        // Was 1st
