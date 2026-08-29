@@ -88,14 +88,14 @@ const TechStack = () => {
       <div id="skills" className="flex-center section-padding">
         <div className="w-full h-full md:px-10 px-5">
           <div className="w-full mb-16 md:mb-24 flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-12">
-            <div className="flex-[1.8] text-left w-full">
+            <div className="flex-[1.8] text-left w-full flex flex-wrap items-center gap-x-4 md:gap-x-6 gap-y-2">
               <ScrollFloat
                 animationDuration={1}
                 ease="back.inOut(2)"
                 scrollStart="top bottom"
                 scrollEnd="bottom center"
                 stagger={0.02}
-                containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black w-full uppercase tracking-tighter leading-none"
+                containerClassName="text-white text-[10vw] md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-none"
               >
                 TECHNICAL
               </ScrollFloat>
@@ -105,7 +105,7 @@ const TechStack = () => {
                 scrollStart="top bottom"
                 scrollEnd="bottom center"
                 stagger={0.02}
-                containerClassName="text-white text-[10vw] md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none text-white/40 mt-2"
+                containerClassName="text-white text-[10vw] md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-none text-white/40"
               >
                 ARSENAL
               </ScrollFloat>
