@@ -52,7 +52,7 @@ const CSSMaskedNumber = ({ number, src, parallax = 120 }) => {
         lineHeight: '0.85',
         backgroundColor: '#ffffff',
         backgroundImage: `url(${src})`,
-        backgroundSize: '150%',
+        backgroundSize: 'max(150vw, 150vh)',
         backgroundPosition: `calc(50% + ${offset.x}px) calc(50% + ${offset.y}px)`,
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
