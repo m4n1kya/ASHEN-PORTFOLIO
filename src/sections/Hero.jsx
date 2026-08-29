@@ -70,10 +70,10 @@ const FloatingTab = ({ tab, index, side }) => {
    const containerRef = useRef(null);
    const tabRef = useRef(null);
    
-   // Create a semi-circle formation around the lantern
+   // Create a semi-circle formation around the lantern, pulled in closer
    const isMiddle = index % 3 === 1;
-   const y = index % 3 === 0 ? -170 : isMiddle ? 0 : 170;
-   const x = side === 'left' ? (isMiddle ? -360 : -270) : (isMiddle ? 360 : 270);
+   const y = index % 3 === 0 ? -155 : isMiddle ? 0 : 155;
+   const x = side === 'left' ? (isMiddle ? -290 : -220) : (isMiddle ? 290 : 220);
    
    const yPos = `${y}px`;
    const xPos = `${x}px`;
