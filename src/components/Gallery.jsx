@@ -21,7 +21,7 @@ const Gallery = ({ onBack }) => {
   }));
 
   return (
-    <div ref={containerRef} className="gallery-window gallery-container h-screen w-screen bg-black fixed inset-0 z-[200] overflow-hidden">
+    <div ref={containerRef} className="gallery-window gallery-container no-cursor-hover h-screen w-screen bg-black fixed inset-0 z-[200] overflow-hidden">
       
       {/* Return Button — styled to match Menu button, large click target */}
       <div className="absolute top-0 left-0 z-[300]" style={{ margin: '1.6em 2em' }}>

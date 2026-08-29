@@ -203,7 +203,7 @@ const App = () => {
       />
 
       <ParticleCursor />
-      <XRayCursor isVisible={view === 'home'} />
+      <XRayCursor isVisible={true} />
 
       {/* ── Fixed UI: Menu + Resume ── */}
       <div
