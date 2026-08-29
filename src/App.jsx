@@ -243,14 +243,47 @@ const App = () => {
         <a
           href="/resume.pdf"
           download="Manikya_Resume.pdf"
-          className="fixed top-5 right-5 z-[9999] px-6 py-2 rounded-full border border-white/20 bg-white/5 backdrop-blur-md text-white font-semibold flex items-center gap-2 hover:bg-white/10 hover:scale-105 transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)]"
-          style={{ fontFamily: '"Mona Sans", sans-serif' }}
+          style={{
+            position: 'fixed',
+            top: 0,
+            right: 0,
+            margin: '1.6em 2em',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            background: 'rgba(0,0,0,0.25)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: '4px',
+            padding: '0.75em 1em',
+            color: '#ffffff',
+            fontFamily: '"Mona Sans", sans-serif',
+            fontSize: '1rem',
+            fontWeight: 600,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            lineHeight: 1,
+            textDecoration: 'none',
+            transition: 'background 0.3s ease, border-color 0.3s ease',
+            zIndex: 20,
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(0,0,0,0.45)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(0,0,0,0.25)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          {/* Download icon — always visible */}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+            <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
           </svg>
-          RESUME
+          {/* Label — hidden on very small screens */}
+          <span style={{ display: 'var(--resume-label-display, inline)' }}>Resume</span>
         </a>
+        <style>{`
+          @media (max-width: 480px) {
+            :root { --resume-label-display: none; }
+            .staggered-menu-header { padding: 1.2em 1.2em; }
+          }
+        `}</style>
       </div>
 
       <Loader hasLoadedOnce={hasLoadedOnce} />
