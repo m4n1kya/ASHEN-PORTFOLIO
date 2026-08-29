@@ -73,6 +73,9 @@ const BlobExpand = () => {
 // Lazy Loaded Windows (Only loaded when opened by user)
 const ProjectsWindow = React.lazy(() => import("./components/ProjectsWindow"));
 const Gallery = React.lazy(() => import("./components/Gallery"));
+const ExperienceWindow = React.lazy(() => import("./components/ExperienceWindow"));
+const SkillsWindow = React.lazy(() => import("./components/SkillsWindow"));
+const CertificationsWindow = React.lazy(() => import("./components/CertificationsWindow"));
 
 const App = () => {
   const [view, setView] = useState('home');
@@ -80,6 +83,9 @@ const App = () => {
   const [galleryMounted, setGalleryMounted] = useState(false);
   const [projectsMounted, setProjectsMounted] = useState(false);
   const [contactMounted, setContactMounted] = useState(false);
+  const [experienceMounted, setExperienceMounted] = useState(false);
+  const [skillsMounted, setSkillsMounted] = useState(false);
+  const [certificationsMounted, setCertificationsMounted] = useState(false);
   const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
   const [showNav, setShowNav] = useState(false);
   const overlayRef = useRef(null);
@@ -194,6 +200,109 @@ const App = () => {
   }, []);
 
   // Navigate to Contact
+
+  // Navigate to Experience Window
+  const navigateToExperience = useCallback(() => {
+    if (isTransitioning.current) return;
+    isTransitioning.current = true;
+    setExperienceMounted(true);
+    scrollPositionRef.current = window.scrollY;
+
+    gsap.to(overlayRef.current, {
+      opacity: 1,
+      duration: 0.6,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        flushSync(() => {
+          setHasLoadedOnce(true);
+          setView('experience');
+        });
+        sessionStorage.setItem('ashen_has_loaded', 'true');
+        window.scrollTo(0, 0);
+
+        const hc = document.querySelector('.home-container');
+        if (hc) hc.style.display = 'none';
+
+        gsap.to(overlayRef.current, {
+          opacity: 0,
+          duration: 0.6,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            isTransitioning.current = false;
+          }
+        });
+      }
+    });
+  }, []);
+
+  // Navigate to Skills Window
+  const navigateToSkills = useCallback(() => {
+    if (isTransitioning.current) return;
+    isTransitioning.current = true;
+    setSkillsMounted(true);
+    scrollPositionRef.current = window.scrollY;
+
+    gsap.to(overlayRef.current, {
+      opacity: 1,
+      duration: 0.6,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        flushSync(() => {
+          setHasLoadedOnce(true);
+          setView('skills');
+        });
+        sessionStorage.setItem('ashen_has_loaded', 'true');
+        window.scrollTo(0, 0);
+
+        const hc = document.querySelector('.home-container');
+        if (hc) hc.style.display = 'none';
+
+        gsap.to(overlayRef.current, {
+          opacity: 0,
+          duration: 0.6,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            isTransitioning.current = false;
+          }
+        });
+      }
+    });
+  }, []);
+
+  // Navigate to Certifications Window
+  const navigateToCertifications = useCallback(() => {
+    if (isTransitioning.current) return;
+    isTransitioning.current = true;
+    setCertificationsMounted(true);
+    scrollPositionRef.current = window.scrollY;
+
+    gsap.to(overlayRef.current, {
+      opacity: 1,
+      duration: 0.6,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        flushSync(() => {
+          setHasLoadedOnce(true);
+          setView('certifications');
+        });
+        sessionStorage.setItem('ashen_has_loaded', 'true');
+        window.scrollTo(0, 0);
+
+        const hc = document.querySelector('.home-container');
+        if (hc) hc.style.display = 'none';
+
+        gsap.to(overlayRef.current, {
+          opacity: 0,
+          duration: 0.6,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            isTransitioning.current = false;
+          }
+        });
+      }
+    });
+  }, []);
+
   const navigateToContact = useCallback(() => {
     if (isTransitioning.current) return;
     isTransitioning.current = true;
@@ -384,10 +493,10 @@ const App = () => {
           items={[
             { label: 'Home',       ariaLabel: 'Back to Home',            link: '#', onClick: navigateToHome },
             { label: 'Overview',   ariaLabel: 'Professional Summary',    link: '#', onClick: () => navigateToOverview() },
-            { label: 'Experience', ariaLabel: 'Work Experience',         link: '#', onClick: () => navigateToOverview('experience') },
+            { label: 'Experience', ariaLabel: 'Work Experience',         link: '#', onClick: navigateToExperience },
             { label: 'Projects',   ariaLabel: 'Selected Projects',       link: '#', onClick: () => {} },
-            { label: 'Skills',     ariaLabel: 'Technical Stack',         link: '#', onClick: () => navigateToOverview('skills') },
-            { label: 'Certifications', ariaLabel: 'Certifications',      link: '#', onClick: () => navigateToOverview('achievements') },
+            { label: 'Skills',     ariaLabel: 'Technical Stack',         link: '#', onClick: navigateToSkills },
+            { label: 'Certifications', ariaLabel: 'Certifications',      link: '#', onClick: navigateToCertifications },
             { label: 'Contact',    ariaLabel: 'Get in touch',            link: '#', onClick: navigateToContact },
           ]}
           socialItems={[
@@ -422,7 +531,10 @@ const App = () => {
         <Hero 
           onNavigateToOverview={navigateToOverview}
           onNavigateToContact={navigateToContact}
-          onNavigateToGallery={navigateToGallery} 
+          onNavigateToGallery={navigateToGallery}
+          onNavigateToExperience={navigateToExperience}
+          onNavigateToSkills={navigateToSkills}
+          onNavigateToCertifications={navigateToCertifications}
           hasLoadedOnce={hasLoadedOnce} 
           setShowNav={setShowNav}
         />
@@ -455,6 +567,18 @@ const App = () => {
         {contactMounted && view === 'contact' && (
           <ContactWindow onBack={navigateToHome} />
         )}
+        {experienceMounted && view === 'experience' && (
+          <ExperienceWindow onBack={navigateToHome} />
+        )}
+
+        {skillsMounted && view === 'skills' && (
+          <SkillsWindow onBack={navigateToHome} />
+        )}
+
+        {certificationsMounted && view === 'certifications' && (
+          <CertificationsWindow onBack={navigateToHome} />
+        )}
+
       </Suspense>
     </>
   );

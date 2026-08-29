@@ -154,7 +154,7 @@ const FloatingTab = ({ tab, index, side }) => {
    );
 };
 
-const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, hasLoadedOnce, setShowNav }) => {
+const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, onNavigateToExperience, onNavigateToSkills, onNavigateToCertifications, hasLoadedOnce, setShowNav }) => {
   const containerRef = useRef(null);
   const introRef = useRef(null);
   const lanternImgRef = useRef(null);
@@ -242,10 +242,10 @@ const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, 
 
   const tabs = [
     { label: "Overview", action: () => onNavigateToOverview(), side: "left" },
-    { label: "Experience", action: () => onNavigateToOverview('experience'), side: "left" },
+    { label: "Experience", action: onNavigateToExperience, side: "left" },
     { label: "Projects", action: () => {}, side: "left" },
-    { label: "Technical Skills", action: () => onNavigateToOverview('skills'), side: "right" },
-    { label: "Certifications", action: () => onNavigateToOverview('achievements'), side: "right" },
+    { label: "Technical Skills", action: onNavigateToSkills, side: "right" },
+    { label: "Certifications", action: onNavigateToCertifications, side: "right" },
     { label: "Contact", action: onNavigateToContact, side: "right" },
   ];
 

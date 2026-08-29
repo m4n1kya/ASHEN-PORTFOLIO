@@ -1,0 +1,197 @@
+import React, { useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { expCards } from "../constants";
+import SpotlightCard from "./reactbits/SpotlightCard";
+import Magnet from "./reactbits/Magnet";
+import ShinyText from "./reactbits/ShinyText";
+import Galaxy from "./reactbits/Galaxy";
+import BlobTextReveal from "./reactbits/BlobTextReveal";
+import TickerScroll from "./reactbits/TickerScroll";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const ExperienceWindow = ({ onBack }) => {
+  const containerRef = useRef(null);
+  const horizontalRef = useRef(null);
+
+  useGSAP(() => {
+    // Reveal window content
+    gsap.fromTo(
+      ".exp-window-fade-up",
+      { y: 50, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: "power3.out", delay: 0.2 }
+    );
+
+    // HORIZONTAL SCROLL LOGIC
+    if (horizontalRef.current) {
+      const cards = gsap.utils.toArray(".horizontal-item");
+      const totalWidth = cards.length * 800; // rough width of items
+
+      gsap.to(cards, {
+        xPercent: -100 * (cards.length - 1),
+        ease: "none",
+        scrollTrigger: {
+          trigger: horizontalRef.current,
+          scroller: ".exp-window-scroll",
+          pin: true,
+          scrub: 1,
+          snap: 1 / (cards.length - 1),
+          end: () => "+=" + horizontalRef.current.offsetWidth * 2,
+        }
+      });
+    }
+
+  }, { scope: containerRef });
+
+  return (
+    <div ref={containerRef} className="fixed inset-0 z-[1000] bg-black flex flex-col w-full h-full overflow-hidden">
+      {/* Galaxy Background */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <Galaxy 
+          mouseRepulsion={true}
+          mouseInteraction={true}
+          density={1.2}
+          glowIntensity={0.2}
+          saturation={0.0}
+          twinkleIntensity={0.4}
+        />
+      </div>
+
+      {/* Header / Back Button */}
+      <div className="absolute top-0 left-0 w-full p-4 md:p-6 z-[50] pointer-events-auto">
+        <button
+          onClick={onBack}
+          className="flex items-center justify-center gap-1 md:gap-2 px-3 py-1.5 md:px-5 md:py-2 rounded-full text-white/40 hover:text-white transition-all duration-300 group bg-transparent"
+        >
+          <svg className="w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span className="font-semibold uppercase text-xs md:text-sm tracking-wider">Back</span>
+        </button>
+      </div>
+
+      {/* Main Content Area */}
+      <div className="exp-window-scroll flex-1 overflow-y-auto overflow-x-hidden relative z-10 w-full h-full pt-20 pb-40 px-5 md:px-20 xl:px-40">
+        
+        <div className="w-full mb-16 md:mb-32 flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-12 exp-window-fade-up">
+          <div className="flex-[1.8] text-left w-full flex flex-col">
+            <BlobTextReveal 
+              text="WORK" 
+              className="text-white text-[12vw] md:text-8xl lg:text-9xl font-black uppercase tracking-tighter leading-none"
+              duration={1.5}
+            />
+            <BlobTextReveal 
+              text="EXPERIENCE" 
+              className="text-white/40 text-[12vw] md:text-8xl lg:text-9xl font-black uppercase tracking-tighter leading-none"
+              delay={0.2}
+              duration={1.5}
+            />
+          </div>
+        </div>
+
+        {/* Horizontal Scrolling Timeline Section */}
+        <div ref={horizontalRef} className="h-screen w-full flex items-center overflow-hidden mb-32 pt-20">
+          <div className="flex gap-20 w-[300vw] px-10">
+            {expCards.map((card, index) => (
+              <div key={index} className="horizontal-item flex-shrink-0 w-[800px] h-[600px] flex flex-col xl:flex-row gap-10">
+                <div className="w-full h-full">
+                  <SpotlightCard
+                    className="w-full h-full rounded-2xl p-10 border border-white/10 bg-black/40 backdrop-blur-md flex flex-col justify-between shadow-2xl"
+                    spotlightColor="rgba(217, 236, 255, 0.08)"
+                    borderColor="rgba(217, 236, 255, 0.25)"
+                  >
+                    <div className="flex items-center gap-6 mb-8">
+                      <Magnet padding={20} magnetStrength={3}>
+                        <div className="w-20 h-20 rounded-2xl shadow-lg border border-white/20 bg-black/50 backdrop-blur-md flex items-center justify-center shrink-0">
+                          <span className="text-white text-3xl font-bold">{card.company.charAt(0)}</span>
+                        </div>
+                      </Magnet>
+                      <div>
+                        <h2 className="text-blue-200 text-xl font-bold uppercase tracking-widest">{card.company}</h2>
+                        <h1 className="font-semibold text-3xl text-white tracking-tight">{card.title}</h1>
+                      </div>
+                    </div>
+                    
+                    <p className="text-white-50 font-medium text-lg mb-6">{card.date}</p>
+                    
+                    <div className="flex-1 overflow-y-auto pr-4 custom-scrollbar">
+                      <ul className="list-disc ms-5 flex flex-col gap-4 text-white/70">
+                        {card.responsibilities.map((r, i) => (
+                          <li key={i} className="text-lg leading-relaxed">{r}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    <div className="mt-8 pt-6 border-t border-white/10 flex flex-wrap gap-2">
+                      {card.leftContent.map((item, idx) => (
+                        <span key={idx} className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-white/60 text-sm">
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </SpotlightCard>
+                </div>
+              </div>
+            ))}
+            
+            {/* End of Horizontal Timeline padding block */}
+            <div className="horizontal-item flex-shrink-0 w-[200px]" />
+          </div>
+        </div>
+
+        {/* Industrial Exposure Section */}
+        <div className="mt-40 mb-20 flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-12 exp-window-fade-up">
+          <div className="flex-[1.8] text-left w-full flex flex-col">
+            <BlobTextReveal 
+              text="INDUSTRIAL" 
+              className="text-white text-[10vw] md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none"
+            />
+            <BlobTextReveal 
+              text="EXPOSURE" 
+              className="text-white/40 text-[10vw] md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none"
+              delay={0.1}
+            />
+          </div>
+        </div>
+
+        <div className="relative max-w-[1400px] mx-auto exp-window-fade-up">
+           <SpotlightCard
+              className="rounded-xl p-8 md:p-12 border border-white/10 bg-black/40 backdrop-blur-md overflow-hidden relative"
+              spotlightColor="rgba(217, 236, 255, 0.08)"
+              borderColor="rgba(217, 236, 255, 0.25)"
+            >
+              {/* Ticker Scroll Background Effect */}
+              <div className="absolute top-1/2 left-0 w-full -translate-y-1/2 opacity-5 pointer-events-none rotate-3">
+                 <TickerScroll speed={30} direction="left" className="text-7xl font-black uppercase tracking-widest text-white">
+                    SYSTEM DESIGN • AGILE • CI/CD • WEB3 • 
+                 </TickerScroll>
+                 <TickerScroll speed={25} direction="right" className="text-7xl font-black uppercase tracking-widest text-white mt-4">
+                    CLOUD ARCHITECTURE • STARTUPS • OPEN SOURCE • 
+                 </TickerScroll>
+              </div>
+
+              <div className="flex flex-col gap-6 relative z-10">
+                <h3 className="text-white text-2xl md:text-3xl font-bold tracking-wider uppercase">
+                  <ShinyText text="Industry Training & Workshops" className="font-bold" speed={4} />
+                </h3>
+                <p className="text-white/80 text-lg md:text-xl leading-relaxed">
+                  Engaged in multiple industry-level training sessions and technical workshops focused on modern software engineering practices, system design, and emerging technologies.
+                </p>
+                <ul className="list-disc ms-6 mt-2 flex flex-col gap-4 text-white/70">
+                  <li className="text-lg leading-relaxed">Participated in tech-talks and open-source contribution summits.</li>
+                  <li className="text-lg leading-relaxed">Exposure to enterprise agile workflows, CI/CD pipeline structures, and team collaboration protocols.</li>
+                  <li className="text-lg leading-relaxed">Gained insights into scalability and performance optimization directly from senior industry professionals.</li>
+                </ul>
+                <p className="text-white/40 italic mt-8 text-sm uppercase tracking-widest border-t border-white/10 pt-4">More details coming soon...</p>
+              </div>
+          </SpotlightCard>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+export default ExperienceWindow;
