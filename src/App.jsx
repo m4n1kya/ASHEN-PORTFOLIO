@@ -16,7 +16,7 @@ import ShowcaseSection from "./sections/ShowcaseSection";
 import LogoShowcase from "./sections/LogoShowcase";
 import TechStack from "./sections/TechStack";
 import Achievements from "./sections/Achievements";
-import Contact from "./sections/Contact";
+import ContactWindow from "./components/ContactWindow";
 import Footer from "./sections/Footer";
 import { StaggeredMenu } from "./components/reactbits/StaggeredMenu";
 import GlobalCurtain from "./components/GlobalCurtain";
@@ -79,6 +79,7 @@ const App = () => {
   const [activeProject, setActiveProject] = useState("ashenritual");
   const [galleryMounted, setGalleryMounted] = useState(false);
   const [projectsMounted, setProjectsMounted] = useState(false);
+  const [contactMounted, setContactMounted] = useState(false);
   const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
   const [showNav, setShowNav] = useState(false);
   const overlayRef = useRef(null);
@@ -196,6 +197,7 @@ const App = () => {
   const navigateToContact = useCallback(() => {
     if (isTransitioning.current) return;
     isTransitioning.current = true;
+    setContactMounted(true);
     scrollPositionRef.current = window.scrollY;
 
     gsap.to(overlayRef.current, {
@@ -439,13 +441,7 @@ const App = () => {
         <Footer />
       </div>
 
-      <div 
-        className="contact-container relative bg-transparent mt-0 z-10"
-        style={{ display: (view === 'contact' || isTransitioning.current) ? 'block' : 'none' }}
-      >
-        <Contact />
-        <Footer />
-      </div>
+      {/* Contact view is now handled via Suspense */}
 
       <Suspense fallback={null}>
         {galleryMounted && view === 'gallery' && (
@@ -454,6 +450,10 @@ const App = () => {
 
         {projectsMounted && view === 'projects' && (
           <ProjectsWindow onBack={navigateToHome} initialProject={activeProject} />
+        )}
+
+        {contactMounted && view === 'contact' && (
+          <ContactWindow onBack={navigateToHome} />
         )}
       </Suspense>
     </>
