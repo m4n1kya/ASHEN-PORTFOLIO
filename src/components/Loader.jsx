@@ -75,6 +75,9 @@ const Loader = ({ hasLoadedOnce }) => {
       '/images/ecoloop.png'
     ];
 
+    // Immediately fade out the HTML blocker so the React loader is visible
+    gsap.to("#pre-loader-blocker", { opacity: 0, duration: 0.1, delay: 0.05 });
+
     let loadedAssets = 0;
     const totalAssets = imagesToPreload.length;
     
