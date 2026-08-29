@@ -73,7 +73,7 @@ const FeatureCards = () => {
   }, []);
 
   return (
-    <section id="about" className="relative pb-24 overflow-hidden pt-10" ref={cardsRef}>
+    <section id="about" className="relative pb-24 overflow-hidden pt-32 lg:pt-40" ref={cardsRef}>
       {/* ── Section Title ── */}
       <div className="w-full mb-16 md:mb-24 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
         
