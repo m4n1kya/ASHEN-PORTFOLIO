@@ -21,55 +21,6 @@ import Footer from "./sections/Footer";
 import { StaggeredMenu } from "./components/reactbits/StaggeredMenu";
 import GlobalCurtain from "./components/GlobalCurtain";
 
-// XRay blob that expands to fullscreen between TechStack and Contact
-const BlobExpand = () => {
-  const ref = useRef(null);
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: '#contact',
-        start: 'top 65%',
-        once: true,
-        onEnter: () => {
-          gsap.timeline()
-            .to(ref.current, {
-              scale: 70,
-              duration: 0.9,
-              ease: 'power3.in',
-              willChange: 'transform',
-            })
-            .to(ref.current, {
-              opacity: 0,
-              duration: 0.35,
-              ease: 'power2.out',
-            })
-            .set(ref.current, { display: 'none' });
-        },
-      });
-    });
-    return () => ctx.revert();
-  }, []);
-  return (
-    <div
-      ref={ref}
-      style={{
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%) scale(0)',
-        width: 80,
-        height: 80,
-        borderRadius: '50%',
-        background: 'white',
-        mixBlendMode: 'difference',
-        pointerEvents: 'none',
-        zIndex: 99998,
-        willChange: 'transform',
-      }}
-    />
-  );
-};
-
 // Lazy Loaded Windows (Only loaded when opened by user)
 const ProjectsWindow = React.lazy(() => import("./components/ProjectsWindow"));
 const Gallery = React.lazy(() => import("./components/Gallery"));
@@ -77,27 +28,31 @@ const ExperienceWindow = React.lazy(() => import("./components/ExperienceWindow"
 const SkillsWindow = React.lazy(() => import("./components/SkillsWindow"));
 const CertificationsWindow = React.lazy(() => import("./components/CertificationsWindow"));
 
+// Valid view states: 'home' | 'overview' | 'gallery' | 'projects' | 'contact' | 'experience' | 'skills' | 'certifications'
+const OVERLAY_VIEWS = ['gallery', 'projects', 'contact', 'experience', 'skills', 'certifications'];
+
 const App = () => {
   const [view, setView] = useState('home');
   const [activeProject, setActiveProject] = useState("ashenritual");
-  const [galleryMounted, setGalleryMounted] = useState(false);
-  const [projectsMounted, setProjectsMounted] = useState(false);
-  const [contactMounted, setContactMounted] = useState(false);
-  const [experienceMounted, setExperienceMounted] = useState(false);
-  const [skillsMounted, setSkillsMounted] = useState(false);
-  const [certificationsMounted, setCertificationsMounted] = useState(false);
   const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
   const [showNav, setShowNav] = useState(false);
+
+  // Track which windows have been mounted (so lazy components aren't re-mounted on every open)
+  const mounted = useRef({ gallery: false, projects: false, contact: false, experience: false, skills: false, certifications: false });
+
   const overlayRef = useRef(null);
   const curtainRef = useRef(null);
   const isTransitioning = useRef(false);
-  const scrollPositionRef = useRef(0);
+  const viewRef = useRef('home'); // Always in sync with view state for use inside callbacks
 
-  // Silently preload all the massive Gallery images in the background
-  // so that they are instantly available from cache when the user opens the Gallery.
+  // Keep viewRef in sync
   useEffect(() => {
-    const preloadGalleryImages = () => {
-      // Eagerly preload first 8 images visible in the viewport
+    viewRef.current = view;
+  }, [view]);
+
+  // Preload gallery images silently
+  useEffect(() => {
+    const timer = setTimeout(() => {
       for (let i = 1; i <= 8; i++) {
         const link = document.createElement('link');
         link.rel = 'preload';
@@ -105,14 +60,12 @@ const App = () => {
         link.href = `/images/gallery/screen-${i}.webp`;
         document.head.appendChild(link);
       }
-      // Lazily preload the rest via Image() so they cache without blocking
       for (let i = 9; i <= 34; i++) {
         const img = new Image();
         img.src = `/images/gallery/screen-${i}.webp`;
       }
-    };
-    // Wait a couple of seconds so we don't impact initial page load, then fetch
-    setTimeout(preloadGalleryImages, 2000);
+    }, 2000);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -121,328 +74,104 @@ const App = () => {
     }
   }, [hasLoadedOnce]);
 
-  const handleNav = (selector, curtainConfig) => {
-    if (curtainRef.current) {
-      curtainRef.current.cover(curtainConfig, () => {
-        if (selector === '#') {
-          window.scrollTo({ top: 0, behavior: 'instant' });
-        } else {
-          const el = document.querySelector(selector);
-          if (el) el.scrollIntoView({ behavior: 'instant' });
-        }
-        setTimeout(() => {
-          curtainRef.current.reveal();
-          ScrollTrigger.refresh();
-        }, 150);
-      });
-    } else {
-      if (selector === '#') window.scrollTo({ top: 0, behavior: 'smooth' });
-      else document.querySelector(selector)?.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  // ── Core transition engine ──────────────────────────────────────────────────
+  // Fades to black, applies view change, scrolls to top, fades back in.
+  const transitionTo = useCallback((newView, options = {}) => {
+    if (isTransitioning.current) return;
+    if (viewRef.current === newView) return;
+    isTransitioning.current = true;
 
-  // Navigate to Overview
+    const { mountKey, projectId, targetId } = options;
+
+    gsap.to(overlayRef.current, {
+      opacity: 1,
+      duration: 0.5,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        flushSync(() => {
+          // Mount the window component if needed
+          if (mountKey) mounted.current[mountKey] = true;
+          if (projectId) setActiveProject(projectId);
+          setHasLoadedOnce(true);
+          setView(newView);
+        });
+        sessionStorage.setItem('ashen_has_loaded', 'true');
+
+        // Scroll after React has rendered
+        requestAnimationFrame(() => {
+          if (targetId) {
+            const el = document.getElementById(targetId);
+            window.scrollTo(0, el ? el.offsetTop - 50 : 0);
+          } else {
+            window.scrollTo(0, 0);
+          }
+
+          gsap.to(overlayRef.current, {
+            opacity: 0,
+            duration: 0.5,
+            ease: 'power2.inOut',
+            onComplete: () => {
+              isTransitioning.current = false;
+              ScrollTrigger.refresh();
+            }
+          });
+        });
+      }
+    });
+  }, []); // no deps — uses refs
+
+  // ── Navigation helpers ──────────────────────────────────────────────────────
+  const navigateToHome = useCallback(() => {
+    if (isTransitioning.current) return;
+    if (viewRef.current === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    transitionTo('home');
+  }, [transitionTo]);
+
   const navigateToOverview = useCallback((targetId = null) => {
     if (isTransitioning.current) return;
     const tid = typeof targetId === 'string' ? targetId : null;
 
-    // If already in overview, just scroll to the target section
-    if (view === 'overview') {
-      const targetEl = tid ? document.getElementById(tid) : null;
-      if (targetEl) {
-        window.scrollTo({ top: targetEl.offsetTop - 50, behavior: 'smooth' });
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
+    if (viewRef.current === 'overview') {
+      const el = tid ? document.getElementById(tid) : null;
+      window.scrollTo({ top: el ? el.offsetTop - 50 : 0, behavior: 'smooth' });
       return;
     }
+    transitionTo('overview', { targetId: tid });
+  }, [transitionTo]);
 
-    // Wipe transition into overview (from home, or any other window)
-    isTransitioning.current = true;
-    scrollPositionRef.current = window.scrollY;
+  const navigateToGallery = useCallback(() => {
+    transitionTo('gallery', { mountKey: 'gallery' });
+  }, [transitionTo]);
 
-    gsap.to(overlayRef.current, {
-      opacity: 1,
-      duration: 0.6,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        flushSync(() => {
-          setHasLoadedOnce(true);
-          setView('overview');
-        });
-        sessionStorage.setItem('ashen_has_loaded', 'true');
-        
-        setTimeout(() => {
-          const newTargetEl = tid ? document.getElementById(tid) : null;
-          if (newTargetEl) {
-            window.scrollTo(0, newTargetEl.offsetTop - 50);
-          } else {
-            window.scrollTo(0, 0);
-          }
-        }, 0);
-
-        gsap.to(overlayRef.current, {
-          opacity: 0,
-          duration: 0.6,
-          ease: 'power2.inOut',
-          onComplete: () => {
-            isTransitioning.current = false;
-            ScrollTrigger.refresh();
-            setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
-          }
-        });
-      }
-    });
-  }, [view]);
-
-  // Navigate to Contact
-
-  // Navigate to Experience Window
-  const navigateToExperience = useCallback(() => {
-    if (isTransitioning.current) return;
-    isTransitioning.current = true;
-    setExperienceMounted(true);
-    scrollPositionRef.current = window.scrollY;
-
-    gsap.to(overlayRef.current, {
-      opacity: 1,
-      duration: 0.6,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        flushSync(() => {
-          setHasLoadedOnce(true);
-          setView('experience');
-        });
-        sessionStorage.setItem('ashen_has_loaded', 'true');
-        window.scrollTo(0, 0);
-
-        const hc = document.querySelector('.home-container');
-        if (hc) hc.style.display = 'none';
-
-        gsap.to(overlayRef.current, {
-          opacity: 0,
-          duration: 0.6,
-          ease: 'power2.inOut',
-          onComplete: () => {
-            isTransitioning.current = false;
-          }
-        });
-      }
-    });
-  }, []);
-
-  // Navigate to Skills Window
-  const navigateToSkills = useCallback(() => {
-    if (isTransitioning.current) return;
-    isTransitioning.current = true;
-    setSkillsMounted(true);
-    scrollPositionRef.current = window.scrollY;
-
-    gsap.to(overlayRef.current, {
-      opacity: 1,
-      duration: 0.6,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        flushSync(() => {
-          setHasLoadedOnce(true);
-          setView('skills');
-        });
-        sessionStorage.setItem('ashen_has_loaded', 'true');
-        window.scrollTo(0, 0);
-
-        const hc = document.querySelector('.home-container');
-        if (hc) hc.style.display = 'none';
-
-        gsap.to(overlayRef.current, {
-          opacity: 0,
-          duration: 0.6,
-          ease: 'power2.inOut',
-          onComplete: () => {
-            isTransitioning.current = false;
-          }
-        });
-      }
-    });
-  }, []);
-
-  // Navigate to Certifications Window
-  const navigateToCertifications = useCallback(() => {
-    if (isTransitioning.current) return;
-    isTransitioning.current = true;
-    setCertificationsMounted(true);
-    scrollPositionRef.current = window.scrollY;
-
-    gsap.to(overlayRef.current, {
-      opacity: 1,
-      duration: 0.6,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        flushSync(() => {
-          setHasLoadedOnce(true);
-          setView('certifications');
-        });
-        sessionStorage.setItem('ashen_has_loaded', 'true');
-        window.scrollTo(0, 0);
-
-        const hc = document.querySelector('.home-container');
-        if (hc) hc.style.display = 'none';
-
-        gsap.to(overlayRef.current, {
-          opacity: 0,
-          duration: 0.6,
-          ease: 'power2.inOut',
-          onComplete: () => {
-            isTransitioning.current = false;
-          }
-        });
-      }
-    });
-  }, []);
+  const navigateToProjects = useCallback((projectId = 'ashenritual') => {
+    transitionTo('projects', { mountKey: 'projects', projectId });
+  }, [transitionTo]);
 
   const navigateToContact = useCallback(() => {
-    if (isTransitioning.current) return;
-    isTransitioning.current = true;
-    setContactMounted(true);
-    scrollPositionRef.current = window.scrollY;
+    transitionTo('contact', { mountKey: 'contact' });
+  }, [transitionTo]);
 
-    gsap.to(overlayRef.current, {
-      opacity: 1,
-      duration: 0.6,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        flushSync(() => {
-          setHasLoadedOnce(true);
-          setView('contact');
-        });
-        sessionStorage.setItem('ashen_has_loaded', 'true');
-        window.scrollTo(0, 0);
+  const navigateToExperience = useCallback(() => {
+    transitionTo('experience', { mountKey: 'experience' });
+  }, [transitionTo]);
 
-        const hc = document.querySelector('.home-container');
-        if (hc) hc.style.display = 'none';
+  const navigateToSkills = useCallback(() => {
+    transitionTo('skills', { mountKey: 'skills' });
+  }, [transitionTo]);
 
-        gsap.to(overlayRef.current, {
-          opacity: 0,
-          duration: 0.6,
-          ease: 'power2.inOut',
-          onComplete: () => {
-            isTransitioning.current = false;
-          }
-        });
-      }
-    });
-  }, []);
+  const navigateToCertifications = useCallback(() => {
+    transitionTo('certifications', { mountKey: 'certifications' });
+  }, [transitionTo]);
 
-  // Navigate to gallery
-  const navigateToGallery = useCallback(() => {
-    if (isTransitioning.current) return;
-    isTransitioning.current = true;
-    
-    // Save scroll position before hiding home container
-    scrollPositionRef.current = window.scrollY;
-
-    gsap.to(overlayRef.current, {
-      opacity: 1,
-      duration: 0.6,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        flushSync(() => {
-          setHasLoadedOnce(true);
-          setGalleryMounted(true);
-          setView('gallery');
-        });
-        sessionStorage.setItem('ashen_has_loaded', 'true');
-        
-        window.scrollTo(0, 0);
-        const hc = document.querySelector('.home-container');
-        if (hc) hc.style.display = 'none';
-
-        gsap.to(overlayRef.current, {
-          opacity: 0,
-          duration: 0.6,
-          ease: 'power2.inOut',
-          onComplete: () => {
-            isTransitioning.current = false;
-          }
-        });
-      }
-    });
-  }, []);
-
-  // Navigate to Projects Window
-  const navigateToProjects = useCallback((projectId) => {
-    if (isTransitioning.current) return;
-    isTransitioning.current = true;
-
-    // Save scroll position before hiding home container
-    scrollPositionRef.current = window.scrollY;
-
-    gsap.to(overlayRef.current, {
-      opacity: 1,
-      duration: 0.6,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        flushSync(() => {
-          setHasLoadedOnce(true);
-          setActiveProject(projectId);
-          setProjectsMounted(true);
-          setView('projects');
-        });
-        sessionStorage.setItem('ashen_has_loaded', 'true');
-        
-        window.scrollTo(0, 0);
-        const hc = document.querySelector('.home-container');
-        if (hc) hc.style.display = 'none';
-
-        gsap.to(overlayRef.current, {
-          opacity: 0,
-          duration: 0.6,
-          ease: 'power2.inOut',
-          onComplete: () => {
-            isTransitioning.current = false;
-          }
-        });
-      }
-    });
-  }, []);
-
-  // Navigate back to home
-  const navigateToHome = useCallback(() => {
-    if (isTransitioning.current) return;
-
-    if (view === 'home' || view === 'overview') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-
-    isTransitioning.current = true;
-
-    gsap.to(overlayRef.current, {
-      opacity: 1,
-      duration: 0.6,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        flushSync(() => {
-          setView('home');
-        });
-        window.scrollTo(0, 0);
-
-        gsap.to(overlayRef.current, {
-          opacity: 0,
-          duration: 0.6,
-          ease: 'power2.inOut',
-          onComplete: () => {
-            isTransitioning.current = false;
-            ScrollTrigger.refresh();
-          }
-        });
-      }
-    });
-  }, [view]);
+  const isOverlayView = OVERLAY_VIEWS.includes(view);
+  const showMenu = !isOverlayView || (view !== 'gallery' && view !== 'projects');
 
   return (
     <>
-      {/* PERMANENT transition overlay — always in the DOM, controlled via ref.
-          This can NEVER be lost, unlike document.createElement overlays. */}
+      {/* Permanent black transition overlay */}
       <div
         ref={overlayRef}
         style={{
@@ -458,9 +187,16 @@ const App = () => {
       <ParticleCursor />
       <XRayCursor isVisible={view === 'home'} />
 
-      {/* ── Fixed UI Elements ── */}
-      <div style={{ opacity: ((view !== 'home' || showNav) && view !== 'gallery' && view !== 'projects') ? 1 : 0, transition: 'opacity 1s ease', pointerEvents: ((view !== 'home' || showNav) && view !== 'gallery' && view !== 'projects') ? 'auto' : 'none', zIndex: 9999, position: 'relative' }}>
-        {/* Top Left Menu */}
+      {/* ── Fixed UI: Menu + Resume ── */}
+      <div
+        style={{
+          opacity: (showNav || view !== 'home') && view !== 'gallery' && view !== 'projects' ? 1 : 0,
+          transition: 'opacity 1s ease',
+          pointerEvents: (showNav || view !== 'home') && view !== 'gallery' && view !== 'projects' ? 'auto' : 'none',
+          zIndex: 9999,
+          position: 'relative',
+        }}
+      >
         <StaggeredMenu
           position="left"
           isFixed={true}
@@ -472,13 +208,13 @@ const App = () => {
           colors={['#1c1c21', '#282732']}
           accentColor="#839cb5"
           items={[
-            { label: 'Home',       ariaLabel: 'Back to Home',            link: '#', onClick: navigateToHome },
-            { label: 'Overview',   ariaLabel: 'Professional Summary',    link: '#', onClick: () => navigateToOverview() },
-            { label: 'Experience', ariaLabel: 'Work Experience',         link: '#', onClick: navigateToExperience },
-            { label: 'Projects',   ariaLabel: 'Selected Projects',       link: '#', onClick: () => navigateToProjects('ashenritual') },
-            { label: 'Skills',     ariaLabel: 'Technical Stack',         link: '#', onClick: navigateToSkills },
-            { label: 'Certifications', ariaLabel: 'Certifications',      link: '#', onClick: navigateToCertifications },
-            { label: 'Contact',    ariaLabel: 'Get in touch',            link: '#', onClick: navigateToContact },
+            { label: 'Home',           ariaLabel: 'Back to Home',         link: '#', onClick: navigateToHome },
+            { label: 'Overview',       ariaLabel: 'Professional Summary', link: '#', onClick: () => navigateToOverview() },
+            { label: 'Experience',     ariaLabel: 'Work Experience',      link: '#', onClick: navigateToExperience },
+            { label: 'Projects',       ariaLabel: 'Selected Projects',    link: '#', onClick: () => navigateToProjects('ashenritual') },
+            { label: 'Skills',         ariaLabel: 'Technical Stack',      link: '#', onClick: navigateToSkills },
+            { label: 'Certifications', ariaLabel: 'Certifications',       link: '#', onClick: navigateToCertifications },
+            { label: 'Contact',        ariaLabel: 'Get in touch',         link: '#', onClick: navigateToContact },
           ]}
           socialItems={[
             { label: 'GitHub',   link: 'https://github.com/m4n1kya' },
@@ -486,14 +222,13 @@ const App = () => {
           ]}
         />
 
-        {/* Top Right Resume Button */}
-        <a 
-          href="/resume.pdf" 
+        <a
+          href="/resume.pdf"
           download="Manikya_Resume.pdf"
           className="fixed top-5 right-5 z-[9999] px-6 py-2 rounded-full border border-white/20 bg-white/5 backdrop-blur-md text-white font-semibold flex items-center gap-2 hover:bg-white/10 hover:scale-105 transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)]"
           style={{ fontFamily: '"Mona Sans", sans-serif' }}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
           </svg>
           RESUME
@@ -501,24 +236,24 @@ const App = () => {
       </div>
 
       <Loader hasLoadedOnce={hasLoadedOnce} />
-      
-      {/* ── Global Curtain for Section Navigation ── */}
       <GlobalCurtain ref={curtainRef} />
 
-      <div 
+      {/* ── Hero (always mounted, hidden when in overlay views) ── */}
+      <div
         className="home-container relative bg-transparent mt-0 z-10"
-        style={{ display: (view === 'home' || view === 'overview' || isTransitioning.current) ? 'block' : 'none' }}
+        style={{ display: view === 'home' ? 'block' : 'none' }}
       >
-        <Hero 
+        <Hero
           onNavigateToGallery={navigateToGallery}
-          hasLoadedOnce={hasLoadedOnce} 
+          hasLoadedOnce={hasLoadedOnce}
           setShowNav={setShowNav}
         />
       </div>
 
-      <div 
+      {/* ── Overview (scrollable sections page) ── */}
+      <div
         className="overview-container relative bg-transparent mt-0 z-10"
-        style={{ display: (view === 'overview' || isTransitioning.current) ? 'block' : 'none' }}
+        style={{ display: view === 'overview' ? 'block' : 'none' }}
       >
         <FeatureCards />
         <Experience />
@@ -529,32 +264,26 @@ const App = () => {
         <Footer />
       </div>
 
-      {/* Contact view is now handled via Suspense */}
-
+      {/* ── Overlay Windows (lazy-loaded, only rendered when mounted) ── */}
       <Suspense fallback={null}>
-        {galleryMounted && view === 'gallery' && (
+        {mounted.current.gallery && view === 'gallery' && (
           <Gallery onBack={navigateToHome} />
         )}
-
-        {projectsMounted && view === 'projects' && (
+        {mounted.current.projects && view === 'projects' && (
           <ProjectsWindow onBack={navigateToHome} initialProject={activeProject} />
         )}
-
-        {contactMounted && view === 'contact' && (
+        {mounted.current.contact && view === 'contact' && (
           <ContactWindow onBack={navigateToHome} />
         )}
-        {experienceMounted && view === 'experience' && (
+        {mounted.current.experience && view === 'experience' && (
           <ExperienceWindow onBack={navigateToHome} />
         )}
-
-        {skillsMounted && view === 'skills' && (
+        {mounted.current.skills && view === 'skills' && (
           <SkillsWindow onBack={navigateToHome} />
         )}
-
-        {certificationsMounted && view === 'certifications' && (
+        {mounted.current.certifications && view === 'certifications' && (
           <CertificationsWindow onBack={navigateToHome} />
         )}
-
       </Suspense>
     </>
   );
