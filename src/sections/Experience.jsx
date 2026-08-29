@@ -153,7 +153,7 @@ const Experience = () => {
                 stagger={0.02}
                 containerClassName="text-white text-[10vw] md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-none"
               >
-                INDUSTRIAL
+                WORK
               </ScrollFloat>
               <ScrollFloat
                 animationDuration={1.2}
@@ -163,7 +163,7 @@ const Experience = () => {
                 stagger={0.02}
                 containerClassName="text-white text-[10vw] md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-none text-white/40"
               >
-                EXPOSURE
+                EXPERIENCE
               </ScrollFloat>
             </div>
           </div>

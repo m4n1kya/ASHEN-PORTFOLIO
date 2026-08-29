@@ -86,14 +86,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  width: 32px;
+  height: 32px;
+  border: 1px solid transparent;
   border-radius: 50%;
   color: #fff;
-  background: rgba(12, 12, 14, 0.4);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: transparent;
   cursor: pointer;
   transition:
     transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
@@ -102,9 +100,9 @@
 }
 
 .morph-slider-btn:hover {
-  background: rgba(24, 24, 28, 0.6);
-  border-color: rgba(255, 255, 255, 0.5);
-  transform: scale(1.06);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
 }
 
 .morph-slider-btn:active {
