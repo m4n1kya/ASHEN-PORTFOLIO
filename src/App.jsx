@@ -138,32 +138,34 @@ const App = () => {
   const navigateToOverview = useCallback(() => {
     if (isTransitioning.current) return;
     isTransitioning.current = true;
-    
     scrollPositionRef.current = window.scrollY;
 
-    flushSync(() => {
-      setHasLoadedOnce(true);
-      setView('overview');
-    });
-    sessionStorage.setItem('ashen_has_loaded', 'true');
-
-    gsap.fromTo('.overview-container', 
-      { opacity: 0 }, 
-      { opacity: 1, duration: 1.5, ease: 'power2.inOut' }
-    );
-
-    gsap.to('.home-container', {
-      opacity: 0,
-      duration: 1.5,
+    gsap.to(overlayRef.current, {
+      opacity: 1,
+      duration: 0.6,
       ease: 'power2.inOut',
       onComplete: () => {
-        isTransitioning.current = false;
+        flushSync(() => {
+          setHasLoadedOnce(true);
+          setView('overview');
+        });
+        sessionStorage.setItem('ashen_has_loaded', 'true');
+        window.scrollTo(0, 0);
+
         const hc = document.querySelector('.home-container');
         if (hc) hc.style.display = 'none';
-        window.scrollTo(0, 0);
-        ScrollTrigger.refresh();
-        setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
-      },
+
+        gsap.to(overlayRef.current, {
+          opacity: 0,
+          duration: 0.6,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            isTransitioning.current = false;
+            ScrollTrigger.refresh();
+            setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
+          }
+        });
+      }
     });
   }, []);
 
@@ -171,31 +173,32 @@ const App = () => {
   const navigateToContact = useCallback(() => {
     if (isTransitioning.current) return;
     isTransitioning.current = true;
-    
     scrollPositionRef.current = window.scrollY;
 
-    flushSync(() => {
-      setHasLoadedOnce(true);
-      setView('contact');
-    });
-    sessionStorage.setItem('ashen_has_loaded', 'true');
-
-    gsap.fromTo('.contact-container', 
-      { opacity: 0 }, 
-      { opacity: 1, duration: 1.5, ease: 'power2.inOut' }
-    );
-
-    gsap.to('.home-container', {
-      opacity: 0,
-      duration: 1.5,
+    gsap.to(overlayRef.current, {
+      opacity: 1,
+      duration: 0.6,
       ease: 'power2.inOut',
       onComplete: () => {
-        isTransitioning.current = false;
+        flushSync(() => {
+          setHasLoadedOnce(true);
+          setView('contact');
+        });
+        sessionStorage.setItem('ashen_has_loaded', 'true');
+        window.scrollTo(0, 0);
+
         const hc = document.querySelector('.home-container');
         if (hc) hc.style.display = 'none';
-        window.scrollTo(0, 0);
-        ScrollTrigger.refresh();
-      },
+
+        gsap.to(overlayRef.current, {
+          opacity: 0,
+          duration: 0.6,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            isTransitioning.current = false;
+          }
+        });
+      }
     });
   }, []);
 
@@ -301,7 +304,8 @@ const App = () => {
         if (isFromProjects && showcase) {
           window.scrollTo(0, showcase.offsetTop - 80);
         } else {
-          window.scrollTo(0, scrollPositionRef.current);
+          // As requested, always scroll to the topmost area like refreshing the site
+          window.scrollTo(0, 0);
         }
 
         flushSync(() => {
@@ -353,7 +357,7 @@ const App = () => {
           colors={['#1c1c21', '#282732']}
           accentColor="#839cb5"
           items={[
-            { label: 'Lantern',    ariaLabel: 'Back to Lantern',         link: '#', onClick: navigateToHome },
+            { label: 'Home',       ariaLabel: 'Back to Home',            link: '#', onClick: navigateToHome },
             { label: 'Overview',   ariaLabel: 'Professional Summary',    link: '#', onClick: navigateToOverview },
             { label: 'Experience', ariaLabel: 'Work Experience',         link: '#', onClick: () => {} },
             { label: 'Projects',   ariaLabel: 'Selected Projects',       link: '#', onClick: navigateToGallery },
