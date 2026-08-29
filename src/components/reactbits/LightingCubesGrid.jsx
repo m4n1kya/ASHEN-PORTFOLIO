@@ -143,17 +143,17 @@ const LightingCubesGrid = () => {
       mat4 rotationX(float angle) {
         float c = cos(angle);
         float s = sin(angle);
-        return mat4(1, 0, 0, 0, 0, c, -s, 0, 0, s, c, 0, 0, 0, 0, 1);
+        return mat4(1.0, 0.0, 0.0, 0.0, 0.0, c, -s, 0.0, 0.0, s, c, 0.0, 0.0, 0.0, 0.0, 1.0);
       }
       mat4 rotationY(float angle) {
         float c = cos(angle);
         float s = sin(angle);
-        return mat4(c, 0, s, 0, 0, 1, 0, 0, -s, 0, c, 0, 0, 0, 0, 1);
+        return mat4(c, 0.0, s, 0.0, 0.0, 1.0, 0.0, 0.0, -s, 0.0, c, 0.0, 0.0, 0.0, 0.0, 1.0);
       }
       mat4 rotationZ(float angle) {
         float c = cos(angle);
         float s = sin(angle);
-        return mat4(c, -s, 0, 0, s, c, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        return mat4(c, -s, 0.0, 0.0, s, c, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0);
       }
 
       void main() {
@@ -210,7 +210,7 @@ const LightingCubesGrid = () => {
         vec3 lighting = ambientColor + diffuse + specular;
         vec3 result = (vColor) * (lighting * (1. - centerDist + 0.5));
         
-        float alpha = smoothstep(0.3, 0.3, max(cuv.x, cuv.y));
+        float alpha = smoothstep(0.29, 0.31, max(cuv.x, cuv.y));
         result = (vColor) * (lighting * (1. - centerDist + 0.5)) * alpha;
 
         gl_FragColor = vec4(result, alpha);
@@ -276,7 +276,7 @@ const LightingCubesGrid = () => {
       
       regl.clear({
         depth: 1,
-        color: [0, 0, 0, 0] // Transparent background
+        color: [0.05, 0.05, 0.05, 1] // Very dark grey/black
       });
       drawCubes();
     });
