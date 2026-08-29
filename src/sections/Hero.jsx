@@ -118,17 +118,11 @@ const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useGSAP(() => {
-    if (!hasLoadedOnce) {
-      gsap.fromTo(
-        ".hero-text h1",
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.2, duration: 1, ease: "power2.inOut" }
-      );
-    } else {
-      gsap.set(".hero-text h1", { y: 0, opacity: 1 });
-      // If already loaded once, we can skip the intro screen immediately
-      gsap.set(introRef.current, { autoAlpha: 0, scale: 10, pointerEvents: 'none' });
-    }
+    gsap.fromTo(
+      ".hero-text h1",
+      { y: 50, opacity: 0 },
+      { y: 0, opacity: 1, stagger: 0.2, duration: 1, ease: "power2.inOut" }
+    );
 
     // MASTER SEQUENCE TIMELINE
     const tl = gsap.timeline({
@@ -164,7 +158,7 @@ const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, 
         if (this.progress() > 0.8) {
           if (introRef.current) introRef.current.style.pointerEvents = 'none';
         } else {
-          if (introRef.current && !hasLoadedOnce) introRef.current.style.pointerEvents = 'auto';
+          if (introRef.current) introRef.current.style.pointerEvents = 'auto';
         }
       }
     }, 0);
@@ -194,7 +188,7 @@ const Hero = ({ onNavigateToOverview, onNavigateToContact, onNavigateToGallery, 
       { y: 0, opacity: 1 },
       { y: 10, opacity: 0, duration: 1.5, repeat: -1, ease: "power2.inOut" }
     );
-  }, [hasLoadedOnce]);
+  }, []);
 
   const handleLanternClick = () => {
     if (!isCentered) {
