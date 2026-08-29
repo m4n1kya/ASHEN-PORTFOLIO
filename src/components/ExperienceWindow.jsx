@@ -93,7 +93,7 @@ const ExperienceWindow = ({ onBack }) => {
         <InfiniteSpiral
           items={spiralImages}
           animationMode="auto"
-          speed={0.55}
+          speed={0.2}
           radius={350}
           cardWidth={400}
           cardHeight={225}
