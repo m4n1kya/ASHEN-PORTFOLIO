@@ -209,8 +209,8 @@ const App = () => {
       <div
         style={{
           opacity: menuVisible ? 1 : 0,
-          transition: 'opacity 1s ease',
-          pointerEvents: menuVisible ? 'auto' : 'none',
+          visibility: menuVisible ? 'visible' : 'hidden',
+          transition: `opacity 1s ease, visibility 0s linear ${menuVisible ? '0s' : '1s'}`,
           zIndex: 9999,
           position: 'relative',
         }}
