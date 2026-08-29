@@ -21,11 +21,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Map each curtain type to a site-palette color
 const TYPE_COLORS = {
-  blinds: '#f5f5f7', // near-white
-  slash:  '#d9ecff', // site white-50 (light blue-white)
-  bars:   '#e8e8ee', // silver-gray
-  split:  '#839cb5', // site blue-50 (steel blue)
-  radial: '#ffffff', // pure white
+  blinds: '#111827', // dark navy
+  slash:  '#1e1b2e', // dark violet
+  bars:   '#0c0c0e', // site background
+  split:  '#111827', // dark navy
+  radial: '#1e1b2e', // dark violet
 };
 
 const CurtainReveal = ({
