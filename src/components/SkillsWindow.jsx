@@ -9,8 +9,6 @@ import Magnet from "./reactbits/Magnet";
 import ShinyText from "./reactbits/ShinyText";
 import Galaxy from "./reactbits/Galaxy";
 import BlobTextReveal from "./reactbits/BlobTextReveal";
-import TickerScroll from "./reactbits/TickerScroll";
-import BigJavaModel from "./models/BigJavaModel";
 import { techStackIcons, techStackImgs } from "../constants";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -115,7 +113,7 @@ const SkillsWindow = ({ onBack }) => {
       <div className="skills-window-scroll flex-1 overflow-y-auto overflow-x-hidden relative z-10 w-full h-full pt-20 pb-40 px-5 md:px-20 xl:px-40">
         
         <div className="w-full mb-16 md:mb-32 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 skills-window-fade-up">
-          <div className="flex-[1.2] text-left w-full flex flex-col relative z-10">
+          <div className="flex-[1.8] text-left w-full flex flex-col relative z-10">
             <BlobTextReveal 
               text="TECHNICAL" 
               className="text-white text-[12vw] md:text-8xl xl:text-9xl font-black uppercase tracking-tighter leading-none"
@@ -127,10 +125,6 @@ const SkillsWindow = ({ onBack }) => {
               delay={0.2}
               duration={1.5}
             />
-          </div>
-
-          <div className="hidden lg:flex flex-[0.8] justify-end items-center w-full min-h-[400px] xl:min-h-[500px] z-0 pointer-events-none">
-            <BigJavaModel />
           </div>
         </div>
 
