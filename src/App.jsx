@@ -145,21 +145,19 @@ const App = () => {
   const navigateToOverview = useCallback((targetId = null) => {
     if (isTransitioning.current) return;
     const tid = typeof targetId === 'string' ? targetId : null;
-    
-    // We are now always rendering overview-container when in home view.
-    // Just scroll to it!
-    const targetEl = tid ? document.getElementById(tid) : document.querySelector('.overview-container');
 
-    if (view === 'home' || view === 'overview') {
+    // If already in overview, just scroll to the target section
+    if (view === 'overview') {
+      const targetEl = tid ? document.getElementById(tid) : null;
       if (targetEl) {
-        window.scrollTo({ top: targetEl.offsetTop, behavior: 'smooth' });
+        window.scrollTo({ top: targetEl.offsetTop - 50, behavior: 'smooth' });
       } else {
-        window.scrollTo({ top: document.querySelector('.overview-container')?.offsetTop || 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
       return;
     }
 
-    // If coming from another window (like contact or experience), do the wipe transition
+    // Wipe transition into overview (from home, or any other window)
     isTransitioning.current = true;
     scrollPositionRef.current = window.scrollY;
 
@@ -170,17 +168,17 @@ const App = () => {
       onComplete: () => {
         flushSync(() => {
           setHasLoadedOnce(true);
-          setView('home');
+          setView('overview');
         });
         sessionStorage.setItem('ashen_has_loaded', 'true');
         
         setTimeout(() => {
-            const newTargetEl = tid ? document.getElementById(tid) : document.querySelector('.overview-container');
-            if (newTargetEl) {
-              window.scrollTo(0, newTargetEl.offsetTop);
-            } else {
-              window.scrollTo(0, 0);
-            }
+          const newTargetEl = tid ? document.getElementById(tid) : null;
+          if (newTargetEl) {
+            window.scrollTo(0, newTargetEl.offsetTop - 50);
+          } else {
+            window.scrollTo(0, 0);
+          }
         }, 0);
 
         gsap.to(overlayRef.current, {
@@ -520,7 +518,7 @@ const App = () => {
 
       <div 
         className="overview-container relative bg-transparent mt-0 z-10"
-        style={{ display: (view === 'home' || view === 'overview' || isTransitioning.current) ? 'block' : 'none' }}
+        style={{ display: (view === 'overview' || isTransitioning.current) ? 'block' : 'none' }}
       >
         <FeatureCards />
         <Experience />
