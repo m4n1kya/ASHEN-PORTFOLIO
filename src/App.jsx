@@ -512,6 +512,7 @@ const App = () => {
         style={{ display: (view === 'home' || view === 'overview' || isTransitioning.current) ? 'block' : 'none' }}
       >
         <Hero 
+          onNavigateToGallery={navigateToGallery}
           hasLoadedOnce={hasLoadedOnce} 
           setShowNav={setShowNav}
         />

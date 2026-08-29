@@ -68,7 +68,7 @@ const CSSMaskedHeading = ({ text, src, parallax = 120 }) => {
 
 
 
-const Hero = ({ hasLoadedOnce, setShowNav }) => {
+const Hero = ({ onNavigateToGallery, hasLoadedOnce, setShowNav }) => {
   const containerRef = useRef(null);
   const introRef = useRef(null);
   const lanternImgRef = useRef(null);
@@ -197,12 +197,14 @@ const Hero = ({ hasLoadedOnce, setShowNav }) => {
             </div>
           </header>
 
-          {/* RIGHT: Visual (Lantern) */}
+          {/* RIGHT: Visual (Lantern) — click opens Screenshot Gallery */}
           <figure className="w-full lg:w-1/2 flex justify-center items-center relative h-[55%] lg:h-full z-50 hero-right-visual">
             <div 
-              className="relative w-full flex justify-center items-center group transition-all duration-300"
+              className="relative w-full flex justify-center items-center group transition-all duration-300 cursor-pointer"
+              onClick={onNavigateToGallery}
               onMouseEnter={() => setIsLanternHovered(true)}
               onMouseLeave={() => setIsLanternHovered(false)}
+              title="View Screenshot Library"
             >
               <HeroImageParticles isHovered={isLanternHovered} />
               
