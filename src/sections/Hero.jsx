@@ -67,12 +67,13 @@ const CSSMaskedHeading = ({ text, src, parallax = 120 }) => {
 };
 
 const FloatingTab = ({ tab, index, side }) => {
+   const containerRef = useRef(null);
    const tabRef = useRef(null);
    const yPos = index % 3 === 0 ? '-140px' : index % 3 === 1 ? '0px' : '140px';
    const xPos = side === 'left' ? '-280px' : '280px';
 
    useGSAP(() => {
-     gsap.fromTo(tabRef.current, {
+     gsap.fromTo(containerRef.current, {
        scale: 0, opacity: 0
      }, {
        scale: 1, opacity: 1, duration: 0.6, delay: (index % 3) * 0.1, ease: "back.out(1.5)"
@@ -82,9 +83,9 @@ const FloatingTab = ({ tab, index, side }) => {
      const floatTween = () => {
        if (!tabRef.current) return;
        gsap.to(tabRef.current, {
-         x: gsap.utils.random(-25, 25),
-         y: gsap.utils.random(-25, 25),
-         rotation: gsap.utils.random(-6, 6),
+         x: gsap.utils.random(-10, 10),
+         y: gsap.utils.random(-10, 10),
+         rotation: gsap.utils.random(-3, 3),
          duration: gsap.utils.random(2.5, 4),
          ease: "sine.inOut",
          onComplete: floatTween
@@ -97,7 +98,7 @@ const FloatingTab = ({ tab, index, side }) => {
 
    return (
      <div 
-       ref={tabRef}
+       ref={containerRef}
        className="absolute pointer-events-auto cursor-pointer flex items-center justify-center"
        style={{
          transform: `translate(${xPos}, ${yPos})`,
@@ -108,7 +109,7 @@ const FloatingTab = ({ tab, index, side }) => {
          tab.action();
        }}
      >
-       <div className="px-6 py-3 bg-white/95 backdrop-blur-md border border-white/50 rounded-full text-black font-bold tracking-wide hover:bg-white hover:scale-110 transition-all shadow-[0_10px_40px_rgba(255,255,255,0.3),inset_0_2px_5px_rgba(255,255,255,1)] whitespace-nowrap">
+       <div ref={tabRef} className="px-6 py-3 bg-white/95 backdrop-blur-md border border-white/50 rounded-full text-black font-bold tracking-wide hover:bg-white hover:scale-110 transition-all shadow-[0_10px_40px_rgba(255,255,255,0.3),inset_0_2px_5px_rgba(255,255,255,1)] whitespace-nowrap">
          {tab.label}
        </div>
      </div>
