@@ -35,7 +35,7 @@
   text-decoration: none;
   white-space: nowrap;
   font-weight: 600;
-  font-size: 4vh;
+  font-size: 2.5rem;
 }
 
 .menu__item-link:hover {
@@ -76,23 +76,23 @@
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  padding: 0 10px;
 }
 
 .marquee span {
   white-space: nowrap;
   text-transform: uppercase;
   font-weight: 400;
-  font-size: 4vh;
+  font-size: 2.5rem;
   line-height: 1;
-  padding: 0 1vw;
+  padding: 0 20px;
 }
 
 .marquee__img {
-  width: 200px;
-  height: 7vh;
-  margin: 2em 2vw;
-  padding: 1em 0;
-  border-radius: 50px;
+  width: 150px;
+  height: 70px;
+  margin: 0 20px;
+  border-radius: 40px;
   background-size: cover;
   background-position: 50% 50%;
 }

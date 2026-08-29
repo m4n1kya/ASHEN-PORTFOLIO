@@ -104,7 +104,7 @@ const BeyondCodeWindow = ({ onBack }) => {
         </div>
 
         <div className="w-full mb-32 max-w-[1200px] mx-auto beyond-window-fade-up">
-           <div style={{ height: '600px', position: 'relative' }} className="rounded-[40px] overflow-hidden border border-white/10 shadow-2xl">
+           <div style={{ height: '450px', position: 'relative' }} className="rounded-[40px] overflow-hidden border border-white/10 shadow-2xl">
               <FlowingMenu 
                 items={beyondItems} 
                 bgColor="rgba(0,0,0,0.5)" 
