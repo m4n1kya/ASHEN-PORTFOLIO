@@ -16,6 +16,7 @@ import Experience from "./sections/Experience";
 import ShowcaseSection from "./sections/ShowcaseSection";
 import LogoShowcase from "./sections/LogoShowcase";
 import TechStack from "./sections/TechStack";
+import Achievements from "./sections/Achievements";
 import Contact from "./sections/Contact";
 import Footer from "./sections/Footer";
 import { StaggeredMenu } from "./components/reactbits/StaggeredMenu";
@@ -321,6 +322,7 @@ const App = () => {
         <ShowcaseSection onNavigateToProjects={navigateToProjects} />
         <LogoShowcase />
         <TechStack />
+        <Achievements />
         <BlobExpand />
         <Contact />
         <Footer />
