@@ -75,7 +75,7 @@ const FeatureCards = () => {
   return (
     <section id="about" className="relative pb-24 overflow-hidden pt-32 lg:pt-40" ref={cardsRef}>
       {/* ── Section Title ── */}
-      <div className="w-full mb-16 md:mb-24 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+      <div className="w-full h-full md:px-20 px-5 mb-16 md:mb-24 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
         
         {/* Left Side: Text */}
         <div className="flex-[1.8] text-left w-full">
@@ -121,7 +121,7 @@ const FeatureCards = () => {
       </div>
 
       {/* ── Ability Cards ── */}
-      <div className="mx-auto grid-4-cols">
+      <div className="mx-auto w-full md:px-20 px-5 grid-4-cols">
         {abilities.map(({ imgPath, title, desc }) => (
           <SpotlightCard
             key={title}
