@@ -94,15 +94,15 @@ const ExperienceWindow = ({ onBack }) => {
           items={spiralImages}
           animationMode="auto"
           speed={0.2}
-          radius={350}
-          cardWidth={400}
-          cardHeight={225}
-          verticalSpacing={120}
+          radius={typeof window !== 'undefined' && window.innerWidth < 768 ? 150 : 350}
+          cardWidth={typeof window !== 'undefined' && window.innerWidth < 768 ? 200 : 400}
+          cardHeight={typeof window !== 'undefined' && window.innerWidth < 768 ? 112 : 225}
+          verticalSpacing={typeof window !== 'undefined' && window.innerWidth < 768 ? 60 : 120}
           perspective={1000}
           cardRadius={10}
           centerScale={1.2}
           edgeBlur={6}
-          cardsPerTurn={7}
+          cardsPerTurn={typeof window !== 'undefined' && window.innerWidth < 768 ? 5 : 7}
           pauseOnHover={false}
           imageFit="contain"
         />
