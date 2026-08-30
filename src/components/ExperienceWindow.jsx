@@ -133,7 +133,7 @@ const ExperienceWindow = ({ onBack }) => {
             />
             <BlobTextReveal 
               text="EXPERIENCE" 
-              className="text-white text-[12vw] md:text-8xl lg:text-9xl font-black uppercase tracking-tighter leading-none"
+              className="text-[#666666] text-[12vw] md:text-8xl lg:text-9xl font-black uppercase tracking-tighter leading-none"
               delay={0.2}
               duration={1.5}
             />
@@ -194,7 +194,7 @@ const ExperienceWindow = ({ onBack }) => {
             />
             <BlobTextReveal 
               text="EXPOSURE" 
-              className="text-white text-[10vw] md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none"
+              className="text-[#666666] text-[10vw] md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none"
               delay={0.1}
             />
           </div>
