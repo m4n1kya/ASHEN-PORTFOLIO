@@ -140,7 +140,7 @@ const XRayCursor = ({ isVisible = true }) => {
           backgroundColor: "white",
           mixBlendMode: "difference",
           pointerEvents: "none",
-          zIndex: 9999,
+          zIndex: 999998,
           willChange: "transform, width, height, opacity",
           opacity: isVisible && isWindowHovered ? 1 : 0,
           transition: "width 0.3s ease-out, height 0.3s ease-out, opacity 0.4s ease-out",
