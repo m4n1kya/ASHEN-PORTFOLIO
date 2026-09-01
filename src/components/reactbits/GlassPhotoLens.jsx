@@ -13,7 +13,7 @@ export default function GlassPhotoLens({ imageSrc }) {
     // --- 1. PARAMETERS ---
     const params = {
       shape: 'Square',
-      photoScale: 1.6, // Increased image inside
+      photoScale: 1.4, // Decreased image inside from 1.6
       envMapUrl: 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/moonless_golf_2k.hdr',
       glassColor: '#aaaaaa', // Grey tint
       envIntensity: 0.8,
@@ -29,7 +29,7 @@ export default function GlassPhotoLens({ imageSrc }) {
     const scene = new THREE.Scene();
 
     const camera = new THREE.PerspectiveCamera(45, containerRef.current.clientWidth / containerRef.current.clientHeight, 0.1, 100);
-    camera.position.set(0, 0, 4.8); // Zoomed out to make 3D model smaller
+    camera.position.set(0, 0, 4.2); // Zoomed in slightly to make 3D model larger
 
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true, 
