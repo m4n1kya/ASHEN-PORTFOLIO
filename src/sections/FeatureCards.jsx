@@ -6,6 +6,7 @@ import SpotlightCard from "../components/reactbits/SpotlightCard";
 import ShinyText from "../components/reactbits/ShinyText";
 import ScrollFloat from "../components/reactbits/ScrollFloat";
 import SplitText from "../components/reactbits/SplitText";
+import GlassPhotoLens from "../components/reactbits/GlassPhotoLens";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -110,12 +111,10 @@ const FeatureCards = () => {
         </div>
 
         {/* Right Side: Large Image */}
-        <div className="flex-1 w-full flex justify-center">
-          <img 
-            src="/images/profile.jpg" 
-            alt="Manikya" 
-            className="profile-img w-full max-w-sm lg:max-w-md h-auto rounded-[40px] object-cover shadow-2xl border border-white/10" 
-          />
+        <div className="flex-1 w-full flex justify-center items-center">
+          <div className="profile-img w-full max-w-sm lg:max-w-md aspect-square rounded-[40px] shadow-2xl border border-white/10 relative overflow-hidden">
+            <GlassPhotoLens imageSrc="/images/profile.jpg" />
+          </div>
         </div>
 
       </div>
