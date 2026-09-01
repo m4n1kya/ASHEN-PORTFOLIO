@@ -53,7 +53,7 @@ const CSSMaskedHeading = ({ text, src, parallax = 120, fontSize = '18vw', classN
         fontSize: fontSize,
         lineHeight: '0.85',
         backgroundImage: `url(${src})`,
-        backgroundSize: 'cover',
+        backgroundSize: '120%',
         backgroundPosition: `calc(50% + ${offset.x}px) calc(50% + ${offset.y}px)`,
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
