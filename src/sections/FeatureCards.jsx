@@ -6,7 +6,6 @@ import SpotlightCard from "../components/reactbits/SpotlightCard";
 import ShinyText from "../components/reactbits/ShinyText";
 import ScrollFloat from "../components/reactbits/ScrollFloat";
 import SplitText from "../components/reactbits/SplitText";
-import GlassPhotoLens from "../components/reactbits/GlassPhotoLens";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -112,8 +111,21 @@ const FeatureCards = () => {
 
         {/* Right Side: Large Image */}
         <div className="flex-1 w-full flex justify-center items-center">
-          <div className="w-full max-w-xl lg:max-w-3xl aspect-square relative cursor-grab active:cursor-grabbing">
-            <GlassPhotoLens imageSrc="/images/profile.jpg" />
+          <div className="w-full max-w-sm lg:max-w-md aspect-[3/4] relative rounded-[40px] overflow-hidden group border border-white/5 shadow-2xl">
+            {/* Mask/Gradient Overlay */}
+            <div className="absolute inset-0 z-10 pointer-events-none" 
+                 style={{
+                   background: "radial-gradient(circle at center, transparent 0%, #050505 100%)",
+                   boxShadow: "inset 0 0 100px 20px #050505"
+                 }} 
+            />
+            
+            {/* Actual Profile Image */}
+            <img 
+              src="/images/profile.jpg" 
+              alt="Manikya" 
+              className="profile-img w-full h-full object-cover grayscale opacity-90 transition-all duration-700 group-hover:scale-110 group-hover:grayscale-0"
+            />
           </div>
         </div>
 
