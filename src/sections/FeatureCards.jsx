@@ -6,6 +6,7 @@ import SpotlightCard from "../components/reactbits/SpotlightCard";
 import ShinyText from "../components/reactbits/ShinyText";
 import ScrollFloat from "../components/reactbits/ScrollFloat";
 import SplitText from "../components/reactbits/SplitText";
+import Layered3DImage from "../components/reactbits/Layered3DImage";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -111,11 +112,12 @@ const FeatureCards = () => {
 
         {/* Right Side: Large Image */}
         <div className="flex-1 w-full flex justify-center">
-          <img 
-            src="/images/profile.jpg" 
-            alt="Manikya" 
-            className="profile-img w-full max-w-sm lg:max-w-md h-auto rounded-[40px] object-cover shadow-2xl border border-white/10" 
-          />
+          <div className="profile-img w-full max-w-sm lg:max-w-md aspect-[3/4] rounded-[40px] shadow-2xl border border-white/10 overflow-hidden relative">
+            <Layered3DImage 
+              imageSrc="/images/profile.jpg" 
+              layersCount={7} 
+            />
+          </div>
         </div>
 
       </div>
