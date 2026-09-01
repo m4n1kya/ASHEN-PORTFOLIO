@@ -51,22 +51,7 @@ const FeatureCards = () => {
         }
       );
 
-      // Profile Image animation
-      gsap.fromTo(
-        ".profile-img",
-        { x: 150, opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: ".profile-img",
-            start: "top 88%",
-            once: true,
-          },
-        }
-      );
+
     }, cardsRef);
 
     return () => ctx.revert();
