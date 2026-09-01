@@ -112,7 +112,7 @@ const FeatureCards = () => {
 
         {/* Right Side: Large Image */}
         <div className="flex-1 w-full flex justify-center items-center">
-          <div className="w-full max-w-xl lg:max-w-3xl aspect-square relative cursor-grab active:cursor-grabbing rounded-[40px] overflow-hidden border border-white/5">
+          <div className="w-full max-w-xl lg:max-w-3xl aspect-square relative cursor-grab active:cursor-grabbing">
             <GlassPhotoLens imageSrc="/images/profile.jpg" />
           </div>
         </div>

@@ -11,11 +11,10 @@ export default function GlassPhotoLens({ imageSrc }) {
     if (!containerRef.current) return;
 
     // --- 1. PARAMETERS ---
-    // EXACT match of the inspiration codepen parameters!
     const params = {
       shape: 'Square',
       photoScale: 1.4, 
-      envMapUrl: 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/studio_small_03_2k.hdr', // Dark HDRI for dark reflections
+      envMapUrl: 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/studio_small_03_2k.hdr', // Dark HDRI for sleek reflections
       glassColor: '#ffffff', // Pure clear glass
       envIntensity: 1.0,
       internalReflect: 1.5,
@@ -28,14 +27,14 @@ export default function GlassPhotoLens({ imageSrc }) {
 
     // --- 2. SCENE ---
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#050505'); // Added solid background to fix transmission
+    // Intentionally leaving scene.background empty so it is 100% transparent to your website background!
 
     const camera = new THREE.PerspectiveCamera(45, containerRef.current.clientWidth / containerRef.current.clientHeight, 0.1, 100);
-    camera.position.set(0, 0, 4.2); // Kept the user's tweaked camera zoom
+    camera.position.set(0, 0, 4.2);
 
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true, 
-      alpha: true, // Transparent bg
+      alpha: true, // Transparent WebGL canvas
       powerPreference: "high-performance"
     });
     renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
@@ -51,7 +50,6 @@ export default function GlassPhotoLens({ imageSrc }) {
     controls.enableZoom = false;
 
     // --- 3. LIGHTS AND ENV ---
-    // EXACT lighting setup from the codepen
     const rgbeLoader = new RGBELoader();
     rgbeLoader.load(params.envMapUrl, (texture) => {
       texture.mapping = THREE.EquirectangularReflectionMapping;
@@ -61,19 +59,19 @@ export default function GlassPhotoLens({ imageSrc }) {
       scene.environmentIntensity = params.envIntensity;
     });
 
-    // REMOVED SCENE LIGHTS: WebGL cannot refract HTML DOM behind it. 
-    // In the codepen, a solid black background absorbs these lights via transmission.
-    // Since we want a transparent background to show your portfolio, these lights just make the glass solid white!
-    // We rely solely on the dark HDRI (studio_small) for lighting.
+    // WE HAVE REMOVED ALL SCENE LIGHTS!
+    // Why? Because scene lights will blow out the glass into a solid white block on a transparent background.
+    // By removing the lights, the glass solely reflects the dark HDRI (studio_small), looking sleek and dark!
 
     const group = new THREE.Group();
     scene.add(group);
 
     // --- 4. PHOTO ---
-    // EXACT material from the codepen (MeshStandardMaterial)
-    // We use MeshBasicMaterial so the photo stays perfectly bright and visible without scene lights
     let currentAspectRatio = 1.0; 
     const photoGeo = new THREE.PlaneGeometry(1, 1);
+    
+    // Because we removed the scene lights, a MeshStandardMaterial would be pitch black.
+    // Instead, we use MeshBasicMaterial which emits its own light, so the photo stays perfectly bright!
     const photoMat = new THREE.MeshBasicMaterial({ 
       side: THREE.DoubleSide,
       color: 0xffffff,
@@ -107,21 +105,20 @@ export default function GlassPhotoLens({ imageSrc }) {
     });
 
     // --- 5. GLASS GEOMETRY ---
-    // EXACT glass properties from the codepen
     const glassMat = new THREE.MeshPhysicalMaterial({
-      color: params.glassColor,
+      color: params.glassColor, // #ffffff
       transmission: 1.0,      
-      opacity: params.opacity,
-      metalness: 0.0,
-      roughness: 0.0,         
-      ior: params.internalReflect,
-      thickness: 1.2,
-      attenuationColor: 0xffffff,
-      attenuationDistance: 9999.0,
+      opacity: params.opacity, // 1.0
+      metalness: 0.2, // Slightly metallic for sharper dark reflections
+      roughness: 0.05,         
+      ior: params.internalReflect, // 1.5
+      thickness: 1.5,
+      attenuationColor: 0xffffff, // Must be white so light from the photo isn't absorbed
+      attenuationDistance: 2.0,
       specularIntensity: 1.0,
-      envMapIntensity: params.envIntensity,
+      envMapIntensity: params.envIntensity, // 1.0
       clearcoat: 1.0,
-      clearcoatRoughness: 0.0,
+      clearcoatRoughness: 0.1,
       transparent: true,
       side: THREE.DoubleSide, 
       depthWrite: false
