@@ -15,9 +15,9 @@ export default function GlassPhotoLens({ imageSrc }) {
     const params = {
       shape: 'Square',
       photoScale: 1.2,
-      envMapUrl: 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/moonless_golf_2k.hdr',
-      glassColor: '#aaaaaa',
-      envIntensity: 0.8,
+      envMapUrl: 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/studio_small_03_2k.hdr',
+      glassColor: '#ffffff',
+      envIntensity: 0.6,
       internalReflect: 1.5,
       opacity: 1.0,
       globalSpeed: 1.0,
@@ -31,7 +31,7 @@ export default function GlassPhotoLens({ imageSrc }) {
     // Intentionally leaving scene.background empty so it's fully transparent
 
     const camera = new THREE.PerspectiveCamera(45, containerRef.current.clientWidth / containerRef.current.clientHeight, 0.1, 100);
-    camera.position.set(0, 0, 3.8);
+    camera.position.set(0, 0, 3.2);
 
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true, 
