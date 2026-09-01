@@ -16,7 +16,7 @@ export default function GlassPhotoLens({ imageSrc }) {
       shape: 'Square',
       photoScale: 1.2,
       envMapUrl: 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/royal_esplanade_2k.hdr',
-      glassColor: '#ffffff',
+      glassColor: '#000000',
       envIntensity: 1.0,
       internalReflect: 1.5,
       opacity: 1.0,
@@ -31,7 +31,7 @@ export default function GlassPhotoLens({ imageSrc }) {
     // Intentionally leaving scene.background empty so it's fully transparent
 
     const camera = new THREE.PerspectiveCamera(45, containerRef.current.clientWidth / containerRef.current.clientHeight, 0.1, 100);
-    camera.position.set(0, 0, 7);
+    camera.position.set(0, 0, 5);
 
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true, 
