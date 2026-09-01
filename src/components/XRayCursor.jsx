@@ -111,7 +111,7 @@ const XRayCursor = ({ isVisible = true }) => {
 
       // Increased size as requested
       let size = 80;
-      if (isImageHovering) size = 250;
+      if (isImageHovering) size = 200;
       else if (isHovering) size = 140;
       
       // Cursor perfectly instantly centers on mouseX/mouseY
