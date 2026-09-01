@@ -94,7 +94,7 @@ const ExperienceWindow = ({ onBack }) => {
           items={spiralImages}
           animationMode="auto"
           speed={0.2}
-          radius={220}
+          radius={300}
           cardWidth={280}
           cardHeight={160}
           verticalSpacing={90}
