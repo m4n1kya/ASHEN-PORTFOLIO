@@ -11,13 +11,12 @@ export default function GlassPhotoLens({ imageSrc }) {
     if (!containerRef.current) return;
 
     // --- 1. PARAMETERS ---
-    // Hardcoded best settings without lil-gui
     const params = {
       shape: 'Square',
-      photoScale: 1.2,
-      envMapUrl: 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/studio_small_03_2k.hdr',
-      glassColor: '#222222',
-      envIntensity: 1.5,
+      photoScale: 1.6, // Increased image inside
+      envMapUrl: 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/moonless_golf_2k.hdr',
+      glassColor: '#aaaaaa', // Grey tint
+      envIntensity: 0.8,
       internalReflect: 1.5,
       opacity: 1.0,
       globalSpeed: 1.0,
@@ -28,10 +27,9 @@ export default function GlassPhotoLens({ imageSrc }) {
 
     // --- 2. SCENE ---
     const scene = new THREE.Scene();
-    // Intentionally leaving scene.background empty so it's fully transparent
 
     const camera = new THREE.PerspectiveCamera(45, containerRef.current.clientWidth / containerRef.current.clientHeight, 0.1, 100);
-    camera.position.set(0, 0, 3.2);
+    camera.position.set(0, 0, 4.8); // Zoomed out to make 3D model smaller
 
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true, 
@@ -39,17 +37,16 @@ export default function GlassPhotoLens({ imageSrc }) {
       powerPreference: "high-performance"
     });
     renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Cap pixel ratio for performance
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.0;
     
-    // Add canvas to our DOM ref
     containerRef.current.appendChild(renderer.domElement);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.enablePan = false;
-    controls.enableZoom = false; // Disable zoom to prevent scroll trapping
+    controls.enableZoom = false;
 
     // --- 3. LIGHTS AND ENV ---
     const rgbeLoader = new RGBELoader();
@@ -61,8 +58,20 @@ export default function GlassPhotoLens({ imageSrc }) {
       scene.environmentIntensity = params.envIntensity;
     });
 
-    // We intentionally remove ambient and directional lights so the glass reflects only the dark HDRI
-    // The photo will use MeshBasicMaterial so it stays perfectly visible without lights!
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
+    scene.add(ambientLight);
+    
+    const backLight = new THREE.DirectionalLight(0xffffff, 3.0);
+    backLight.position.set(-5, 2, -10);
+    scene.add(backLight);
+    
+    const topLight = new THREE.DirectionalLight(0xffffff, 2.0);
+    topLight.position.set(0, 10, 0);
+    scene.add(topLight);
+    
+    const frontLight = new THREE.DirectionalLight(0xffffff, 1.0);
+    frontLight.position.set(0, 2, 10);
+    scene.add(frontLight);
 
     const group = new THREE.Group();
     scene.add(group);
@@ -70,10 +79,13 @@ export default function GlassPhotoLens({ imageSrc }) {
     // --- 4. PHOTO ---
     let currentAspectRatio = 1.0; 
     const photoGeo = new THREE.PlaneGeometry(1, 1);
-    const photoMat = new THREE.MeshBasicMaterial({ 
+    const photoMat = new THREE.MeshStandardMaterial({ 
       side: THREE.DoubleSide,
       color: 0xffffff,
+      roughness: 0.2,
+      metalness: 0.1,
       transparent: false, 
+      alphaTest: 0.5,
       depthWrite: true 
     });
     
@@ -104,19 +116,19 @@ export default function GlassPhotoLens({ imageSrc }) {
 
     // --- 5. GLASS GEOMETRY ---
     const glassMat = new THREE.MeshPhysicalMaterial({
-      color: '#ffffff', // Must be white to allow full transmission
+      color: params.glassColor,
       transmission: 1.0,      
       opacity: params.opacity,
-      metalness: 0.2,
-      roughness: 0.05,         
+      metalness: 0.0,
+      roughness: 0.0,         
       ior: params.internalReflect,
-      thickness: 1.5,
-      attenuationColor: 0xffffff, // Must be white to not absorb the photo's light
-      attenuationDistance: 2.0,
+      thickness: 1.2,
+      attenuationColor: 0xffffff,
+      attenuationDistance: 9999.0,
       specularIntensity: 1.0,
       envMapIntensity: params.envIntensity,
       clearcoat: 1.0,
-      clearcoatRoughness: 0.1,
+      clearcoatRoughness: 0.0,
       transparent: true,
       side: THREE.DoubleSide, 
       depthWrite: false
@@ -139,7 +151,6 @@ export default function GlassPhotoLens({ imageSrc }) {
       
       time += delta * params.globalSpeed;
       
-      // Constant spinning/floating animation
       group.rotation.y += delta * params.yAxis.speed * params.globalSpeed; 
       group.rotation.x = Math.cos(time * params.xAxis.speed) * params.xAxis.amp;
       group.rotation.z = Math.sin(time * params.zAxis.speed * 0.7) * params.zAxis.amp;
