@@ -115,8 +115,8 @@ const XRayCursor = ({ isVisible = true }) => {
       let lerpSpeed = 0.15; // Snappy default
 
       if (isImageHovering) {
-        targetSize = 200;
-        lerpSpeed = 0.04; // Very slow and elegant for the profile image
+        targetSize = 180;
+        lerpSpeed = 0.025; // Slower and elegant for the profile image
       } else if (isHovering) {
         targetSize = 140;
         lerpSpeed = 0.15; // Snappy for buttons/links
