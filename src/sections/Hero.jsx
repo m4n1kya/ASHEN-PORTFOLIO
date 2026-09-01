@@ -88,8 +88,9 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce, setShowNav }) => {
         trigger: containerRef.current,
         start: "top top",
         end: "+=2000",
-        scrub: 1,
+        scrub: true, // changed from 1 to true to remove the 1-second catchup lag
         pin: true,
+        invalidateOnRefresh: true, // recalculate window.innerWidth on resize
         onUpdate: (self) => {
           if (self.progress > 0.35) {
             if (setShowNav) setShowNav(true);
