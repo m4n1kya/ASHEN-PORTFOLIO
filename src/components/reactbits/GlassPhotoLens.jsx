@@ -15,7 +15,7 @@ export default function GlassPhotoLens({ imageSrc }) {
       shape: 'Square',
       photoScale: 1.4, // Decreased image inside from 1.6
       envMapUrl: 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/moonless_golf_2k.hdr',
-      glassColor: '#aaaaaa', // Grey tint
+      glassColor: '#777777', // Darker grey tint
       envIntensity: 0.8,
       internalReflect: 1.5,
       opacity: 1.0,
