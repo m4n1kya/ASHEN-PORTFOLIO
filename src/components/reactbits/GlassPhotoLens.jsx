@@ -28,7 +28,7 @@ export default function GlassPhotoLens({ imageSrc }) {
 
     // --- 2. SCENE ---
     const scene = new THREE.Scene();
-    // Background left fully transparent so it blends with your site
+    scene.background = new THREE.Color('#050505'); // Added solid background to fix transmission
 
     const camera = new THREE.PerspectiveCamera(45, containerRef.current.clientWidth / containerRef.current.clientHeight, 0.1, 100);
     camera.position.set(0, 0, 4.2); // Kept the user's tweaked camera zoom
