@@ -14,9 +14,9 @@ export default function GlassPhotoLens({ imageSrc }) {
     // EXACT match of the inspiration codepen parameters!
     const params = {
       shape: 'Square',
-      photoScale: 1.4, // Kept the user's tweaked size
-      envMapUrl: 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/royal_esplanade_2k.hdr', // Original Royal Esplanade
-      glassColor: '#ffffff', // Pure white, just like the codepen
+      photoScale: 1.4, 
+      envMapUrl: 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/studio_small_03_2k.hdr', // Dark HDRI for dark reflections
+      glassColor: '#ffffff', // Pure clear glass
       envIntensity: 1.0,
       internalReflect: 1.5,
       opacity: 1.0,
@@ -61,35 +61,23 @@ export default function GlassPhotoLens({ imageSrc }) {
       scene.environmentIntensity = params.envIntensity;
     });
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
-    scene.add(ambientLight);
-    
-    const backLight = new THREE.DirectionalLight(0xffffff, 3.0);
-    backLight.position.set(-5, 2, -10);
-    scene.add(backLight);
-    
-    const topLight = new THREE.DirectionalLight(0xffffff, 2.0);
-    topLight.position.set(0, 10, 0);
-    scene.add(topLight);
-    
-    const frontLight = new THREE.DirectionalLight(0xffffff, 1.0);
-    frontLight.position.set(0, 2, 10);
-    scene.add(frontLight);
+    // REMOVED SCENE LIGHTS: WebGL cannot refract HTML DOM behind it. 
+    // In the codepen, a solid black background absorbs these lights via transmission.
+    // Since we want a transparent background to show your portfolio, these lights just make the glass solid white!
+    // We rely solely on the dark HDRI (studio_small) for lighting.
 
     const group = new THREE.Group();
     scene.add(group);
 
     // --- 4. PHOTO ---
     // EXACT material from the codepen (MeshStandardMaterial)
+    // We use MeshBasicMaterial so the photo stays perfectly bright and visible without scene lights
     let currentAspectRatio = 1.0; 
     const photoGeo = new THREE.PlaneGeometry(1, 1);
-    const photoMat = new THREE.MeshStandardMaterial({ 
+    const photoMat = new THREE.MeshBasicMaterial({ 
       side: THREE.DoubleSide,
       color: 0xffffff,
-      roughness: 0.2,
-      metalness: 0.1,
       transparent: false, 
-      alphaTest: 0.5,
       depthWrite: true 
     });
     
