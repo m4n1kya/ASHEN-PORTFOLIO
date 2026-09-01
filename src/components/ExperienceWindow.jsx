@@ -90,22 +90,24 @@ const ExperienceWindow = ({ onBack }) => {
 
       {/* Infinite Spiral Background */}
       <div className="absolute inset-0 z-[1] overflow-hidden opacity-70 flex items-center justify-center pointer-events-none">
-        <InfiniteSpiral
-          items={spiralImages}
-          animationMode="auto"
-          speed={0.2}
-          radius={typeof window !== 'undefined' && window.innerWidth < 768 ? 150 : 500}
-          cardWidth={typeof window !== 'undefined' && window.innerWidth < 768 ? 200 : 280}
-          cardHeight={typeof window !== 'undefined' && window.innerWidth < 768 ? 112 : 160}
-          verticalSpacing={typeof window !== 'undefined' && window.innerWidth < 768 ? 60 : 160}
-          perspective={typeof window !== 'undefined' && window.innerWidth < 768 ? 1000 : 1500}
-          cardRadius={10}
-          centerScale={typeof window !== 'undefined' && window.innerWidth < 768 ? 1.2 : 0.9}
-          edgeBlur={6}
-          cardsPerTurn={typeof window !== 'undefined' && window.innerWidth < 768 ? 5 : 7}
-          pauseOnHover={false}
-          imageFit="contain"
-        />
+        <div className="w-[150vw] h-[150vh] flex items-center justify-center" style={{ transform: typeof window !== 'undefined' && window.innerWidth < 768 ? 'scale(1)' : 'scale(0.7)' }}>
+          <InfiniteSpiral
+            items={spiralImages}
+            animationMode="auto"
+            speed={0.2}
+            radius={typeof window !== 'undefined' && window.innerWidth < 768 ? 150 : 350}
+            cardWidth={typeof window !== 'undefined' && window.innerWidth < 768 ? 200 : 400}
+            cardHeight={typeof window !== 'undefined' && window.innerWidth < 768 ? 112 : 225}
+            verticalSpacing={typeof window !== 'undefined' && window.innerWidth < 768 ? 60 : 120}
+            perspective={1000}
+            cardRadius={10}
+            centerScale={1.2}
+            edgeBlur={6}
+            cardsPerTurn={typeof window !== 'undefined' && window.innerWidth < 768 ? 5 : 7}
+            pauseOnHover={false}
+            imageFit="contain"
+          />
+        </div>
       </div>
 
       {/* Header / Back Button */}
