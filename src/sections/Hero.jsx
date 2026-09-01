@@ -152,10 +152,10 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce, setShowNav }) => {
         <div className="relative z-10 w-full h-full flex flex-col lg:flex-row items-center justify-center lg:justify-between px-5 md:px-20 pt-20 lg:pt-0">
           
           {/* LEFT: Hero Content */}
-          <header className="flex flex-col justify-center lg:justify-center w-full lg:w-[60%] h-[45%] lg:h-full hero-left-content">
-            <div className="flex flex-col gap-4 lg:gap-6">
-              <div className="hero-text">
-                <h1 className="text-white text-[12vw] md:text-[50px] lg:text-[80px] font-black tracking-tighter leading-[0.85] mb-2 md:mb-6 uppercase">
+          <header className="flex flex-col justify-center items-center lg:items-start w-full lg:w-[70%] h-[45%] lg:h-full hero-left-content">
+            <div className="flex flex-col gap-4 lg:gap-6 w-full items-center lg:items-start">
+              <div className="hero-text flex flex-col items-center lg:items-start text-center lg:text-left w-full">
+                <h1 className="text-white text-[12vw] md:text-[50px] lg:text-[80px] font-black tracking-tighter leading-[0.85] mb-2 md:mb-6 uppercase text-center lg:text-left">
                   <FoldText
                     text="Manikya"
                     splitBy="char"
@@ -173,7 +173,7 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce, setShowNav }) => {
                   />
                 </h1>
                 
-                <h1 className="text-white-50 text-[4.5vw] md:text-[24px] lg:text-[32px] font-bold mb-8 tracking-tight mt-2 flex items-center whitespace-nowrap leading-none uppercase">
+                <h1 className="text-white-50 text-[4.5vw] md:text-[24px] lg:text-[32px] font-bold mb-8 tracking-tight mt-2 flex items-center justify-center lg:justify-start whitespace-nowrap leading-none uppercase">
                   SOFTWARE&nbsp;
                   <span className="slide text-white h-[6vw] md:h-[32px] lg:h-[40px]">
                     <span className="wrapper">
