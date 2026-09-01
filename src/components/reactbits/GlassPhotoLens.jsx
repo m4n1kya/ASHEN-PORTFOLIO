@@ -104,14 +104,14 @@ export default function GlassPhotoLens({ imageSrc }) {
 
     // --- 5. GLASS GEOMETRY ---
     const glassMat = new THREE.MeshPhysicalMaterial({
-      color: params.glassColor,
+      color: '#ffffff', // Must be white to allow full transmission
       transmission: 1.0,      
       opacity: params.opacity,
-      metalness: 0.3,
+      metalness: 0.2,
       roughness: 0.05,         
       ior: params.internalReflect,
       thickness: 1.5,
-      attenuationColor: 0x000000,
+      attenuationColor: 0xffffff, // Must be white to not absorb the photo's light
       attenuationDistance: 2.0,
       specularIntensity: 1.0,
       envMapIntensity: params.envIntensity,
