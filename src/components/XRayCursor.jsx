@@ -34,6 +34,7 @@ const XRayCursor = ({ isVisible = true }) => {
     let isImageHovering = false;
     let isWindowHoveredRaw = false;
     let windowScale = 0;
+    let currentSize = 80;
     let animationFrameId;
 
     const handleMouseMove = (e) => {
@@ -109,15 +110,26 @@ const XRayCursor = ({ isVisible = true }) => {
       const finalScaleX = baseScaleX * windowScale;
       const finalScaleY = baseScaleY * windowScale;
 
-      // Increased size as requested
-      let size = 80;
-      if (isImageHovering) size = 200;
-      else if (isHovering) size = 140;
+      // Calculate target size and dynamic smoothing speed
+      let targetSize = 80;
+      let lerpSpeed = 0.15; // Snappy default
+
+      if (isImageHovering) {
+        targetSize = 200;
+        lerpSpeed = 0.04; // Very slow and elegant for the profile image
+      } else if (isHovering) {
+        targetSize = 140;
+        lerpSpeed = 0.15; // Snappy for buttons/links
+      } else {
+        lerpSpeed = 0.08; // Smooth shrink when leaving
+      }
+      
+      currentSize += (targetSize - currentSize) * lerpSpeed;
       
       // Cursor perfectly instantly centers on mouseX/mouseY
-      cursor.style.transform = `translate3d(${mouseX - size / 2}px, ${mouseY - size / 2}px, 0) rotate(${angle}rad) scale(${finalScaleX}, ${finalScaleY})`;
-      cursor.style.width = `${size}px`;
-      cursor.style.height = `${size}px`;
+      cursor.style.transform = `translate3d(${mouseX - currentSize / 2}px, ${mouseY - currentSize / 2}px, 0) rotate(${angle}rad) scale(${finalScaleX}, ${finalScaleY})`;
+      cursor.style.width = `${currentSize}px`;
+      cursor.style.height = `${currentSize}px`;
 
       animationFrameId = requestAnimationFrame(animate);
     };
@@ -153,7 +165,7 @@ const XRayCursor = ({ isVisible = true }) => {
           zIndex: 999998,
           willChange: "transform, width, height, opacity",
           opacity: isVisible && isWindowHovered ? 1 : 0,
-          transition: "width 0.3s ease-out, height 0.3s ease-out, opacity 0.4s ease-out",
+          transition: "opacity 0.4s ease-out",
           animation: "jellyBlob 2.5s infinite linear",
           transformOrigin: "center center",
         }}
