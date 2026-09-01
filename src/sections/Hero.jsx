@@ -12,7 +12,7 @@ import FoldText from "../components/reactbits/FoldText";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const CSSMaskedHeading = ({ text, src, parallax = 120 }) => {
+const CSSMaskedHeading = ({ text, src, parallax = 120, fontSize = '18vw', className = '' }) => {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -47,10 +47,10 @@ const CSSMaskedHeading = ({ text, src, parallax = 120 }) => {
 
   return (
     <h1 
-      className="w-full font-black uppercase text-center"
+      className={`w-full font-black uppercase text-center ${className}`}
       style={{ 
         fontFamily: '"Mona Sans", sans-serif',
-        fontSize: '18vw',
+        fontSize: fontSize,
         lineHeight: '0.85',
         backgroundImage: `url(${src})`,
         backgroundSize: 'cover',
@@ -155,23 +155,15 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce, setShowNav }) => {
           <header className="flex flex-col justify-center items-center lg:items-start w-full lg:w-[70%] h-[45%] lg:h-full hero-left-content">
             <div className="flex flex-col gap-4 lg:gap-6 w-full items-center lg:items-start">
               <div className="hero-text flex flex-col items-center lg:items-start text-center lg:text-left w-full">
-                <h1 className="text-white text-[12vw] md:text-[50px] lg:text-[80px] font-black tracking-tighter leading-[0.85] mb-2 md:mb-6 uppercase text-center lg:text-left">
-                  <FoldText
-                    text="Manikya"
-                    splitBy="char"
-                    hinge="top"
-                    trigger="mount"
-                    duration={0.8}
-                    stagger={0.06}
-                    delay={hasLoadedOnce ? 0 : 1}
-                    ease="power3.out"
-                    perspective={700}
-                    creaseShading={0.55}
-                    fontSize="inherit"
-                    fontWeight="inherit"
-                    color="inherit"
+                <div className="mb-2 md:mb-6 w-full flex justify-center lg:justify-start">
+                  <CSSMaskedHeading
+                    text="MANIKYA"
+                    src="/images/rocky-coastal-landscape.jpg"
+                    parallax={40}
+                    className="text-center lg:text-left"
+                    fontSize="clamp(4rem, 12vw, 8rem)"
                   />
-                </h1>
+                </div>
                 
                 <h1 className="text-white-50 text-[4.5vw] md:text-[24px] lg:text-[32px] font-bold mb-8 tracking-tight mt-2 hidden md:grid grid-cols-2 lg:flex items-center justify-center lg:justify-start whitespace-nowrap leading-none uppercase w-full">
                   <span className="text-right lg:text-left pr-1.5 lg:pr-0">SOFTWARE</span>
