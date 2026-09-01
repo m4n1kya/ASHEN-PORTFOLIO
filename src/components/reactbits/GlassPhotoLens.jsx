@@ -15,9 +15,9 @@ export default function GlassPhotoLens({ imageSrc }) {
     const params = {
       shape: 'Square',
       photoScale: 1.2,
-      envMapUrl: 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/royal_esplanade_2k.hdr',
-      glassColor: '#ffffff',
-      envIntensity: 1.0,
+      envMapUrl: 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/moonless_golf_2k.hdr',
+      glassColor: '#aaaaaa',
+      envIntensity: 0.8,
       internalReflect: 1.5,
       opacity: 1.0,
       globalSpeed: 1.0,
