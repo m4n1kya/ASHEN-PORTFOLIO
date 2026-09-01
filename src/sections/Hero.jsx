@@ -87,7 +87,7 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce, setShowNav }) => {
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top top",
-        end: "+=1000", // Reduced pin duration for smoother UX
+        end: "+=2000",
         scrub: 1,
         pin: true,
         onUpdate: (self) => {
@@ -114,8 +114,25 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce, setShowNav }) => {
       }
     }, 0);
 
-    // Add a small pause where the hero is perfectly visible before scrolling down
-    tl.to({}, { duration: 0.2 });
+    // Add a small pause where the hero is perfectly visible before scrolling horizontally
+    tl.to({}, { duration: 0.2 }); 
+
+    // 2. HORIZONTAL SCROLL: MOVE LEFT TEXT OUT AND LANTERN TO CENTER (~50% to 100% of scroll)
+    tl.to(".hero-left-content", {
+      x: () => -window.innerWidth,
+      opacity: 0,
+      ease: "power2.inOut"
+    }, ">")
+    .to(".hero-right-visual", {
+      x: () => window.innerWidth < 1024 ? 0 : -window.innerWidth * 0.25,
+      y: () => window.innerWidth < 1024 ? -window.innerHeight * 0.2 : 0,
+      scale: 1.25,
+      ease: "power2.inOut"
+    }, "<")
+    .to(".scroll-indicator", {
+      opacity: 0,
+      ease: "power2.inOut"
+    }, "<");
 
     gsap.fromTo(
       ".scroll-mouse-dot",
