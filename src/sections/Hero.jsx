@@ -8,7 +8,7 @@ import { words } from "../constants";
 import HeroImageParticles from "../components/HeroImageParticles";
 import HeroParticles from "../components/HeroParticles";
 import ShinyText from "../components/reactbits/ShinyText";
-import MetallicPaint from "../components/reactbits/MetallicPaint";
+import FoldText from "../components/reactbits/FoldText";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -155,31 +155,23 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce, setShowNav }) => {
           <header className="flex flex-col justify-center items-center lg:items-start w-full lg:w-[70%] h-[45%] lg:h-full hero-left-content">
             <div className="flex flex-col gap-4 lg:gap-6 w-full items-center lg:items-start">
               <div className="hero-text flex flex-col items-center lg:items-start text-center lg:text-left w-full">
-                <div className="w-full h-[80px] md:h-[130px] lg:h-[160px] mb-2 md:mb-6 flex justify-center lg:justify-start">
-                  <MetallicPaint
-                    imageSrc="/images/manikya-logo.svg"
-                    seed={42}
-                    scale={3}
-                    patternSharpness={1}
-                    noiseScale={0.5}
-                    speed={0.3}
-                    liquid={0.75}
-                    mouseAnimation={true}
-                    brightness={1.8}
-                    contrast={0.6}
-                    refraction={0.015}
-                    blur={0.015}
-                    chromaticSpread={2}
-                    fresnel={1}
-                    angle={0}
-                    waveAmplitude={1}
-                    distortion={1}
-                    contour={0.2}
-                    lightColor="#ffffff"
-                    darkColor="#0a0a0c"
-                    tintColor="#e0e0e0"
+                <h1 className="text-white text-[12vw] md:text-[50px] lg:text-[80px] font-black tracking-tighter leading-[0.85] mb-2 md:mb-6 uppercase text-center lg:text-left">
+                  <FoldText
+                    text="Manikya"
+                    splitBy="char"
+                    hinge="top"
+                    trigger="mount"
+                    duration={0.8}
+                    stagger={0.06}
+                    delay={hasLoadedOnce ? 0 : 1}
+                    ease="power3.out"
+                    perspective={700}
+                    creaseShading={0.55}
+                    fontSize="inherit"
+                    fontWeight="inherit"
+                    color="inherit"
                   />
-                </div>
+                </h1>
                 
                 <h1 className="text-white-50 text-[4.5vw] md:text-[24px] lg:text-[32px] font-bold mb-8 tracking-tight mt-2 hidden md:grid grid-cols-2 lg:flex items-center justify-center lg:justify-start whitespace-nowrap leading-none uppercase w-full">
                   <span className="text-right lg:text-left pr-1.5 lg:pr-0">SOFTWARE</span>
