@@ -90,24 +90,22 @@ const ExperienceWindow = ({ onBack }) => {
 
       {/* Infinite Spiral Background */}
       <div className="absolute inset-0 z-[1] overflow-hidden opacity-70 flex items-center justify-center pointer-events-none">
-        <div className="w-[150vw] h-[150vh] flex items-center justify-center" style={{ transform: typeof window !== 'undefined' && window.innerWidth < 768 ? 'scale(1)' : 'scale(0.7)' }}>
-          <InfiniteSpiral
-            items={spiralImages}
-            animationMode="auto"
-            speed={0.2}
-            radius={typeof window !== 'undefined' && window.innerWidth < 768 ? 150 : 600}
-            cardWidth={typeof window !== 'undefined' && window.innerWidth < 768 ? 200 : 480}
-            cardHeight={typeof window !== 'undefined' && window.innerWidth < 768 ? 112 : 270}
-            verticalSpacing={typeof window !== 'undefined' && window.innerWidth < 768 ? 60 : 140}
-            perspective={1000}
-            cardRadius={10}
-            centerScale={1.2}
-            edgeBlur={6}
-            cardsPerTurn={typeof window !== 'undefined' && window.innerWidth < 768 ? 5 : 7}
-            pauseOnHover={false}
-            imageFit="contain"
-          />
-        </div>
+        <InfiniteSpiral
+          items={spiralImages}
+          animationMode="auto"
+          speed={0.2}
+          radius={150}
+          cardWidth={200}
+          cardHeight={112}
+          verticalSpacing={60}
+          perspective={1000}
+          cardRadius={10}
+          centerScale={1.2}
+          edgeBlur={6}
+          cardsPerTurn={5}
+          pauseOnHover={false}
+          imageFit="contain"
+        />
       </div>
 
       {/* Header / Back Button */}
