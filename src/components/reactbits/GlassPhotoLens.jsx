@@ -11,12 +11,13 @@ export default function GlassPhotoLens({ imageSrc }) {
     if (!containerRef.current) return;
 
     // --- 1. PARAMETERS ---
+    // EXACT match of the inspiration codepen parameters!
     const params = {
       shape: 'Square',
-      photoScale: 1.4, // Decreased image inside from 1.6
-      envMapUrl: 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/moonless_golf_2k.hdr',
-      glassColor: '#777777', // Darker grey tint
-      envIntensity: 0.8,
+      photoScale: 1.4, // Kept the user's tweaked size
+      envMapUrl: 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/royal_esplanade_2k.hdr', // Original Royal Esplanade
+      glassColor: '#ffffff', // Pure white, just like the codepen
+      envIntensity: 1.0,
       internalReflect: 1.5,
       opacity: 1.0,
       globalSpeed: 1.0,
@@ -27,13 +28,14 @@ export default function GlassPhotoLens({ imageSrc }) {
 
     // --- 2. SCENE ---
     const scene = new THREE.Scene();
+    // Background left fully transparent so it blends with your site
 
     const camera = new THREE.PerspectiveCamera(45, containerRef.current.clientWidth / containerRef.current.clientHeight, 0.1, 100);
-    camera.position.set(0, 0, 4.2); // Zoomed in slightly to make 3D model larger
+    camera.position.set(0, 0, 4.2); // Kept the user's tweaked camera zoom
 
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true, 
-      alpha: true,
+      alpha: true, // Transparent bg
       powerPreference: "high-performance"
     });
     renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
@@ -49,6 +51,7 @@ export default function GlassPhotoLens({ imageSrc }) {
     controls.enableZoom = false;
 
     // --- 3. LIGHTS AND ENV ---
+    // EXACT lighting setup from the codepen
     const rgbeLoader = new RGBELoader();
     rgbeLoader.load(params.envMapUrl, (texture) => {
       texture.mapping = THREE.EquirectangularReflectionMapping;
@@ -77,6 +80,7 @@ export default function GlassPhotoLens({ imageSrc }) {
     scene.add(group);
 
     // --- 4. PHOTO ---
+    // EXACT material from the codepen (MeshStandardMaterial)
     let currentAspectRatio = 1.0; 
     const photoGeo = new THREE.PlaneGeometry(1, 1);
     const photoMat = new THREE.MeshStandardMaterial({ 
@@ -115,6 +119,7 @@ export default function GlassPhotoLens({ imageSrc }) {
     });
 
     // --- 5. GLASS GEOMETRY ---
+    // EXACT glass properties from the codepen
     const glassMat = new THREE.MeshPhysicalMaterial({
       color: params.glassColor,
       transmission: 1.0,      
