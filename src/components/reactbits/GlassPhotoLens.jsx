@@ -16,8 +16,8 @@ export default function GlassPhotoLens({ imageSrc }) {
       shape: 'Square',
       photoScale: 1.2,
       envMapUrl: 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/studio_small_03_2k.hdr',
-      glassColor: '#ffffff',
-      envIntensity: 0.6,
+      glassColor: '#222222',
+      envIntensity: 1.5,
       internalReflect: 1.5,
       opacity: 1.0,
       globalSpeed: 1.0,
@@ -61,20 +61,8 @@ export default function GlassPhotoLens({ imageSrc }) {
       scene.environmentIntensity = params.envIntensity;
     });
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
-    scene.add(ambientLight);
-    
-    const backLight = new THREE.DirectionalLight(0xffffff, 3.0);
-    backLight.position.set(-5, 2, -10);
-    scene.add(backLight);
-    
-    const topLight = new THREE.DirectionalLight(0xffffff, 2.0);
-    topLight.position.set(0, 10, 0);
-    scene.add(topLight);
-    
-    const frontLight = new THREE.DirectionalLight(0xffffff, 1.0);
-    frontLight.position.set(0, 2, 10);
-    scene.add(frontLight);
+    // We intentionally remove ambient and directional lights so the glass reflects only the dark HDRI
+    // The photo will use MeshBasicMaterial so it stays perfectly visible without lights!
 
     const group = new THREE.Group();
     scene.add(group);
@@ -82,13 +70,10 @@ export default function GlassPhotoLens({ imageSrc }) {
     // --- 4. PHOTO ---
     let currentAspectRatio = 1.0; 
     const photoGeo = new THREE.PlaneGeometry(1, 1);
-    const photoMat = new THREE.MeshStandardMaterial({ 
+    const photoMat = new THREE.MeshBasicMaterial({ 
       side: THREE.DoubleSide,
       color: 0xffffff,
-      roughness: 0.2,
-      metalness: 0.1,
       transparent: false, 
-      alphaTest: 0.5,
       depthWrite: true 
     });
     
@@ -122,16 +107,16 @@ export default function GlassPhotoLens({ imageSrc }) {
       color: params.glassColor,
       transmission: 1.0,      
       opacity: params.opacity,
-      metalness: 0.0,
-      roughness: 0.0,         
+      metalness: 0.3,
+      roughness: 0.05,         
       ior: params.internalReflect,
-      thickness: 1.2,
-      attenuationColor: 0xffffff,
-      attenuationDistance: 9999.0,
+      thickness: 1.5,
+      attenuationColor: 0x000000,
+      attenuationDistance: 2.0,
       specularIntensity: 1.0,
-      envMapIntensity: 1.0,
+      envMapIntensity: params.envIntensity,
       clearcoat: 1.0,
-      clearcoatRoughness: 0.0,
+      clearcoatRoughness: 0.1,
       transparent: true,
       side: THREE.DoubleSide, 
       depthWrite: false
