@@ -98,9 +98,9 @@ const ExperienceWindow = ({ onBack }) => {
           cardWidth={typeof window !== 'undefined' && window.innerWidth < 768 ? 200 : 280}
           cardHeight={typeof window !== 'undefined' && window.innerWidth < 768 ? 112 : 160}
           verticalSpacing={typeof window !== 'undefined' && window.innerWidth < 768 ? 60 : 160}
-          perspective={1000}
+          perspective={typeof window !== 'undefined' && window.innerWidth < 768 ? 1000 : 1500}
           cardRadius={10}
-          centerScale={1.2}
+          centerScale={typeof window !== 'undefined' && window.innerWidth < 768 ? 1.2 : 0.9}
           edgeBlur={6}
           cardsPerTurn={typeof window !== 'undefined' && window.innerWidth < 768 ? 5 : 7}
           pauseOnHover={false}
