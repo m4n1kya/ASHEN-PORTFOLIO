@@ -31,6 +31,7 @@ const XRayCursor = ({ isVisible = true }) => {
     let smoothedVx = 0;
     let smoothedVy = 0;
     let isHovering = false;
+    let isImageHovering = false;
     let isWindowHoveredRaw = false;
     let windowScale = 0;
     let animationFrameId;
@@ -46,7 +47,9 @@ const XRayCursor = ({ isVisible = true }) => {
 
     const handleMouseOver = (e) => {
       const target = e.target;
-      if (
+      if (target.classList && target.classList.contains("profile-img")) {
+        isImageHovering = true;
+      } else if (
         window.getComputedStyle(target).cursor === "pointer" ||
         target.tagName.toLowerCase() === "a" ||
         target.tagName.toLowerCase() === "button"
@@ -56,8 +59,13 @@ const XRayCursor = ({ isVisible = true }) => {
       }
     };
 
-    const handleMouseOut = () => {
-      isHovering = false;
+    const handleMouseOut = (e) => {
+      const target = e.target;
+      if (target.classList && target.classList.contains("profile-img")) {
+        isImageHovering = false;
+      } else {
+        isHovering = false;
+      }
     };
 
     const handleWindowLeave = () => {
@@ -102,7 +110,9 @@ const XRayCursor = ({ isVisible = true }) => {
       const finalScaleY = baseScaleY * windowScale;
 
       // Increased size as requested
-      const size = isHovering ? 140 : 80;
+      let size = 80;
+      if (isImageHovering) size = 250;
+      else if (isHovering) size = 140;
       
       // Cursor perfectly instantly centers on mouseX/mouseY
       cursor.style.transform = `translate3d(${mouseX - size / 2}px, ${mouseY - size / 2}px, 0) rotate(${angle}rad) scale(${finalScaleX}, ${finalScaleY})`;
