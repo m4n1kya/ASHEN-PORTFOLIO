@@ -158,10 +158,10 @@ const Contact = () => {
 
         {/* Big Social Links */}
         <div className="social-links-container flex flex-wrap justify-center items-center gap-8 md:gap-16 mb-16 w-full">
-          <a href="#" className="social-link text-white hover:text-white-50 text-2xl md:text-4xl lg:text-5xl font-black uppercase tracking-widest transition-colors duration-300">LinkedIn</a>
-          <a href="#" className="social-link text-white hover:text-white-50 text-2xl md:text-4xl lg:text-5xl font-black uppercase tracking-widest transition-colors duration-300">X</a>
-          <a href="#" className="social-link text-white hover:text-white-50 text-2xl md:text-4xl lg:text-5xl font-black uppercase tracking-widest transition-colors duration-300">GitHub</a>
-          <a href="#" className="social-link text-white hover:text-white-50 text-2xl md:text-4xl lg:text-5xl font-black uppercase tracking-widest transition-colors duration-300">Mail</a>
+          <a href="https://www.linkedin.com/in/m4n1kya/" target="_blank" rel="noopener noreferrer" className="social-link text-white hover:text-white-50 text-2xl md:text-4xl lg:text-5xl font-black uppercase tracking-widest transition-colors duration-300">LinkedIn</a>
+          <a href="https://x.com/m4n1kya" target="_blank" rel="noopener noreferrer" className="social-link text-white hover:text-white-50 text-2xl md:text-4xl lg:text-5xl font-black uppercase tracking-widest transition-colors duration-300">X</a>
+          <a href="https://github.com/m4n1kya/" target="_blank" rel="noopener noreferrer" className="social-link text-white hover:text-white-50 text-2xl md:text-4xl lg:text-5xl font-black uppercase tracking-widest transition-colors duration-300">GitHub</a>
+          <a href="mailto:m4n1kya2005@gmail.com" className="social-link text-white hover:text-white-50 text-2xl md:text-4xl lg:text-5xl font-black uppercase tracking-widest transition-colors duration-300">Mail</a>
         </div>
 
         <div className="grid-12-cols gap-10">

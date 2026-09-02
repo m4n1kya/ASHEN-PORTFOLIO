@@ -242,8 +242,10 @@ const App = () => {
             { label: 'Contact',        ariaLabel: 'Get in touch',         link: '#', onClick: navigateToContact },
           ]}
           socialItems={[
-            { label: 'GitHub',   link: 'https://github.com/m4n1kya' },
-            { label: 'LinkedIn', link: 'https://www.linkedin.com/in/manikya-nariyapara' },
+            { label: 'GitHub',   link: 'https://github.com/m4n1kya/' },
+            { label: 'LinkedIn', link: 'https://www.linkedin.com/in/m4n1kya/' },
+            { label: 'X',        link: 'https://x.com/m4n1kya' },
+            { label: 'Email',    link: 'mailto:m4n1kya2005@gmail.com' },
           ]}
         />
 
