@@ -99,7 +99,7 @@ const IntroScreen = () => {
       <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
         <CSSMaskedHeading
           text="MANIKYA"
-          src="/images/rocky-coastal-landscape.jpg"
+          src="/images/rocky-coastal-landscape.webp"
           parallax={120}
         />
       </div>

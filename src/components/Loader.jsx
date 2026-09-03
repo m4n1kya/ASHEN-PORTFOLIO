@@ -120,7 +120,7 @@ const Loader = ({ hasLoadedOnce }) => {
       <div className="absolute top-10 md:top-20 left-10 md:left-20">
         <CSSMaskedNumber 
           number={displayValue} 
-          src="/images/rocky-coastal-landscape.jpg" 
+          src="/images/rocky-coastal-landscape.webp" 
         />
       </div>
     </div>

@@ -159,7 +159,7 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce, setShowNav }) => {
                 <div className="mb-2 md:mb-6 w-full flex justify-center lg:justify-start">
                   <CSSMaskedHeading
                     text="MANIKYA"
-                    src="/images/rocky-coastal-landscape.jpg"
+                    src="/images/rocky-coastal-landscape.webp"
                     parallax={40}
                     className="text-center lg:text-left"
                     fontSize="clamp(4rem, 12vw, 8rem)"
@@ -233,7 +233,7 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce, setShowNav }) => {
         <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
           <CSSMaskedHeading
             text="MANIKYA"
-            src="/images/rocky-coastal-landscape.jpg"
+            src="/images/rocky-coastal-landscape.webp"
             parallax={120}
           />
         </div>
