@@ -471,7 +471,7 @@ const AcidSquares = ({
     lightMode
   ]);
 
-  return <div ref={containerRef} className={\`acid-squares-container \${className}\`.trim()} />;
+  return <div ref={containerRef} className={`acid-squares-container ${className}`.trim()} />;
 };
 
 export default AcidSquares;
