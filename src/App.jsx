@@ -233,7 +233,6 @@ const App = () => {
           accentColor="#839cb5"
           items={[
             { label: 'Home',           ariaLabel: 'Back to Home',         link: '#', onClick: navigateToHome },
-            { label: 'Overview',       ariaLabel: 'Professional Summary', link: '#', onClick: () => navigateToOverview() },
             { label: 'Experience',     ariaLabel: 'Work Experience',      link: '#', onClick: navigateToExperience },
             { label: 'Projects',       ariaLabel: 'Selected Projects',    link: '#', onClick: () => navigateToProjects('ashenritual') },
             { label: 'Skills',         ariaLabel: 'Technical Stack',      link: '#', onClick: navigateToSkills },
