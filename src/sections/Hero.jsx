@@ -167,7 +167,7 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce, setShowNav }) => {
                 </div>
                 
                 <h1 className="text-white/40 text-[4.5vw] md:text-[24px] lg:text-[32px] font-bold mb-8 tracking-tight mt-2 hidden md:grid grid-cols-2 lg:flex items-center justify-center lg:justify-start whitespace-nowrap leading-none uppercase w-full">
-                  <span className="text-white/70 text-right lg:text-left pr-1.5 lg:pr-0">SOFTWARE</span>
+                  <span className="text-white text-right lg:text-left pr-1.5 lg:pr-0">SOFTWARE</span>
                   <span className="slide text-white/40 h-[6vw] md:h-[32px] lg:h-[40px] text-left justify-self-start lg:justify-self-auto lg:ml-2">
                     <span className="wrapper">
                       {words.map((word, index) => (
