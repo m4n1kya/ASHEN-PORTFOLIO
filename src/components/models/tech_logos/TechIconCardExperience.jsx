@@ -1,7 +1,8 @@
 import { Environment, Float, OrbitControls, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { useEffect, Suspense } from "react";
+import { useEffect, Suspense, useRef } from "react";
 import * as THREE from "three";
+import { useInView } from "framer-motion";
 
 const ModelRenderer = ({ model }) => {
   const scene = useGLTF(model.modelPath);
@@ -50,25 +51,44 @@ const ModelRenderer = ({ model }) => {
 };
 
 const TechIconCardExperience = ({ model }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: false, margin: "200px 0px" });
+
   return (
-    <Canvas>
-      <ambientLight intensity={0.3} />
-      <directionalLight position={[5, 5, 5]} intensity={1} />
-      <spotLight
-        position={[10, 15, 10]}
-        angle={0.3}
-        penumbra={1}
-        intensity={2}
-      />
-      <Environment preset="city" />
+    <div ref={ref} className="w-full h-full relative z-10">
+      {isInView && (
+        <Canvas 
+          frameloop="demand" 
+          dpr={[1, 1.5]} 
+          gl={{ powerPreference: "high-performance", antialias: false, alpha: true }}
+          camera={{ position: [0, 0, 5], fov: 45 }}
+        >
+          <ambientLight intensity={0.3} />
+          <directionalLight position={[5, 5, 5]} intensity={1} />
+          <spotLight
+            position={[10, 15, 10]}
+            angle={0.3}
+            penumbra={1}
+            intensity={2}
+          />
+          <Environment preset="city" />
 
-      <Suspense fallback={null}>
-        <ModelRenderer model={model} />
-      </Suspense>
+          <Suspense fallback={null}>
+            <ModelRenderer model={model} />
+          </Suspense>
 
-      <OrbitControls enableZoom={false} />
-    </Canvas>
+          <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={2} />
+        </Canvas>
+      )}
+    </div>
   );
 };
+
+// Preload all models to prevent Suspense freezing on slower connections
+useGLTF.preload("/models/jv-transformed.glb");
+useGLTF.preload("/models/python-transformed.glb");
+useGLTF.preload("/models/react_logo-transformed.glb");
+useGLTF.preload("/models/node-transformed.glb");
+useGLTF.preload("/models/git-svg-transformed.glb");
 
 export default TechIconCardExperience;
