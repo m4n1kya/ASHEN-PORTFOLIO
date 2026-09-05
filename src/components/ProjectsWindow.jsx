@@ -269,3 +269,4 @@ const ProjectsWindow = ({ onBack, initialProject = "ashenritual" }) => {
 };
 
 export default ProjectsWindow;
+
