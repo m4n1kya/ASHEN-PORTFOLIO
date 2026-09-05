@@ -231,3 +231,4 @@ const CurtainReveal = ({
 };
 
 export default CurtainReveal;
+
