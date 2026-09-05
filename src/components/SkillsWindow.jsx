@@ -184,3 +184,4 @@ const SkillsWindow = ({ onBack }) => {
 };
 
 export default SkillsWindow;
+
