@@ -66,3 +66,4 @@
 .gooey-nav-container nav ul li:focus-within:has(:focus-visible) {
   box-shadow: 0 0 0.5px 1.5px rgba(255, 255, 255, 0.5);
 }
+
