@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef } from "react";
 import {
   motion,
   useScroll,
@@ -6,9 +6,9 @@ import {
   useTransform,
   useMotionValue,
   useVelocity,
-  useAnimationFrame
-} from 'framer-motion';
-import { wrap } from 'framer-motion';
+  useAnimationFrame,
+} from "framer-motion";
+import { wrap } from "framer-motion";
 
 function ParallaxText({ children, baseVelocity = 100 }) {
   const baseX = useMotionValue(0);
@@ -16,10 +16,10 @@ function ParallaxText({ children, baseVelocity = 100 }) {
   const scrollVelocity = useVelocity(scrollY);
   const smoothVelocity = useSpring(scrollVelocity, {
     damping: 50,
-    stiffness: 400
+    stiffness: 400,
   });
   const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 5], {
-    clamp: false
+    clamp: false,
   });
 
   const directionFactor = useRef(1);
@@ -62,17 +62,19 @@ const ScrollVelocity = ({
   texts = [],
   items = [],
   velocity = 5,
-  className = '',
-  children
+  className = "",
+  children,
 }) => {
   // If no children provided, render texts or items
-  const content = children ? (
-    children
-  ) : items.length > 0 ? (
-    items.map((item, i) => <span key={i}>{item}</span>)
-  ) : (
-    texts.map((text, i) => <span key={i} className="text-4xl md:text-6xl font-bold uppercase">{text}</span>)
-  );
+  const content = children
+    ? children
+    : items.length > 0
+      ? items.map((item, i) => <span key={i}>{item}</span>)
+      : texts.map((text, i) => (
+          <span key={i} className="text-4xl md:text-6xl font-bold uppercase">
+            {text}
+          </span>
+        ));
 
   return (
     <div className={`relative flex flex-col gap-16 md:gap-24 ${className}`}>
