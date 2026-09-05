@@ -9,9 +9,9 @@ const TitleHeader = ({ title, sub }) => {
       <div className="w-full">
         <ScrollFloat
           animationDuration={1}
-          ease='back.inOut(2)'
-          scrollStart='top bottom'
-          scrollEnd='bottom center'
+          ease="back.inOut(2)"
+          scrollStart="top bottom"
+          scrollEnd="bottom center"
           stagger={0.02}
           containerClassName="font-semibold md:text-5xl text-3xl text-center w-full"
         >
