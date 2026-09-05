@@ -40,7 +40,7 @@ const ModelRenderer = ({ model }) => {
   }, [scene, model]);
 
   return (
-    <Float speed={2.5} rotationIntensity={0.4} floatIntensity={3} floatingRange={[-0.2, 0.2]}>
+    <Float speed={2.5} rotationIntensity={0.4} floatIntensity={3} floatingRange={[-0.1, 0.1]}>
       <group
         scale={model.scale * 0.55}
         rotation={model.rotation}
