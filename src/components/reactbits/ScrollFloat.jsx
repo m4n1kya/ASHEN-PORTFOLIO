@@ -1,39 +1,40 @@
-import { useEffect, useMemo, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useEffect, useMemo, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import './ScrollFloat.css';
+import "./ScrollFloat.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const ScrollFloat = ({
   children,
   scrollContainerRef,
-  containerClassName = '',
-  textClassName = '',
+  containerClassName = "",
+  textClassName = "",
   animationDuration = 1,
-  ease = 'back.inOut(2)',
-  scrollStart = 'center bottom+=50%',
-  scrollEnd = 'bottom bottom-=40%',
-  stagger = 0.03
+  ease = "back.inOut(2)",
+  scrollStart = "center bottom+=50%",
+  scrollEnd = "bottom bottom-=40%",
+  stagger = 0.03,
 }) => {
   const containerRef = useRef(null);
 
   const splitText = useMemo(() => {
-    const text = typeof children === 'string' ? children : '';
-    const words = text.split(' ');
-    
+    const text = typeof children === "string" ? children : "";
+    const words = text.split(" ");
+
     return words.map((word, wordIndex) => (
-      <span key={wordIndex} style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>
-        {word.split('').map((char, charIndex) => (
+      <span
+        key={wordIndex}
+        style={{ display: "inline-block", whiteSpace: "nowrap" }}
+      >
+        {word.split("").map((char, charIndex) => (
           <span className="char" key={charIndex}>
             {char}
           </span>
         ))}
         {wordIndex !== words.length - 1 && (
-          <span className="char">
-            {'\u00A0'}
-          </span>
+          <span className="char">{"\u00A0"}</span>
         )}
       </span>
     ));
@@ -43,19 +44,22 @@ const ScrollFloat = ({
     const el = containerRef.current;
     if (!el) return;
 
-    const scroller = scrollContainerRef && scrollContainerRef.current ? scrollContainerRef.current : window;
+    const scroller =
+      scrollContainerRef && scrollContainerRef.current
+        ? scrollContainerRef.current
+        : window;
 
-    const charElements = el.querySelectorAll('.char');
+    const charElements = el.querySelectorAll(".char");
 
     gsap.fromTo(
       charElements,
       {
-        willChange: 'opacity, transform',
+        willChange: "opacity, transform",
         opacity: 0,
         yPercent: 120,
         scaleY: 2.3,
         scaleX: 0.7,
-        transformOrigin: '50% 0%'
+        transformOrigin: "50% 0%",
       },
       {
         duration: animationDuration,
@@ -70,11 +74,18 @@ const ScrollFloat = ({
           scroller,
           start: scrollStart,
           end: scrollEnd,
-          scrub: true
-        }
-      }
+          scrub: true,
+        },
+      },
     );
-  }, [scrollContainerRef, animationDuration, ease, scrollStart, scrollEnd, stagger]);
+  }, [
+    scrollContainerRef,
+    animationDuration,
+    ease,
+    scrollStart,
+    scrollEnd,
+    stagger,
+  ]);
 
   return (
     <h2 ref={containerRef} className={`scroll-float ${containerClassName}`}>
