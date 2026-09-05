@@ -290,3 +290,4 @@ const AppShowcase = ({ onNavigateToProjects }) => {
 };
 
 export default AppShowcase;
+
