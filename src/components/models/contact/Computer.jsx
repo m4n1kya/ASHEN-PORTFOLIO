@@ -28,3 +28,4 @@ export function Computer(props) {
 useGLTF.preload("/models/computer-optimized-transformed.glb");
 
 export default Computer;
+
