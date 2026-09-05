@@ -50,3 +50,4 @@ const TickerScroll = ({
 };
 
 export default TickerScroll;
+
