@@ -40,9 +40,9 @@ const ModelRenderer = ({ model }) => {
   }, [scene, model]);
 
   return (
-    <Float speed={5.5} rotationIntensity={0.5} floatIntensity={0.9}>
+    <Float speed={2} rotationIntensity={0.2} floatIntensity={2} floatingRange={[-0.1, 0.1]}>
       <group
-        scale={model.scale * 0.65}
+        scale={model.scale * 0.55}
         rotation={model.rotation}
         position={model.position || [0, 0, 0]}
       >
@@ -56,7 +56,7 @@ const TechIconCardExperience = ({ model }) => {
   return (
     <div className="w-full h-full relative z-10">
       <Canvas
-        frameloop="demand"
+        frameloop="always"
         dpr={[1, 1.5]}
         gl={{
           powerPreference: "high-performance",
@@ -79,7 +79,7 @@ const TechIconCardExperience = ({ model }) => {
           <ModelRenderer model={model} />
         </Suspense>
 
-        <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={2} />
+        <OrbitControls enableZoom={false} />
       </Canvas>
     </div>
   );
