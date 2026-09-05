@@ -119,3 +119,4 @@ const ReelGallery = ({ items = [], rows = 4, gap = 24, speed = 1 }) => {
 };
 
 export default ReelGallery;
+
