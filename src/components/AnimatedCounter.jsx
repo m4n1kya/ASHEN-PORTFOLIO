@@ -77,3 +77,4 @@ const AnimatedCounter = () => {
 
 export default AnimatedCounter;
 
+
