@@ -67,3 +67,4 @@ const HeroImageParticles = ({ isHovered }) => {
 };
 
 export default HeroImageParticles;
+
