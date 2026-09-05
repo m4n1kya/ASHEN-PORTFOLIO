@@ -100,3 +100,4 @@ useGLTF.preload("/models/git-svg-transformed.glb");
 
 export default TechIconCardExperience;
 
+
