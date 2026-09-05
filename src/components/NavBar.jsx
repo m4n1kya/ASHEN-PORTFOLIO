@@ -22,7 +22,11 @@ const NavBar = () => {
     <header className={`navbar ${scrolled ? "scrolled" : "not-scrolled"}`}>
       <div className="inner">
         <a href="#hero" className="logo flex items-center">
-          <ShinyText text="ASHEN" className="font-bold tracking-widest text-lg" speed={3} />
+          <ShinyText
+            text="ASHEN"
+            className="font-bold tracking-widest text-lg"
+            speed={3}
+          />
         </a>
 
         <nav className="desktop">
@@ -31,7 +35,9 @@ const NavBar = () => {
               <li key={name} className="group">
                 <Magnet padding={15} magnetStrength={3}>
                   <a href={link} className="relative py-1">
-                    <span className="text-white-50 group-hover:text-white transition-colors duration-300">{name}</span>
+                    <span className="text-white-50 group-hover:text-white transition-colors duration-300">
+                      {name}
+                    </span>
                     <span className="underline" />
                   </a>
                 </Magnet>
@@ -50,6 +56,6 @@ const NavBar = () => {
       </div>
     </header>
   );
-}
+};
 
 export default NavBar;
