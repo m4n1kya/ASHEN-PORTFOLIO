@@ -28,8 +28,7 @@ const ModelRenderer = ({ model }) => {
               roughness: 0.5,
               side: THREE.DoubleSide,
             });
-          }
-          else {
+          } else {
             child.material = new THREE.MeshStandardMaterial({
               color: "#007396",
               metalness: 0.3,
@@ -43,7 +42,11 @@ const ModelRenderer = ({ model }) => {
 
   return (
     <Float speed={5.5} rotationIntensity={0.5} floatIntensity={0.9}>
-      <group scale={model.scale * 0.65} rotation={model.rotation} position={model.position || [0, 0, 0]}>
+      <group
+        scale={model.scale * 0.65}
+        rotation={model.rotation}
+        position={model.position || [0, 0, 0]}
+      >
         <primitive object={scene.scene} />
       </group>
     </Float>
@@ -57,10 +60,14 @@ const TechIconCardExperience = ({ model }) => {
   return (
     <div ref={ref} className="w-full h-full relative z-10">
       {isInView && (
-        <Canvas 
-          frameloop="demand" 
-          dpr={[1, 1.5]} 
-          gl={{ powerPreference: "high-performance", antialias: false, alpha: true }}
+        <Canvas
+          frameloop="demand"
+          dpr={[1, 1.5]}
+          gl={{
+            powerPreference: "high-performance",
+            antialias: false,
+            alpha: true,
+          }}
           camera={{ position: [0, 0, 5], fov: 45 }}
         >
           <ambientLight intensity={0.3} />
