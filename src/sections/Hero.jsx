@@ -244,3 +244,4 @@ const Hero = ({ onNavigateToGallery, hasLoadedOnce, setShowNav }) => {
 };
 
 export default Hero;
+
