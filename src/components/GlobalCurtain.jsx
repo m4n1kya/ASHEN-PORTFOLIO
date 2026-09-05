@@ -177,3 +177,4 @@ const GlobalCurtain = forwardRef((props, ref) => {
 });
 
 export default GlobalCurtain;
+
