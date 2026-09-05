@@ -72,3 +72,4 @@ const GooeyNav = ({ items = [], activeIndex, onChange, className = "" }) => {
 };
 
 export default GooeyNav;
+
