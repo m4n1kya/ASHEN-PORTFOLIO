@@ -44,7 +44,11 @@ const AnimatedCounter = () => {
   if (!counterItems || counterItems.length === 0) return null;
 
   return (
-    <div id="counter" ref={counterRef} className="padding-x-lg xl:mt-10 mt-20 pb-16 relative z-20">
+    <div
+      id="counter"
+      ref={counterRef}
+      className="padding-x-lg xl:mt-10 mt-20 pb-16 relative z-20"
+    >
       <div className="mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6">
         {counterItems.map((item, index) => (
           <div
@@ -60,7 +64,9 @@ const AnimatedCounter = () => {
               <div className="counter-number text-white text-3xl md:text-5xl font-bold mb-2 tracking-tight">
                 0 {item.suffix}
               </div>
-              <div className="text-white-50 text-sm md:text-base font-medium">{item.label}</div>
+              <div className="text-white-50 text-sm md:text-base font-medium">
+                {item.label}
+              </div>
             </SpotlightCard>
           </div>
         ))}
