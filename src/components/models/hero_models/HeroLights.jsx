@@ -40,3 +40,4 @@ const HeroLights = () => (
 );
 
 export default HeroLights;
+
