@@ -175,3 +175,4 @@ const XRayCursor = ({ isVisible = true }) => {
 };
 
 export default XRayCursor;
+
