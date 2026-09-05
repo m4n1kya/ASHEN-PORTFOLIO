@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { motion, useSpring } from 'framer-motion';
+import { useRef, useState } from "react";
+import { motion, useSpring } from "framer-motion";
 
 const springConfig = { damping: 15, stiffness: 150, mass: 0.1 };
 
@@ -12,9 +12,9 @@ export default function Magnet({
   padding = 60,
   disabled = false,
   magnetStrength = 2.5,
-  activeTransition = 'transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)',
-  inactiveTransition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)',
-  className = '',
+  activeTransition = "transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)",
+  inactiveTransition = "transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)",
+  className = "",
 }) {
   const ref = useRef(null);
   const [isActive, setIsActive] = useState(false);
