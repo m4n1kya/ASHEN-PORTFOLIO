@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState } from "react";
 
 /**
  * SpotlightCard
@@ -6,9 +6,9 @@ import { useRef, useState } from 'react';
  */
 export default function SpotlightCard({
   children,
-  className = '',
-  spotlightColor = 'rgba(255, 255, 255, 0.08)',
-  borderColor = 'rgba(255, 255, 255, 0.2)',
+  className = "",
+  spotlightColor = "rgba(255, 255, 255, 0.08)",
+  borderColor = "rgba(255, 255, 255, 0.2)",
   ...props
 }) {
   const divRef = useRef(null);
