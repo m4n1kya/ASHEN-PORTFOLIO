@@ -3,10 +3,10 @@
  * Shimmering dynamic light gradient border traveling smoothly around cards/buttons.
  */
 export default function StarBorder({
-  as: Component = 'div',
-  className = '',
-  color = '#d9ecff',
-  speed = '6s',
+  as: Component = "div",
+  className = "",
+  color = "#d9ecff",
+  speed = "6s",
   children,
   ...props
 }) {
