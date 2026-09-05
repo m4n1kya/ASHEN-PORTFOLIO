@@ -69,3 +69,4 @@ const Gallery = ({ onBack }) => {
 };
 
 export default Gallery;
+
