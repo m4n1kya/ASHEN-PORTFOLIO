@@ -122,3 +122,4 @@ const BeyondCodeWindow = ({ onBack }) => {
 };
 
 export default BeyondCodeWindow;
+
