@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { motion, useSpring } from 'framer-motion';
+import { useRef, useState } from "react";
+import { motion, useSpring } from "framer-motion";
 
 const springValues = {
   damping: 30,
@@ -13,7 +13,7 @@ const springValues = {
  */
 export default function TiltedCard({
   children,
-  className = '',
+  className = "",
   maxTilt = 15,
   scale = 1.02,
   glare = true,
@@ -74,7 +74,7 @@ export default function TiltedCard({
           rotateX,
           rotateY,
           scale: cardScale,
-          transformStyle: 'preserve-3d',
+          transformStyle: "preserve-3d",
         }}
         className={`relative w-full rounded-xl overflow-hidden ${className}`}
       >
