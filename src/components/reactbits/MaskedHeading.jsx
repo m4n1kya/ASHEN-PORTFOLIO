@@ -1,32 +1,32 @@
-import { useCallback, useEffect, useId, useMemo, useRef } from 'react';
-import { gsap } from 'gsap';
+import { useCallback, useEffect, useId, useMemo, useRef } from "react";
+import { gsap } from "gsap";
 
-import './MaskedHeading.css';
+import "./MaskedHeading.css";
 
 const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
 
 const MaskedHeading = ({
-  text = 'Designed in the details',
-  tag = 'h2',
-  mediaType = 'image',
-  src = '',
-  poster = '',
+  text = "Designed in the details",
+  tag = "h2",
+  mediaType = "image",
+  src = "",
+  poster = "",
   fillScale = 1.25,
   parallax = 26,
   drift = 18,
   brightness = 1,
   saturation = 1,
   grayscale = false,
-  reveal = 'rise',
+  reveal = "rise",
   duration = 1.1,
   stagger = 0.09,
-  trigger = 'view',
-  align = 'center',
+  trigger = "view",
+  align = "center",
   weight = 700,
   tracking = -0.03,
   lineHeight = 1.06,
   textScale = 0.115,
-  className = '',
+  className = "",
   style,
   ...rest
 }) => {
@@ -40,11 +40,22 @@ const MaskedHeading = ({
   const tweenRef = useRef(null);
   const offsetRef = useRef({ x: 0, y: 0, tx: 0, ty: 0 });
 
-  const clipId = `mh-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
-  const words = useMemo(() => String(text).split(/\s+/).filter(Boolean), [text]);
+  const clipId = `mh-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
+  const words = useMemo(
+    () => String(text).split(/\s+/).filter(Boolean),
+    [text],
+  );
 
   const settingsRef = useRef({});
-  settingsRef.current = { fillScale, parallax, drift, brightness, saturation, grayscale, textScale };
+  settingsRef.current = {
+    fillScale,
+    parallax,
+    drift,
+    brightness,
+    saturation,
+    grayscale,
+    textScale,
+  };
 
   const place = useCallback(() => {
     const root = rootRef.current;
@@ -59,7 +70,7 @@ const MaskedHeading = ({
     const maxY = Math.max(0, ((s.fillScale - 1) / 2) * H);
 
     media.style.transform = `translate3d(${clamp(off.x, -maxX, maxX).toFixed(2)}px, ${clamp(off.y, -maxY, maxY).toFixed(2)}px, 0) scale(${s.fillScale})`;
-    media.style.filter = `brightness(${s.brightness}) saturate(${s.saturation})${s.grayscale ? ' grayscale(1)' : ''}`;
+    media.style.filter = `brightness(${s.brightness}) saturate(${s.saturation})${s.grayscale ? " grayscale(1)" : ""}`;
   }, []);
 
   const lastWidthRef = useRef(0);
@@ -83,8 +94,8 @@ const MaskedHeading = ({
       const base = baseRefs.current[i];
       const glyph = glyphRefs.current[i];
       if (!box || !base || !glyph) continue;
-      glyph.setAttribute('x', `${box.offsetLeft}`);
-      glyph.setAttribute('y', `${base.offsetTop}`);
+      glyph.setAttribute("x", `${box.offsetLeft}`);
+      glyph.setAttribute("y", `${base.offsetTop}`);
       glyph.style.fontFamily = cs.fontFamily;
       glyph.style.fontSize = cs.fontSize;
       glyph.style.fontWeight = cs.fontWeight;
@@ -107,7 +118,7 @@ const MaskedHeading = ({
     let last = performance.now();
     let clock = 0;
 
-    const frame = now => {
+    const frame = (now) => {
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
       clock += dt;
@@ -125,7 +136,7 @@ const MaskedHeading = ({
       raf = requestAnimationFrame(frame);
     };
 
-    const onMove = e => {
+    const onMove = (e) => {
       const s = settingsRef.current;
       if (s.parallax <= 0) return;
       const r = root.getBoundingClientRect();
@@ -140,15 +151,15 @@ const MaskedHeading = ({
       offsetRef.current.ty = 0;
     };
 
-    root.addEventListener('pointermove', onMove);
-    root.addEventListener('pointerleave', onLeave);
+    root.addEventListener("pointermove", onMove);
+    root.addEventListener("pointerleave", onLeave);
     raf = requestAnimationFrame(frame);
 
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
-      root.removeEventListener('pointermove', onMove);
-      root.removeEventListener('pointerleave', onLeave);
+      root.removeEventListener("pointermove", onMove);
+      root.removeEventListener("pointerleave", onLeave);
     };
   }, [place, sync]);
 
@@ -163,80 +174,93 @@ const MaskedHeading = ({
     const glyphs = glyphRefs.current.filter(Boolean);
     if (!glyphs.length) return;
 
-    const riseDistance = () => (parseFloat(window.getComputedStyle(root).fontSize) || 48) * 1.15;
+    const riseDistance = () =>
+      (parseFloat(window.getComputedStyle(root).fontSize) || 48) * 1.15;
 
     const settle = () => {
       gsap.set(glyphs, { y: 0 });
-      gsap.set(layer, { opacity: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0%)' });
+      gsap.set(layer, { opacity: 1, scale: 1, clipPath: "inset(0% 0% 0% 0%)" });
     };
 
     const rest = () => {
-      if (reveal === 'rise') {
+      if (reveal === "rise") {
         gsap.set(glyphs, { y: riseDistance() });
-      } else if (reveal === 'wipe') {
-        gsap.set(layer, { clipPath: 'inset(0% 100% 0% 0%)' });
-      } else if (reveal === 'fade') {
+      } else if (reveal === "wipe") {
+        gsap.set(layer, { clipPath: "inset(0% 100% 0% 0%)" });
+      } else if (reveal === "fade") {
         gsap.set(layer, { opacity: 0, scale: 1.08 });
       }
     };
 
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reveal === 'none' || reduce) {
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (reveal === "none" || reduce) {
       settle();
       return;
     }
 
     const play = () => {
       tweenRef.current?.kill();
-      if (reveal === 'rise') {
-        gsap.set(layer, { opacity: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0%)' });
+      if (reveal === "rise") {
+        gsap.set(layer, {
+          opacity: 1,
+          scale: 1,
+          clipPath: "inset(0% 0% 0% 0%)",
+        });
         tweenRef.current = gsap.fromTo(
           glyphs,
           { y: riseDistance() },
-          { y: 0, duration, stagger, ease: 'power4.out', overwrite: 'auto' }
+          { y: 0, duration, stagger, ease: "power4.out", overwrite: "auto" },
         );
-      } else if (reveal === 'wipe') {
+      } else if (reveal === "wipe") {
         gsap.set(glyphs, { y: 0 });
         const state = { p: 100 };
         tweenRef.current = gsap.to(state, {
           p: 0,
           duration,
-          ease: 'power3.inOut',
-          overwrite: 'auto',
+          ease: "power3.inOut",
+          overwrite: "auto",
           onUpdate: () => {
             layer.style.clipPath = `inset(0% ${state.p}% 0% 0%)`;
-          }
+          },
         });
       } else {
         gsap.set(glyphs, { y: 0 });
         tweenRef.current = gsap.fromTo(
           layer,
           { opacity: 0, scale: 1.08 },
-          { opacity: 1, scale: 1, duration, ease: 'power3.out', overwrite: 'auto' }
+          {
+            opacity: 1,
+            scale: 1,
+            duration,
+            ease: "power3.out",
+            overwrite: "auto",
+          },
         );
       }
     };
 
-    if (trigger === 'hover') {
+    if (trigger === "hover") {
       settle();
-      root.addEventListener('pointerenter', play);
+      root.addEventListener("pointerenter", play);
       return () => {
-        root.removeEventListener('pointerenter', play);
+        root.removeEventListener("pointerenter", play);
         tweenRef.current?.kill();
       };
     }
 
-    if (trigger === 'view') {
+    if (trigger === "view") {
       settle();
       rest();
       const io = new IntersectionObserver(
-        entries => {
-          if (entries.some(e => e.isIntersecting)) {
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
             play();
             io.disconnect();
           }
         },
-        { threshold: 0.25 }
+        { threshold: 0.25 },
       );
       io.observe(root);
       return () => {
@@ -260,7 +284,7 @@ const MaskedHeading = ({
         fontWeight: weight,
         letterSpacing: `${tracking}em`,
         lineHeight,
-        ...style
+        ...style,
       }}
       {...rest}
     >
@@ -268,14 +292,14 @@ const MaskedHeading = ({
         {words.map((word, i) => (
           <span
             key={`${word}-${i}`}
-            ref={el => {
+            ref={(el) => {
               wordRefs.current[i] = el;
             }}
             className="masked-heading__word"
           >
             {word}
             <i
-              ref={el => {
+              ref={(el) => {
                 baseRefs.current[i] = el;
               }}
               className="masked-heading__baseline"
@@ -284,13 +308,17 @@ const MaskedHeading = ({
         ))}
       </span>
 
-      <svg className="masked-heading__defs" aria-hidden="true" focusable="false">
+      <svg
+        className="masked-heading__defs"
+        aria-hidden="true"
+        focusable="false"
+      >
         <defs>
           <clipPath id={clipId} clipPathUnits="userSpaceOnUse">
             {words.map((word, i) => (
               <text
                 key={`${word}-${i}`}
-                ref={el => {
+                ref={(el) => {
                   glyphRefs.current[i] = el;
                 }}
               >
@@ -302,12 +330,28 @@ const MaskedHeading = ({
       </svg>
 
       <span ref={revealRef} className="masked-heading__reveal">
-        <span className="masked-heading__clip" style={{ clipPath: `url(#${clipId})` }}>
+        <span
+          className="masked-heading__clip"
+          style={{ clipPath: `url(#${clipId})` }}
+        >
           <span ref={mediaRef} className="masked-heading__media">
-            {mediaType === 'video' ? (
-              <video className="masked-heading__source" src={src} poster={poster} autoPlay muted loop playsInline />
+            {mediaType === "video" ? (
+              <video
+                className="masked-heading__source"
+                src={src}
+                poster={poster}
+                autoPlay
+                muted
+                loop
+                playsInline
+              />
             ) : (
-              <img className="masked-heading__source" src={src} alt="" draggable={false} />
+              <img
+                className="masked-heading__source"
+                src={src}
+                alt=""
+                draggable={false}
+              />
             )}
           </span>
         </span>
