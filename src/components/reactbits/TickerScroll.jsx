@@ -5,9 +5,16 @@ import { motion } from "framer-motion";
  * TickerScroll creates an infinite scrolling marquee effect for its children.
  * It duplicates the children to ensure seamless looping.
  */
-const TickerScroll = ({ children, speed = 20, direction = "left", className = "" }) => {
+const TickerScroll = ({
+  children,
+  speed = 20,
+  direction = "left",
+  className = "",
+}) => {
   return (
-    <div className={`overflow-hidden whitespace-nowrap flex relative ${className}`}>
+    <div
+      className={`overflow-hidden whitespace-nowrap flex relative ${className}`}
+    >
       <motion.div
         className="flex whitespace-nowrap shrink-0"
         initial={{ x: direction === "left" ? "0%" : "-100%" }}
@@ -20,7 +27,7 @@ const TickerScroll = ({ children, speed = 20, direction = "left", className = ""
         }}
       >
         <div className="flex shrink-0 items-center justify-around pr-4 gap-4">
-            {children}
+          {children}
         </div>
       </motion.div>
       <motion.div
@@ -35,7 +42,7 @@ const TickerScroll = ({ children, speed = 20, direction = "left", className = ""
         }}
       >
         <div className="flex shrink-0 items-center justify-around pr-4 gap-4">
-            {children}
+          {children}
         </div>
       </motion.div>
     </div>
