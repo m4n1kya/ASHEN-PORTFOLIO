@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef } from 'react';
-import './InfiniteSpiral.css';
+import { useEffect, useMemo, useRef } from "react";
+import "./InfiniteSpiral.css";
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 const modulo = (value, divisor) => ((value % divisor) + divisor) % divisor;
@@ -11,8 +11,8 @@ const smoothstep = (min, max, value) => {
 const InfiniteSpiral = ({
   items = [],
   speed = 0.55,
-  direction = 'up',
-  animationMode = 'auto',
+  direction = "up",
+  animationMode = "auto",
   radius = 170,
   cardWidth = 100,
   cardHeight = 100,
@@ -26,9 +26,9 @@ const InfiniteSpiral = ({
   edgeFade = 0.3,
   edgeBlur = 6,
   pauseOnHover = true,
-  imageFit = 'cover',
+  imageFit = "cover",
   grayscale = 0,
-  className = ''
+  className = "",
 }) => {
   const rootRef = useRef(null);
   const cardRefs = useRef([]);
@@ -44,11 +44,11 @@ const InfiniteSpiral = ({
   const normalizedItems = useMemo(
     () =>
       items.map((item, index) =>
-        typeof item === 'string'
+        typeof item === "string"
           ? { src: item, alt: `Spiral image ${index + 1}` }
-          : { alt: `Spiral image ${index + 1}`, ...item }
+          : { alt: `Spiral image ${index + 1}`, ...item },
       ),
-    [items]
+    [items],
   );
 
   useEffect(() => {
@@ -58,8 +58,8 @@ const InfiniteSpiral = ({
     let frameId;
     let previousTime = performance.now();
     let bounds = root.getBoundingClientRect();
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const scrollEnabled = animationMode === 'scroll' || animationMode === 'all';
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const scrollEnabled = animationMode === "scroll" || animationMode === "all";
     const scrollSpeedMultiplier = Math.max(speed, 0) / 0.55;
     let lastScrollY = window.scrollY;
 
@@ -72,7 +72,7 @@ const InfiniteSpiral = ({
       ([entry]) => {
         visibleRef.current = entry.isIntersecting;
       },
-      { threshold: 0.02 }
+      { threshold: 0.02 },
     );
     intersectionObserver.observe(root);
 
@@ -82,37 +82,52 @@ const InfiniteSpiral = ({
       lastScrollY = nextScrollY;
       if (!scrollEnabled || !visibleRef.current || scrollDelta === 0) return;
       targetProgressRef.current += clamp(
-        (scrollDelta * scrollSpeedMultiplier) / Math.max(verticalSpacing * 2, 1),
+        (scrollDelta * scrollSpeedMultiplier) /
+          Math.max(verticalSpacing * 2, 1),
         -1.5,
-        1.5
+        1.5,
       );
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
-    const render = time => {
+    const render = (time) => {
       const delta = Math.min((time - previousTime) / 1000, 0.05);
       previousTime = time;
 
-      const autoEnabled = animationMode === 'auto' || animationMode === 'all';
-      const motionPaused = draggingRef.current || (pauseOnHover && hoveredRef.current);
-      const directionMultiplier = direction === 'down' ? -1 : 1;
+      const autoEnabled = animationMode === "auto" || animationMode === "all";
+      const motionPaused =
+        draggingRef.current || (pauseOnHover && hoveredRef.current);
+      const directionMultiplier = direction === "down" ? -1 : 1;
       const desiredAutoSpeed =
-        autoEnabled && visibleRef.current && !reducedMotion.matches && !motionPaused
+        autoEnabled &&
+        visibleRef.current &&
+        !reducedMotion.matches &&
+        !motionPaused
           ? speed * directionMultiplier
           : 0;
       const speedBlend = 1 - Math.exp(-delta * 7);
-      autoSpeedRef.current += (desiredAutoSpeed - autoSpeedRef.current) * speedBlend;
+      autoSpeedRef.current +=
+        (desiredAutoSpeed - autoSpeedRef.current) * speedBlend;
       targetProgressRef.current += autoSpeedRef.current * delta;
 
-      const followBlend = 1 - Math.exp(-delta * (draggingRef.current ? 22 : 11));
-      progressRef.current += (targetProgressRef.current - progressRef.current) * followBlend;
+      const followBlend =
+        1 - Math.exp(-delta * (draggingRef.current ? 22 : 11));
+      progressRef.current +=
+        (targetProgressRef.current - progressRef.current) * followBlend;
 
       const count = normalizedItems.length;
       const half = count / 2;
       const width = Math.max(bounds.width, 1);
       const height = Math.max(bounds.height, 1);
-      const fit = Math.min(1, width / (cardWidth * 2.8), height / (cardHeight * 2.35));
-      const responsiveRadius = width < 768 ? radius : Math.min(radius, Math.max(72, width * 0.36)) * fit;
+      const fit = Math.min(
+        1,
+        width / (cardWidth * 2.8),
+        height / (cardHeight * 2.35),
+      );
+      const responsiveRadius =
+        width < 768
+          ? radius
+          : Math.min(radius, Math.max(72, width * 0.36)) * fit;
       const fadeStart = clamp(1 - edgeFade, 0, 0.98);
       const turnSize = Math.max(cardsPerTurn, 1);
 
@@ -123,7 +138,8 @@ const InfiniteSpiral = ({
 
         const edge = Math.min(Math.abs(offset) / Math.max(half, 1), 1);
         const opacity = 1 - smoothstep(fadeStart, 1, edge);
-        const focus = 1 - Math.min(Math.abs(offset) / Math.max(turnSize * 0.65, 1), 1);
+        const focus =
+          1 - Math.min(Math.abs(offset) / Math.max(turnSize * 0.65, 1), 1);
         const scale = (1 + (centerScale - 1) * focus) * fit;
         const angle = offset * (360 / turnSize) + rotation;
         const angleRadians = (angle * Math.PI) / 180;
@@ -133,8 +149,8 @@ const InfiniteSpiral = ({
         const blur = edgeBlur * smoothstep(0.35, 1, edge);
         card.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${offset * verticalSpacing * fit}px, ${z}px) rotateZ(${cardTilt}deg) scale(${scale})`;
         card.style.opacity = opacity.toFixed(3);
-        card.style.filter = blur > 0.01 ? `blur(${blur.toFixed(2)}px)` : 'none';
-        card.style.pointerEvents = opacity > 0.25 ? 'auto' : 'none';
+        card.style.filter = blur > 0.01 ? `blur(${blur.toFixed(2)}px)` : "none";
+        card.style.pointerEvents = opacity > 0.25 ? "auto" : "none";
       });
 
       frameId = requestAnimationFrame(render);
@@ -146,7 +162,7 @@ const InfiniteSpiral = ({
       cancelAnimationFrame(frameId);
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [
     normalizedItems,
@@ -164,28 +180,31 @@ const InfiniteSpiral = ({
     centerScale,
     edgeFade,
     edgeBlur,
-    pauseOnHover
+    pauseOnHover,
   ]);
 
   const rootStyle = {
     perspective: `${perspective}px`,
-    '--infinite-spiral-card-width': `${cardWidth}px`,
-    '--infinite-spiral-card-height': `${cardHeight}px`,
-    '--infinite-spiral-card-radius': `${cardRadius}px`,
-    cursor: animationMode === 'drag' || animationMode === 'all' ? 'grab' : 'default',
-    touchAction: animationMode === 'drag' || animationMode === 'all' ? 'pan-x' : 'auto',
-    userSelect: animationMode === 'drag' || animationMode === 'all' ? 'none' : 'auto'
+    "--infinite-spiral-card-width": `${cardWidth}px`,
+    "--infinite-spiral-card-height": `${cardHeight}px`,
+    "--infinite-spiral-card-radius": `${cardRadius}px`,
+    cursor:
+      animationMode === "drag" || animationMode === "all" ? "grab" : "default",
+    touchAction:
+      animationMode === "drag" || animationMode === "all" ? "pan-x" : "auto",
+    userSelect:
+      animationMode === "drag" || animationMode === "all" ? "none" : "auto",
   };
 
-  const dragEnabled = animationMode === 'drag' || animationMode === 'all';
+  const dragEnabled = animationMode === "drag" || animationMode === "all";
 
-  const stopDragging = event => {
+  const stopDragging = (event) => {
     if (!draggingRef.current) return;
     draggingRef.current = false;
     if (event.currentTarget.hasPointerCapture(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
-    event.currentTarget.style.cursor = dragEnabled ? 'grab' : 'default';
+    event.currentTarget.style.cursor = dragEnabled ? "grab" : "default";
   };
 
   return (
@@ -199,45 +218,54 @@ const InfiniteSpiral = ({
       onMouseLeave={() => {
         hoveredRef.current = false;
       }}
-      onPointerDown={event => {
+      onPointerDown={(event) => {
         if (!dragEnabled || event.button !== 0) return;
         draggingRef.current = true;
         dragMovedRef.current = false;
         lastPointerYRef.current = event.clientY;
         targetProgressRef.current = progressRef.current;
         event.currentTarget.setPointerCapture(event.pointerId);
-        event.currentTarget.style.cursor = 'grabbing';
+        event.currentTarget.style.cursor = "grabbing";
       }}
-      onPointerMove={event => {
+      onPointerMove={(event) => {
         if (!draggingRef.current) return;
         const pointerDelta = event.clientY - lastPointerYRef.current;
         lastPointerYRef.current = event.clientY;
         if (Math.abs(pointerDelta) > 0.5) dragMovedRef.current = true;
-        targetProgressRef.current -= pointerDelta / Math.max(verticalSpacing, 1);
+        targetProgressRef.current -=
+          pointerDelta / Math.max(verticalSpacing, 1);
       }}
       onPointerUp={stopDragging}
       onPointerCancel={stopDragging}
-      onClickCapture={event => {
+      onClickCapture={(event) => {
         if (!dragMovedRef.current) return;
         event.preventDefault();
         event.stopPropagation();
         dragMovedRef.current = false;
       }}
     >
-      <div className="infinite-spiral__stage" role="list" aria-label="Infinite spiral gallery">
+      <div
+        className="infinite-spiral__stage"
+        role="list"
+        aria-label="Infinite spiral gallery"
+      >
         {normalizedItems.map((item, index) => {
-          const Card = item.href ? 'a' : 'div';
+          const Card = item.href ? "a" : "div";
           return (
             <Card
               key={item.id ?? `${item.src}-${index}`}
-              ref={node => {
+              ref={(node) => {
                 cardRefs.current[index] = node;
               }}
               className="infinite-spiral__item"
-              style={{ width: cardWidth, height: cardHeight, borderRadius: cardRadius }}
+              style={{
+                width: cardWidth,
+                height: cardHeight,
+                borderRadius: cardRadius,
+              }}
               href={item.href}
               target={item.target}
-              rel={item.target === '_blank' ? 'noreferrer' : undefined}
+              rel={item.target === "_blank" ? "noreferrer" : undefined}
               role="listitem"
               aria-label={item.label ?? item.alt}
             >
@@ -245,15 +273,15 @@ const InfiniteSpiral = ({
                 className="infinite-spiral__image"
                 src={item.src}
                 alt={item.alt}
-                loading={index < 6 ? 'eager' : 'lazy'}
+                loading={index < 6 ? "eager" : "lazy"}
                 draggable={false}
                 style={{
                   width: cardWidth,
                   height: cardHeight,
-                  maxWidth: 'none',
-                  maxHeight: 'none',
+                  maxWidth: "none",
+                  maxHeight: "none",
                   objectFit: imageFit,
-                  filter: `grayscale(${Math.min(1, Math.max(0, grayscale))})`
+                  filter: `grayscale(${Math.min(1, Math.max(0, grayscale))})`,
                 }}
               />
             </Card>
