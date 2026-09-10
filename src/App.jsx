@@ -37,6 +37,11 @@ const App = () => {
   const [activeProject, setActiveProject] = useState("ashenritual");
   const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
   const [showNav, setShowNav] = useState(false);
+  // loaderDone gates XRayCursor, masking, menu and resume button so they only
+  // appear exactly when the loading counter finishes — never before.
+  const [loaderDone, setLoaderDone] = useState(
+    () => sessionStorage.getItem('ashen_has_loaded') === 'true'
+  );
 
   // Track which windows have been mounted (so lazy components aren't re-mounted on every open)
   const mounted = useRef({ gallery: false, projects: false, contact: false, experience: false, skills: false, certifications: false, beyondcode: false });
@@ -208,15 +213,17 @@ const App = () => {
       />
 
       <ParticleCursor />
-      <XRayCursor isVisible={true} />
+      {/* XRayCursor only becomes visible after the loader completes */}
+      <XRayCursor isVisible={loaderDone} />
       <HeroParticles containerClassName="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden" />
 
       {/* ── Fixed UI: Menu + Resume ── */}
+      {/* Gated on loaderDone so they never flash in before the counter finishes */}
       <div
         style={{
-          opacity: menuVisible ? 1 : 0,
-          visibility: menuVisible ? 'visible' : 'hidden',
-          transition: `opacity 1s ease, visibility 0s linear ${menuVisible ? '0s' : '1s'}`,
+          opacity: (loaderDone && menuVisible) ? 1 : 0,
+          visibility: (loaderDone && menuVisible) ? 'visible' : 'hidden',
+          transition: `opacity 1s ease, visibility 0s linear ${(loaderDone && menuVisible) ? '0s' : '1s'}`,
           zIndex: 9999,
           position: 'relative',
         }}
@@ -294,7 +301,10 @@ const App = () => {
         `}</style>
       </div>
 
-      <Loader hasLoadedOnce={hasLoadedOnce} />
+      <Loader
+        hasLoadedOnce={hasLoadedOnce}
+        onComplete={() => setLoaderDone(true)}
+      />
       <GlobalCurtain ref={curtainRef} />
 
       {/* ── Hero (always mounted, hidden when in overlay views) ── */}

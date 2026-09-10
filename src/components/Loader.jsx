@@ -66,7 +66,7 @@ const CSSMaskedNumber = ({ number, src, parallax = 120 }) => {
 }; // End of CSSMaskedNumber
 
 // ── Main Loader Component ─────────────────────────────────────────────────────
-const Loader = ({ hasLoadedOnce }) => {
+const Loader = ({ hasLoadedOnce, onComplete }) => {
   const containerRef = useRef(null);
   const [displayValue, setDisplayValue] = useState(0);
 
@@ -87,6 +87,9 @@ const Loader = ({ hasLoadedOnce }) => {
         setDisplayValue(Math.floor(proxy.val));
       },
       onComplete: () => {
+        // Fire onComplete as soon as slide-up begins so XRayCursor/menu
+        // appear exactly when the loader starts to exit — not after.
+        if (onComplete) onComplete();
         // Complete loading animation
         gsap.to(containerRef.current, {
           yPercent: -100,
@@ -104,7 +107,7 @@ const Loader = ({ hasLoadedOnce }) => {
     });
 
     return () => tween.kill();
-  }, [hasLoadedOnce]);
+  }, [hasLoadedOnce, onComplete]);
 
   if (hasLoadedOnce) {
     const blocker = document.getElementById('pre-loader-blocker');
