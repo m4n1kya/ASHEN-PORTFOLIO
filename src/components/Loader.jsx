@@ -1,6 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 
+// Preload the masking image at JS module evaluation time — before React renders
+// a single frame — so it's guaranteed to be in the browser's decoded image
+// cache when CSSMaskedNumber first paints. Eliminates the flash of plain white
+// text on first load.
+const MASK_SRC = '/images/rocky-coastal-landscape.webp';
+const _preloadImg = new Image();
+_preloadImg.decoding = 'async';
+_preloadImg.src = MASK_SRC;
+
 // ── Masked Number Component ───────────────────────────────────────────────────
 // Same design as the "MANIKYA" hover text in Hero.jsx
 const CSSMaskedNumber = ({ number, src, parallax = 120 }) => {
@@ -51,7 +60,7 @@ const CSSMaskedNumber = ({ number, src, parallax = 120 }) => {
         fontSize: 'clamp(60px, 10vw, 150px)',
         lineHeight: '0.85',
         backgroundColor: '#ffffff',
-        backgroundImage: `url(${src})`,
+        backgroundImage: `url(${MASK_SRC})`,
         backgroundSize: '300vw',
         backgroundPosition: `calc(50% + ${offset.x}px) calc(50% + ${offset.y}px)`,
         WebkitBackgroundClip: 'text',

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const styleContent = `
 @keyframes jellyBlob {
@@ -12,14 +12,13 @@ const styleContent = `
 
 const XRayCursor = ({ isVisible = true }) => {
   const cursorRef = useRef(null);
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
-  const [isWindowHovered, setIsWindowHovered] = useState(false);
+  // Detect touch device once at construction — no re-render needed
+  const isTouchRef = useRef(
+    typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches
+  );
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
-      setIsTouchDevice(true);
-      return;
-    }
+    if (isTouchRef.current) return;
 
     const cursor = cursorRef.current;
     if (!cursor) return;
@@ -37,10 +36,17 @@ const XRayCursor = ({ isVisible = true }) => {
     let currentSize = 80;
     let animationFrameId;
 
+    // Directly mutate DOM opacity — bypasses the React re-render queue so the
+    // blob appears on the exact same frame as the first mouse move event,
+    // eliminating the 100–300 ms lag from setState → re-render → paint.
+    const setOpacity = (val) => {
+      cursor.style.opacity = val;
+    };
+
     const handleMouseMove = (e) => {
       if (!isWindowHoveredRaw) {
-        setIsWindowHovered(true);
         isWindowHoveredRaw = true;
+        if (isVisible) setOpacity("1");
       }
       mouseX = e.clientX;
       mouseY = e.clientY;
@@ -70,12 +76,12 @@ const XRayCursor = ({ isVisible = true }) => {
     };
 
     const handleWindowLeave = () => {
-      setIsWindowHovered(false);
       isWindowHoveredRaw = false;
+      setOpacity("0");
     };
     const handleWindowEnter = () => {
-      setIsWindowHovered(true);
       isWindowHoveredRaw = true;
+      if (isVisible) setOpacity("1");
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -85,20 +91,18 @@ const XRayCursor = ({ isVisible = true }) => {
     document.addEventListener("mouseenter", handleWindowEnter);
 
     const animate = () => {
-      // Calculate raw velocity
       const rawVx = mouseX - lastMouseX;
       const rawVy = mouseY - lastMouseY;
       lastMouseX = mouseX;
       lastMouseY = mouseY;
 
-      // Use a much faster smoothing factor (0.4) so the rotation angle doesn't lag wildly when drawing circles
+      // Faster smoothing factor so rotation doesn't lag when drawing circles
       smoothedVx += (rawVx - smoothedVx) * 0.4;
       smoothedVy += (rawVy - smoothedVy) * 0.4;
 
-      // Calculate speed and angle for the liquid stretch effect using smoothed velocity
       const speed = Math.sqrt(smoothedVx * smoothedVx + smoothedVy * smoothedVy);
       const angle = Math.atan2(smoothedVy, smoothedVx);
-      
+
       // Balanced liquid stretch
       const baseScaleX = 1 + Math.min(speed / 80, 0.40);
       const baseScaleY = 1 - Math.min(speed / 120, 0.25);
@@ -106,27 +110,25 @@ const XRayCursor = ({ isVisible = true }) => {
       // Smooth suck-in/expand animation
       const targetWindowScale = isWindowHoveredRaw ? 1 : 0;
       windowScale += (targetWindowScale - windowScale) * 0.15;
-      
+
       const finalScaleX = baseScaleX * windowScale;
       const finalScaleY = baseScaleY * windowScale;
 
-      // Calculate target size and dynamic smoothing speed
       let targetSize = 80;
-      let lerpSpeed = 0.15; // Snappy default
+      let lerpSpeed = 0.15;
 
       if (isImageHovering) {
         targetSize = 170;
-        lerpSpeed = 0.025; // Slower and elegant for the profile image
+        lerpSpeed = 0.025;
       } else if (isHovering) {
         targetSize = 140;
-        lerpSpeed = 0.15; // Snappy for buttons/links
+        lerpSpeed = 0.15;
       } else {
-        lerpSpeed = 0.08; // Smooth shrink when leaving
+        lerpSpeed = 0.08;
       }
-      
+
       currentSize += (targetSize - currentSize) * lerpSpeed;
-      
-      // Cursor perfectly instantly centers on mouseX/mouseY
+
       cursor.style.transform = `translate3d(${mouseX - currentSize / 2}px, ${mouseY - currentSize / 2}px, 0) rotate(${angle}rad) scale(${finalScaleX}, ${finalScaleY})`;
       cursor.style.width = `${currentSize}px`;
       cursor.style.height = `${currentSize}px`;
@@ -144,9 +146,9 @@ const XRayCursor = ({ isVisible = true }) => {
       document.removeEventListener("mouseenter", handleWindowEnter);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [isVisible]);
 
-  if (isTouchDevice) return null;
+  if (isTouchRef.current) return null;
 
   return (
     <>
@@ -164,7 +166,9 @@ const XRayCursor = ({ isVisible = true }) => {
           pointerEvents: "none",
           zIndex: 999998,
           willChange: "transform, width, height, opacity",
-          opacity: isVisible && isWindowHovered ? 1 : 0,
+          // Start fully transparent — opacity is driven directly via DOM mutations
+          // in the effect above, bypassing React re-renders entirely.
+          opacity: 0,
           transition: "opacity 0.4s ease-out",
           animation: "jellyBlob 2.5s infinite linear",
           transformOrigin: "center center",
@@ -175,4 +179,3 @@ const XRayCursor = ({ isVisible = true }) => {
 };
 
 export default XRayCursor;
-

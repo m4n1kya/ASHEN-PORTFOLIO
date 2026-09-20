@@ -40,9 +40,7 @@ const HeroParticles = ({ containerClassName = "" }) => {
       };
     });
     setParticles(newParticles);
-    
-    const timer = setTimeout(() => setIsMounted(true), 100);
-    return () => clearTimeout(timer);
+    setIsMounted(true);
   }, []);
 
   return (
