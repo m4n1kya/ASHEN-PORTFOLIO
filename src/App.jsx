@@ -3,8 +3,6 @@ import { flushSync } from "react-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HeroParticles from "./components/HeroParticles";
-import { Analytics } from '@vercel/analytics/react';
-
 gsap.registerPlugin(ScrollTrigger);
 import Hero from "./sections/Hero";
 import Loader from "./components/Loader";
@@ -358,9 +356,6 @@ const App = () => {
           <BeyondCodeWindow onBack={navigateToHome} />
         )}
       </Suspense>
-      
-      {/* Vercel Web Analytics */}
-      <Analytics />
     </>
   );
 };
